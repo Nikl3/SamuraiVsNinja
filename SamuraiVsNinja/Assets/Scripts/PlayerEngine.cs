@@ -54,30 +54,7 @@ public class PlayerEngine : MonoBehaviour
 
         if (playerController.Collisions.Above || playerController.Collisions.Below)
         {
-            if (playerController.Collisions.SlidingDownMaxSlope)
-            {
-                velocity.y += playerController.Collisions.SlopeNormal.y * -gravity * Time.deltaTime;
-            }
-            else
-            {
-                velocity.y = 0;
-            }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Collectable"))
-        {
-            // We add "Collectable"
-        }
-        else if (other.CompareTag("DeathBox"))
-        {
-            // We hit "DeathBox"
-        }
-        else if (other.CompareTag("Goal"))
-        {
-            // We hit "Goal"
+            velocity.y = 0;         
         }
     }
 
@@ -85,6 +62,7 @@ public class PlayerEngine : MonoBehaviour
     {
         wallDirectionX = (playerController.Collisions.Left) ? -1 : 1;
         wallSliding = false;
+
         if ((playerController.Collisions.Left || playerController.Collisions.Right) && !playerController.Collisions.Below && velocity.y < 0)
         {
             wallSliding = true;
@@ -149,18 +127,7 @@ public class PlayerEngine : MonoBehaviour
         }
         if (playerController.Collisions.Below)
         {
-            if (playerController.Collisions.SlidingDownMaxSlope)
-            {
-                if (directionalInput.x != -Mathf.Sign(playerController.Collisions.SlopeNormal.x))
-                { // not jumping against max slope
-                    velocity.y = maxJumpVelocity * playerController.Collisions.SlopeNormal.y;
-                    velocity.x = maxJumpVelocity * playerController.Collisions.SlopeNormal.x;
-                }
-            }
-            else
-            {
-                velocity.y = maxJumpVelocity;
-            }
+            velocity.y = maxJumpVelocity;           
         }
     }
 
