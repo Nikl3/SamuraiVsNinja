@@ -17,24 +17,15 @@ public class PlayerInput : Singelton<PlayerInput>
 
     private void Update()
     {
-        if (Time.timeScale.Equals(0))
-            return;
-#if UNITY_EDITOR
+        //if (Time.timeScale.Equals(0))
+        //    return;
 
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw(HORIZONTAL_AXIS), Input.GetAxisRaw(VERTICAL_AXIS));
-
-#else
-        Vector2 directionalInput = new Vector2(Input.acceleration.x, Input.acceleration.y);
-#endif
 
         PlayerEngine.SetDirectionalInput(directionalInput);
 
         if (Input.GetMouseButtonDown(0))
         {
-            //if (!UIManager.Instance.IsOverUIElement)
-            //{
-            //    PlayerEngine.OnJumpInputDown();
-            //}
             PlayerEngine.OnJumpInputDown();
         }
 
