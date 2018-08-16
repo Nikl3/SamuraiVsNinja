@@ -13,8 +13,10 @@ public abstract class Singelton<T> : MonoBehaviour where T : Component
                 instance = FindObjectOfType<T>();
                 if (instance == null)
                 {
-                    var gameObject = new GameObject();
-                    gameObject.hideFlags = HideFlags.HideAndDontSave;
+                    var gameObject = new GameObject
+                    {
+                        hideFlags = HideFlags.HideAndDontSave
+                    };
                     instance = gameObject.AddComponent<T>();
                     
                 }

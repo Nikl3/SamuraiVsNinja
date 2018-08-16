@@ -8,6 +8,7 @@ public class PlayerInput : Singelton<PlayerInput>
 
     public PlayerEngine PlayerEngine { get; private set; }
     public CharacterController2D PlayerCharacterController2D { get; private set; }
+ 
 
     private void Awake()
     {
@@ -16,7 +17,16 @@ public class PlayerInput : Singelton<PlayerInput>
     }
 
     private void Update()
-    {
+    {     
+        Vector2 playerPosition = transform.position;
+        if (playerPosition.x <= -30)
+        {
+            transform.position = new Vector2(-playerPosition.x, playerPosition.y);
+        }
+        else if (transform.position.x >= 30)
+        {
+            transform.position = new Vector2(-playerPosition.x, playerPosition.y);
+        }
         //if (Time.timeScale.Equals(0))
         //    return;
 
@@ -24,12 +34,12 @@ public class PlayerInput : Singelton<PlayerInput>
 
         PlayerEngine.SetDirectionalInput(directionalInput);
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetButtonDown("Jump"))
         {
             PlayerEngine.OnJumpInputDown();
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetButtonUp("Jump"))
         {
             PlayerEngine.OnJumpInputUp();
         }
