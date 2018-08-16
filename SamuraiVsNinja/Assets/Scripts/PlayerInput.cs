@@ -27,9 +27,7 @@ public class PlayerInput : Singelton<PlayerInput>
         {
             transform.position = new Vector2(-playerPosition.x, playerPosition.y);
         }
-        //if (Time.timeScale.Equals(0))
-        //    return;
-
+      
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw(HORIZONTAL_AXIS), Input.GetAxisRaw(VERTICAL_AXIS));
 
         PlayerEngine.SetDirectionalInput(directionalInput);

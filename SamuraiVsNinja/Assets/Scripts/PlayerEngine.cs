@@ -65,30 +65,16 @@ public class PlayerEngine : MonoBehaviour
 
         if ((playerController.Collisions.Left || playerController.Collisions.Right) && !playerController.Collisions.Below && velocity.y < 0)
         {
+            if (directionalInput.x == 0)
+            {
+                return;
+            }
+
             wallSliding = true;
 
             if (velocity.y < -maxWallSlideSpeed)
             {
                 velocity.y = -maxWallSlideSpeed;
-            }
-
-            if (timeToWallUnstick > 0)
-            {
-                velocityXSmoothing = 0;
-                velocity.x = 0;
-
-                if (directionalInput.x != wallDirectionX && directionalInput.x != 0)
-                {
-                    timeToWallUnstick -= Time.deltaTime;
-                }
-                else
-                {
-                    timeToWallUnstick = wallStickTime;
-                }
-            }
-            else
-            {
-                timeToWallUnstick = wallStickTime;
             }
         }
     }
