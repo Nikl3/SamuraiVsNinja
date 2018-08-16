@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(CharacterController2D))]
 public class PlayerEngine : MonoBehaviour
 {
     [SerializeField]
@@ -13,9 +12,6 @@ public class PlayerEngine : MonoBehaviour
     private float moveSpeed = 6f;
     [SerializeField]
     private float maxWallSlideSpeed = 3f;
-
-    private float wallStickTime = 0.25f;
-    private float timeToWallUnstick;
 
     private float accelerationTimeAirbourne = 0.2f;
     private float accelerationTimeGrounded = 0.1f;
@@ -111,6 +107,7 @@ public class PlayerEngine : MonoBehaviour
                 velocity.y = wallLeap.y;
             }
         }
+
         if (playerController.Collisions.Below)
         {
             velocity.y = maxJumpVelocity;           

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-[RequireComponent(typeof(PlayerEngine))]
-public class PlayerInput : Singelton<PlayerInput>
+public class PlayerInput : NetworkBehaviour
 {
     private const string HORIZONTAL_AXIS = "Horizontal";
     private const string VERTICAL_AXIS = "Vertical";
@@ -17,16 +17,11 @@ public class PlayerInput : Singelton<PlayerInput>
     }
 
     private void Update()
-    {     
-        Vector2 playerPosition = transform.position;
-        if (playerPosition.x <= -30)
-        {
-            transform.position = new Vector2(-playerPosition.x, playerPosition.y);
-        }
-        else if (transform.position.x >= 30)
-        {
-            transform.position = new Vector2(-playerPosition.x, playerPosition.y);
-        }
+    {
+        if (!hasAuthority)
+            return;
+
+        SimpleWrap();
       
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw(HORIZONTAL_AXIS), Input.GetAxisRaw(VERTICAL_AXIS));
 
@@ -40,6 +35,19 @@ public class PlayerInput : Singelton<PlayerInput>
         if (Input.GetButtonUp("Jump"))
         {
             PlayerEngine.OnJumpInputUp();
+        }
+    }
+
+    private void SimpleWrap()
+    {
+        Vector2 playerPosition = transform.position;
+        if (playerPosition.x <= -30)
+        {
+            transform.position = new Vector2(-playerPosition.x, playerPosition.y);
+        }
+        else if (transform.position.x >= 30)
+        {
+            transform.position = new Vector2(-playerPosition.x, playerPosition.y);
         }
     }
 }

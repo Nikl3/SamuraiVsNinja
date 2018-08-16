@@ -119,23 +119,10 @@ public class CharacterController2D : RaycastController
                 moveAmount.y = (hit.distance - SKIN_WIDTH) * directionY;
                 rayLength = hit.distance;
 
-                //if (Collisions.ClimbingSlope)
-                //{
-                //    moveAmount.x = moveAmount.y / Mathf.Tan(Collisions.SlopeAngle * Mathf.Deg2Rad) * Mathf.Sign(moveAmount.x);
-                //}
-
                 Collisions.Below = directionY == -1;
                 Collisions.Above = directionY == 1;
             }
         }
-
-        //if (Collisions.ClimbingSlope)
-        //{
-        //    float directionX = Mathf.Sign(moveAmount.x);
-        //    rayLength = Mathf.Abs(moveAmount.x) + SKIN_WIDTH;
-        //    Vector2 rayOrigin = ((directionX == -1) ? raycastOrigins.BottomLeft : raycastOrigins.BottomRight) + Vector2.up * moveAmount.y;
-        //    RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
-        //}
     }
 
     private void ResetFallingThroughPlatform()
