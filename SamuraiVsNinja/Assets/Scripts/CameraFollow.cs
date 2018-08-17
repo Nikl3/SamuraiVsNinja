@@ -20,7 +20,7 @@ public class CameraFollow : MonoBehaviour {
         var boxDim = boxMax - boxMin;
 
         // clamp..?
-        boxDim.y = Mathf.Max(boxDim.y, 9f); // min cam height
+        boxDim.y = Mathf.Max(boxDim.y, 11f); // min cam height
         cam.orthographicSize = boxDim.y;
         transform.position = (p1 + p2) /2f - Vector3.forward;    
 
