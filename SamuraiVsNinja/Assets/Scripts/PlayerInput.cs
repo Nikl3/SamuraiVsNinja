@@ -18,8 +18,8 @@ public class PlayerInput : NetworkBehaviour
 
     private void Update()
     {
-        if (!hasAuthority)
-            return;
+        //if (!hasAuthority)
+        //    return;
 
         SimpleWrap();
       
