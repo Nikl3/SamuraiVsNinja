@@ -20,12 +20,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4763733837755130}
   - component: {fileID: 114311298948357260}
-  - component: {fileID: 114217844924058554}
+  - component: {fileID: 114701522621508526}
   - component: {fileID: 212179084396721012}
   - component: {fileID: 61079533188736986}
-  - component: {fileID: 114357400009657930}
-  - component: {fileID: 114320526744176006}
-  - component: {fileID: 114776092315717656}
+  - component: {fileID: 114473205470986400}
+  - component: {fileID: 114628854200851820}
+  - component: {fileID: 114960150198345746}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -71,27 +71,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114217844924058554
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1591546766959414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.03846154
-  m_SyncRotationAxis: 0
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 1
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 0.1
 --- !u!114 &114311298948357260
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,7 +103,18 @@ MonoBehaviour:
     i15: 140
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &114320526744176006
+--- !u!114 &114473205470986400
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1591546766959414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d7cbe7f1923a314880cdc638f82eb78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114628854200851820
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,18 +130,7 @@ MonoBehaviour:
   timeToJumpApex: 0.5
   moveSpeed: 6
   maxWallSlideSpeed: 3
---- !u!114 &114357400009657930
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1591546766959414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d7cbe7f1923a314880cdc638f82eb78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114776092315717656
+--- !u!114 &114701522621508526
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,6 +139,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 633fad26abdf95b4cb3b515cd8bc1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114960150198345746
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1591546766959414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e23df33b41b26a4cbd4457952cf90ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &212179084396721012

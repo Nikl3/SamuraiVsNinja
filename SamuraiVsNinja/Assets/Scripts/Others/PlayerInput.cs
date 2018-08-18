@@ -1,14 +1,13 @@
-﻿using UnityEngine;
-using UnityEngine.Networking;
+﻿
+using UnityEngine;
 
-public class PlayerInput : NetworkBehaviour
+public class PlayerInput : Singelton<PlayerInput>
 {
     private const string HORIZONTAL_AXIS = "Horizontal";
     private const string VERTICAL_AXIS = "Vertical";
 
     public PlayerEngine PlayerEngine { get; private set; }
     public CharacterController2D PlayerCharacterController2D { get; private set; }
- 
 
     private void Awake()
     {
@@ -16,13 +15,8 @@ public class PlayerInput : NetworkBehaviour
         PlayerCharacterController2D = GetComponent<CharacterController2D>();
     }
 
-    private void Update()
+    public void UpdateLocalInputs()
     {
-        //if (!hasAuthority)
-        //    return;
-
-        SimpleWrap();
-      
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw(HORIZONTAL_AXIS), Input.GetAxisRaw(VERTICAL_AXIS));
 
         PlayerEngine.SetDirectionalInput(directionalInput);
@@ -36,18 +30,7 @@ public class PlayerInput : NetworkBehaviour
         {
             PlayerEngine.OnJumpInputUp();
         }
-    }
 
-    private void SimpleWrap()
-    {
-        Vector2 playerPosition = transform.position;
-        if (playerPosition.x <= -30)
-        {
-            transform.position = new Vector2(-playerPosition.x, playerPosition.y);
-        }
-        else if (transform.position.x >= 30)
-        {
-            transform.position = new Vector2(-playerPosition.x, playerPosition.y);
-        }
+        PlayerEngine.CalculateMovement();
     }
 }

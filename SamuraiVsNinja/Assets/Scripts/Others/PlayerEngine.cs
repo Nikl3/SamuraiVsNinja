@@ -41,7 +41,7 @@ public class PlayerEngine : MonoBehaviour
         minJumpVelocity = Mathf.Sqrt(2* Mathf.Abs(gravity) * minJumpHeight);
     }
 
-    private void Update()
+    public void CalculateMovement()
     {
         CalculateVelocity();
         HandleWallSliding();
@@ -50,7 +50,7 @@ public class PlayerEngine : MonoBehaviour
 
         if (playerController.Collisions.Above || playerController.Collisions.Below)
         {
-            velocity.y = 0;         
+            velocity.y = 0;
         }
     }
 
