@@ -5,9 +5,14 @@ public class NetworkClientManager : NetworkBehaviour
 {
 	[SerializeField]
 	private GameObject playerPrefab;
+	private string playerId;
+	private NetworkIdentity networkIdentity;
 
 	private void Start ()
 	{
+		networkIdentity = GetComponent<NetworkIdentity>();
+		playerId = networkIdentity.netId.ToString();
+		transform.name = "PlayerClient: " + playerId;
 		//if(isServer)
 		if (!hasAuthority)
 			return;

@@ -4,23 +4,60 @@ using UnityEngine.UI;
 public class UIManager : Singelton<UIManager>
 {
     [SerializeField]
-    private Text networkDebugText;
-
-    //[SerializeField]
-    //private Text latencyDebugText;
-
-    private void Start()
+    private GameObject lobbyPanel;
+    public GameObject LobbyPanel
     {
-        UpdateNetwprkText("Network text");
+        get
+        {
+            return lobbyPanel;
+        }
+        set
+        {
+            lobbyPanel = value;
+        }
     }
 
-    public void UpdateNetwprkText(string newText)
+    [SerializeField]
+    private GameObject matchButtonPrefab;
+    public GameObject MatchButtonPrefab
     {
-        networkDebugText.text = newText;
+        get
+        {
+            return matchButtonPrefab;
+        }
+    }
+    [SerializeField]
+    private Text statusText;
+
+    public string StatusText
+    {
+        get
+        {
+            return statusText.text;
+        }
+        set
+        {
+            statusText.text = value;
+        }
     }
 
-    //public void UpdateLatencyText(string newText)
-    //{
-    //    latencyDebugText.text = "Latency: " + newText;
-    //}
+    #region UI_BUTTONS
+
+    public void ChangeMachNameButton(string newMatchName)
+    {
+        MainNetworkManager.Instance.MatchName = newMatchName;
+    }
+
+    public void CreateMatchButton()
+    {
+        MainNetworkManager.Instance.CreateMatch();
+    }
+
+    public void RefreshMatchListButton()
+    {
+        MainNetworkManager.Instance.RefreshMatches();
+        StatusText = "Loading ...";
+    }
+
+    #endregion UI_BUTTONS
 }
