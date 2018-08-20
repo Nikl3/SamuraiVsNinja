@@ -9,7 +9,7 @@ public class PlayerNetwork : NetworkBehaviour
     private Vector2 serverVelocity;
     private Vector2 predictedPosition;
     private float latency = 0f;
-    private float latencySmoothing = 100f;
+    private float latencySmoothing = 50f;
 
     #endregion VARIABLES
 
@@ -22,7 +22,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         spriteRenderer.color = Color.blue;
     }
-
+  
     private void Update()
     {
         if (hasAuthority == false)
@@ -34,6 +34,7 @@ public class PlayerNetwork : NetworkBehaviour
 
         AuthorityUpdate();
         CmdUpdateVelocity(serverVelocity, transform.position);
+
     }
 
     private void AuthorityUpdate()

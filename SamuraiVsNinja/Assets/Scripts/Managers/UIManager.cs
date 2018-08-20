@@ -26,9 +26,9 @@ public class UIManager : Singelton<UIManager>
             return matchButtonPrefab;
         }
     }
+
     [SerializeField]
     private Text statusText;
-
     public string StatusText
     {
         get
@@ -38,6 +38,20 @@ public class UIManager : Singelton<UIManager>
         set
         {
             statusText.text = value;
+        }
+    }
+
+    [SerializeField]
+    private Text timerText;
+    public Text TimerText
+    {
+        get
+        {
+            return timerText;
+        }
+        set
+        {
+            timerText = value;
         }
     }
 

@@ -102,7 +102,6 @@ public class MainNetworkManager : NetworkManager
                 privateClientAddress,
                 eloScoreForMatch,
                 requestDomain,
-                //Instance.OnMatchCreate
                 OnMatchCreated
                 );
         }
