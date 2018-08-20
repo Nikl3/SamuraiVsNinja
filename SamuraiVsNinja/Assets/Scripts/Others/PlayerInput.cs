@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerInput : Singelton<PlayerInput>
 {
+    private bool isLocalPlayer = false;
+
     private const string HORIZONTAL_AXIS = "Horizontal";
     private const string VERTICAL_AXIS = "Vertical";
 
@@ -13,6 +15,16 @@ public class PlayerInput : Singelton<PlayerInput>
     {
         PlayerEngine = GetComponent<PlayerEngine>();
         PlayerCharacterController2D = GetComponent<CharacterController2D>();
+        if(transform.tag == "LocalPlayer")
+        {
+            isLocalPlayer = true;
+        }
+    }
+
+    private void Update()
+    {
+        if (isLocalPlayer)
+            UpdateLocalInputs();
     }
 
     public void UpdateLocalInputs()

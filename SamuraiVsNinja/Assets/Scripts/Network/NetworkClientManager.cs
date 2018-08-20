@@ -41,9 +41,7 @@ public class NetworkClientManager : NetworkBehaviour
             UIManager.Instance.TimerText.color = Color.red;
             UIManager.Instance.TimerText.text = timeLeft.ToString("#");
             timeLeft -= Time.deltaTime;
-        }
-
-        
+        }       
     }
 
     [Command]
