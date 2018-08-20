@@ -5,6 +5,7 @@ public class PlayerNetwork : NetworkBehaviour
 {
     #region VARIABLES
 
+    private NetworkClient networkClient;
     private SpriteRenderer spriteRenderer;
     private Vector2 serverVelocity;
     private Vector2 predictedPosition;
@@ -16,6 +17,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        networkClient = MainNetworkManager.Instance.client;
     }
 
     public override void OnStartAuthority()
@@ -32,6 +34,8 @@ public class PlayerNetwork : NetworkBehaviour
             return;
         }
 
+        latency = MainNetworkManager.Instance.client.GetRTT();
+        UIManager.Instance.DebugText = latency.ToString();
         AuthorityUpdate();
         CmdUpdateVelocity(serverVelocity, transform.position);
 

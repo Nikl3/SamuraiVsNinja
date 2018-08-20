@@ -13,8 +13,9 @@ public class NetworkClientManager : NetworkBehaviour
 	private GameObject playerPrefab;
 	private string playerId;
 	private NetworkIdentity networkIdentity;
+    private NetworkClient networkClient;
 
-	private void Start ()
+    private void Start ()
 	{
 		networkIdentity = GetComponent<NetworkIdentity>();
 		playerId = networkIdentity.netId.ToString();

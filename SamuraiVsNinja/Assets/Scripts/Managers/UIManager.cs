@@ -42,6 +42,20 @@ public class UIManager : Singelton<UIManager>
     }
 
     [SerializeField]
+    private Text debugText;
+    public string DebugText
+    {
+        get
+        {
+            return debugText.text;
+        }
+        set
+        {
+            debugText.text = value;
+        }
+    }
+
+    [SerializeField]
     private Text timerText;
     public Text TimerText
     {
@@ -85,6 +99,14 @@ public class UIManager : Singelton<UIManager>
     {
         MainNetworkManager.Instance.RefreshMatches();
         StatusText = "Loading ...";
+    }
+
+    public void LeaveMatchButton()
+    {
+        var matchInfo = MainNetworkManager.Instance.matchInfo;
+        MainNetworkManager.Instance.matchMaker.DropConnection(matchInfo.networkId, matchInfo.nodeId, 0, MainNetworkManager.Instance.OnDropConnection);
+        MainNetworkManager.Instance.StopHost();
+        LobbyPanel.SetActive(true);
     }
 
     #endregion UI_BUTTONS

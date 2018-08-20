@@ -49,9 +49,7 @@ public class MainNetworkManager : NetworkManager
         matchMaker.ListMatches(0, 10, "", true, 0, 0, HandleListMatchesComplete);
     }
 
-    private void HandleListMatchesComplete(bool success,
-        string extendedinfo,
-        List<MatchInfoSnapshot> responsedata)
+    private void HandleListMatchesComplete(bool success, string extendedinfo, List<MatchInfoSnapshot> responsedata)
     {
         AvailableMatchesList.HandleNewMatchList(responsedata);
     }
@@ -192,16 +190,19 @@ public class MainNetworkManager : NetworkManager
     public override void OnDestroyMatch(bool success, string extendedInfo)
     {
         base.OnDestroyMatch(success, extendedInfo);
+        UIManager.Instance.DebugText = "OnDestroyMatch";
     }
 
     public override void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
     {
         base.OnMatchCreate(success, extendedInfo, matchInfo);
+        UIManager.Instance.DebugText = "OnMatchCreate: " + matchInfo.networkId + " created";
     }
 
     public override void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
     {
         base.OnMatchJoined(success, extendedInfo, matchInfo);
+        UIManager.Instance.DebugText = "OnMatchJoined: " + matchInfo.nodeId;
     }
 
     public override void OnMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matchList)
