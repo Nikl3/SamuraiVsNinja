@@ -5,7 +5,6 @@ public class PlayerNetwork : NetworkBehaviour
 {
     #region VARIABLES
 
-    private NetworkClient networkClient;
     private SpriteRenderer spriteRenderer;
     private Vector2 serverVelocity;
     private Vector2 predictedPosition;
@@ -17,7 +16,6 @@ public class PlayerNetwork : NetworkBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        networkClient = MainNetworkManager.Instance.client;
     }
 
     public override void OnStartAuthority()

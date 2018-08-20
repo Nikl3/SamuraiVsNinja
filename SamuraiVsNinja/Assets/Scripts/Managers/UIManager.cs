@@ -4,6 +4,9 @@ using UnityEngine.UI;
 public class UIManager : Singelton<UIManager>
 {
     [SerializeField]
+    private Transform HUDCanvas;
+
+    [SerializeField]
     private GameObject lobbyPanel;
     public GameObject LobbyPanel
     {
@@ -18,12 +21,36 @@ public class UIManager : Singelton<UIManager>
     }
 
     [SerializeField]
+    private Transform matchContainer;
+    public Transform MatchContainer
+    {
+        get
+        {
+            return matchContainer;
+        }
+    }
+
+    [SerializeField]
     private GameObject matchButtonPrefab;
     public GameObject MatchButtonPrefab
     {
         get
         {
             return matchButtonPrefab;
+        }
+    }
+
+    [SerializeField]
+    private Button leaveMatchButton;
+    public Button LeaveMatchButtonObject
+    {
+        get
+        {
+            return leaveMatchButton;
+        }
+        set
+        {
+            leaveMatchButton = value;
         }
     }
 
@@ -77,6 +104,13 @@ public class UIManager : Singelton<UIManager>
         }
     }
 
+    private void Start()
+    {
+        HUDCanvas.gameObject.SetActive(true);
+        LobbyPanel.SetActive(true);
+        LeaveMatchButtonObject.gameObject.SetActive(false);
+    }
+
     public void ModifyTimerText(string message, Color newColor)
     {
         TimerText.text = message;
@@ -90,6 +124,12 @@ public class UIManager : Singelton<UIManager>
         MainNetworkManager.Instance.MatchName = newMatchName;
     }
 
+    public void ChangeMachSizeButton(int newMatchSize)
+    {
+        newMatchSize = newMatchSize == 0 ? 2 : 4;
+        MainNetworkManager.Instance.MatchSize = (uint)newMatchSize;
+    }
+
     public void CreateMatchButton()
     {
         MainNetworkManager.Instance.CreateMatch();
@@ -98,15 +138,13 @@ public class UIManager : Singelton<UIManager>
     public void RefreshMatchListButton()
     {
         MainNetworkManager.Instance.RefreshMatches();
-        StatusText = "Loading ...";
     }
 
     public void LeaveMatchButton()
     {
-        var matchInfo = MainNetworkManager.Instance.matchInfo;
-        MainNetworkManager.Instance.matchMaker.DropConnection(matchInfo.networkId, matchInfo.nodeId, 0, MainNetworkManager.Instance.OnDropConnection);
-        MainNetworkManager.Instance.StopHost();
+        MainNetworkManager.Instance.LeaveMatch();
         LobbyPanel.SetActive(true);
+        LeaveMatchButtonObject.gameObject.SetActive(false);
     }
 
     #endregion UI_BUTTONS

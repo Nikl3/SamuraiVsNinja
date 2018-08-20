@@ -9,8 +9,19 @@ public class MainNetworkManager : NetworkManager
 
     public static MainNetworkManager Instance { get; private set; }
 
-    private List<MatchInfoSnapshot> matchList = new List<MatchInfoSnapshot>();
+    private List<GameObject> matchList = new List<GameObject>();
 
+    public uint MatchSize
+    {
+        get
+        {
+            return _matchSize;
+        }
+        set
+        {
+            _matchSize = value;
+        }
+    }
     private uint _matchSize = 2;
     public string MatchName
     {
@@ -33,261 +44,116 @@ public class MainNetworkManager : NetworkManager
 
     #endregion VARIABLES
 
-    private void OnMatchCreated(bool success, string extendedinfo, MatchInfo responsedata)
-    {
-        base.StartHost(responsedata);
-        RefreshMatches();
-
-        UIManager.Instance.LobbyPanel.SetActive(false);
-    }
-
-    public void RefreshMatches()
-    {
-        if (matchMaker == null)
-            StartMatchMaker();
-
-        matchMaker.ListMatches(0, 10, "", true, 0, 0, HandleListMatchesComplete);
-    }
-
-    private void HandleListMatchesComplete(bool success, string extendedinfo, List<MatchInfoSnapshot> responsedata)
-    {
-        AvailableMatchesList.HandleNewMatchList(responsedata);
-    }
-
-    public void JoinMatch(MatchInfoSnapshot match)
-    {
-        if (matchMaker == null)
-            StartMatchMaker();
-
-        matchMaker.JoinMatch(match.networkId, "", "", "", 0, 0, HandleJoinedMatch);
-
-        UIManager.Instance.LobbyPanel.SetActive(false);
-    }
-
-    private void HandleJoinedMatch(bool success, string extendedinfo, MatchInfo responsedata)
-    {
-        StartClient(responsedata);
-    }
-
     private void Awake()
     {
         if (Instance == null)
-        Instance = this;     
+            Instance = this;
     }
 
     private void Start()
     {
+        CheckMachMakerState();
+
         RefreshMatches();
+    }
+
+    /// <summary>
+    /// Since we have only one scene for now, so the match maker gets set to "NULL".
+    /// We could run CheckMachMakerState() at start of "Lobby" scene to prevent null reference exceotions.
+    /// </summary>
+    private void CheckMachMakerState()
+    {
+        if (matchMaker == null)
+            StartMatchMaker();
+    }
+
+    private void ClearMatchList()
+    {
+        for (int i = 0; i < matchList.Count; i++)
+        {
+            Destroy(matchList[i]);
+        }
+
+        matchList.Clear();
     }
 
     public void CreateMatch()
     {
-        if (Instance.matchMaker == null)
-        {
-            StartMatchMaker();
-        }
+        CheckMachMakerState();
 
-        if (_matchName != null && _matchName != "")
+        if (MatchName != null)
         {
-            Debug.Log("Creating match: " + _matchName + " with match for " + _matchSize + " players!");
-            Instance.matchMaker.CreateMatch
-                (
-                _matchName,
-                _matchSize,
-                matchAdvertise,
-                matchPassword,
-                publicClientAddress,
-                privateClientAddress,
-                eloScoreForMatch,
-                requestDomain,
-                OnMatchCreated
-                );
+            Debug.Log("Create match with name: " + MatchName + " and has size of: " + MatchSize + " players");
+            matchMaker.CreateMatch(MatchName, MatchSize, matchAdvertise, matchPassword, publicClientAddress, privateClientAddress, eloScoreForMatch, requestDomain, OnMatchCreate);
+
+            UIManager.Instance.LobbyPanel.SetActive(false);
+            UIManager.Instance.LeaveMatchButtonObject.gameObject.SetActive(true);
+            UIManager.Instance.StatusText = "";
         }
         else
         {
-            Debug.LogError("Match name cannot be null or an empty string");
+            UIManager.Instance.StatusText = "Match need to have a name";
+            Debug.LogError("Can not create a match, because MatchName can not be null!");
+        }     
+    }
+
+    public void RefreshMatches()
+    {
+        CheckMachMakerState();
+
+        ClearMatchList();
+        matchMaker.ListMatches(0, 10, "", true, 0, 0, OnMatchList);
+        UIManager.Instance.StatusText = "Refreshing...";
+    }
+
+    public void LeaveMatch()
+    {
+        // matches does not get destroied perectly so we can join unhosted room
+        // somethimes. There will be error when we try to drop connection.
+        // Match info could be null at this point.
+        MatchInfo _matchInfo = singleton.matchInfo;
+        if (_matchInfo != null)
+        {
+            matchMaker.DropConnection(_matchInfo.networkId, _matchInfo.nodeId, 0, OnDropConnection);
+            singleton.StopHost();
+            RefreshMatches();
+        }       
+    }
+
+    public void JoinMatch(MatchInfoSnapshot match)
+    {
+        matchMaker.JoinMatch(match.networkId, matchPassword, publicClientAddress, privateClientAddress, eloScoreForMatch, requestDomain, OnMatchJoined);
+        ClearMatchList();
+        UIManager.Instance.StatusText = "Joining...";
+        UIManager.Instance.LeaveMatchButtonObject.gameObject.SetActive(true);
+    }
+
+    public override void OnMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
+    {
+        UIManager.Instance.StatusText = "";
+
+        if (success == false || matches == null)
+        {
+            Debug.LogError("Could not find matches!");
+        }
+
+        foreach (MatchInfoSnapshot match in matches)
+        {
+            GameObject matchListItemGameObject = Instantiate(UIManager.Instance.MatchButtonPrefab);
+            matchListItemGameObject.transform.SetParent(UIManager.Instance.MatchContainer);
+
+            MatchButtonInfo matchButtonInfo = matchListItemGameObject.GetComponent<MatchButtonInfo>();
+            if (matchButtonInfo != null)
+            {
+                matchButtonInfo.Initialize(match, JoinMatch);
+            }
+
+            matchList.Add(matchListItemGameObject);
+        }
+
+        if (matches.Count == 0)
+        {
+            UIManager.Instance.StatusText = "No matches available";
         }
     }
-
-    private void HandelListMatchesComplete(bool success, string extendedInfo, List<MatchInfoSnapshot> matchesList)
-    {
-        AvailableMatchesList.HandleNewMatchList(matchesList);
-    }
-
-    #region NETWORK_VIRTUAL_EVENT_FUNCTIONS
-
-    #region HOST_FUNCTIONS
-
-    public override NetworkClient StartHost()
-    {
-        return base.StartHost();
-    }
-
-    public override NetworkClient StartHost(ConnectionConfig config, int maxConnections)
-    {
-        return base.StartHost(config, maxConnections);
-    }
-
-    public override NetworkClient StartHost(MatchInfo info)
-    {
-        return base.StartHost(info);
-    }
-
-    public override void OnStartHost()
-    {
-        base.OnStartHost();
-    }
-
-    public override void OnStopHost()
-    {
-        base.OnStopHost();
-    }
-
-    #endregion HOST_FUNCTIONS
-
-    #region CLIENT_FUNCTIONS
-
-    public override void OnClientConnect(NetworkConnection conn)
-    {
-        base.OnClientConnect(conn);
-    }
-
-    public override void OnStartClient(NetworkClient client)
-    {
-        base.OnStartClient(client);
-        Debug.Log("OnStartClient: " + client.ToString());
-    }
-
-    public override void OnClientDisconnect(NetworkConnection conn)
-    {
-        base.OnClientDisconnect(conn);
-    }
-
-    public override void OnClientError(NetworkConnection conn, int errorCode)
-    {
-        base.OnClientError(conn, errorCode);
-    }
-
-    public override void OnClientNotReady(NetworkConnection conn)
-    {
-        base.OnClientNotReady(conn);
-    }
-
-    public override void OnClientSceneChanged(NetworkConnection conn)
-    {
-        base.OnClientSceneChanged(conn);
-    }
-
-    public override void OnStopClient()
-    {
-        base.OnStopClient();
-    }
-
-    #endregion CLIENT_FUNCTIONS
-
-    #region MATCH_FUNCTIONS
-
-    public override void OnDestroyMatch(bool success, string extendedInfo)
-    {
-        base.OnDestroyMatch(success, extendedInfo);
-        UIManager.Instance.DebugText = "OnDestroyMatch";
-    }
-
-    public override void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
-    {
-        base.OnMatchCreate(success, extendedInfo, matchInfo);
-        UIManager.Instance.DebugText = "OnMatchCreate: " + matchInfo.networkId + " created";
-    }
-
-    public override void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
-    {
-        base.OnMatchJoined(success, extendedInfo, matchInfo);
-        UIManager.Instance.DebugText = "OnMatchJoined: " + matchInfo.nodeId;
-    }
-
-    public override void OnMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matchList)
-    {
-        base.OnMatchList(success, extendedInfo, matchList);
-    }
-
-    public override void OnSetMatchAttributes(bool success, string extendedInfo)
-    {
-        base.OnSetMatchAttributes(success, extendedInfo);
-    }
-
-    #endregion MATCH_FUNCTIONS
-
-    #region SERVER_FUNCTIONS
-
-    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
-    {
-        base.OnServerAddPlayer(conn, playerControllerId);
-        Debug.Log("OnServerAddPlayer: Player " + playerControllerId + " added");
-    }
-
-    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader)
-    {
-        base.OnServerAddPlayer(conn, playerControllerId, extraMessageReader);
-        Debug.Log("OnServerAddPlayer: Player " + playerControllerId + " added");
-    }
-
-    public override void OnServerConnect(NetworkConnection conn)
-    {
-        base.OnServerConnect(conn);
-    }
-
-    public override void OnServerDisconnect(NetworkConnection conn)
-    {
-        base.OnServerDisconnect(conn);
-    }
-
-    public override void OnServerError(NetworkConnection conn, int errorCode)
-    {
-        base.OnServerError(conn, errorCode);
-    }
-
-    public override void OnServerReady(NetworkConnection conn)
-    {
-        base.OnServerReady(conn);
-    }
-
-    public override void OnServerRemovePlayer(NetworkConnection conn, PlayerController player)
-    {
-        base.OnServerRemovePlayer(conn, player);
-        Debug.LogError("OnServerRemovePlayer: Player " + player + " removed");
-    }
-
-    public override void OnServerSceneChanged(string sceneName)
-    {
-        base.OnServerSceneChanged(sceneName);
-    }
-
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-    }
-
-    public override void OnStopServer()
-    {
-        base.OnStopServer();
-    }
-
-    public override void ServerChangeScene(string newSceneName)
-    {
-        base.ServerChangeScene(newSceneName);
-    }
-
-
-    #endregion SERVER_FUNCTIONS
-
-    #region OTHER_NETWORK_FUNCTIONS
-
-    public override void OnDropConnection(bool success, string extendedInfo)
-    {
-        base.OnDropConnection(success, extendedInfo);
-    }
-
-    #endregion OTHER_NETWORK_FUNCTIONS
-
-    #endregion NETWORK_VIRTUAL_EVENT_FUNCTIONS
 }

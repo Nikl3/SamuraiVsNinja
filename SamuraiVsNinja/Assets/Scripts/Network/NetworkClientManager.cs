@@ -4,31 +4,30 @@ using UnityEngine.Networking;
 
 public class NetworkClientManager : NetworkBehaviour
 {
-    [SyncVar]
-    private float timeLeft;
-    private float startTime = 30f;
-    private int restartCounter = 2;
-    private bool isTimeRunning;
-    [SerializeField]
+	[SyncVar]
+	private float timeLeft;
+	private float startTime = 30f;
+	private int restartCounter = 2;
+	private bool isTimeRunning;
+	[SerializeField]
 	private GameObject playerPrefab;
 	private string playerId;
 	private NetworkIdentity networkIdentity;
-    private NetworkClient networkClient;
 
-    private void Start ()
+	private void Start ()
 	{
 		networkIdentity = GetComponent<NetworkIdentity>();
 		playerId = networkIdentity.netId.ToString();
 		transform.name = "PlayerClient: " + playerId;
-        StartCoroutine(ITimer());
+		StartCoroutine(ITimer());
 
-        if (!hasAuthority)
+		if (!hasAuthority)
 			return;
 
 		CmdSpawn(playerPrefab);
-    }
+	}
 
-    [Command]
+	[Command]
 	private void CmdSpawn(GameObject playerPrefab)
 	{
 		if (!isServer)
@@ -41,32 +40,32 @@ public class NetworkClientManager : NetworkBehaviour
 		NetworkServer.SpawnWithClientAuthority(newPrefabInstance, connectionToClient);
 	}
 
-	private void Spawn(GameObject playerPrefab)
+	//private void Spawn(GameObject playerPrefab)
+	//{
+	//	if (!isServer)
+	//		return;
+
+	//	var newPrefabInstance = Instantiate(playerPrefab);
+	//	newPrefabInstance.name = playerPrefab.name;
+	//	newPrefabInstance.transform.SetParent(transform);
+
+	//	NetworkServer.SpawnWithClientAuthority(newPrefabInstance, connectionToClient);
+	//}
+
+	private IEnumerator ITimer()
 	{
-		if (!isServer)
-			return;
+		timeLeft = startTime;
 
-		var newPrefabInstance = Instantiate(playerPrefab);
-		newPrefabInstance.name = playerPrefab.name;
-		newPrefabInstance.transform.SetParent(transform);
+		while (timeLeft > 0)
+		{
+			Mathf.RoundToInt(timeLeft -= Time.deltaTime);
+			timeLeft = Mathf.Clamp(timeLeft, 0f, startTime);
+			UIManager.Instance.ModifyTimerText(timeLeft.ToString("#"), Color.white);
+			yield return null;
+		}
 
-		NetworkServer.SpawnWithClientAuthority(newPrefabInstance, connectionToClient);
+		UIManager.Instance.ModifyTimerText("Time's up!", Color.white);
+
+		yield return new WaitForSeconds(restartCounter);
 	}
-
-    private IEnumerator ITimer()
-    {
-        timeLeft = startTime;
-
-        while (timeLeft > 0)
-        {
-            Mathf.RoundToInt(timeLeft -= Time.deltaTime);
-            timeLeft = Mathf.Clamp(timeLeft, 0f, startTime);
-            UIManager.Instance.ModifyTimerText(timeLeft.ToString("#"), Color.white);
-            yield return null;
-        }
-
-        UIManager.Instance.ModifyTimerText("Time's up!", Color.white);
-
-        yield return new WaitForSeconds(restartCounter);
-    }
 }
