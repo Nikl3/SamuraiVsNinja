@@ -8,8 +8,16 @@ public class PlayerInput : Singelton<PlayerInput>
     private const string HORIZONTAL_AXIS = "Horizontal";
     private const string VERTICAL_AXIS = "Vertical";
 
-    public PlayerEngine PlayerEngine { get; private set; }
-    public CharacterController2D PlayerCharacterController2D { get; private set; }
+    public PlayerEngine PlayerEngine
+    {
+        get;
+        private set;
+    }
+    public CharacterController2D PlayerCharacterController2D
+    {
+        get;
+        private set;
+    }
 
     private void Awake()
     {

@@ -55,6 +55,20 @@ public class UIManager : Singelton<UIManager>
         }
     }
 
+    public Color TimerTextColor
+    {
+        get
+        {
+            return TimerText.color;
+        }
+    }
+
+    public void ModifyTimerText(string message, Color newColor)
+    {
+        TimerText.text = message;
+        TimerText.color = newColor;
+    }
+
     #region UI_BUTTONS
 
     public void ChangeMachNameButton(string newMatchName)

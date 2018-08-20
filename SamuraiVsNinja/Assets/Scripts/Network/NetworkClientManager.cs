@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class NetworkClientManager : NetworkBehaviour
 {
     [SyncVar]
-    float timeLeft = 10f;
+    private float timeLeft;
+    private float startTime = 30f;
+    private int restartCounter = 2;
+    private bool isTimeRunning;
     [SerializeField]
 	private GameObject playerPrefab;
 	private string playerId;
@@ -15,33 +19,12 @@ public class NetworkClientManager : NetworkBehaviour
 		networkIdentity = GetComponent<NetworkIdentity>();
 		playerId = networkIdentity.netId.ToString();
 		transform.name = "PlayerClient: " + playerId;
+        StartCoroutine(ITimer());
 
-		if (!hasAuthority)
+        if (!hasAuthority)
 			return;
 
 		CmdSpawn(playerPrefab);
-	}
-
-    private void Update()
-    {
-        if(timeLeft <= 0)
-        {
-            timeLeft = 0;
-            UIManager.Instance.TimerText.color = Color.white;
-            UIManager.Instance.TimerText.text = 0.ToString();
-        }
-        else if (timeLeft <= 20 && timeLeft > 10)
-        {
-            UIManager.Instance.TimerText.color = Color.yellow;
-            UIManager.Instance.TimerText.text = timeLeft.ToString("#");
-            timeLeft -= Time.deltaTime;
-        }
-        else if (timeLeft <= 10)
-        {
-            UIManager.Instance.TimerText.color = Color.red;
-            UIManager.Instance.TimerText.text = timeLeft.ToString("#");
-            timeLeft -= Time.deltaTime;
-        }       
     }
 
     [Command]
@@ -68,4 +51,21 @@ public class NetworkClientManager : NetworkBehaviour
 
 		NetworkServer.SpawnWithClientAuthority(newPrefabInstance, connectionToClient);
 	}
+
+    private IEnumerator ITimer()
+    {
+        timeLeft = startTime;
+
+        while (timeLeft > 0)
+        {
+            Mathf.RoundToInt(timeLeft -= Time.deltaTime);
+            timeLeft = Mathf.Clamp(timeLeft, 0f, startTime);
+            UIManager.Instance.ModifyTimerText(timeLeft.ToString("#"), Color.white);
+            yield return null;
+        }
+
+        UIManager.Instance.ModifyTimerText("Time's up!", Color.white);
+
+        yield return new WaitForSeconds(restartCounter);
+    }
 }
