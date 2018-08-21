@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayerEngine : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerEngine : MonoBehaviour
     private float timeToJumpApex = 0.5f;
     [SerializeField]
     private float moveSpeed = 6f;
+    private float startSpeed;
     [SerializeField]
     private float maxWallSlideSpeed = 3f;
 
@@ -19,6 +21,7 @@ public class PlayerEngine : MonoBehaviour
     private float maxJumpVelocity;
     private float minJumpVelocity;
     private float gravity;
+    private float dashGravity;
     private Vector2 velocity;
     private float velocityXSmoothing;
 
@@ -30,13 +33,19 @@ public class PlayerEngine : MonoBehaviour
     private bool wallSliding;
     private int wallDirectionX;
 
+    private float dashSpeed = 20;
+    private bool isDashing = false;
+    private float dashCooldown = 2f;
+    private float dashTime = 0.2f;
+
     private CharacterController2D playerController;
 
     private void Start()
     {
         playerController = GetComponent<CharacterController2D>();
 
-        gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+        startSpeed = moveSpeed;
+        gravity = dashGravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity * timeToJumpApex);
         minJumpVelocity = Mathf.Sqrt(2* Mathf.Abs(gravity) * minJumpHeight);
     }
@@ -45,7 +54,7 @@ public class PlayerEngine : MonoBehaviour
     {
         CalculateVelocity();
         HandleWallSliding();
-
+        
         playerController.Move(velocity * Time.deltaTime, directionalInput);
 
         if (playerController.Collisions.Above || playerController.Collisions.Below)
@@ -84,6 +93,7 @@ public class PlayerEngine : MonoBehaviour
 
     public void SetDirectionalInput(Vector2 input)
     {
+        //if(!isDashing)
         directionalInput = input;
     }
 
@@ -120,5 +130,29 @@ public class PlayerEngine : MonoBehaviour
         {
             velocity.y = minJumpVelocity;
         }
+    }
+
+    public void OnDash()
+    {
+        if(isDashing == false)
+        {
+            StartCoroutine(IDash());        
+        }
+    }
+
+    private IEnumerator IDash()
+    {
+        isDashing = true;
+        gravity = 0;
+        moveSpeed = isDashing ? dashSpeed + moveSpeed : moveSpeed;
+
+        yield return new WaitForSeconds(dashTime);
+
+ 
+        gravity = dashGravity;
+        moveSpeed = startSpeed;
+
+        yield return new WaitForSeconds(dashCooldown);
+        isDashing = false;
     }
 }

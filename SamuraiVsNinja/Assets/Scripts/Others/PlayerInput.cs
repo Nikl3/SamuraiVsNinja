@@ -51,6 +51,12 @@ public class PlayerInput : Singelton<PlayerInput>
             PlayerEngine.OnJumpInputUp();
         }
 
+        if(Input.GetButtonDown("Fire3"))
+        {
+           if(directionalInput != Vector2.zero)
+            PlayerEngine.OnDash();
+        }
+
         PlayerEngine.CalculateMovement();
     }
 }

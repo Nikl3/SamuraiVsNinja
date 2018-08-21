@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : Singelton<UIManager>
@@ -145,6 +146,11 @@ public class UIManager : Singelton<UIManager>
         MainNetworkManager.Instance.LeaveMatch();
         LobbyPanel.SetActive(true);
         LeaveMatchButtonObject.gameObject.SetActive(false);
+    }
+
+    public void BackToMenuButton()
+    {
+        SceneManager.LoadScene(0);
     }
 
     #endregion UI_BUTTONS

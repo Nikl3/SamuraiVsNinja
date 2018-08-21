@@ -1,17 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
 
-	public Canvas MenuCanvas;
-    public Canvas CreditsCanvas;
-    public Canvas CharacterCanvas;
-    public Canvas MapCanvas;
+	private Canvas MenuCanvas;
+    private Canvas CreditsCanvas;
+    private Canvas CharacterCanvas;
+    private Canvas MapCanvas;
 
-    void Start()
+    private void Start()
     {
         MenuCanvas = GameObject.Find("MenuCanvas").GetComponent<Canvas>();
         CreditsCanvas = GameObject.Find("CreditsCanvas").GetComponent<Canvas>();
@@ -20,6 +19,11 @@ public class MainMenu : MonoBehaviour {
     }
 
     public void PlayGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void Online()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
@@ -58,6 +62,10 @@ public class MainMenu : MonoBehaviour {
 
     public void QuitGame()
     {
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }
 }
