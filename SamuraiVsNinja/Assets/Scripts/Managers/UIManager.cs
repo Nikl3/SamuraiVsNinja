@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : Singelton<UIManager>
@@ -150,7 +149,7 @@ public class UIManager : Singelton<UIManager>
 
     public void BackToMenuButton()
     {
-        SceneManager.LoadScene(0);
+        //SceneManager.LoadScene(0);
     }
 
     #endregion UI_BUTTONS
