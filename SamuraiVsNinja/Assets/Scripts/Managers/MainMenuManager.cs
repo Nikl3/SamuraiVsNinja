@@ -1,12 +1,17 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+
 
 public class MainMenuManager : MonoBehaviour
 {
 	private Animator mainMenuCanvasAnimator;
 	private string creditsAnimationTag = "Credits";
+    public GameObject CharSelectPanel;
 
-	private void Awake()
+    private void Awake()
 	{
 		mainMenuCanvasAnimator = GameObject.Find("MainMenuCanvas").GetComponent<Animator>();
 	}
@@ -32,7 +37,8 @@ public class MainMenuManager : MonoBehaviour
 
 	public void PlayGameButton()
 	{
-		//SceneMaster.Instance.LoadScene()
+        //SceneMaster.Instance.LoadScene()
+        SceneManager.LoadScene(1);
 	}
 
 	public void OnlineButton()
@@ -47,12 +53,19 @@ public class MainMenuManager : MonoBehaviour
 
 	public void CharactersButton()
 	{
+        CharSelectPanel.SetActive(true);
 
-	}
+    }
 
-	public void BackToMenuButton()
+    public void AddPlayer() {
+        //show 2player charSelection
+        //disable start game until 2player choose char
+    }
+
+    public void BackToMenuButton()
 	{
-		SceneMaster.Instance.LoadScene(0);
+        CharSelectPanel.SetActive(false);
+		//SceneMaster.Instance.LoadScene(0);
 	}
 
 	public void QuitGameButton()
