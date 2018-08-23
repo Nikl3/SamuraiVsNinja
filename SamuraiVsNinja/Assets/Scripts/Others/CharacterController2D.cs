@@ -60,25 +60,33 @@ public class CharacterController2D : RaycastController
         {
             Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.BottomLeft : raycastOrigins.BottomRight;
             rayOrigin += Vector2.up * (horizontalRaySpacing * i);
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(rayOrigin, Vector2.right * directionX, rayLength, collisionMaskLayer);
 
             Debug.DrawRay(rayOrigin, Vector2.right * directionX, Color.red);
-
-            if (hit)
+          
+            if(hits != null && hits.Length > 0)
             {
-                if (hit.distance == 0)
+                foreach (var hit in hits)
                 {
-                    continue;
+                    if (hit)
+                    {
+                        Debug.LogWarning(hit.transform.name);
+
+                        if (hit.distance == 0)
+                        {
+                            continue;
+                        }
+
+                        moveAmount = Collisions.MoveAmountOld;
+
+                        moveAmount.x = (hit.distance - SKIN_WIDTH) * directionX;
+                        rayLength = hit.distance;
+
+                        Collisions.Left = directionX == -1;
+                        Collisions.Right = directionX == 1;
+                    }
                 }
-
-                moveAmount = Collisions.MoveAmountOld;
-
-                moveAmount.x = (hit.distance - SKIN_WIDTH) * directionX;
-                rayLength = hit.distance;
-
-                Collisions.Left = directionX == -1;
-                Collisions.Right = directionX == 1;
-            }
+            }           
         }
     }
 
@@ -89,10 +97,9 @@ public class CharacterController2D : RaycastController
 
         for (int i = 0; i < verticalRayCount; i++)
         {
-
             Vector2 rayOrigin = (directionY == -1) ? raycastOrigins.BottomLeft : raycastOrigins.TopLeft;
             rayOrigin += Vector2.right * (verticalRaySpacing * i + moveAmount.x);
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMaskLayer);
 
             Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.red);
 

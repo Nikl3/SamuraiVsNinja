@@ -10,7 +10,7 @@ public abstract class RaycastController : MonoBehaviour
     protected float horizontalRaySpacing;
     protected float verticalRaySpacing;
 
-    protected LayerMask collisionMask;
+    protected LayerMask collisionMaskLayer;
     protected string collisionLayerName;
     protected string oneWayCollisionTag;
 
@@ -20,7 +20,7 @@ public abstract class RaycastController : MonoBehaviour
     protected virtual void Awake()
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
-        collisionMask = LayerMask.GetMask(collisionLayerName);
+        collisionMaskLayer = LayerMask.GetMask(collisionLayerName);
     }
 
     private void Start()

@@ -93,7 +93,6 @@ public class PlayerEngine : MonoBehaviour
 
     public void SetDirectionalInput(Vector2 input)
     {
-        //if(!isDashing)
         directionalInput = input;
     }
 
@@ -130,6 +129,11 @@ public class PlayerEngine : MonoBehaviour
         {
             velocity.y = minJumpVelocity;
         }
+    }
+
+    public void OnAttack()
+    {
+       
     }
 
     public void OnDash()

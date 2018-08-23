@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class SceneMaster : SingeltonPersistant<SceneMaster>
 {
     private float delayTime = 1f;
-    private bool isFading = false;
+    // private bool isFading;
     private Image screenFadeImage;
 
     protected override void Awake()
@@ -83,7 +83,7 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
 
     private IEnumerator IFadeScreenImage(float targetFillAmount, float fadeSpeed)
     {
-        isFading = true;
+        // isFading = true;
         screenFadeImage.raycastTarget = true;
 
         while (screenFadeImage.fillAmount != targetFillAmount)
@@ -93,8 +93,6 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
         }
 
         screenFadeImage.raycastTarget = false;
-        isFading = false;
-
-        //yield return new WaitForSecondsRealtime(1);
+        // isFading = false;
     }
 }
