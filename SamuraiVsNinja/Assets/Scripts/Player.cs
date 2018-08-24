@@ -16,6 +16,7 @@ public class Player : MonoBehaviour {
 
     public void Init(Color color, int inputIndex) {
         bodySprite.color = color;
+        print(inputIndex);
 
         // index 0 uses default keyboard input axes
         if (inputIndex > 0)

@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114033592623951744}
   - component: {fileID: 114511636971123752}
   - component: {fileID: 114718030853620564}
+  - component: {fileID: 50282269743950916}
   m_Layer: 0
   m_Name: LocalPlayer
   m_TagString: LocalPlayer
@@ -46,6 +47,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50282269743950916
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1023898664507316}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &61491316361481052
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -93,7 +114,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1023898664507316}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 633fad26abdf95b4cb3b515cd8bc1c46, type: 3}
   m_Name: 
@@ -109,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f679b1ff845e6fc4597e3894a33160bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodySprite: {fileID: 0}
+  bodySprite: {fileID: 212648372648192782}
   movementForce: 1
 --- !u!114 &114718030853620564
 MonoBehaviour:

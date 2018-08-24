@@ -5,8 +5,8 @@ public class PlayerInput : Singelton<PlayerInput>
 {
     private bool isLocalPlayer = false;
 
-    private const string HORIZONTAL_AXIS = "Horizontal";
-    private const string VERTICAL_AXIS = "Vertical";
+    private string HORIZONTAL_AXIS = "Horizontal";
+    private string VERTICAL_AXIS = "Vertical";
 
     public PlayerEngine PlayerEngine
     {
