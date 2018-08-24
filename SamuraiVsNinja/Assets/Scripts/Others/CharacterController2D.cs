@@ -13,6 +13,11 @@ public class CharacterController2D : RaycastController
         base.Awake();
     }
 
+    private Ray CreateRay(Vector2 origin, Vector2 direction)
+    {
+        return new Ray(origin, direction);
+    }
+
     public void Move(Vector2 moveAmount, bool standingOnPlatform)
     {
         Move(moveAmount, Vector2.zero, standingOnPlatform);
