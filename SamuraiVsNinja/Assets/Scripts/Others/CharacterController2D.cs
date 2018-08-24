@@ -75,7 +75,7 @@ public class CharacterController2D : RaycastController
                 {
                     if (hit)
                     {
-                        Debug.LogWarning(hit.transform.name);
+                        //Debug.LogWarning(hit.transform.name);
 
                         if (hit.distance == 0)
                         {

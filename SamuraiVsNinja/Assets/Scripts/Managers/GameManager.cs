@@ -1,29 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
+﻿using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
+    private GameObject localPlayerPrefab;
+    private GameObject playerInfoPrefab;
+    private Transform playerInfoContainer;
 
-    
-    public TextMeshProUGUI coinsText;
-    public List<GameObject> PlayersCount = new List<GameObject>();
-    public GameObject WinScreen;
+    private void Awake()
+    {
+        localPlayerPrefab = ResourceManager.Instance.GetPrefabByName("LocalPlayer");
+        playerInfoPrefab = ResourceManager.Instance.GetPrefabByName("PlayerInfo");
+        playerInfoContainer = transform.Find("HUD").transform.Find("PlayerInfoContainer");
+    }
 
-
-
-
-	void Start () {
-		foreach (GameObject player in GameObject.FindGameObjectsWithTag("LocalPlayer")) {
-            PlayersCount.Add(player);
+    private void Start()
+    {
+        if(InputManager.Instance.CurrentlyJoinedPlayers > 0)
+        {
+            Debug.LogWarning("No joined players or Player 1 is keyboard.");
         }
-	}
-	
-	void Update () {
-		//if (P1CoinCount >= 10f) {
-  //          print("p1 wins");
-  //          WinScreen.SetActive(true);
-  //          Time.timeScale = 0f;
-  //      }
-	}
+
+        SpawnObject(localPlayerPrefab);
+        SpawnObject(playerInfoPrefab, Vector2.zero, Quaternion.identity, playerInfoContainer);
+    }
+
+    private GameObject SpawnObject(GameObject prefab, Vector2 position = new Vector2(), Quaternion rotation = new Quaternion(), Transform parent = null)
+    {
+        if (parent == null)
+            parent = transform;
+
+        var index = 1;
+        var prefabInstance = Instantiate(prefab, position, rotation);
+        prefabInstance.name = prefab.name + " " + index;
+        prefabInstance.transform.SetParent(parent);
+        return prefabInstance;
+    }
 }

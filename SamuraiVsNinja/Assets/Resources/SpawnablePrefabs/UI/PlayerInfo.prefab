@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222361235489676072}
   - component: {fileID: 114492010080715646}
   m_Layer: 0
-  m_Name: CoinIMG
+  m_Name: CoinImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -104,6 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224213224758492002}
+  - component: {fileID: 114908390562766620}
   m_Layer: 0
   m_Name: PlayerInfo
   m_TagString: Untagged
@@ -122,7 +123,7 @@ GameObject:
   - component: {fileID: 222163572150853700}
   - component: {fileID: 114005061656791874}
   m_Layer: 0
-  m_Name: P1_IMG (1)
+  m_Name: PlayerImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -349,6 +350,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114908390562766620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1933520091028282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2506955f2547c84fb80e09d1be466d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114974909584534958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -436,10 +448,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 97.5, y: -219.5}
-  m_SizeDelta: {x: 195, y: 439}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224378767022005854
 RectTransform:

@@ -1,17 +1,13 @@
 ﻿using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-
-public class CoinCollect : MonoBehaviour {
-
-	GameManager gm;
-    Player pl;
+public class CoinCollect : MonoBehaviour
+{
+	//private GameManager gm;
+	//private PlayerInput pl;
 
 	private void Start() {
-		gm = FindObjectOfType<GameManager>();
-		pl = GetComponent<Player>();
-        
-    }
+		//gm = FindObjectOfType<GameManager>();
+		//pl = GetComponent<PlayerInput>();		
+	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -19,10 +15,10 @@ public class CoinCollect : MonoBehaviour {
 		{
 			//pickup coin
 			Destroy(collision.gameObject);
-            //add coin to player coincount
-            gm.coinsText = GameObject.Find("TextMeshPro Text").GetComponent<TextMeshProUGUI>();
-            pl.ps.Coins++;
-			pl.ps.PlayerInfo.GetComponentInChildren<TextMeshProUGUI>().text = "" + pl.ps.Coins;
+			//add coin to player coincount
+			//gm.coinsText = GameObject.Find("TextMeshPro Text").GetComponent<TextMeshProUGUI>();
+			//pl.ps.Coins++;
+			//pl.ps.PlayerInfo.GetComponentInChildren<TextMeshProUGUI>().text = "" + pl.ps.Coins;
 		}
 	}
 }
