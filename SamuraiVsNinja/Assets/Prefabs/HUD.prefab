@@ -677,7 +677,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1225432125890904}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30234265628c6e14abfd11f55e41148f, type: 3}
+  m_Script: {fileID: 11500000, guid: 243332a8977f5304a8cc2b3df8e33f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   joinPanel: {fileID: 1538230954631826}
@@ -724,7 +724,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1592648934379086}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb580d1bda67c4a43b87a8f08d266b08, type: 3}
+  m_Script: {fileID: 11500000, guid: c0b6e705886a9374baf55acc91d1d4c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerPanels:
@@ -872,7 +872,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1453649710810842}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30234265628c6e14abfd11f55e41148f, type: 3}
+  m_Script: {fileID: 11500000, guid: 243332a8977f5304a8cc2b3df8e33f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   joinPanel: {fileID: 1111373479886512}
@@ -946,7 +946,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1144205906082388}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30234265628c6e14abfd11f55e41148f, type: 3}
+  m_Script: {fileID: 11500000, guid: 243332a8977f5304a8cc2b3df8e33f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   joinPanel: {fileID: 1286486749437562}
@@ -1135,7 +1135,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1105854306356094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30234265628c6e14abfd11f55e41148f, type: 3}
+  m_Script: {fileID: 11500000, guid: 243332a8977f5304a8cc2b3df8e33f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   joinPanel: {fileID: 1553676061068826}
