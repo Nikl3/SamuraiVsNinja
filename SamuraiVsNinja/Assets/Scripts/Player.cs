@@ -1,10 +1,27 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
+public class PlayerStats {
+    public int Coins;
+    public int Health;
+    public int PlayerID;
+    public GameObject PlayerInfo;
+    public PlayerStats(int ID, int coins = 0, int health = 10) {
+        Coins = coins;
+        Health = health;
+        PlayerID = ID;
+    }
+} 
+
 public class Player : MonoBehaviour {
     public SpriteRenderer bodySprite;
     public float movementForce = 2f;
 
+
     private Rigidbody2D rb;
+    public PlayerStats ps;
+    public GameObject PlayerInfoPrefab;
+    public Transform PlayerInfoContainer;
 
     //default keyboard input values
     private string horizontalAxisName = "Horizontal", verticalAxisName = "Vertical";
@@ -12,10 +29,15 @@ public class Player : MonoBehaviour {
 
     private void Awake(){
         rb = GetComponent<Rigidbody2D>();
+        PlayerInfoContainer = GameObject.Find("PlayerInfoContainer").transform;
     }
 
     public void Init(Color color, int inputIndex) {
         bodySprite.color = color;
+        ps = new PlayerStats(inputIndex);
+        ps.PlayerInfo = Instantiate(PlayerInfoPrefab);
+        ps.PlayerInfo.transform.SetParent(PlayerInfoContainer);
+
 
         // index 0 uses default keyboard input axes
         if (inputIndex > 0)
