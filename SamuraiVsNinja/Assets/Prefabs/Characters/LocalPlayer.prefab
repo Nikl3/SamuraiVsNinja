@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 114438742253960514}
   - component: {fileID: 114759423175031086}
   - component: {fileID: 114033592623951744}
+  - component: {fileID: 114511636971123752}
+  - component: {fileID: 114718030853620564}
   m_Layer: 0
   m_Name: LocalPlayer
   m_TagString: LocalPlayer
@@ -61,7 +63,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 4.736, y: 4.736}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -94,6 +96,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 633fad26abdf95b4cb3b515cd8bc1c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114511636971123752
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1023898664507316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f679b1ff845e6fc4597e3894a33160bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodySprite: {fileID: 0}
+  movementForce: 1
+--- !u!114 &114718030853620564
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1023898664507316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b6425b43862e804da5d679b2a5f6d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114759423175031086
@@ -143,11 +169,11 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f051011d60f797c40b198381e731224e, type: 3}
-  m_Color: {r: 0.7924528, g: 0.16820934, b: 0.16820934, a: 1}
+  m_Color: {r: 1, g: 0.07075471, b: 0.07075471, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4.736, y: 4.736}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

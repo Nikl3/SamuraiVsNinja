@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class CoinCollect : MonoBehaviour
-{
+public class CoinCollect : MonoBehaviour {
 
 	GameManager gm;
 
