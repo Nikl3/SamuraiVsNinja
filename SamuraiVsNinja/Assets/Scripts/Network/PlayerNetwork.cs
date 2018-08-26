@@ -5,6 +5,7 @@ public class PlayerNetwork : NetworkBehaviour
 {
     #region VARIABLES
 
+    private PlayerInput playerInput;
     private SpriteRenderer spriteRenderer;
     private Vector2 serverVelocity;
     private Vector2 predictedPosition;
@@ -15,6 +16,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Awake()
     {
+        playerInput = GetComponent<PlayerInput>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -41,7 +43,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void AuthorityUpdate()
     {
-        PlayerInput.Instance.UpdateLocalInputs();
+        playerInput.UpdateLocalInputs();
     }
    
     #region SERVER_COMMAND_FUNCTIONS

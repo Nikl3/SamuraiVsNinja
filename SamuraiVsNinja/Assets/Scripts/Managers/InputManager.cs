@@ -1,9 +1,58 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+public enum InputActions
+{
+    None = 0,
+    MoveHorizontal = 1,
+    Jump = 2,
+    MeleeAttack = 3,
+    ThrowAttack = 4,
+    Dash = 5,
+    Cancel = 6
+}
 
 [System.Serializable]
-public struct PlayerData
+public class PlayerData
 {
+    public string ActionButton
+    {
+        get;
+        private set;
+    }
+    public string HorizontalAxis
+    {
+        get;
+        private set;
+    }
+    public string VerticalAxis
+    {
+        get;
+        private set;
+    }
+    public string JumpButton
+    {
+        get;
+        private set;
+    }
+    public string AttackButton
+    {
+        get;
+        private set;
+    }
+    public string DashButton
+    {
+        get;
+        private set;
+    }
+
+    public Color RandomColor
+    {
+        get
+        {
+            return randomColor;
+        }
+    }
+
     public int ID
     {
         get
@@ -26,6 +75,7 @@ public struct PlayerData
         }
     }
 
+    private Color randomColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
     private int id;
     private string playerName;
     private bool hasAssigned;
@@ -33,8 +83,32 @@ public struct PlayerData
     public PlayerData(int id)
     {
         this.id = id;
-        playerName = "LocalPlayer " + id;
+        playerName = "Player " + id;
         hasAssigned = true;
+
+        if(id == 0)
+        {
+            ActionButton = "Action";
+            HorizontalAxis = "Horizontal";
+            VerticalAxis = "Vertical";
+            JumpButton = "Jump";
+            AttackButton = "Attack";
+            DashButton = "Dash";
+        }
+        else
+        {
+            SetControllerNumber(id);
+        }     
+    }
+
+    public void SetControllerNumber(int controllerNumber)
+    {
+        ActionButton = "Action" + "_J" + controllerNumber;
+        HorizontalAxis = "Horizontal" + "_J" + controllerNumber;
+        VerticalAxis = "Vertical" + "_J" + controllerNumber;
+        JumpButton = "Jump" + "_J" + controllerNumber;
+        AttackButton = "Attack" + "_J" + controllerNumber;
+        DashButton = "Dash" + "_J" + controllerNumber;
     }
 }
 
@@ -42,34 +116,43 @@ public class InputManager : SingeltonPersistant<InputManager>
 {
     #region VARIABLES
 
-    private const int MAX_PLAYER_COUNT = 4;
-    private int currentlyJoinedPlayers = 0;
+    private const int MAX_PLAYER_NUMBER = 4;
 
-    private bool canPlayerJoin = false;
+    private PlayerData[] playersData;
 
-    private List<PlayerData> playerDatas = new List<PlayerData>();
+    private bool canJoin = false;
+
+    private int playerDataIndex;
+    private int usedPlayerDataIndex;
 
     #endregion VARIABLES
 
     #region PROPERTIES
 
-    public bool CanPlayerJoin
+    public int MaxPlayerNumber
     {
         get
         {
-            return canPlayerJoin;
+            return MAX_PLAYER_NUMBER;
+        }
+    }
+    public bool CanJoin
+    {
+        get
+        {
+            return canJoin;
         }
         set
         {
-            canPlayerJoin = value;
+            canJoin = value;
         }
     }
-    public int CurrentlyJoinedPlayers
+    public int CurrentJoinedPlayers
     {
         get
         {
-            return currentlyJoinedPlayers;
-        }     
+            return playerDataIndex + 1;
+        }
     }
 
     #endregion PROPERTIES
@@ -77,77 +160,63 @@ public class InputManager : SingeltonPersistant<InputManager>
     protected override void Awake()
     {
         base.Awake();
-    }
-
-    public PlayerData GetCorrectPlayerData(string playerName)
-    {
-        Debug.Log(playerName);
-
-        foreach(var data in playerDatas)
-        {
-            if(data.PlayerName == playerName)
-            {
-                return data;
-            }
-        }
-
-        Debug.LogError("We did not have correct payer data...");
-        return new PlayerData();
-    }
-
-    private void OnPlayerJoined()
-    {
-        if(playerDatas == null || playerDatas.Count > 0)
-        {
-            foreach (var data in playerDatas)
-            {
-                if(currentlyJoinedPlayers == data.ID && data.HasAssigned)
-                {
-                    Debug.LogError("Already assigned player " + data.ID);
-                    return;
-                }
-            }
-        }
-
-        currentlyJoinedPlayers++;
-        PlayerData playerData = new PlayerData(currentlyJoinedPlayers)
-        {
-
-        };
-
-        Debug.LogError("Player " + playerData.ID + " joined!");
-
-        playerDatas.Add(playerData);
-
-        MainMenuManager.Instance.PlayerJoinField(playerData.ID, "P " + playerData.ID);
-
-        MainMenuManager.Instance.JoinedPlayersText = "( " + currentlyJoinedPlayers + " / " + MAX_PLAYER_COUNT + " )";
-    }
-
-    private void OnPlayerUnJoined()
-    {
-
+        ClearPlayersData();
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel"))
-        {
-            MainMenuManager.Instance.EndCredits();
-        }
-
-        if (!canPlayerJoin)
+        if (!canJoin)
             return;
 
-        if (Input.GetButtonDown("Action"))
+        if (Input.GetButtonDown("Action") || Input.GetButtonDown("Action_J1"))
         {
-            //Debug.LogError("Player joined with keyboard!");
-            OnPlayerJoined();
+            AddNewPlayerData();
         }
 
         if (Input.GetButtonDown("Cancel"))
         {
-            OnPlayerUnJoined();
+            // RemovePlayerData();
         }
+    }
+
+    private void AddNewPlayerData()
+    {
+        if (playerDataIndex >= MAX_PLAYER_NUMBER)
+        {
+            playerDataIndex = MAX_PLAYER_NUMBER;
+            return;
+        }
+
+        playersData[playerDataIndex] = CreateNewPlayerData();
+
+        MainMenuManager.Instance.SetJoinField(playerDataIndex, playersData[playerDataIndex].PlayerName);
+        playerDataIndex++;      
+    }
+
+    private PlayerData CreateNewPlayerData()
+    {
+        foreach (var playerData in playersData)
+        {
+            if(!playerData.HasAssigned)
+            {
+                return new PlayerData(playerDataIndex + 1);
+            }       
+        }
+
+        Debug.LogError("Creating dummy player data!");
+        return new PlayerData(playerDataIndex);
+    }
+
+    public PlayerData GetPlayerData()
+    {
+        var playerData = playersData[usedPlayerDataIndex];
+        usedPlayerDataIndex++;
+        return playerData;
+    }
+
+    public void ClearPlayersData()
+    {
+        playersData = new PlayerData[MAX_PLAYER_NUMBER];
+        playerDataIndex = 0;
     }
 }

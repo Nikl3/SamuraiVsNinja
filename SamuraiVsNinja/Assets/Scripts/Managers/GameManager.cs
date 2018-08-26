@@ -15,24 +15,23 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        if(InputManager.Instance.CurrentlyJoinedPlayers > 0)
-        {
-            Debug.LogWarning("No joined players or Player 1 is keyboard.");
-        }
-
-        SpawnObject(localPlayerPrefab);
-        SpawnObject(playerInfoPrefab, Vector2.zero, Quaternion.identity, playerInfoContainer);
+        // Invoke("Foo", 1f);
+        Foo();
     }
 
-    private GameObject SpawnObject(GameObject prefab, Vector2 position = new Vector2(), Quaternion rotation = new Quaternion(), Transform parent = null)
+    private void Foo()
     {
-        if (parent == null)
-            parent = transform;
+        for (int i = 1; i < InputManager.Instance.CurrentJoinedPlayers; i++)
+        {
+            SpawnObject(localPlayerPrefab, new Vector2(Random.Range(-20, 20), 10));
 
-        var index = 1;
-        var prefabInstance = Instantiate(prefab, position, rotation);
-        prefabInstance.name = prefab.name + " " + index;
-        prefabInstance.transform.SetParent(parent);
-        return prefabInstance;
+            var prefabInstance = SpawnObject(playerInfoPrefab, Vector2.zero, Quaternion.identity);
+            prefabInstance.transform.SetParent(playerInfoContainer);
+        }
+    }
+
+    private GameObject SpawnObject(GameObject prefab, Vector2 position = new Vector2(), Quaternion rotation = new Quaternion())
+    {
+        return Instantiate(prefab, position, rotation);      
     }
 }

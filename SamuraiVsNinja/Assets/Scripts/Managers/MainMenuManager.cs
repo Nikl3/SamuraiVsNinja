@@ -4,40 +4,35 @@ using UnityEngine.UI;
 
 public class MainMenuManager : Singelton<MainMenuManager>
 {
-	public string JoinedPlayersText
-	{
-		get
-		{
-			return joinedPlayerText.text;
-		}
-		set
-		{
-			joinedPlayerText.text = value;
-		}
-	}
-	public bool CanStart
-	{
-		get
-		{
-			return startButton.interactable = InputManager.Instance.CurrentlyJoinedPlayers > 0;
-		}
-	}
-
-
+	#region VARIABLES
+	
 	private GameObject menuCanvasGameObject;
 	private GameObject mainButtonPanel;
 	private GameObject characterSelectPanel;
 	private GameObject characterSelectContainer;
-
 	private GameObject panels;
 
 	private JoinField[] joinFields;
-	private Button startButton;
+	private Color fieldColor = Color.green;
 
+	private Button startButton;
 	private Text joinedPlayerText;
 
 	private Animator mainMenuCanvasAnimator;
 	private string creditsAnimationTag = "Credits";
+	private string offlineScene = "DevScene - Niko";
+	private string onlineScene = "DevScene - Mathias";
+
+	#endregion VARIABLES
+
+	#region PROPERTIES
+
+	#endregion PROPERTIES
+
+	private bool CanStart()
+	{
+		return startButton.interactable = InputManager.Instance.CurrentJoinedPlayers == 4 || InputManager.Instance.CurrentJoinedPlayers == 2 ? true : false;
+	}
 
 	private void Awake()
 	{
@@ -55,25 +50,41 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		mainMenuCanvasAnimator = menuCanvasGameObject.GetComponent<Animator>();
 	}
 
+	private void Start()
+	{
+		mainButtonPanel.SetActive(true);
+		characterSelectPanel.SetActive(false);
+		CanStart();
+	}
+
 	private JoinField[] GetJoinFields()
 	{
 		return characterSelectContainer.GetComponentsInChildren<JoinField>(true);
 	}
 
-	private void Start()
+	public void SetJoinField(int playerIndex, string joinedPlayerName)
 	{
-		mainButtonPanel.SetActive(true);
-		characterSelectPanel.SetActive(false);
+		for (int i = 0; i < joinFields.Length; i++)
+		{
+			if (i == playerIndex)
+			{
+				joinFields[i].ChangeJoinFieldVisuals(joinedPlayerName.ToUpper(), fieldColor);
+			}
+		}
+
+		joinedPlayerText.text = "PLAYERS " + (playerIndex + 1) + " / " + InputManager.Instance.MaxPlayerNumber;
+		CanStart();
 	}
 
-	public void PlayerJoinField(int index, string playerName)
+	public void UnSetJoinField(int amount)
 	{
-		index--;
-		joinFields[index].GetComponentInChildren<Text>().text = playerName;
-		joinFields[index].GetComponentInChildren<Image>().color = Color.green;
+		for (int i = 0; i < amount; i++)
+		{
+			joinFields[i].UnChangeJoinFieldVisuals();
+		}
 
-		if (CanStart)
-			startButton.interactable = true;
+		joinedPlayerText.text = "PLAYERS 0 / " + InputManager.Instance.MaxPlayerNumber;
+		CanStart();
 	}
 
 	public void EndCredits()
@@ -89,25 +100,21 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	public void PlayButton()
 	{
-		if (CanStart)
-			startButton.interactable = true;
-
 		mainButtonPanel.SetActive(false);
 		characterSelectPanel.SetActive(true);
 
-		InputManager.Instance.CanPlayerJoin = true;
+		InputManager.Instance.CanJoin = true;
 	}
 
 	public void StartButton()
 	{
-		InputManager.Instance.CanPlayerJoin = false;
-	   
-		SceneMaster.Instance.LoadScene("DevScene - Niko");
+		SceneMaster.Instance.LoadScene(offlineScene);
+		InputManager.Instance.CanJoin = false;
 	}
 
 	public void OnlineButton()
 	{
-		SceneMaster.Instance.LoadScene("DevScene - Mathias");
+		SceneMaster.Instance.LoadScene(onlineScene);
 	}
 
 	public void OptionsButton()
@@ -125,7 +132,10 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		characterSelectPanel.SetActive(false);
 		mainButtonPanel.SetActive(true);
 
-		InputManager.Instance.CanPlayerJoin = false;
+		InputManager.Instance.CanJoin = false;
+		InputManager.Instance.ClearPlayersData();
+
+		UnSetJoinField(joinFields.Length);
 	}
 
 	public void QuitButton()

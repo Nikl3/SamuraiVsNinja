@@ -3,15 +3,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SceneMaster : SingeltonPersistant<SceneMaster>
+public class SceneMaster : Singelton<SceneMaster>
 {
     private float delayTime = 1f;
     // private bool isFading;
     private Image screenFadeImage;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
         screenFadeImage = GameObject.Find("FadeImage").GetComponent<Image>();
         screenFadeImage.fillAmount = 1f;
     }

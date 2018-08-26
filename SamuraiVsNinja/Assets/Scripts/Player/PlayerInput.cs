@@ -1,17 +1,24 @@
 ﻿using UnityEngine;
 
-public class PlayerInput : Singelton<PlayerInput>
+public class PlayerInput : MonoBehaviour
 {
-    private PlayerData playerData;
+    #region VARIABLES
+
+    private string ActionButton;
+    private string HorizontalAxis;
+    private string VerticalAxis;
+    private string JumpButton;
+    private string AttackButton;
+    private string DashButton;
+
     private bool isLocalPlayer = false;
 
-    private string ActionButton = "Action";
-    private string HorizontalAxis = "Horizontal";
-    private string VerticalAxis = "Vertical";
-    private string JumpButton = "Jump";
-    private string AttackButton = "Attack";
-    private string DashButton = "Dash";
-    private int controllerNumber = 0;
+    private PlayerData playerData;
+    private SpriteRenderer spriteRenderer;
+
+    #endregion VARIABLES
+
+    #region PROPERTIES
 
     public PlayerEngine PlayerEngine
     {
@@ -24,21 +31,30 @@ public class PlayerInput : Singelton<PlayerInput>
         private set;
     }
 
+    #endregion PROPERTIES
+
     private void Awake()
     {
         PlayerEngine = GetComponent<PlayerEngine>();
-        PlayerCharacterController2D = GetComponent<CharacterController2D>();      
+        PlayerCharacterController2D = GetComponent<CharacterController2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        playerData = InputManager.Instance.GetPlayerData();
     }
 
     private void Start()
     {
-        playerData = InputManager.Instance.GetCorrectPlayerData(gameObject.name);
-
         if (transform.tag == "LocalPlayer")
         {
             isLocalPlayer = true;
-            // Keyboard...
-            SetControllerNumber(0);
+
+            ActionButton = playerData.ActionButton;
+            HorizontalAxis = playerData.HorizontalAxis;
+            VerticalAxis = playerData.VerticalAxis;
+            JumpButton = playerData.JumpButton;
+            AttackButton = playerData.AttackButton;
+            DashButton = playerData.DashButton;
+
+            spriteRenderer.color = playerData.RandomColor;
         }
     }
 
@@ -48,16 +64,8 @@ public class PlayerInput : Singelton<PlayerInput>
             UpdateLocalInputs();
     }
 
-    public void SetControllerNumber(int number)
+    public void SetControllerNumber(int controllerNumber)
     {
-        controllerNumber = number;
-
-        if(number <= 0)
-        {
-            //Debug.LogWarning("Keyboard!");
-            return;
-        }
-
         ActionButton = "Action" + "_J" + controllerNumber;
         HorizontalAxis = "Horizontal" + "_J" + controllerNumber;
         VerticalAxis = "Vertical" + "_J" + controllerNumber;

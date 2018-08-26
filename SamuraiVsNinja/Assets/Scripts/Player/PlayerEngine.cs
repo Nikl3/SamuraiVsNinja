@@ -40,10 +40,13 @@ public class PlayerEngine : MonoBehaviour
 
     private CharacterController2D playerController;
 
-    private void Start()
+    private void Awake()
     {
         playerController = GetComponent<CharacterController2D>();
+    }
 
+    private void Start()
+    {
         startSpeed = moveSpeed;
         gravity = dashGravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity * timeToJumpApex);
