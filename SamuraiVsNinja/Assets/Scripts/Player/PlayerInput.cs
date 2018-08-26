@@ -54,6 +54,7 @@ public class PlayerInput : MonoBehaviour
             AttackButton = playerData.AttackButton;
             DashButton = playerData.DashButton;
 
+            gameObject.name = playerData.PlayerName;
             spriteRenderer.color = playerData.RandomColor;
         }
     }

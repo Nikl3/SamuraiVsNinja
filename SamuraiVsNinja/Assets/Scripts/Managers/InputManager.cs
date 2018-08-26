@@ -86,19 +86,15 @@ public class PlayerData
         playerName = "Player " + id;
         hasAssigned = true;
 
-        if(id == 0)
-        {
-            ActionButton = "Action";
-            HorizontalAxis = "Horizontal";
-            VerticalAxis = "Vertical";
-            JumpButton = "Jump";
-            AttackButton = "Attack";
-            DashButton = "Dash";
-        }
-        else
-        {
-            SetControllerNumber(id);
-        }     
+        ActionButton = "Action";
+        HorizontalAxis = "Horizontal";
+        VerticalAxis = "Vertical";
+        JumpButton = "Jump";
+        AttackButton = "Attack";
+        DashButton = "Dash";
+
+        SetControllerNumber(id);
+             
     }
 
     public void SetControllerNumber(int controllerNumber)
@@ -118,7 +114,7 @@ public class InputManager : SingeltonPersistant<InputManager>
 
     private const int MAX_PLAYER_NUMBER = 4;
 
-    private PlayerData[] playersData;
+    private PlayerData[] playersData = new PlayerData[MAX_PLAYER_NUMBER];
 
     private bool canJoin = false;
 
@@ -160,7 +156,14 @@ public class InputManager : SingeltonPersistant<InputManager>
     protected override void Awake()
     {
         base.Awake();
-        ClearPlayersData();
+    }
+
+    private void Start()
+    {
+        for (int i = 0; i < playersData.Length; i++)
+        {
+            playersData[i] = new PlayerData(i + 1);
+        }
     }
 
     private void Update()
@@ -168,7 +171,7 @@ public class InputManager : SingeltonPersistant<InputManager>
         if (!canJoin)
             return;
 
-        if (Input.GetButtonDown("Action") || Input.GetButtonDown("Action_J1"))
+        if (Input.GetButtonDown("Action")/* || Input.GetButtonDown("Action_J1")*/)
         {
             AddNewPlayerData();
         }
@@ -187,25 +190,25 @@ public class InputManager : SingeltonPersistant<InputManager>
             return;
         }
 
-        playersData[playerDataIndex] = CreateNewPlayerData();
+        //playersData[playerDataIndex] = CreateNewPlayerData();
 
         MainMenuManager.Instance.SetJoinField(playerDataIndex, playersData[playerDataIndex].PlayerName);
         playerDataIndex++;      
     }
 
-    private PlayerData CreateNewPlayerData()
-    {
-        foreach (var playerData in playersData)
-        {
-            if(!playerData.HasAssigned)
-            {
-                return new PlayerData(playerDataIndex + 1);
-            }       
-        }
+    //private PlayerData CreateNewPlayerData()
+    //{
+    //    foreach (var playerData in playersData)
+    //    {
+    //        if (!playerData.HasAssigned)
+    //        {
+    //            return new PlayerData(playerDataIndex + 1);
+    //        }
+    //    }
 
-        Debug.LogError("Creating dummy player data!");
-        return new PlayerData(playerDataIndex);
-    }
+    //    Debug.LogError("Creating dummy player data!");
+    //    return new PlayerData(playerDataIndex);
+    //}
 
     public PlayerData GetPlayerData()
     {
