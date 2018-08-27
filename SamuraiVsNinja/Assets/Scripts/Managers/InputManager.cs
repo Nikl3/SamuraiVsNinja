@@ -1,16 +1,5 @@
 ﻿using UnityEngine;
 
-public enum InputActions
-{
-    None = 0,
-    MoveHorizontal = 1,
-    Jump = 2,
-    MeleeAttack = 3,
-    ThrowAttack = 4,
-    Dash = 5,
-    Cancel = 6
-}
-
 [System.Serializable]
 public class PlayerData
 {
@@ -93,8 +82,7 @@ public class PlayerData
         AttackButton = "Attack";
         DashButton = "Dash";
 
-        SetControllerNumber(id);
-             
+        SetControllerNumber(id);           
     }
 
     public void SetControllerNumber(int controllerNumber)

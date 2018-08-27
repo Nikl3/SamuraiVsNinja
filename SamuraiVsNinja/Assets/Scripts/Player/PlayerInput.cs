@@ -12,6 +12,7 @@ public class PlayerInput : MonoBehaviour
     private string DashButton;
 
     private bool isLocalPlayer = false;
+    private bool isGameRunning = false;
 
     private PlayerData playerData;
     private SpriteRenderer spriteRenderer;
@@ -61,18 +62,36 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
+        if (!isGameRunning)
+            UpdateMenuInputs();
+
         if (isLocalPlayer)
             UpdateLocalInputs();
     }
 
-    public void SetControllerNumber(int controllerNumber)
+    public void UpdateMenuInputs()
     {
-        ActionButton = "Action" + "_J" + controllerNumber;
-        HorizontalAxis = "Horizontal" + "_J" + controllerNumber;
-        VerticalAxis = "Vertical" + "_J" + controllerNumber;
-        JumpButton = "Jump" + "_J" + controllerNumber;
-        AttackButton = "Attack" + "_J" + controllerNumber;
-        DashButton = "Dash" + "_J" + controllerNumber;
+        if (Input.GetButtonDown(JumpButton))
+        {
+            PlayerEngine.OnJumpInputDown();
+        }
+
+        if (Input.GetButtonUp(JumpButton))
+        {
+            PlayerEngine.OnJumpInputUp();
+        }
+
+        if (Input.GetButtonDown(AttackButton))
+        {
+            PlayerEngine.OnAttack();
+        }
+
+        var dashAxis = Input.GetAxisRaw(DashButton);
+
+        if (dashAxis >= 1)
+        {
+            
+        }
     }
 
     public void UpdateLocalInputs()
@@ -96,7 +115,9 @@ public class PlayerInput : MonoBehaviour
             PlayerEngine.OnAttack();
         }
 
-        if (Input.GetButtonDown(DashButton))
+        var dashAxis = Input.GetAxisRaw(DashButton);
+
+        if (dashAxis >= 1)
         {
            if(directionalInput != Vector2.zero)
             PlayerEngine.OnDash();

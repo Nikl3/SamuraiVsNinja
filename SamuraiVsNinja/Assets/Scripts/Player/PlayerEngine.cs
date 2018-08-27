@@ -33,6 +33,7 @@ public class PlayerEngine : MonoBehaviour
     private bool wallSliding;
     private int wallDirectionX;
 
+    [SerializeField]
     private float dashSpeed = 20;
     private bool isDashing = false;
     private float dashCooldown = 2f;
