@@ -5,19 +5,28 @@ public class CoinGenerator : MonoBehaviour
 	public Transform[] Spawnpoints;
 	public GameObject coinPrefab;
 	public float SpawnIntervall = 0;
-	
-	private void Update ()
-	{
+    GameObject b;
+
+    private void CoinDestroy() {
+        Destroy(b);
+    }
+
+    private void OnEnable() {
+        Invoke("CoinDestroy", 6f);
+    }
+
+    private void Update () {
 		SpawnIntervall += Time.deltaTime;
 
 		if (SpawnIntervall > 4f)
 		{
 
-			int randomPositionIndex = Random.Range(0, Spawnpoints.Length);
+            int randomPositionIndex = Random.Range(0, Spawnpoints.Length);
 			Vector2 randomPosition = Spawnpoints[randomPositionIndex].position;
-
-			Instantiate(coinPrefab, randomPosition, Quaternion.identity);
-			SpawnIntervall = 0;
+            if (Physics2D.OverlapCircle(randomPosition, 2f)) {
+                b = Instantiate(coinPrefab, randomPosition, Quaternion.identity);
+                SpawnIntervall = 0;
+            }
 		}
 	}
 }
