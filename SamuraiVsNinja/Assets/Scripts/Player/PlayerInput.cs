@@ -3,7 +3,7 @@
 public class PlayerInput : MonoBehaviour
 {
     #region VARIABLES
-    [SerializeField]
+
     private Transform playerInfoContainer;
 
     private string ActionButton;
@@ -49,13 +49,13 @@ public class PlayerInput : MonoBehaviour
         PlayerCharacterController2D = GetComponent<CharacterController2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerInfoContainer = GameObject.Find("HUD").transform.Find("PlayerInfoContainer");
-        playerData = InputManager.Instance.GetPlayerData();
     }
 
     private void Start()
     {
         if (transform.tag == "LocalPlayer")
         {
+            playerData = InputManager.Instance.GetPlayerData();
             isLocalPlayer = true;
 
             ActionButton = playerData.ActionButton;
@@ -70,6 +70,16 @@ public class PlayerInput : MonoBehaviour
 
             playerInfo = Instantiate(ResourceManager.Instance.GetPrefabByName("PlayerInfo").GetComponent<PlayerInfo>());
             playerInfo.transform.SetParent(playerInfoContainer);
+        }
+        else
+        {
+            playerData = new PlayerData(1);
+            ActionButton = playerData.ActionButton;
+            HorizontalAxis = playerData.HorizontalAxis;
+            VerticalAxis = playerData.VerticalAxis;
+            JumpButton = playerData.JumpButton;
+            AttackButton = playerData.AttackButton;
+            DashButton = playerData.DashButton;
         }
     }
 

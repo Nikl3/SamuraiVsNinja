@@ -40,18 +40,6 @@ public class NetworkClientManager : NetworkBehaviour
 		NetworkServer.SpawnWithClientAuthority(newPrefabInstance, connectionToClient);
 	}
 
-	//private void Spawn(GameObject playerPrefab)
-	//{
-	//	if (!isServer)
-	//		return;
-
-	//	var newPrefabInstance = Instantiate(playerPrefab);
-	//	newPrefabInstance.name = playerPrefab.name;
-	//	newPrefabInstance.transform.SetParent(transform);
-
-	//	NetworkServer.SpawnWithClientAuthority(newPrefabInstance, connectionToClient);
-	//}
-
 	private IEnumerator ITimer()
 	{
 		timeLeft = startTime;

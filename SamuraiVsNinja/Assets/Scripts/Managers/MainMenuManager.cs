@@ -1,12 +1,13 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MainMenuManager : Singelton<MainMenuManager>
 {
-	#region VARIABLES
-	
-	private GameObject menuCanvasGameObject;
+    #region VARIABLES
+
+    private GameObject menuCanvasGameObject;
 	private GameObject mainButtonPanel;
 	private GameObject characterSelectPanel;
 	private GameObject characterSelectContainer;
