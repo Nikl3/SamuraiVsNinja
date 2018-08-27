@@ -63,11 +63,23 @@ public class PlayerData
             return hasAssigned;
         }
     }
+    public bool HasJoined
+    {
+        get
+        {
+            return hasJoined;
+        }
+        set
+        {
+            hasJoined = value;
+        }
+    }
 
     private Color randomColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
     private int id;
     private string playerName;
     private bool hasAssigned;
+    private bool hasJoined;
 
     public PlayerData(int id)
     {
@@ -159,18 +171,137 @@ public class InputManager : SingeltonPersistant<InputManager>
         if (!canJoin)
             return;
 
-        if (Input.GetButtonDown("Action")/* || Input.GetButtonDown("Action_J1")*/)
+        if (Input.GetButtonDown("Action_J1"))
         {
-            AddNewPlayerData();
+            print("ACTION_J1");
+
+            foreach (var data in playersData)
+            {
+                if(data.ID == 1)
+                {
+                    if (!data.HasJoined)
+                    {
+                        data.HasJoined = true;
+                        PlayerJoin();
+                    }
+                }
+            }
         }
 
-        if (Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown("Action_J2"))
         {
-            // RemovePlayerData();
+            print("ACTION_J2");
+            foreach (var data in playersData)
+            {
+                if (data.ID == 2)
+                {
+                    if (!data.HasJoined)
+                    {
+                        data.HasJoined = true;
+                        PlayerJoin();
+                    }
+                }
+            }
+        }
+
+        if (Input.GetButtonDown("Action_J3"))
+        {
+            print("ACTION_J3");
+            foreach (var data in playersData)
+            {
+                if (data.ID == 3)
+                {
+                    if (!data.HasJoined)
+                    {
+                        data.HasJoined = true;
+                        PlayerJoin();
+                    }
+                }
+            }
+        }
+
+        if (Input.GetButtonDown("Action_J4"))
+        {
+            print("ACTION_J4");
+            foreach (var data in playersData)
+            {
+                if (data.ID == 4)
+                {
+                    if (!data.HasJoined)
+                    {
+                        data.HasJoined = true;
+                        PlayerJoin();
+                    }
+                }
+            }
+        }
+
+        if (Input.GetButtonDown("Cancel_J1"))
+        {
+            print("Cancel_J1");
+
+            foreach (var data in playersData)
+            {
+                if (data.ID == 1)
+                {
+                    if (!data.HasJoined)
+                    {
+                        data.HasJoined = true;
+
+                    }
+                }
+            }
+        }
+
+        if (Input.GetButtonDown("Cancel_J2"))
+        {
+            print("Cancel_J2");
+            foreach (var data in playersData)
+            {
+                if (data.ID == 2)
+                {
+                    if (!data.HasJoined)
+                    {
+                        data.HasJoined = true;
+
+                    }
+                }
+            }
+        }
+
+        if (Input.GetButtonDown("Cancel_J3"))
+        {
+            print("Cancel_J3");
+            foreach (var data in playersData)
+            {
+                if (data.ID == 3)
+                {
+                    if (!data.HasJoined)
+                    {
+                        data.HasJoined = true;
+                    }
+                }
+            }
+        }
+
+        if (Input.GetButtonDown("Cancel_J4"))
+        {
+            print("Cancel_J4");
+            foreach (var data in playersData)
+            {
+                if (data.ID == 4)
+                {
+                    if (!data.HasJoined)
+                    {
+                        data.HasJoined = false;
+                        
+                    }
+                }
+            }
         }
     }
 
-    private void AddNewPlayerData()
+    private void PlayerJoin()
     {
         if (playerDataIndex >= MAX_PLAYER_NUMBER)
         {
@@ -178,25 +309,9 @@ public class InputManager : SingeltonPersistant<InputManager>
             return;
         }
 
-        //playersData[playerDataIndex] = CreateNewPlayerData();
-
         MainMenuManager.Instance.SetJoinField(playerDataIndex, playersData[playerDataIndex].PlayerName);
         playerDataIndex++;      
     }
-
-    //private PlayerData CreateNewPlayerData()
-    //{
-    //    foreach (var playerData in playersData)
-    //    {
-    //        if (!playerData.HasAssigned)
-    //        {
-    //            return new PlayerData(playerDataIndex + 1);
-    //        }
-    //    }
-
-    //    Debug.LogError("Creating dummy player data!");
-    //    return new PlayerData(playerDataIndex);
-    //}
 
     public PlayerData GetPlayerData()
     {

@@ -3,6 +3,8 @@
 public class PlayerInput : MonoBehaviour
 {
     #region VARIABLES
+    [SerializeField]
+    private Transform playerInfoContainer;
 
     private string ActionButton;
     private string HorizontalAxis;
@@ -12,8 +14,8 @@ public class PlayerInput : MonoBehaviour
     private string DashButton;
 
     private bool isLocalPlayer = false;
-    private bool isGameRunning = false;
 
+    private PlayerInfo playerInfo;
     private PlayerData playerData;
     private SpriteRenderer spriteRenderer;
 
@@ -21,6 +23,13 @@ public class PlayerInput : MonoBehaviour
 
     #region PROPERTIES
 
+    public PlayerInfo PlayerInfo
+    {
+        get
+        {
+            return playerInfo;
+        }
+    }
     public PlayerEngine PlayerEngine
     {
         get;
@@ -31,7 +40,7 @@ public class PlayerInput : MonoBehaviour
         get;
         private set;
     }
-
+  
     #endregion PROPERTIES
 
     private void Awake()
@@ -39,6 +48,7 @@ public class PlayerInput : MonoBehaviour
         PlayerEngine = GetComponent<PlayerEngine>();
         PlayerCharacterController2D = GetComponent<CharacterController2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerInfoContainer = GameObject.Find("HUD").transform.Find("PlayerInfoContainer");
         playerData = InputManager.Instance.GetPlayerData();
     }
 
@@ -57,43 +67,18 @@ public class PlayerInput : MonoBehaviour
 
             gameObject.name = playerData.PlayerName;
             spriteRenderer.color = playerData.RandomColor;
+
+            playerInfo = Instantiate(ResourceManager.Instance.GetPrefabByName("PlayerInfo").GetComponent<PlayerInfo>());
+            playerInfo.transform.SetParent(playerInfoContainer);
         }
     }
 
     private void Update()
     {
-        if (!isGameRunning)
-            UpdateMenuInputs();
-
         if (isLocalPlayer)
             UpdateLocalInputs();
     }
-
-    public void UpdateMenuInputs()
-    {
-        if (Input.GetButtonDown(JumpButton))
-        {
-            PlayerEngine.OnJumpInputDown();
-        }
-
-        if (Input.GetButtonUp(JumpButton))
-        {
-            PlayerEngine.OnJumpInputUp();
-        }
-
-        if (Input.GetButtonDown(AttackButton))
-        {
-            PlayerEngine.OnAttack();
-        }
-
-        var dashAxis = Input.GetAxisRaw(DashButton);
-
-        if (dashAxis >= 1)
-        {
-            
-        }
-    }
-
+  
     public void UpdateLocalInputs()
     {
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw(HorizontalAxis), Input.GetAxisRaw(VerticalAxis));
