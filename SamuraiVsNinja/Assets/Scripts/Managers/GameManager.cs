@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     private void Foo()
     {
-        for (int i = 1; i < InputManager.Instance.CurrentJoinedPlayers; i++)
+        for (int i = 1; i < PlayerDataManager.Instance.CurrentJoinedPlayers; i++)
         {
             SpawnObject(localPlayerPrefab, new Vector2(Random.Range(-20, 20), 10));
         }

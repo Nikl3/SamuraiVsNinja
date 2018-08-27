@@ -1,13 +1,12 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MainMenuManager : Singelton<MainMenuManager>
 {
-    #region VARIABLES
+	#region VARIABLES
 
-    private GameObject menuCanvasGameObject;
+	private GameObject menuCanvasGameObject;
 	private GameObject mainButtonPanel;
 	private GameObject characterSelectPanel;
 	private GameObject characterSelectContainer;
@@ -32,7 +31,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	private bool CanStart()
 	{
-		return startButton.interactable = InputManager.Instance.CurrentJoinedPlayers == 4 || InputManager.Instance.CurrentJoinedPlayers == 2 ? true : false;
+		return startButton.interactable = PlayerDataManager.Instance.CurrentJoinedPlayers == 4 || PlayerDataManager.Instance.CurrentJoinedPlayers == 2 ? true : false;
 	}
 
 	private void Awake()
@@ -73,7 +72,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 			}
 		}
 
-		joinedPlayerText.text = "PLAYERS " + (playerIndex + 1) + " / " + InputManager.Instance.MaxPlayerNumber;
+		joinedPlayerText.text = "PLAYERS " + (playerIndex + 1) + " / " + PlayerDataManager.Instance.MaxPlayerNumber;
 		CanStart();
 	}
 
@@ -84,7 +83,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 			joinFields[i].UnChangeJoinFieldVisuals();
 		}
 
-		joinedPlayerText.text = "PLAYERS 0 / " + InputManager.Instance.MaxPlayerNumber;
+		joinedPlayerText.text = "PLAYERS 0 / " + PlayerDataManager.Instance.MaxPlayerNumber;
 		CanStart();
 	}
 
@@ -104,13 +103,13 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		mainButtonPanel.SetActive(false);
 		characterSelectPanel.SetActive(true);
 
-		InputManager.Instance.CanJoin = true;
+		PlayerDataManager.Instance.CanJoin = true;
 	}
 
 	public void StartButton()
 	{
 		SceneMaster.Instance.LoadScene(offlineScene);
-		InputManager.Instance.CanJoin = false;
+		PlayerDataManager.Instance.CanJoin = false;
 	}
 
 	public void OnlineButton()
@@ -133,8 +132,8 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		characterSelectPanel.SetActive(false);
 		mainButtonPanel.SetActive(true);
 
-		InputManager.Instance.CanJoin = false;
-		InputManager.Instance.ClearPlayersData();
+		PlayerDataManager.Instance.CanJoin = false;
+		PlayerDataManager.Instance.ClearPlayersData();
 
 		UnSetJoinField(joinFields.Length);
 	}

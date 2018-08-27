@@ -1,328 +1,82 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-[System.Serializable]
-public class PlayerData
+public class InputManager : BaseInputManager
 {
-    public string ActionButton
-    {
-        get;
-        private set;
-    }
-    public string HorizontalAxis
-    {
-        get;
-        private set;
-    }
-    public string VerticalAxis
-    {
-        get;
-        private set;
-    }
-    public string JumpButton
-    {
-        get;
-        private set;
-    }
-    public string AttackButton
-    {
-        get;
-        private set;
-    }
-    public string DashButton
-    {
-        get;
-        private set;
-    }
+    [SerializeField]
+    private string playerAxisPrefix = "";
+    [SerializeField]
+    private int maxNumberOfPlayers = 4;
 
-    public Color RandomColor
+
+    [Header("Unity Axis Mappings")]
+    [SerializeField]
+    private string MoveHorizontalAxis = "Horizontal";
+    [SerializeField]
+    private string AttackAxis = "Attack";
+    [SerializeField]
+    private string ThrowAxis = "Throw";
+    [SerializeField]
+    private string DashAxis = "Dash";
+    [SerializeField]
+    private string ActionAxis = "Action";
+    [SerializeField]
+    private string CancelAxis = "Cancel";
+    [SerializeField]
+    private string SubmitAxis = "Submit";
+
+    private Dictionary<int, string>[] actions;
+    
+    private void Awake()
     {
-        get
+        actions = new Dictionary<int, string>[maxNumberOfPlayers];
+
+        for (int i = 0; i < maxNumberOfPlayers; i++)
         {
-            return randomColor;
+            Dictionary<int, string> playerActions = new Dictionary<int, string>();
+            actions[i] = playerActions;
+            string prefix = !string.IsNullOrEmpty(playerAxisPrefix) ? playerAxisPrefix + i : string.Empty;
+            AddAction(InputAction.MoveHorizontal, prefix + MoveHorizontalAxis, playerActions);
+            AddAction(InputAction.Attack, prefix + AttackAxis, playerActions);
+            AddAction(InputAction.Throw, prefix + ThrowAxis, playerActions);
+            AddAction(InputAction.Dash, prefix + DashAxis, playerActions);
+            AddAction(InputAction.Action, prefix + ActionAxis, playerActions);
+            AddAction(InputAction.Cancel, prefix + CancelAxis, playerActions);
+            AddAction(InputAction.Submit, prefix + SubmitAxis, playerActions);
         }
     }
 
-    public int ID
+    private static void AddAction(InputAction action, string actionName, Dictionary<int, string> actions)
     {
-        get
+        if (string.IsNullOrEmpty(actionName))
         {
-            return id;
-        }
-    }
-    public string PlayerName
-    {
-        get
-        {
-           return playerName;
-        }
-    }
-    public bool HasAssigned
-    {
-        get
-        {
-            return hasAssigned;
-        }
-    }
-    public bool HasJoined
-    {
-        get
-        {
-            return hasJoined;
-        }
-        set
-        {
-            hasJoined = value;
-        }
-    }
-
-    private Color randomColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
-    private int id;
-    private string playerName;
-    private bool hasAssigned;
-    private bool hasJoined;
-
-    public PlayerData(int id)
-    {
-        this.id = id;
-        playerName = "Player " + id;
-        hasAssigned = true;
-
-        ActionButton = "Action";
-        HorizontalAxis = "Horizontal";
-        VerticalAxis = "Vertical";
-        JumpButton = "Jump";
-        AttackButton = "Attack";
-        DashButton = "Dash";
-
-        SetControllerNumber(id);           
-    }
-
-    public void SetControllerNumber(int controllerNumber)
-    {
-        ActionButton = "Action" + "_J" + controllerNumber;
-        HorizontalAxis = "Horizontal" + "_J" + controllerNumber;
-        VerticalAxis = "Vertical" + "_J" + controllerNumber;
-        JumpButton = "Jump" + "_J" + controllerNumber;
-        AttackButton = "Attack" + "_J" + controllerNumber;
-        DashButton = "Dash" + "_J" + controllerNumber;
-    }
-}
-
-public class InputManager : SingeltonPersistant<InputManager>
-{
-    #region VARIABLES
-
-    private const int MAX_PLAYER_NUMBER = 4;
-
-    private PlayerData[] playersData = new PlayerData[MAX_PLAYER_NUMBER];
-
-    private bool canJoin = false;
-
-    private int playerDataIndex;
-    private int usedPlayerDataIndex;
-
-    #endregion VARIABLES
-
-    #region PROPERTIES
-
-    public int MaxPlayerNumber
-    {
-        get
-        {
-            return MAX_PLAYER_NUMBER;
-        }
-    }
-    public bool CanJoin
-    {
-        get
-        {
-            return canJoin;
-        }
-        set
-        {
-            canJoin = value;
-        }
-    }
-    public int CurrentJoinedPlayers
-    {
-        get
-        {
-            return playerDataIndex + 1;
-        }
-    }
-
-    #endregion PROPERTIES
-
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
-    private void Start()
-    {
-        for (int i = 0; i < playersData.Length; i++)
-        {
-            playersData[i] = new PlayerData(i + 1);
-        }
-    }
-
-    private void Update()
-    {
-        if (!canJoin)
-            return;
-
-        if (Input.GetButtonDown("Action_J1"))
-        {
-            print("ACTION_J1");
-
-            foreach (var data in playersData)
-            {
-                if(data.ID == 1)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-                        PlayerJoin();
-                    }
-                }
-            }
-        }
-
-        if (Input.GetButtonDown("Action_J2"))
-        {
-            print("ACTION_J2");
-            foreach (var data in playersData)
-            {
-                if (data.ID == 2)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-                        PlayerJoin();
-                    }
-                }
-            }
-        }
-
-        if (Input.GetButtonDown("Action_J3"))
-        {
-            print("ACTION_J3");
-            foreach (var data in playersData)
-            {
-                if (data.ID == 3)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-                        PlayerJoin();
-                    }
-                }
-            }
-        }
-
-        if (Input.GetButtonDown("Action_J4"))
-        {
-            print("ACTION_J4");
-            foreach (var data in playersData)
-            {
-                if (data.ID == 4)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-                        PlayerJoin();
-                    }
-                }
-            }
-        }
-
-        if (Input.GetButtonDown("Cancel_J1"))
-        {
-            print("Cancel_J1");
-
-            foreach (var data in playersData)
-            {
-                if (data.ID == 1)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-
-                    }
-                }
-            }
-        }
-
-        if (Input.GetButtonDown("Cancel_J2"))
-        {
-            print("Cancel_J2");
-            foreach (var data in playersData)
-            {
-                if (data.ID == 2)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-
-                    }
-                }
-            }
-        }
-
-        if (Input.GetButtonDown("Cancel_J3"))
-        {
-            print("Cancel_J3");
-            foreach (var data in playersData)
-            {
-                if (data.ID == 3)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-                    }
-                }
-            }
-        }
-
-        if (Input.GetButtonDown("Cancel_J4"))
-        {
-            print("Cancel_J4");
-            foreach (var data in playersData)
-            {
-                if (data.ID == 4)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = false;
-                        
-                    }
-                }
-            }
-        }
-    }
-
-    private void PlayerJoin()
-    {
-        if (playerDataIndex >= MAX_PLAYER_NUMBER)
-        {
-            playerDataIndex = MAX_PLAYER_NUMBER;
             return;
         }
 
-        MainMenuManager.Instance.SetJoinField(playerDataIndex, playersData[playerDataIndex].PlayerName);
-        playerDataIndex++;      
+        actions.Add((int)action, actionName);
     }
 
-    public PlayerData GetPlayerData()
+    public override bool GetButton(int playerId, InputAction action)
     {
-        var playerData = playersData[usedPlayerDataIndex];
-        usedPlayerDataIndex++;
-        return playerData;
+        bool value = Input.GetButton(actions[playerId][(int)action]);
+        return value;
     }
 
-    public void ClearPlayersData()
+    public override bool GetButtonDown(int playerId, InputAction action)
     {
-        playersData = new PlayerData[MAX_PLAYER_NUMBER];
-        playerDataIndex = 0;
+        bool value = Input.GetButtonDown(actions[playerId][(int)action]);
+        return value;
+    }
+
+    public override bool GetButtonUp(int playerId, InputAction action)
+    {
+        bool value = Input.GetButtonUp(actions[playerId][(int)action]);
+        return value;
+    }
+
+    public override float GetAxis(int playerId, InputAction action)
+    {
+        float value = Input.GetAxisRaw(actions[playerId][(int)action]);
+        return value;
     }
 }

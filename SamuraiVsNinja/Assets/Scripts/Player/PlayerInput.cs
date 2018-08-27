@@ -55,7 +55,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (transform.tag == "LocalPlayer")
         {
-            playerData = InputManager.Instance.GetPlayerData();
+            playerData = PlayerDataManager.Instance.GetPlayerData();
             isLocalPlayer = true;
 
             ActionButton = playerData.ActionButton;
