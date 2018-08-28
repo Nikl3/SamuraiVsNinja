@@ -31,7 +31,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	private bool CanStart()
 	{
-		return startButton.interactable = PlayerDataManager.Instance.CurrentJoinedPlayers == 4 || PlayerDataManager.Instance.CurrentJoinedPlayers == 2 ? true : false;
+		return startButton.interactable = PlayerDataManager.Instance.CurrentlyJoinedPlayers == 4 || PlayerDataManager.Instance.CurrentlyJoinedPlayers == 2 ? true : false;
 	}
 
 	private void Awake()
@@ -62,31 +62,23 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		return characterSelectContainer.GetComponentsInChildren<JoinField>(true);
 	}
 
-	public void SetJoinField(int playerIndex, string joinedPlayerName)
+	public void SetJoinField(int playerID)
 	{
-		for (int i = 0; i < joinFields.Length; i++)
-		{
-			if (i == playerIndex)
-			{
-				joinFields[i].ChangeJoinFieldVisuals(joinedPlayerName.ToUpper(), fieldColor);
-			}
-		}
-
-		joinedPlayerText.text = "PLAYERS " + (playerIndex + 1) + " / " + PlayerDataManager.Instance.MaxPlayerNumber;
+        joinFields[playerID - 1].ChangeJoinFieldVisuals(playerID, fieldColor);
+		joinedPlayerText.text = "PLAYERS " + (playerID) + " / " + PlayerDataManager.Instance.MaxPlayerNumber;
 		CanStart();
 	}
 
-    public void UnSetJoinField(int playerIndex, string joinedPlayerName)
+    public void UnSetJoinField(int playerID)
     {
         for (int i = 0; i < joinFields.Length; i++)
         {
-            if (i == playerIndex)
-            {
-                joinFields[i].UnChangeJoinFieldVisuals();
-            }
+
+            joinFields[i].UnChangeJoinFieldVisuals();
+            
         }
 
-        joinedPlayerText.text = "PLAYERS " + (playerIndex) + " / " + PlayerDataManager.Instance.MaxPlayerNumber;
+        joinedPlayerText.text = "PLAYERS " + (PlayerDataManager.Instance.CurrentlyJoinedPlayers) + " / " + PlayerDataManager.Instance.MaxPlayerNumber;
         CanStart();
     }
 
@@ -147,7 +139,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		mainButtonPanel.SetActive(true);
 
 		PlayerDataManager.Instance.CanJoin = false;
-		PlayerDataManager.Instance.ClearPlayersData();
+		PlayerDataManager.Instance.ClearPlayerDataIndex();
 
 		UnSetAllJoinField(joinFields.Length);
 	}

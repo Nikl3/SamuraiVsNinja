@@ -17,9 +17,9 @@ public class JoinField : MonoBehaviour
         defaulcolor = fieldImage.color;
     }
 
-    public void ChangeJoinFieldVisuals(string joinedPlayerName, Color fieldColor)
+    public void ChangeJoinFieldVisuals(int playerID, Color fieldColor)
     {
-        this.joinedPlayerName.text = joinedPlayerName;
+        this.joinedPlayerName.text = "Player " + playerID;
         fieldImage.color = fieldColor;
     }
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
 public class PlayerData
 {
     public string ActionButton
@@ -47,13 +48,6 @@ public class PlayerData
             return playerName;
         }
     }
-    public bool HasAssigned
-    {
-        get
-        {
-            return hasAssigned;
-        }
-    }
     public bool HasJoined
     {
         get
@@ -66,17 +60,14 @@ public class PlayerData
         }
     }
 
-    private int id;
-    private string playerName;
-    private bool hasAssigned;
-    private bool hasJoined;
+    [SerializeField] private int id;
+    [SerializeField] private string playerName;
+    [SerializeField] private bool hasJoined;
 
     public PlayerData(int id)
     {
         this.id = id;
         playerName = "Player " + id;
-        hasAssigned = true;
-
         ActionButton = "Action";
         HorizontalAxis = "Horizontal";
         VerticalAxis = "Vertical";
@@ -89,11 +80,16 @@ public class PlayerData
 
     private void SetControllerNumber(int controllerNumber)
     {
-        ActionButton = "Action" + "_J" + controllerNumber;
-        HorizontalAxis = "Horizontal" + "_J" + controllerNumber;
-        VerticalAxis = "Vertical" + "_J" + controllerNumber;
-        JumpButton = "Jump" + "_J" + controllerNumber;
+        ActionButton = "Action" + "_J" + controllerNumber;     
+        HorizontalAxis = "Horizontal" + "_J" + controllerNumber;      
+        VerticalAxis = "Vertical" + "_J" + controllerNumber; 
+        JumpButton = "Jump" + "_J" + controllerNumber;   
         AttackButton = "Attack" + "_J" + controllerNumber;
         DashButton = "Dash" + "_J" + controllerNumber;
+    }
+
+    public void SpawnPlayer()
+    {
+
     }
 }

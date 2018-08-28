@@ -6,13 +6,6 @@ public class PlayerInput : MonoBehaviour
 
     private Transform playerInfoContainer;
 
-    private string ActionButton;
-    private string HorizontalAxis;
-    private string VerticalAxis;
-    private string JumpButton;
-    private string AttackButton;
-    private string DashButton;
-
     private bool isLocalPlayer = false;
 
     private PlayerInfo playerInfo;
@@ -57,21 +50,13 @@ public class PlayerInput : MonoBehaviour
 
     private void Start()
     {
-        playerData = PlayerDataManager.Instance.GetPlayerData();
+        playerData = PlayerDataManager.Instance.GetPlayerData(gameObject.name);
 
         if (transform.tag == "LocalPlayer")
-        {            
+        {         
             isLocalPlayer = true;
-
-            ActionButton = playerData.ActionButton;
-            HorizontalAxis = playerData.HorizontalAxis;
-            VerticalAxis = playerData.VerticalAxis;
-            JumpButton = playerData.JumpButton;
-            AttackButton = playerData.AttackButton;
-            DashButton = playerData.DashButton;
-
             gameObject.name = playerData.PlayerName;
-
+       
             playerInfo = Instantiate(ResourceManager.Instance.GetPrefabByName("PlayerInfo").GetComponent<PlayerInfo>());
             playerInfo.transform.SetParent(playerInfoContainer);
         }
@@ -79,35 +64,39 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        if (isLocalPlayer)
+        //if (isLocalPlayer)
             UpdateLocalInputs();
     }
   
     public void UpdateLocalInputs()
     {
-        Vector2 directionalInput = new Vector2(Input.GetAxisRaw(HorizontalAxis), Input.GetAxisRaw(VerticalAxis));
-        spriteRenderer.flipX = controller2D.Collisions.FaceDirection > 0 ? true : false;
-        animator.SetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
+        Vector2 directionalInput = new Vector2(Input.GetAxisRaw(playerData.HorizontalAxis), Input.GetAxisRaw(playerData.VerticalAxis));
 
+        if (isLocalPlayer)
+        {
+            spriteRenderer.flipX = controller2D.Collisions.FaceDirection > 0 ? true : false;
+            animator.SetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
+        }
+        
         PlayerEngine.SetDirectionalInput(directionalInput);
 
-        if (Input.GetButtonDown(JumpButton))
+        if (Input.GetButtonDown(playerData.JumpButton))
         {
             PlayerEngine.OnJumpInputDown();
         }
 
-        if (Input.GetButtonUp(JumpButton))
+        if (Input.GetButtonUp(playerData.JumpButton))
         {
             PlayerEngine.OnJumpInputUp();
         }
 
-        if (Input.GetButton/*Down*/(AttackButton))
+        if (Input.GetButtonDown(playerData.AttackButton))
         {
             print("ATTACK");
             PlayerEngine.OnAttack();
         }
 
-        var dashAxis = Input.GetAxisRaw(DashButton);
+        var dashAxis = Input.GetAxisRaw(playerData.DashButton);
 
         if (dashAxis >= 1)
         {

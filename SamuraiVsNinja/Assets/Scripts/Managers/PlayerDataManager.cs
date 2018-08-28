@@ -6,12 +6,10 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
 
     private const int MAX_PLAYER_NUMBER = 4;
 
-    private PlayerData[] playersData = new PlayerData[MAX_PLAYER_NUMBER];
+    [SerializeField]
+    private PlayerData[] playersData;
 
     private bool canJoin = false;
-
-    private int playerDataIndex;
-    private int usedPlayerDataIndex;
 
     #endregion VARIABLES
 
@@ -35,12 +33,10 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
             canJoin = value;
         }
     }
-    public int CurrentJoinedPlayers
+    public int CurrentlyJoinedPlayers
     {
-        get
-        {
-            return playerDataIndex + 1;
-        }
+        get;
+        private set;
     }
 
     #endregion PROPERTIES
@@ -48,6 +44,7 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
     protected override void Awake()
     {
         base.Awake();
+        playersData = new PlayerData[MAX_PLAYER_NUMBER];
     }
 
     private void Start()
@@ -67,167 +64,116 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         {
             print("ACTION_J1");
 
-            foreach (var data in playersData)
+            if (!playersData[0].HasJoined)
             {
-                if(data.ID == 1)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-                        PlayerJoin();
-                    }
-                }
+                playersData[0].HasJoined = true;
+                CurrentlyJoinedPlayers++;
+                PlayerJoin(playersData[0].ID);
+                return;
             }
+          
         }
 
         if (Input.GetButtonDown("Action_J2"))
         {
             print("ACTION_J2");
-            foreach (var data in playersData)
+            if (!playersData[1].HasJoined)
             {
-                if (data.ID == 2)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-                        PlayerJoin();
-                    }
-                }
+                playersData[1].HasJoined = true;
+                CurrentlyJoinedPlayers++;
+                PlayerJoin(playersData[1].ID);
+                return;
             }
         }
 
         if (Input.GetButtonDown("Action_J3"))
         {
             print("ACTION_J3");
-            foreach (var data in playersData)
+            if (!playersData[2].HasJoined)
             {
-                if (data.ID == 3)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-                        PlayerJoin();
-                    }
-                }
+                playersData[2].HasJoined = true;
+                CurrentlyJoinedPlayers++;
+                PlayerJoin(playersData[2].ID);
+                return;
             }
         }
 
         if (Input.GetButtonDown("Action_J4"))
         {
-            print("ACTION_J4");
-            foreach (var data in playersData)
+            if (!playersData[3].HasJoined)
             {
-                if (data.ID == 4)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-                        PlayerJoin();
-                    }
-                }
+                playersData[3].HasJoined = true;
+                CurrentlyJoinedPlayers++;
+                PlayerJoin(playersData[3].ID);
+                return;
             }
         }
 
         if (Input.GetButtonDown("Cancel_J1"))
         {
             print("Cancel_J1");
-
-            foreach (var data in playersData)
+            if (playersData[0].HasJoined)
             {
-                if (data.ID == 1)
-                {
-                    if (data.HasJoined)
-                    {
-                        data.HasJoined = false;
-                        PlayerUnjoin();
-                    }
-                }
+                playersData[0].HasJoined = false;
+                CurrentlyJoinedPlayers--;
+                PlayerUnjoin(playersData[0].ID);
+                return;
             }
         }
 
         if (Input.GetButtonDown("Cancel_J2"))
         {
             print("Cancel_J2");
-            foreach (var data in playersData)
+            if (playersData[1].HasJoined)
             {
-                if (data.ID == 2)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-
-                    }
-                }
+                playersData[1].HasJoined = false;
+                CurrentlyJoinedPlayers--;
+                PlayerUnjoin(playersData[1].ID);
+                return;
             }
         }
 
         if (Input.GetButtonDown("Cancel_J3"))
         {
             print("Cancel_J3");
-            foreach (var data in playersData)
+            if (playersData[2].HasJoined)
             {
-                if (data.ID == 3)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = true;
-                    }
-                }
+                playersData[2].HasJoined = false;
+                CurrentlyJoinedPlayers--;
+                PlayerUnjoin(playersData[2].ID);
+                return;
             }
         }
 
         if (Input.GetButtonDown("Cancel_J4"))
         {
             print("Cancel_J4");
-            foreach (var data in playersData)
+            if (playersData[3].HasJoined)
             {
-                if (data.ID == 4)
-                {
-                    if (!data.HasJoined)
-                    {
-                        data.HasJoined = false;
-                        
-                    }
-                }
+                playersData[3].HasJoined = false;
+                CurrentlyJoinedPlayers--;
+                PlayerUnjoin(playersData[3].ID);
+                return;
             }
         }
     }
 
-    private void PlayerJoin()
+    private void PlayerJoin(int playerID)
     {
-        if (playerDataIndex >= MAX_PLAYER_NUMBER)
-        {
-            playerDataIndex = MAX_PLAYER_NUMBER;
-            return;
-        }
-
-        MainMenuManager.Instance.SetJoinField(playerDataIndex, playersData[playerDataIndex].PlayerName);
-        playerDataIndex++;      
+        MainMenuManager.Instance.SetJoinField(playerID);    
     }
 
-    private void PlayerUnjoin()
+    private void PlayerUnjoin(int playerID)
     {
-        if (playerDataIndex < 0)
-        {
-            playerDataIndex = 0;
-            return;
-        }
-        playerDataIndex--;
-        MainMenuManager.Instance.UnSetJoinField(playerDataIndex, playersData[playerDataIndex].PlayerName);
+        MainMenuManager.Instance.UnSetJoinField(playerID);
     } 
 
-    public PlayerData GetPlayerData()
+    public void ClearPlayerDataIndex()
     {
-        var playerData = playersData[usedPlayerDataIndex];
-        
-        usedPlayerDataIndex++;
-
-        return playerData = playerData != null ? playerData : new PlayerData(1);
-    }
-
-    public void ClearPlayersData()
-    {
-        playersData = new PlayerData[MAX_PLAYER_NUMBER];
-        playerDataIndex = 0;
+        CurrentlyJoinedPlayers = 0;
+        foreach (var data in playersData)
+        {
+            data.HasJoined = false;
+        }
     }
 }
