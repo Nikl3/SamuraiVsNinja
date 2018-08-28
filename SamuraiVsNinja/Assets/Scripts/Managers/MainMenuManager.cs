@@ -76,7 +76,21 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		CanStart();
 	}
 
-	public void UnSetJoinField(int amount)
+    public void UnSetJoinField(int playerIndex, string joinedPlayerName)
+    {
+        for (int i = 0; i < joinFields.Length; i++)
+        {
+            if (i == playerIndex)
+            {
+                joinFields[i].UnChangeJoinFieldVisuals();
+            }
+        }
+
+        joinedPlayerText.text = "PLAYERS " + (playerIndex) + " / " + PlayerDataManager.Instance.MaxPlayerNumber;
+        CanStart();
+    }
+
+    public void UnSetAllJoinField(int amount)
 	{
 		for (int i = 0; i < amount; i++)
 		{
@@ -135,7 +149,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		PlayerDataManager.Instance.CanJoin = false;
 		PlayerDataManager.Instance.ClearPlayersData();
 
-		UnSetJoinField(joinFields.Length);
+		UnSetAllJoinField(joinFields.Length);
 	}
 
 	public void QuitButton()

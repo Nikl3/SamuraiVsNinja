@@ -33,14 +33,6 @@ public class PlayerData
         private set;
     }
 
-    public Color RandomColor
-    {
-        get
-        {
-            return randomColor;
-        }
-    }
-
     public int ID
     {
         get
@@ -74,7 +66,6 @@ public class PlayerData
         }
     }
 
-    private Color randomColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
     private int id;
     private string playerName;
     private bool hasAssigned;

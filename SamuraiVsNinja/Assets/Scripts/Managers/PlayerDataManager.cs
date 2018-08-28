@@ -63,13 +63,6 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         if (!canJoin)
             return;
 
-        // Muuta unityn inputeista oikeat input manageriin vastaavat stringit 
-        if (InputManager.Instance.GetButtonDown(0, InputAction.Action))
-        {
-            print("Player 0" + " pressed: Action " + InputAction.Action);
-        }
-
-        /*
         if (Input.GetButtonDown("Action_J1"))
         {
             print("ACTION_J1");
@@ -143,10 +136,10 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
             {
                 if (data.ID == 1)
                 {
-                    if (!data.HasJoined)
+                    if (data.HasJoined)
                     {
-                        data.HasJoined = true;
-
+                        data.HasJoined = false;
+                        PlayerUnjoin();
                     }
                 }
             }
@@ -198,7 +191,6 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
                 }
             }
         }
-        */
     }
 
     private void PlayerJoin()
@@ -213,11 +205,24 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         playerDataIndex++;      
     }
 
+    private void PlayerUnjoin()
+    {
+        if (playerDataIndex < 0)
+        {
+            playerDataIndex = 0;
+            return;
+        }
+        playerDataIndex--;
+        MainMenuManager.Instance.UnSetJoinField(playerDataIndex, playersData[playerDataIndex].PlayerName);
+    } 
+
     public PlayerData GetPlayerData()
     {
         var playerData = playersData[usedPlayerDataIndex];
+        
         usedPlayerDataIndex++;
-        return playerData;
+
+        return playerData = playerData != null ? playerData : new PlayerData(1);
     }
 
     public void ClearPlayersData()

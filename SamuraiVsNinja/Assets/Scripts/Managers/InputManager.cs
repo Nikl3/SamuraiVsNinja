@@ -27,7 +27,7 @@ public class InputManager : BaseInputManager
 
     private Dictionary<int, string>[] actions;
     
-    private void Awake()
+    protected override void Awake()
     {
         actions = new Dictionary<int, string>[maxNumberOfPlayers];
 

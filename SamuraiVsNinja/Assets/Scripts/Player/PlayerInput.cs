@@ -18,6 +18,8 @@ public class PlayerInput : MonoBehaviour
     private PlayerInfo playerInfo;
     private PlayerData playerData;
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
+    private CharacterController2D controller2D;
 
     #endregion VARIABLES
 
@@ -47,15 +49,18 @@ public class PlayerInput : MonoBehaviour
     {
         PlayerEngine = GetComponent<PlayerEngine>();
         PlayerCharacterController2D = GetComponent<CharacterController2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
+        controller2D = GetComponent<CharacterController2D>();
         playerInfoContainer = GameObject.Find("HUD").transform.Find("PlayerInfoContainer");
     }
 
     private void Start()
     {
+        playerData = PlayerDataManager.Instance.GetPlayerData();
+
         if (transform.tag == "LocalPlayer")
-        {
-            playerData = PlayerDataManager.Instance.GetPlayerData();
+        {            
             isLocalPlayer = true;
 
             ActionButton = playerData.ActionButton;
@@ -66,20 +71,9 @@ public class PlayerInput : MonoBehaviour
             DashButton = playerData.DashButton;
 
             gameObject.name = playerData.PlayerName;
-            spriteRenderer.color = playerData.RandomColor;
 
             playerInfo = Instantiate(ResourceManager.Instance.GetPrefabByName("PlayerInfo").GetComponent<PlayerInfo>());
             playerInfo.transform.SetParent(playerInfoContainer);
-        }
-        else
-        {
-            playerData = new PlayerData(1);
-            ActionButton = playerData.ActionButton;
-            HorizontalAxis = playerData.HorizontalAxis;
-            VerticalAxis = playerData.VerticalAxis;
-            JumpButton = playerData.JumpButton;
-            AttackButton = playerData.AttackButton;
-            DashButton = playerData.DashButton;
         }
     }
 
@@ -92,6 +86,8 @@ public class PlayerInput : MonoBehaviour
     public void UpdateLocalInputs()
     {
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw(HorizontalAxis), Input.GetAxisRaw(VerticalAxis));
+        spriteRenderer.flipX = controller2D.Collisions.FaceDirection > 0 ? true : false;
+        animator.SetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
 
         PlayerEngine.SetDirectionalInput(directionalInput);
 
