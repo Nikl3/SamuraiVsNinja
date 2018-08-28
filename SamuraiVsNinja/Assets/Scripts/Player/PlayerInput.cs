@@ -101,8 +101,9 @@ public class PlayerInput : MonoBehaviour
             PlayerEngine.OnJumpInputUp();
         }
 
-        if (Input.GetButtonDown(AttackButton))
+        if (Input.GetButton/*Down*/(AttackButton))
         {
+            print("ATTACK");
             PlayerEngine.OnAttack();
         }
 
