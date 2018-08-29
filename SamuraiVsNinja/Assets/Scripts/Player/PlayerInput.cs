@@ -96,6 +96,12 @@ public class PlayerInput : MonoBehaviour
             PlayerEngine.OnAttack();
         }
 
+
+        if (Input.GetButtonDown(playerData.RangeAttackButton)) {
+            print("ThrowATTACK");
+            PlayerEngine.OnRangedAttack();
+            }
+
         var dashAxis = Input.GetAxisRaw(playerData.DashButton);
 
         if (dashAxis >= 1)

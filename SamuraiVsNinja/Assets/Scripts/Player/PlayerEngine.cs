@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerEngine : MonoBehaviour
 {
+    public GameObject RangedAttackPrefab;
+
     [SerializeField]
     private LayerMask hitLayer;
     [SerializeField]
@@ -150,6 +152,13 @@ public class PlayerEngine : MonoBehaviour
             Debug.Log(hit.collider.tag);
         }
                     
+    }
+
+    public void OnRangedAttack()
+    {
+       var currentDir = controller2D.Collisions.FaceDirection;
+       var bullet = Instantiate(RangedAttackPrefab, transform.position, Quaternion.Euler(new Vector3(currentDir, 0, 0)));
+       bullet.GetComponent<RangedAmmo>().BulletMove(currentDir);
     }
 
     public void OnDash()

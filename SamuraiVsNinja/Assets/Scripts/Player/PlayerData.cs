@@ -28,6 +28,11 @@ public class PlayerData
         get;
         private set;
     }
+    public string RangeAttackButton
+    {
+        get;
+        private set;
+    }
     public string DashButton
     {
         get;
@@ -86,6 +91,7 @@ public class PlayerData
         JumpButton = "Jump";
         AttackButton = "Attack";
         DashButton = "Dash";
+        RangeAttackButton = "RangeAttack";
 
         SetControllerNumber(id);
     }
@@ -98,5 +104,6 @@ public class PlayerData
         JumpButton = "Jump" + "_J" + controllerNumber;   
         AttackButton = "Attack" + "_J" + controllerNumber;
         DashButton = "Dash" + "_J" + controllerNumber;
+        RangeAttackButton = "RangeAttack" + "_J" + controllerNumber;
     }
 }
