@@ -50,7 +50,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Start()
     {
-        playerData = PlayerDataManager.Instance.GetPlayerData(gameObject.name);
+        playerData = PlayerDataManager.Instance.GetPlayerData();
 
         if (transform.tag == "LocalPlayer")
         {         

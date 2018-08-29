@@ -59,10 +59,22 @@ public class PlayerData
             hasJoined = value;
         }
     }
+    public bool HasAssigned
+    {
+        get
+        {
+            return hasAssigned;
+        }
+        set
+        {
+            hasAssigned = value;
+        }
+    }
 
     [SerializeField] private int id;
     [SerializeField] private string playerName;
     [SerializeField] private bool hasJoined;
+    [SerializeField] private bool hasAssigned;
 
     public PlayerData(int id)
     {
@@ -86,10 +98,5 @@ public class PlayerData
         JumpButton = "Jump" + "_J" + controllerNumber;   
         AttackButton = "Attack" + "_J" + controllerNumber;
         DashButton = "Dash" + "_J" + controllerNumber;
-    }
-
-    public void SpawnPlayer()
-    {
-
     }
 }

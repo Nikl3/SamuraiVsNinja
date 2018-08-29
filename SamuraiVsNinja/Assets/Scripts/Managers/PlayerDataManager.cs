@@ -7,7 +7,7 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
     private const int MAX_PLAYER_NUMBER = 4;
 
     [SerializeField]
-    private PlayerData[] playersData;
+    private PlayerData[] playerDatas;
 
     private bool canJoin = false;
 
@@ -44,14 +44,14 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
     protected override void Awake()
     {
         base.Awake();
-        playersData = new PlayerData[MAX_PLAYER_NUMBER];
+        playerDatas = new PlayerData[MAX_PLAYER_NUMBER];
     }
 
     private void Start()
     {
-        for (int i = 0; i < playersData.Length; i++)
+        for (int i = 0; i < playerDatas.Length; i++)
         {
-            playersData[i] = new PlayerData(i + 1);
+            playerDatas[i] = new PlayerData(i + 1);
         }
     }
 
@@ -64,24 +64,23 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         {
             print("ACTION_J1");
 
-            if (!playersData[0].HasJoined)
+            if (!playerDatas[0].HasJoined)
             {
-                playersData[0].HasJoined = true;
+                playerDatas[0].HasJoined = true;
                 CurrentlyJoinedPlayers++;
-                PlayerJoin(playersData[0].ID);
+                PlayerJoin(playerDatas[0].ID);
                 return;
-            }
-          
+            }       
         }
 
         if (Input.GetButtonDown("Action_J2"))
         {
             print("ACTION_J2");
-            if (!playersData[1].HasJoined)
+            if (!playerDatas[1].HasJoined)
             {
-                playersData[1].HasJoined = true;
+                playerDatas[1].HasJoined = true;
                 CurrentlyJoinedPlayers++;
-                PlayerJoin(playersData[1].ID);
+                PlayerJoin(playerDatas[1].ID);
                 return;
             }
         }
@@ -89,22 +88,22 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         if (Input.GetButtonDown("Action_J3"))
         {
             print("ACTION_J3");
-            if (!playersData[2].HasJoined)
+            if (!playerDatas[2].HasJoined)
             {
-                playersData[2].HasJoined = true;
+                playerDatas[2].HasJoined = true;
                 CurrentlyJoinedPlayers++;
-                PlayerJoin(playersData[2].ID);
+                PlayerJoin(playerDatas[2].ID);
                 return;
             }
         }
 
         if (Input.GetButtonDown("Action_J4"))
         {
-            if (!playersData[3].HasJoined)
+            if (!playerDatas[3].HasJoined)
             {
-                playersData[3].HasJoined = true;
+                playerDatas[3].HasJoined = true;
                 CurrentlyJoinedPlayers++;
-                PlayerJoin(playersData[3].ID);
+                PlayerJoin(playerDatas[3].ID);
                 return;
             }
         }
@@ -112,11 +111,11 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         if (Input.GetButtonDown("Cancel_J1"))
         {
             print("Cancel_J1");
-            if (playersData[0].HasJoined)
+            if (playerDatas[0].HasJoined)
             {
-                playersData[0].HasJoined = false;
+                playerDatas[0].HasJoined = false;
                 CurrentlyJoinedPlayers--;
-                PlayerUnjoin(playersData[0].ID);
+                PlayerUnjoin(playerDatas[0].ID);
                 return;
             }
         }
@@ -124,11 +123,11 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         if (Input.GetButtonDown("Cancel_J2"))
         {
             print("Cancel_J2");
-            if (playersData[1].HasJoined)
+            if (playerDatas[1].HasJoined)
             {
-                playersData[1].HasJoined = false;
+                playerDatas[1].HasJoined = false;
                 CurrentlyJoinedPlayers--;
-                PlayerUnjoin(playersData[1].ID);
+                PlayerUnjoin(playerDatas[1].ID);
                 return;
             }
         }
@@ -136,11 +135,11 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         if (Input.GetButtonDown("Cancel_J3"))
         {
             print("Cancel_J3");
-            if (playersData[2].HasJoined)
+            if (playerDatas[2].HasJoined)
             {
-                playersData[2].HasJoined = false;
+                playerDatas[2].HasJoined = false;
                 CurrentlyJoinedPlayers--;
-                PlayerUnjoin(playersData[2].ID);
+                PlayerUnjoin(playerDatas[2].ID);
                 return;
             }
         }
@@ -148,11 +147,11 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         if (Input.GetButtonDown("Cancel_J4"))
         {
             print("Cancel_J4");
-            if (playersData[3].HasJoined)
+            if (playerDatas[3].HasJoined)
             {
-                playersData[3].HasJoined = false;
+                playerDatas[3].HasJoined = false;
                 CurrentlyJoinedPlayers--;
-                PlayerUnjoin(playersData[3].ID);
+                PlayerUnjoin(playerDatas[3].ID);
                 return;
             }
         }
@@ -171,9 +170,23 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
     public void ClearPlayerDataIndex()
     {
         CurrentlyJoinedPlayers = 0;
-        foreach (var data in playersData)
+        foreach (var data in playerDatas)
         {
             data.HasJoined = false;
         }
+    }
+
+    public PlayerData GetPlayerData()
+    {
+        foreach (var playerData in playerDatas)
+        {
+            if (!playerData.HasAssigned)
+            {
+                playerData.HasAssigned = true;
+                return playerData;
+            }
+        }
+
+        return new PlayerData(1);
     }
 }
