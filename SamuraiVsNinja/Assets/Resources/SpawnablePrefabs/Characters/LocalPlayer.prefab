@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 378978b1c55743e4a954d0b29196a2f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RangedAttackPrefab: {fileID: 1585587054346328, guid: 7295f986127d38849a34e5a4e21b35b1,
+    type: 2}
   hitLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -239,14 +241,14 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 90f59375776c44041956d272ed6ba83d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 440b0bad553b50143a6cc873de3542ab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.736, y: 4.736}
+  m_Size: {x: 4.86, y: 7.89}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
