@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        localPlayerPrefab = ResourceManager.Instance.GetPrefabByName("LocalPlayer");
+        localPlayerPrefab = ResourceManager.Instance.GetPrefabByName("Player");
         playerInfoPrefab = ResourceManager.Instance.GetPrefabByName("PlayerInfo");
     }
 

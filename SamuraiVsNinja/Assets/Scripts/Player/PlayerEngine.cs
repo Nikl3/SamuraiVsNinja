@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class PlayerEngine : MonoBehaviour
 {
-    public GameObject RangedAttackPrefab;
-
     [SerializeField]
     private LayerMask hitLayer;
     [SerializeField]
@@ -42,6 +40,9 @@ public class PlayerEngine : MonoBehaviour
     private bool isDashing = false;
     private float dashCooldown = 2f;
     private float dashTime = 0.2f;
+
+    private bool canRangeAttack = false;
+    private float rangeAttackCooldown = 2f;
 
     private Player player;
 
@@ -144,11 +145,10 @@ public class PlayerEngine : MonoBehaviour
         var currentFaceDirection = player.Controller2D.Collisions.FaceDirection;
         RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + new Vector2(1, 0) * currentFaceDirection, Vector2.right * currentFaceDirection, 4f, hitLayer);
 
-        //Debug.DrawRay((Vector2)transform.position + new Vector2(1,0)* foo, (Vector2.right * foo) * 4);
+        Debug.DrawRay((Vector2)transform.position + new Vector2(1, 0) * currentFaceDirection, (Vector2.right * currentFaceDirection) * 4);
 
         if (hit)
         {
-
             Debug.Log(hit.collider.tag);
         }
                     
@@ -156,9 +156,8 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnRangedAttack()
     {
-       var currentDir = player.Controller2D.Collisions.FaceDirection;
-       var bullet = Instantiate(RangedAttackPrefab, transform.position, Quaternion.Euler(new Vector3(currentDir, 0, 0)));
-       bullet.GetComponent<RangedAmmo>().BulletMove(currentDir);
+        if(!canRangeAttack)
+        StartCoroutine(IRangeAttack());     
     }
 
     public void OnDash()
@@ -167,6 +166,18 @@ public class PlayerEngine : MonoBehaviour
         {
             StartCoroutine(IDash());        
         }
+    }
+
+    private IEnumerator IRangeAttack()
+    {
+        canRangeAttack = true;
+        var currentDirection = player.Controller2D.Collisions.FaceDirection;
+        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByName("Projectile"), transform.position, Quaternion.Euler(new Vector3(currentDirection, 0, 0)));
+        projectile.GetComponent<Projectile>().BulletMove(currentDirection);
+
+        yield return new WaitForSeconds(rangeAttackCooldown);
+
+        canRangeAttack = false;
     }
 
     private IEnumerator IDash()

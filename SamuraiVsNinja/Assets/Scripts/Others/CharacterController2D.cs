@@ -3,7 +3,7 @@
 public class CharacterController2D : RaycastController
 {
     public CollisionInfo Collisions;
-    public Vector2 PlayerInput { get; private set; }
+    private Vector2 playerInput;
 
     protected override void Awake()
     {
@@ -29,7 +29,7 @@ public class CharacterController2D : RaycastController
 
         Collisions.Reset();
         Collisions.MoveAmountOld = moveAmount;
-        PlayerInput = input;
+        playerInput = input;
 
         if (moveAmount.x != 0)
         {
@@ -67,7 +67,7 @@ public class CharacterController2D : RaycastController
             rayOrigin += Vector2.up * (horizontalRaySpacing * i);
             RaycastHit2D[] hits = Physics2D.RaycastAll(rayOrigin, Vector2.right * directionX, rayLength, collisionMaskLayer);
 
-            // Debug.DrawRay(rayOrigin, Vector2.right * directionX, Color.red);
+            Debug.DrawRay(rayOrigin, Vector2.right * directionX, Color.red);
           
             if(hits != null && hits.Length > 0)
             {
@@ -106,7 +106,7 @@ public class CharacterController2D : RaycastController
             rayOrigin += Vector2.right * (verticalRaySpacing * i + moveAmount.x);
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMaskLayer);
 
-            // Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.red);
+            Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.red);
 
             if (hit)
             {
@@ -120,7 +120,7 @@ public class CharacterController2D : RaycastController
                     {
                         continue;
                     }
-                    if (PlayerInput.y == -1)
+                    if (playerInput.y == -1)
                     {
                         Collisions.FallingThroughPlatform = true;
                         Invoke("ResetFallingThroughPlatform", 0.5f);

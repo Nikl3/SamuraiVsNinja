@@ -2,31 +2,31 @@
 
 public class CoinGenerator : MonoBehaviour
 {
-	public Transform[] Spawnpoints;
-	public GameObject coinPrefab;
-	public float SpawnIntervall = 0;
-    GameObject b;
+	private LayerMask coinLayerMask;
+	[SerializeField]
+	private Transform[] Spawnpoints;
+	private GameObject coinPrefab;
+	private float SpawnIntervall = 0;
 
-    private void CoinDestroy() {
-        Destroy(b);
-    }
-
-    private void OnEnable() {
-        Invoke("CoinDestroy", 6f);
-    }
-
-    private void Update () {
+	private void Awake()
+	{
+		coinLayerMask = LayerMask.GetMask("Collectable");
+		coinPrefab = ResourceManager.Instance.GetPrefabByName("Coin");
+	}
+	private void Update ()
+	{
 		SpawnIntervall += Time.deltaTime;
 
 		if (SpawnIntervall > 4f)
 		{
-
-            int randomPositionIndex = Random.Range(0, Spawnpoints.Length);
+			int randomPositionIndex = Random.Range(0, Spawnpoints.Length);
 			Vector2 randomPosition = Spawnpoints[randomPositionIndex].position;
-            if (Physics2D.OverlapCircle(randomPosition, 2f)) {
-                b = Instantiate(coinPrefab, randomPosition, Quaternion.identity);
-                SpawnIntervall = 0;
-            }
+
+			if (!Physics2D.OverlapCircle(randomPosition, 2f, coinLayerMask))
+			{
+				Instantiate(coinPrefab, randomPosition, Quaternion.identity);
+				SpawnIntervall = 0;
+			}
 		}
 	}
 }

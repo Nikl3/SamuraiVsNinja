@@ -23,7 +23,7 @@ public class PlayerData
         get;
         private set;
     }
-    public string AttackButton
+    public string MeleeAttackButton
     {
         get;
         private set;
@@ -89,7 +89,7 @@ public class PlayerData
         HorizontalAxis = "Horizontal";
         VerticalAxis = "Vertical";
         JumpButton = "Jump";
-        AttackButton = "Attack";
+        MeleeAttackButton = "MeleeAttack";
         DashButton = "Dash";
         RangeAttackButton = "RangeAttack";
 
@@ -102,7 +102,7 @@ public class PlayerData
         HorizontalAxis = "Horizontal" + "_J" + controllerNumber;      
         VerticalAxis = "Vertical" + "_J" + controllerNumber; 
         JumpButton = "Jump" + "_J" + controllerNumber;   
-        AttackButton = "Attack" + "_J" + controllerNumber;
+        MeleeAttackButton = "MeleeAttack" + "_J" + controllerNumber;
         DashButton = "Dash" + "_J" + controllerNumber;
         RangeAttackButton = "RangeAttack" + "_J" + controllerNumber;
     }

@@ -19,8 +19,8 @@ TagManager:
   - 
   - PostProcessing
   - Obstacle
-  - Hit
-  - 
+  - Character
+  - Collectable
   - 
   - 
   - 
@@ -45,6 +45,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: enviroment
+  - name: Enviroment
     uniqueID: 3697972631
+    locked: 0
+  - name: Obstacles
+    uniqueID: 956822387
+    locked: 0
+  - name: Characters
+    uniqueID: 4244790531
+    locked: 0
+  - name: Projectiles
+    uniqueID: 4145858863
     locked: 0

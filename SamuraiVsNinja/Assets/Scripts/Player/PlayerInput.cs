@@ -3,7 +3,14 @@
 public class PlayerInput : MonoBehaviour
 {
     #region VARIABLES
+
+    [SerializeField]
+    private float rangeAttackAxis;
+    [SerializeField]
+    private float dashAxis;
+
     private Player player;
+
     #endregion VARIABLES
 
     #region PROPERTIES
@@ -16,9 +23,10 @@ public class PlayerInput : MonoBehaviour
         player = GetComponent<Player>();
     }
 
+
     private void Update()
     {
-            UpdateLocalInputs();
+        UpdateLocalInputs();
     }
   
     public void UpdateLocalInputs()
@@ -26,7 +34,6 @@ public class PlayerInput : MonoBehaviour
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw(player.PlayerData.HorizontalAxis), Input.GetAxisRaw(player.PlayerData.VerticalAxis));
         player.SpriteRenderer.flipX = player.Controller2D.Collisions.FaceDirection > 0 ? true : false;
         player.Animator.SetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
-
         player.PlayerEngine.SetDirectionalInput(directionalInput);
 
         if (Input.GetButtonDown(player.PlayerData.JumpButton))
@@ -39,19 +46,21 @@ public class PlayerInput : MonoBehaviour
             player.PlayerEngine.OnJumpInputUp();
         }
 
-        if (Input.GetButtonDown(player.PlayerData.AttackButton))
+        if (Input.GetButtonDown(player.PlayerData.MeleeAttackButton))
         {
-            print("ATTACK");
+            print("MELEE ATTACK");
             player.PlayerEngine.OnAttack();
         }
 
-        if (Input.GetButtonDown(player.PlayerData.RangeAttackButton))
+        rangeAttackAxis = Input.GetAxisRaw(player.PlayerData.RangeAttackButton);
+
+        if (rangeAttackAxis >= 1)
         {
-            print("ThrowATTACK");
-            player.PlayerEngine.OnRangedAttack();
+            if (directionalInput != Vector2.zero)
+                player.PlayerEngine.OnRangedAttack();
         }
 
-        var dashAxis = Input.GetAxisRaw(player.PlayerData.DashButton);
+        dashAxis = Input.GetAxisRaw(player.PlayerData.DashButton);
 
         if (dashAxis >= 1)
         {

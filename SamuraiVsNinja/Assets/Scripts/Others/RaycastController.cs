@@ -28,6 +28,14 @@ public abstract class RaycastController : MonoBehaviour
         CalculateRaySpacing();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            CalculateRaySpacing();
+        }
+    }
+
     protected void UpdateRaycastOrigins()
     {
         Bounds bounds = boxCollider2D.bounds;
