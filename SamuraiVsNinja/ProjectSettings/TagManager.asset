@@ -7,7 +7,6 @@ TagManager:
   - OneWayObject
   - Obstacle
   - Coin
-  - LocalPlayer
   - JoinField
   layers:
   - Default

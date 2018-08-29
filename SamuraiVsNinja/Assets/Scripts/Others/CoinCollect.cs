@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 public class CoinCollect : MonoBehaviour
 {
-	private PlayerInput playerInput;
+	private Player player;
 
 	private void Awake()
     {
-		playerInput = GetComponent<PlayerInput>();		
+		player = GetComponent<Player>();		
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -15,7 +15,7 @@ public class CoinCollect : MonoBehaviour
 			//pickup coin
 			Destroy(collision.gameObject);
             //add coin to player coincount
-            playerInput.PlayerInfo.ModifyCoinValues(1);
+            player.PlayerInfo.ModifyCoinValues(1);
 		}
 	}
 }
