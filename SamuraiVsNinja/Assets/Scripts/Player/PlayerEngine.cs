@@ -41,11 +41,11 @@ public class PlayerEngine : MonoBehaviour
     private float dashCooldown = 2f;
     private float dashTime = 0.2f;
 
-    private CharacterController2D controller2D;
+    private Player player;
 
     private void Awake()
     {
-        controller2D = GetComponent<CharacterController2D>();
+        player = GetComponent<Player>();
     }
 
     private void Start()
@@ -60,10 +60,10 @@ public class PlayerEngine : MonoBehaviour
     {
         CalculateVelocity();
         HandleWallSliding();
-        
-        controller2D.Move(velocity * Time.deltaTime, directionalInput);
 
-        if (controller2D.Collisions.Above || controller2D.Collisions.Below)
+        player.Controller2D.Move(velocity * Time.deltaTime, directionalInput);
+
+        if (player.Controller2D.Collisions.Above || player.Controller2D.Collisions.Below)
         {
             velocity.y = 0;
         }
@@ -71,10 +71,10 @@ public class PlayerEngine : MonoBehaviour
 
     private void HandleWallSliding()
     {
-        wallDirectionX = (controller2D.Collisions.Left) ? -1 : 1;
+        wallDirectionX = (player.Controller2D.Collisions.Left) ? -1 : 1;
         wallSliding = false;
 
-        if ((controller2D.Collisions.Left || controller2D.Collisions.Right) && !controller2D.Collisions.Below && velocity.y < 0)
+        if ((player.Controller2D.Collisions.Left || player.Controller2D.Collisions.Right) && !player.Controller2D.Collisions.Below && velocity.y < 0)
         {
             if (directionalInput.x == 0)
             {
@@ -93,7 +93,7 @@ public class PlayerEngine : MonoBehaviour
     private void CalculateVelocity()
     {
         float targetVelocityX = directionalInput.x * moveSpeed;
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller2D.Collisions.Below) ? accelerationTimeGrounded : accelerationTimeAirbourne);
+        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (player.Controller2D.Collisions.Below) ? accelerationTimeGrounded : accelerationTimeAirbourne);
         velocity.y += gravity * Time.deltaTime;
     }
 
@@ -123,7 +123,7 @@ public class PlayerEngine : MonoBehaviour
             }
         }
 
-        if (controller2D.Collisions.Below)
+        if (player.Controller2D.Collisions.Below)
         {
             velocity.y = maxJumpVelocity;           
         }
@@ -139,8 +139,8 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnAttack()
     {
-        var foo = controller2D.Collisions.FaceDirection;
-        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + new Vector2(1, 0) * foo , Vector2.right * foo, 4f, hitLayer);
+        var currentFaceDirection = player.Controller2D.Collisions.FaceDirection;
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + new Vector2(1, 0) * currentFaceDirection, Vector2.right * currentFaceDirection, 4f, hitLayer);
 
         //Debug.DrawRay((Vector2)transform.position + new Vector2(1,0)* foo, (Vector2.right * foo) * 4);
 
