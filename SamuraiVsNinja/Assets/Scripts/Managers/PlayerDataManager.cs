@@ -180,11 +180,7 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
     {
         foreach (var playerData in playerDatas)
         {
-            if (!playerData.HasAssigned)
-            {
-                playerData.HasAssigned = true;
-                return playerData;
-            }
+            return playerData != null && !playerData.HasAssigned ? playerData : new PlayerData(1);
         }
 
         return new PlayerData(1);
