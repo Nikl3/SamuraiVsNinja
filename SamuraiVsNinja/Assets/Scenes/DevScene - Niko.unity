@@ -318,21 +318,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114072020697738718, guid: 4fa3f134841d26b428c9a69737631442,
-        type: 2}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1497785156}
-    - target: {fileID: 114554321059967936, guid: 4fa3f134841d26b428c9a69737631442,
-        type: 2}
-      propertyPath: rangeAttackAxis
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114554321059967936, guid: 4fa3f134841d26b428c9a69737631442,
-        type: 2}
-      propertyPath: dashAxis
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fa3f134841d26b428c9a69737631442, type: 2}
   m_IsPrefabAsset: 0
@@ -380,26 +365,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 61053344764262150, guid: 2375495060fe6284784b30bde0cfbf9d,
+    - target: {fileID: 95596901735452960, guid: 2375495060fe6284784b30bde0cfbf9d,
         type: 2}
-      propertyPath: m_Offset.x
-      value: -0.7108562
-      objectReference: {fileID: 0}
-    - target: {fileID: 61053344764262150, guid: 2375495060fe6284784b30bde0cfbf9d,
-        type: 2}
-      propertyPath: m_Size.x
-      value: 16.63885
-      objectReference: {fileID: 0}
-    - target: {fileID: 61053344764262150, guid: 2375495060fe6284784b30bde0cfbf9d,
-        type: 2}
-      propertyPath: m_Offset.y
-      value: -0.3998567
-      objectReference: {fileID: 0}
-    - target: {fileID: 61053344764262150, guid: 2375495060fe6284784b30bde0cfbf9d,
-        type: 2}
-      propertyPath: m_Size.y
-      value: 1.7997134
-      objectReference: {fileID: 0}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 31e0eaa1c6d39de448862de9e1504943, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2375495060fe6284784b30bde0cfbf9d, type: 2}
   m_IsPrefabAsset: 0
@@ -600,11 +570,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1497785156 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4360978668061816, guid: 4fa3f134841d26b428c9a69737631442,
-    type: 2}
-  m_PrefabInternal: {fileID: 442701990}
 --- !u!1 &2070438908
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,8 +597,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ace2f8969265a3418fa5fa81d7828c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDebugingMessages: 1
-  isDebugingRaycasts: 1
+  isDebugingMessages: 0
+  isDebugingRaycasts: 0
 --- !u!4 &2070438910
 Transform:
   m_ObjectHideFlags: 0

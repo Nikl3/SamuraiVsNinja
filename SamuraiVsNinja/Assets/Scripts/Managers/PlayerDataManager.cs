@@ -58,12 +58,17 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
     private void Update()
     {
         if (!canJoin)
+        {
+            if (Input.GetButtonDown("Cancel_J1"))
+            {
+                MainMenuManager.Instance.EndCredits();
+            }
+
             return;
+        }
 
         if (Input.GetButtonDown("Action_J1"))
         {
-            print("ACTION_J1");
-
             if (!playerDatas[0].HasJoined)
             {
                 playerDatas[0].HasJoined = true;
@@ -75,7 +80,6 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
 
         if (Input.GetButtonDown("Action_J2"))
         {
-            print("ACTION_J2");
             if (!playerDatas[1].HasJoined)
             {
                 playerDatas[1].HasJoined = true;
@@ -87,7 +91,6 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
 
         if (Input.GetButtonDown("Action_J3"))
         {
-            print("ACTION_J3");
             if (!playerDatas[2].HasJoined)
             {
                 playerDatas[2].HasJoined = true;
@@ -110,7 +113,6 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
 
         if (Input.GetButtonDown("Cancel_J1"))
         {
-            print("Cancel_J1");
             if (playerDatas[0].HasJoined)
             {
                 playerDatas[0].HasJoined = false;
@@ -122,7 +124,6 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
 
         if (Input.GetButtonDown("Cancel_J2"))
         {
-            print("Cancel_J2");
             if (playerDatas[1].HasJoined)
             {
                 playerDatas[1].HasJoined = false;
@@ -134,7 +135,6 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
 
         if (Input.GetButtonDown("Cancel_J3"))
         {
-            print("Cancel_J3");
             if (playerDatas[2].HasJoined)
             {
                 playerDatas[2].HasJoined = false;
@@ -146,7 +146,6 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
 
         if (Input.GetButtonDown("Cancel_J4"))
         {
-            print("Cancel_J4");
             if (playerDatas[3].HasJoined)
             {
                 playerDatas[3].HasJoined = false;

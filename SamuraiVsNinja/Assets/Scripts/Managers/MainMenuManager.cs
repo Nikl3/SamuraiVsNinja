@@ -7,10 +7,11 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	#region VARIABLES
 
 	private GameObject menuCanvasGameObject;
-	private GameObject mainButtonPanel;
-	private GameObject characterSelectPanel;
-	private GameObject characterSelectContainer;
-	private GameObject panels;
+    private GameObject panels;
+    private GameObject mainButtonPanel;
+    private GameObject optionsPanel;
+    private GameObject characterSelectPanel;
+    private GameObject characterSelectContainer;
 
 	private JoinField[] joinFields;
 	private Color fieldColor = Color.green;
@@ -40,7 +41,8 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 		panels = menuCanvasGameObject.transform.Find("Panels").gameObject;
 		mainButtonPanel = panels.transform.Find("MainButtonPanel").gameObject;
-		characterSelectPanel = panels.transform.Find("CharacterSelectPanel").gameObject;
+        optionsPanel = panels.transform.Find("OptionsPanel").gameObject;
+        characterSelectPanel = panels.transform.Find("CharacterSelectPanel").gameObject;
 		characterSelectContainer = characterSelectPanel.transform.Find("CharacterSelectContainer").gameObject;
 
 		joinFields = GetJoinFields();
@@ -54,6 +56,8 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	{
 		mainButtonPanel.SetActive(true);
 		characterSelectPanel.SetActive(false);
+        optionsPanel.SetActive(false);
+
 		CanStart();
 	}
 
@@ -125,8 +129,9 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	public void OptionsButton()
 	{
-
-	}
+        optionsPanel.SetActive(true);
+        mainButtonPanel.SetActive(false);
+    }
 
 	public void CreditsButton()
 	{
@@ -135,13 +140,16 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	public void BackToMenuButton()
 	{
-		characterSelectPanel.SetActive(false);
-		mainButtonPanel.SetActive(true);
+        if (characterSelectPanel.activeSelf)
+        {
+            PlayerDataManager.Instance.CanJoin = false;
+            PlayerDataManager.Instance.ClearPlayerDataIndex();
+            UnSetAllJoinField(joinFields.Length);
+            characterSelectPanel.SetActive(false);
+        }
 
-		PlayerDataManager.Instance.CanJoin = false;
-		PlayerDataManager.Instance.ClearPlayerDataIndex();
-
-		UnSetAllJoinField(joinFields.Length);
+        optionsPanel.SetActive(false);
+        mainButtonPanel.SetActive(true);		
 	}
 
 	public void QuitButton()
