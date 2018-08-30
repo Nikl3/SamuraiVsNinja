@@ -3,24 +3,24 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SceneMaster : Singelton<SceneMaster>
+public class SceneMaster : SingeltonPersistant<SceneMaster>
 {
-    private float delayTime = 1f;
-    // private bool isFading;
+    private AsyncOperation asyncOperation;
+
+    private float fakeLoadTime = 1f;
+    private bool isFading;
     private Image screenFadeImage;
+    private Text loadText;
 
     protected void Awake()
     {
-        screenFadeImage = GameObject.Find("FadeImage").GetComponent<Image>();
+        screenFadeImage = transform.Find("FadeImage").GetComponent<Image>();
+        loadText = transform.Find("LoadText").GetComponent<Text>();
         screenFadeImage.fillAmount = 1f;
+        loadText.enabled = false;
     }
 
     private void Start()
-    {
-        Invoke("DelayStart", delayTime);
-    }
-
-    private void DelayStart()
     {
         RandomizeFillMethod();
         FadeScreenImage(0);
@@ -55,7 +55,7 @@ public class SceneMaster : Singelton<SceneMaster>
                 screenFadeImage.fillOrigin = RandomizeNumbers(0, 3);
                 break;
             default:
-                
+
                 break;
         }
     }
@@ -67,12 +67,7 @@ public class SceneMaster : Singelton<SceneMaster>
 
     public void LoadScene(int sceneIndex)
     {
-        SceneManager.LoadScene(sceneIndex);
-    }
-
-    public void LoadScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
+        StartCoroutine(ILoadSceneAsync(sceneIndex));
     }
 
     public void FadeScreenImage(float targetFillAmount, float fadeSpeed = 1f)
@@ -82,7 +77,7 @@ public class SceneMaster : Singelton<SceneMaster>
 
     private IEnumerator IFadeScreenImage(float targetFillAmount, float fadeSpeed)
     {
-        // isFading = true;
+        isFading = true;
         screenFadeImage.raycastTarget = true;
 
         while (screenFadeImage.fillAmount != targetFillAmount)
@@ -92,6 +87,32 @@ public class SceneMaster : Singelton<SceneMaster>
         }
 
         screenFadeImage.raycastTarget = false;
-        // isFading = false;
+        isFading = false;
+    }
+
+    private IEnumerator ILoadSceneAsync(int sceneIndex)
+    {
+        FadeScreenImage(1);
+
+        yield return new WaitUntil(() => !isFading);
+
+        loadText.enabled = true;
+        asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
+        asyncOperation.allowSceneActivation = false;
+
+        yield return new WaitForSeconds(fakeLoadTime);
+
+        while (!asyncOperation.isDone)
+        {
+            if (asyncOperation.progress == 0.9f)
+            {
+                asyncOperation.allowSceneActivation = true;
+            }
+
+            yield return null;
+        }
+
+        loadText.enabled = false;
+        FadeScreenImage(0);
     }
 }
