@@ -10,6 +10,10 @@ public class MainMenuManager : Singelton<MainMenuManager>
     private GameObject panels;
     private GameObject mainButtonPanel;
     private GameObject optionsPanel;
+    private GameObject howToPlayPanel;
+    private GameObject audioPanel;
+    private GameObject graphicsPanel;
+    private GameObject controlsPanel;
     private GameObject characterSelectPanel;
     private GameObject characterSelectContainer;
 
@@ -42,6 +46,10 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		panels = menuCanvasGameObject.transform.Find("Panels").gameObject;
 		mainButtonPanel = panels.transform.Find("MainButtonPanel").gameObject;
         optionsPanel = panels.transform.Find("OptionsPanel").gameObject;
+        howToPlayPanel = panels.transform.Find("HowToPlayPanel").gameObject;
+        audioPanel = panels.transform.Find("AudioPanel").gameObject;
+        graphicsPanel = panels.transform.Find("GraphicsPanel").gameObject;
+        controlsPanel = panels.transform.Find("ControlsPanel").gameObject;
         characterSelectPanel = panels.transform.Find("CharacterSelectPanel").gameObject;
 		characterSelectContainer = characterSelectPanel.transform.Find("CharacterSelectContainer").gameObject;
 
@@ -133,10 +141,44 @@ public class MainMenuManager : Singelton<MainMenuManager>
         mainButtonPanel.SetActive(false);
     }
 
-	public void CreditsButton()
+    public void HowToPlayButton()
+    {
+        howToPlayPanel.SetActive(true);
+        optionsPanel.SetActive(false);
+    }
+    public void AudioButton()
+    {
+        audioPanel.SetActive(true);
+        optionsPanel.SetActive(false);
+
+    }
+
+    public void GraphicsButton()
+    {
+        graphicsPanel.SetActive(true);
+        optionsPanel.SetActive(false);
+    }
+
+    public void ControlsButton()
+    {
+        controlsPanel.SetActive(true);
+        optionsPanel.SetActive(false);
+    }
+
+    public void CreditsButton()
 	{
 		mainMenuCanvasAnimator.Play("Credits");
 	}
+
+    public void BackToOptionsButton()
+    {
+        optionsPanel.SetActive(true);
+        howToPlayPanel.SetActive(false);
+        audioPanel.SetActive(false);
+        graphicsPanel.SetActive(false);
+        controlsPanel.SetActive(false);
+       
+    }
 
 	public void BackToMenuButton()
 	{
@@ -149,7 +191,11 @@ public class MainMenuManager : Singelton<MainMenuManager>
         }
 
         optionsPanel.SetActive(false);
-        mainButtonPanel.SetActive(true);		
+        howToPlayPanel.SetActive(false);
+        audioPanel.SetActive(false);
+        graphicsPanel.SetActive(false);
+        controlsPanel.SetActive(false);
+        mainButtonPanel.SetActive(true);
 	}
 
 	public void QuitButton()
