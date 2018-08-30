@@ -17,6 +17,8 @@ public abstract class RaycastController : MonoBehaviour
     protected RaycastOrigins raycastOrigins;
     private BoxCollider2D boxCollider2D;
 
+    public Transform player;
+
     protected virtual void Awake()
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
@@ -26,6 +28,15 @@ public abstract class RaycastController : MonoBehaviour
     private void Start()
     {
         CalculateRaySpacing();
+    }
+
+    private void Update() {
+
+        // boxcastiä seinän sisäänmenon estämiseksi
+        //var boxcast = Physics2D.BoxCast(player.position, new Vector2(0.5f, 2), 0, Vector2.right);
+        //if (boxcast) {
+        //    Debug.DrawLine(player.position, boxcast.point, Color.blue);
+        //}
     }
 
     protected void UpdateRaycastOrigins()
@@ -40,6 +51,8 @@ public abstract class RaycastController : MonoBehaviour
         raycastOrigins.TopLeft = new Vector2(bounds.min.x, bounds.max.y);
         raycastOrigins.TopRight = new Vector2(bounds.max.x, bounds.max.y);
     }
+
+   
 
     private void CalculateRaySpacing()
     {
