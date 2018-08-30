@@ -365,6 +365,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 61977918514176702, guid: 2375495060fe6284784b30bde0cfbf9d,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 14.919922
+      objectReference: {fileID: 0}
+    - target: {fileID: 61977918514176702, guid: 2375495060fe6284784b30bde0cfbf9d,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 3.0039062
+      objectReference: {fileID: 0}
+    - target: {fileID: 61053344764262150, guid: 2375495060fe6284784b30bde0cfbf9d,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 14.919922
+      objectReference: {fileID: 0}
+    - target: {fileID: 61053344764262150, guid: 2375495060fe6284784b30bde0cfbf9d,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 3.0039062
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2375495060fe6284784b30bde0cfbf9d, type: 2}
   m_IsPrefabAsset: 0
@@ -592,7 +612,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ace2f8969265a3418fa5fa81d7828c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDebuging: 0
+  isDebugingMessages: 0
+  isDebugingRaycasts: 0
 --- !u!4 &2070438910
 Transform:
   m_ObjectHideFlags: 0

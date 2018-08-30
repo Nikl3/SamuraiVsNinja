@@ -579,7 +579,7 @@ InputManager:
     snap: 0
     invert: 0
     type: 0
-    axis: 3
+    axis: 9
     joyNum: 1
   - serializedVersion: 3
     m_Name: RangeAttack_J2

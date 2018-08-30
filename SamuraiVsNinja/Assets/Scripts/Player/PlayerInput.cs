@@ -47,7 +47,6 @@ public class PlayerInput : MonoBehaviour
 
         if (Input.GetButtonDown(player.PlayerData.MeleeAttackButton))
         {
-            print("MELEE ATTACK");
             player.PlayerEngine.OnAttack();
         }
 
@@ -55,7 +54,6 @@ public class PlayerInput : MonoBehaviour
 
         if (rangeAttackAxis >= 1)
         {
-            print("RANGE ATTACK");
             player.PlayerEngine.OnRangedAttack();
         }
 

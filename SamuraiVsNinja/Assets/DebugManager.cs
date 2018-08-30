@@ -37,7 +37,7 @@ public class DebugManager : SingeltonPersistant<DebugManager>
 
     public void DrawRay(Vector2 rayStartPoint, Vector2 rayDirection,float rayLenght, Color rayColor = new Color())
     {
-        if(isDebugingMessages)
+        if(isDebugingRaycasts)
         Debug.DrawRay(rayStartPoint, Vector2.right * rayLenght, Color.red);
     }
 }
