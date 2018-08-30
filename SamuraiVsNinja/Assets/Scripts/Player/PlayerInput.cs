@@ -23,7 +23,6 @@ public class PlayerInput : MonoBehaviour
         player = GetComponent<Player>();
     }
 
-
     private void Update()
     {
         UpdateLocalInputs();
@@ -56,8 +55,8 @@ public class PlayerInput : MonoBehaviour
 
         if (rangeAttackAxis >= 1)
         {
-            if (directionalInput != Vector2.zero)
-                player.PlayerEngine.OnRangedAttack();
+            print("RANGE ATTACK");
+            player.PlayerEngine.OnRangedAttack();
         }
 
         dashAxis = Input.GetAxisRaw(player.PlayerData.DashButton);

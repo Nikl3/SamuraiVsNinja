@@ -67,7 +67,7 @@ public class CharacterController2D : RaycastController
             rayOrigin += Vector2.up * (horizontalRaySpacing * i);
             RaycastHit2D[] hits = Physics2D.RaycastAll(rayOrigin, Vector2.right * directionX, rayLength, collisionMaskLayer);
 
-            Debug.DrawRay(rayOrigin, Vector2.right * directionX, Color.red);
+            DebugManager.Instance.DrawRay(rayOrigin, Vector2.right, directionX, Color.red);
           
             if(hits != null && hits.Length > 0)
             {
@@ -75,7 +75,7 @@ public class CharacterController2D : RaycastController
                 {
                     if (hit)
                     {
-                        // Debug.LogWarning(hit.transform.name);
+                        DebugManager.Instance.DebugMessage(1, hit.transform.name);
 
                         if (hit.distance == 0)
                         {
@@ -106,7 +106,7 @@ public class CharacterController2D : RaycastController
             rayOrigin += Vector2.right * (verticalRaySpacing * i + moveAmount.x);
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMaskLayer);
 
-            Debug.DrawRay(rayOrigin, Vector2.up * directionY, Color.red);
+            DebugManager.Instance.DrawRay(rayOrigin, Vector2.up, directionY, Color.red);
 
             if (hit)
             {

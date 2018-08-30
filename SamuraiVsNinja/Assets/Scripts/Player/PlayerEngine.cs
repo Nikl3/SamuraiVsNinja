@@ -145,13 +145,12 @@ public class PlayerEngine : MonoBehaviour
         var currentFaceDirection = player.Controller2D.Collisions.FaceDirection;
         RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + new Vector2(1, 0) * currentFaceDirection, Vector2.right * currentFaceDirection, 4f, hitLayer);
 
-        Debug.DrawRay((Vector2)transform.position + new Vector2(1, 0) * currentFaceDirection, (Vector2.right * currentFaceDirection) * 4);
+        DebugManager.Instance.DrawRay((Vector2)transform.position + new Vector2(1, 0) * currentFaceDirection, (Vector2.right * currentFaceDirection), 4);
 
         if (hit)
         {
-            Debug.Log(hit.collider.tag);
-        }
-                    
+            DebugManager.Instance.DebugMessage(1, hit.collider.tag);
+        }                 
     }
 
     public void OnRangedAttack()

@@ -2,26 +2,23 @@
 
 public class GameManager : MonoBehaviour
 {
-    private GameObject localPlayerPrefab;
-    private GameObject playerInfoPrefab;
+    private GameObject playerPrefab;
 
     private void Awake()
     {
-        localPlayerPrefab = ResourceManager.Instance.GetPrefabByName("Player");
-        playerInfoPrefab = ResourceManager.Instance.GetPrefabByName("PlayerInfo");
+        playerPrefab = ResourceManager.Instance.GetPrefabByName("Player");
     }
 
     private void Start()
     {
-        // Invoke("Foo", 1f);
-        Foo();
+        Spawn();
     }
 
-    private void Foo()
+    private void Spawn()
     {
         for (int i = 0; i < PlayerDataManager.Instance.CurrentlyJoinedPlayers; i++)
         {
-            SpawnObject(localPlayerPrefab, new Vector2(Random.Range(-20, 20), 10));
+            SpawnObject(playerPrefab, new Vector2(Random.Range(-20, 20), 10));
         }
     }
 
