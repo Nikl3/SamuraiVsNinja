@@ -17,7 +17,7 @@ public abstract class RaycastController : MonoBehaviour
     protected RaycastOrigins raycastOrigins;
     private BoxCollider2D boxCollider2D;
 
-    public Transform player;
+    //public Transform player;
 
     protected virtual void Awake()
     {
