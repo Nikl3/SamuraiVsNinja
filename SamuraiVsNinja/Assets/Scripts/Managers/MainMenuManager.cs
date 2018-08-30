@@ -25,8 +25,8 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	private Animator mainMenuCanvasAnimator;
 	private string creditsAnimationTag = "Credits";
-	//private string offlineScene = "DevScene - Niko";
-	//private string onlineScene = "DevScene - Mathias";
+	private string offlineScene = "DevScene - Niko";
+	private string onlineScene = "DevScene - Mathias";
 
 	#endregion VARIABLES
 
@@ -126,13 +126,13 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	public void StartButton()
 	{
-		SceneMaster.Instance.LoadScene(1);
+		SceneMaster.Instance.LoadScene(offlineScene);
 		PlayerDataManager.Instance.CanJoin = false;
 	}
 
 	public void OnlineButton()
 	{
-		SceneMaster.Instance.LoadScene(2);
+		SceneMaster.Instance.LoadScene(onlineScene);
 	}
 
 	public void OptionsButton()
@@ -200,7 +200,6 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	public void QuitButton()
 	{
-
 #if UNITY_EDITOR
 		EditorApplication.isPlaying = false;
 #else

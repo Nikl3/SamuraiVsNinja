@@ -5,15 +5,13 @@ using UnityEngine.UI;
 
 public class SceneMaster : Singelton<SceneMaster>
 {
-    private AsyncOperation asyncOperation;
-
     private float delayTime = 1f;
-    private bool isFading;
+    // private bool isFading;
     private Image screenFadeImage;
 
     protected void Awake()
     {
-        screenFadeImage = transform.Find("FadeImage").GetComponent<Image>();
+        screenFadeImage = GameObject.Find("FadeImage").GetComponent<Image>();
         screenFadeImage.fillAmount = 1f;
     }
 
@@ -69,7 +67,7 @@ public class SceneMaster : Singelton<SceneMaster>
 
     public void LoadScene(int sceneIndex)
     {
-        StartCoroutine(ILoadSceneAsync(sceneIndex));
+        SceneManager.LoadScene(sceneIndex);
     }
 
     public void LoadScene(string sceneName)
@@ -84,7 +82,7 @@ public class SceneMaster : Singelton<SceneMaster>
 
     private IEnumerator IFadeScreenImage(float targetFillAmount, float fadeSpeed)
     {
-        isFading = true;
+        // isFading = true;
         screenFadeImage.raycastTarget = true;
 
         while (screenFadeImage.fillAmount != targetFillAmount)
@@ -94,27 +92,6 @@ public class SceneMaster : Singelton<SceneMaster>
         }
 
         screenFadeImage.raycastTarget = false;
-        isFading = false;
-    }
-
-    private IEnumerator ILoadSceneAsync(int sceneIndex)
-    {
-        FadeScreenImage(1);
-
-        asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
-        asyncOperation.allowSceneActivation = false;
-
-        while (!asyncOperation.isDone)
-        {
-            if(asyncOperation.progress == 0.9f)
-            {
-                yield return new WaitUntil(() => !isFading);
-                asyncOperation.allowSceneActivation = true;
-            }
-
-            yield return null;
-        }
-
-        FadeScreenImage(0);
+        // isFading = false;
     }
 }
