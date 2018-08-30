@@ -149,7 +149,7 @@ public class UIManager : Singelton<UIManager>
 
     public void BackToMenuButton()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        SceneMaster.Instance.LoadScene(0);
     }
 
     #endregion UI_BUTTONS
