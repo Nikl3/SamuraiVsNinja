@@ -50,9 +50,9 @@ public class PlayerInput : MonoBehaviour
             player.PlayerEngine.OnAttack();
         }
 
-        rangeAttackAxis = Input.GetAxisRaw(player.PlayerData.RangeAttackButton);
+        rangeAttackAxis = (Input.GetAxisRaw(player.PlayerData.RangeAttackButton));
 
-        if (rangeAttackAxis >= 1)
+        if (rangeAttackAxis <= -1)
         {
             player.PlayerEngine.OnRangedAttack();
         }

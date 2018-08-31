@@ -55,115 +55,24 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         }
     }
 
-    private void Update()
-    {
-        if (!canJoin)
+    public void PlayerJoin(int playerID)
+    {  
+        if (!playerDatas[playerID].HasJoined)
         {
-            if (Input.GetButtonDown("Cancel_J1"))
-            {
-                MainMenuManager.Instance.EndCredits();
-            }
-
+            playerDatas[playerID].HasJoined = true;
+            CurrentlyJoinedPlayers++;
             return;
         }
-
-        if (Input.GetButtonDown("Action_J1"))
-        {
-            if (!playerDatas[0].HasJoined)
-            {
-                playerDatas[0].HasJoined = true;
-                CurrentlyJoinedPlayers++;
-                PlayerJoin(playerDatas[0].ID);
-                return;
-            }       
-        }
-
-        if (Input.GetButtonDown("Action_J2"))
-        {
-            if (!playerDatas[1].HasJoined)
-            {
-                playerDatas[1].HasJoined = true;
-                CurrentlyJoinedPlayers++;
-                PlayerJoin(playerDatas[1].ID);
-                return;
-            }
-        }
-
-        if (Input.GetButtonDown("Action_J3"))
-        {
-            if (!playerDatas[2].HasJoined)
-            {
-                playerDatas[2].HasJoined = true;
-                CurrentlyJoinedPlayers++;
-                PlayerJoin(playerDatas[2].ID);
-                return;
-            }
-        }
-
-        if (Input.GetButtonDown("Action_J4"))
-        {
-            if (!playerDatas[3].HasJoined)
-            {
-                playerDatas[3].HasJoined = true;
-                CurrentlyJoinedPlayers++;
-                PlayerJoin(playerDatas[3].ID);
-                return;
-            }
-        }
-
-        if (Input.GetButtonDown("Cancel_J1"))
-        {
-            if (playerDatas[0].HasJoined)
-            {
-                playerDatas[0].HasJoined = false;
-                CurrentlyJoinedPlayers--;
-                PlayerUnjoin(playerDatas[0].ID);
-                return;
-            }
-        }
-
-        if (Input.GetButtonDown("Cancel_J2"))
-        {
-            if (playerDatas[1].HasJoined)
-            {
-                playerDatas[1].HasJoined = false;
-                CurrentlyJoinedPlayers--;
-                PlayerUnjoin(playerDatas[1].ID);
-                return;
-            }
-        }
-
-        if (Input.GetButtonDown("Cancel_J3"))
-        {
-            if (playerDatas[2].HasJoined)
-            {
-                playerDatas[2].HasJoined = false;
-                CurrentlyJoinedPlayers--;
-                PlayerUnjoin(playerDatas[2].ID);
-                return;
-            }
-        }
-
-        if (Input.GetButtonDown("Cancel_J4"))
-        {
-            if (playerDatas[3].HasJoined)
-            {
-                playerDatas[3].HasJoined = false;
-                CurrentlyJoinedPlayers--;
-                PlayerUnjoin(playerDatas[3].ID);
-                return;
-            }
-        }
     }
 
-    private void PlayerJoin(int playerID)
+    public void PlayerUnjoin(int playerID)
     {
-        MainMenuManager.Instance.SetJoinField(playerID);    
-    }
-
-    private void PlayerUnjoin(int playerID)
-    {
-        MainMenuManager.Instance.UnSetJoinField(playerID);
+        if (playerDatas[playerID].HasJoined)
+        {
+            playerDatas[playerID].HasJoined = false;
+            CurrentlyJoinedPlayers--;
+            return;
+        }
     } 
 
     public void ClearPlayerDataIndex()
@@ -175,13 +84,18 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         }
     }
 
-    public PlayerData GetPlayerData()
+    public void SpawnPlayers()
     {
+        if (CurrentlyJoinedPlayers <= 0)
+            return;
+
         foreach (var playerData in playerDatas)
         {
-            return playerData != null && !playerData.HasAssigned ? playerData : new PlayerData(1);
+            if (playerData.HasJoined)
+            {
+                var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByName("Player"));
+                newPlayer.GetComponent<Player>().PlayerData = playerData;
+            }
         }
-
-        return new PlayerData(1);
     }
 }

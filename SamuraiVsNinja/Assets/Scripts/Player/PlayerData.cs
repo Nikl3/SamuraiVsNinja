@@ -64,46 +64,21 @@ public class PlayerData
             hasJoined = value;
         }
     }
-    public bool HasAssigned
-    {
-        get
-        {
-            return hasAssigned;
-        }
-        set
-        {
-            hasAssigned = value;
-        }
-    }
 
     [SerializeField] private int id;
     [SerializeField] private string playerName;
     [SerializeField] private bool hasJoined;
-    [SerializeField] private bool hasAssigned;
 
     public PlayerData(int id)
     {
         this.id = id;
         playerName = "Player " + id;
-        ActionButton = "Action";
-        HorizontalAxis = "Horizontal";
-        VerticalAxis = "Vertical";
-        JumpButton = "Jump";
-        MeleeAttackButton = "MeleeAttack";
-        DashButton = "Dash";
-        RangeAttackButton = "RangeAttack";
-
-        SetControllerNumber(id);
-    }
-
-    private void SetControllerNumber(int controllerNumber)
-    {
-        ActionButton = "Action" + "_J" + controllerNumber;     
-        HorizontalAxis = "Horizontal" + "_J" + controllerNumber;      
-        VerticalAxis = "Vertical" + "_J" + controllerNumber; 
-        JumpButton = "Jump" + "_J" + controllerNumber;   
-        MeleeAttackButton = "MeleeAttack" + "_J" + controllerNumber;
-        DashButton = "Dash" + "_J" + controllerNumber;
-        RangeAttackButton = "RangeAttack" + "_J" + controllerNumber;
+        ActionButton = "Action" + "_J" + id;
+        HorizontalAxis = "Horizontal" + "_J" + id;
+        VerticalAxis = "Vertical" + "_J" + id;
+        JumpButton = "Jump" + "_J" + id;
+        MeleeAttackButton = "MeleeAttack" + "_J" + id;
+        RangeAttackButton = "RangeAttack" + "_J" + id;
+        DashButton = "Dash" + "_J" + id;
     }
 }

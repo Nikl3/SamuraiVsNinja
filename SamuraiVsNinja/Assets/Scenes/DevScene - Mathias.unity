@@ -2448,7 +2448,7 @@ MonoBehaviour:
   m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs:
-  - {fileID: 0}
+  - {fileID: 1774022551371678, guid: 676ae1bf435e90a41a7cb06236a0dfe5, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -3709,6 +3709,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1584993980}
   - component: {fileID: 1012286276}
+  - component: {fileID: 1584993981}
   m_Layer: 0
   m_Name: MainNetworkManager
   m_TagString: Untagged
@@ -3730,6 +3731,21 @@ Transform:
   m_Father: {fileID: 1191894880}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1584993981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1584993979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 227461547, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 0}
+  showGUI: 1
+  offsetX: 0
+  offsetY: 0
 --- !u!1 &1645630344
 GameObject:
   m_ObjectHideFlags: 0

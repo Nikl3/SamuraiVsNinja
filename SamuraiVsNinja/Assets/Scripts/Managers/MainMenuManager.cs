@@ -39,7 +39,12 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		return startButton.interactable = PlayerDataManager.Instance.CurrentlyJoinedPlayers == 4 || PlayerDataManager.Instance.CurrentlyJoinedPlayers == 2 ? true : false;
 	}
 
-	private void Awake()
+    private JoinField[] GetJoinFields()
+    {
+        return characterSelectContainer.GetComponentsInChildren<JoinField>(true);
+    }
+
+    private void Awake()
 	{
 		menuCanvasGameObject = GameObject.Find("MainMenuCanvas");
 
@@ -69,12 +74,68 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		CanStart();
 	}
 
-	private JoinField[] GetJoinFields()
-	{
-		return characterSelectContainer.GetComponentsInChildren<JoinField>(true);
-	}
+    private void Update()
+    {
+        if (!PlayerDataManager.Instance.CanJoin)
+        {
+            if (Input.GetButtonDown("Cancel_J1"))
+            {
+                Instance.EndCredits();
+            }
 
-	public void SetJoinField(int playerID)
+            return;
+        }
+
+        if (Input.GetButtonDown("Action_J1"))
+        {
+            PlayerDataManager.Instance.PlayerJoin(0);
+            SetJoinField(1);
+        }
+
+        if (Input.GetButtonDown("Action_J2"))
+        {
+            PlayerDataManager.Instance.PlayerJoin(1);
+            SetJoinField(2);
+        }
+
+        if (Input.GetButtonDown("Action_J3"))
+        {
+            PlayerDataManager.Instance.PlayerJoin(2);
+            SetJoinField(3);
+        }
+
+        if (Input.GetButtonDown("Action_J4"))
+        {
+            PlayerDataManager.Instance.PlayerJoin(3);
+            SetJoinField(4);
+        }
+
+        if (Input.GetButtonDown("Cancel_J1"))
+        {
+            PlayerDataManager.Instance.PlayerUnjoin(0);
+            UnSetJoinField(1);
+        }
+
+        if (Input.GetButtonDown("Cancel_J2"))
+        {
+            PlayerDataManager.Instance.PlayerUnjoin(1);
+            UnSetJoinField(2);
+        }
+
+        if (Input.GetButtonDown("Cancel_J3"))
+        {
+            PlayerDataManager.Instance.PlayerUnjoin(2);
+            UnSetJoinField(3);
+        }
+
+        if (Input.GetButtonDown("Cancel_J4"))
+        {
+            PlayerDataManager.Instance.PlayerUnjoin(3);
+            UnSetJoinField(4);
+        }  
+    }
+
+    public void SetJoinField(int playerID)
 	{
         joinFields[playerID - 1].ChangeJoinFieldVisuals(playerID, fieldColor);
 		joinedPlayerText.text = "PLAYERS " + (playerID) + " / " + PlayerDataManager.Instance.MaxPlayerNumber;
@@ -85,9 +146,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
     {
         for (int i = 0; i < joinFields.Length; i++)
         {
-
-            joinFields[i].UnChangeJoinFieldVisuals();
-            
+            joinFields[i].UnChangeJoinFieldVisuals();         
         }
 
         joinedPlayerText.text = "PLAYERS " + (PlayerDataManager.Instance.CurrentlyJoinedPlayers) + " / " + PlayerDataManager.Instance.MaxPlayerNumber;

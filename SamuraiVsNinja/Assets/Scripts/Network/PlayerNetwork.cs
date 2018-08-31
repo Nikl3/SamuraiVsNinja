@@ -17,7 +17,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     public override void OnStartAuthority()

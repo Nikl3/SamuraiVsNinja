@@ -435,7 +435,7 @@ InputManager:
     snap: 0
     invert: 0
     type: 0
-    axis: 2
+    axis: 0
     joyNum: 1
   - serializedVersion: 3
     m_Name: Dash_J2
@@ -563,7 +563,7 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 9
+    axis: 2
     joyNum: 1
   - serializedVersion: 3
     m_Name: RangeAttack_J1
@@ -579,14 +579,14 @@ InputManager:
     snap: 0
     invert: 0
     type: 0
-    axis: 9
+    axis: 0
     joyNum: 1
   - serializedVersion: 3
     m_Name: RangeAttack_J2
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick 2 button 3
+    positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -595,14 +595,14 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 3
+    axis: 2
     joyNum: 2
   - serializedVersion: 3
     m_Name: RangeAttack_J3
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick 3 button 3
+    positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -611,14 +611,14 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 3
+    axis: 2
     joyNum: 3
   - serializedVersion: 3
     m_Name: RangeAttack_J4
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick 4 button 3
+    positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -627,5 +627,5 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 3
+    axis: 2
     joyNum: 4

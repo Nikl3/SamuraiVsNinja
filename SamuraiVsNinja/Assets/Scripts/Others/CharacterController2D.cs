@@ -65,33 +65,27 @@ public class CharacterController2D : RaycastController
         {
             Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.BottomLeft : raycastOrigins.BottomRight;
             rayOrigin += Vector2.up * (horizontalRaySpacing * i);
-            RaycastHit2D[] hits = Physics2D.RaycastAll(rayOrigin, Vector2.right * directionX, rayLength, collisionMaskLayer);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMaskLayer);
 
             DebugManager.Instance.DrawRay(rayOrigin, Vector2.right, directionX, Color.red);
           
-            if(hits != null && hits.Length > 0)
-            {
-                foreach (var hit in hits)
+            if(hit)
+            {         
+                DebugManager.Instance.DebugMessage(1, hit.transform.name);
+
+                if (hit.distance == 0)
                 {
-                    if (hit)
-                    {
-                        DebugManager.Instance.DebugMessage(1, hit.transform.name);
-
-                        if (hit.distance == 0)
-                        {
-                            continue;
-                        }
-
-                        moveAmount = Collisions.MoveAmountOld;
-
-                        moveAmount.x = (hit.distance - SKIN_WIDTH) * directionX;
-                        rayLength = hit.distance;
-
-                        Collisions.Left = directionX == -1;
-                        Collisions.Right = directionX == 1;
-                    }
+                    continue;
                 }
-            }           
+
+                moveAmount = Collisions.MoveAmountOld;
+
+                moveAmount.x = (hit.distance - SKIN_WIDTH) * directionX;
+                rayLength = hit.distance;
+
+                Collisions.Left = directionX == -1;
+                Collisions.Right = directionX == 1;
+            }              
         }
     }
 

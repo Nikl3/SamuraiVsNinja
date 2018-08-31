@@ -190,7 +190,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   minJumpHeight: 1
-  maxJumpHeight: 5
+  maxJumpHeight: 6
   timeToJumpApex: 0.5
   moveSpeed: 10
   maxWallSlideSpeed: 3

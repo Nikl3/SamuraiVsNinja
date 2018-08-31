@@ -140,8 +140,9 @@ public class MainNetworkManager : NetworkManager
         foreach (MatchInfoSnapshot match in matches)
         {
             GameObject matchListItemGameObject = Instantiate(UIManager.Instance.MatchButtonPrefab);
+        
             matchListItemGameObject.transform.SetParent(UIManager.Instance.MatchContainer);
-
+            matchListItemGameObject.transform.localScale = Vector3.one;
             MatchButtonInfo matchButtonInfo = matchListItemGameObject.GetComponent<MatchButtonInfo>();
             if (matchButtonInfo != null)
             {

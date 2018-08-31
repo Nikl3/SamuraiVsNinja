@@ -33,8 +33,15 @@ public class Player : MonoBehaviour
 	{
 		get
 		{
-			return playerData;
-		}
+            if (playerData == null)
+                playerData = new PlayerData(1);
+
+            return playerData;
+        }
+        set
+        {
+            playerData = value;
+        }
 	}
 	public PlayerEngine PlayerEngine
 	{
@@ -98,8 +105,7 @@ public class Player : MonoBehaviour
 
 	private void Start()
 	{
-		playerData = PlayerDataManager.Instance.GetPlayerData();   
-		gameObject.name = playerData.PlayerName;
+		//gameObject.name = playerData.PlayerName;
 		playerInfo = Instantiate(ResourceManager.Instance.GetPrefabByName("PlayerInfo").GetComponent<PlayerInfo>());
 
 		playerInfo.transform.SetParent(playerInfoContainer);
