@@ -200,12 +200,17 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	public void QuitButton()
 	{
+        SceneMaster.Instance.ExitGame(() => OnQuit());
+    }
+
+    private void OnQuit()
+    {
 #if UNITY_EDITOR
-		EditorApplication.isPlaying = false;
+        EditorApplication.isPlaying = false;
 #else
 		Application.Quit();
 #endif
-	}
+    }
 
-	#endregion UI BUTTONS
+    #endregion UI BUTTONS
 }

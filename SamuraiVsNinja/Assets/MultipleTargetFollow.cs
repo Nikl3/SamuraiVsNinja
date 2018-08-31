@@ -7,11 +7,11 @@ public class MultipleTargetFollow : MonoBehaviour {
 
     public List<Transform> targets;
     public Vector3 offset;
-    public float smoothTime = 4f;
+    public float smoothTime;
 
-    public float minZoom = 40f;
-    public float maxZoom = 10f;
-    public float zoomLimiter = 50f;
+    public float minZoom;
+    public float maxZoom;
+    public float zoomLimiter;
 
     Vector3 velocity;
     Camera cam;
@@ -38,7 +38,7 @@ public class MultipleTargetFollow : MonoBehaviour {
 
     void Zoom() {
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimiter);
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, newZoom, Time.deltaTime);
     }
 
     float GetGreatestDistance() {

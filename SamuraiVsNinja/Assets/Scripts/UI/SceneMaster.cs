@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,8 +13,10 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
     private Image screenFadeImage;
     private Text loadText;
 
-    protected void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         screenFadeImage = transform.Find("FadeImage").GetComponent<Image>();
         loadText = transform.Find("LoadText").GetComponent<Text>();
         screenFadeImage.fillAmount = 1f;
@@ -22,13 +25,12 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
 
     private void Start()
     {
-        RandomizeFillMethod();
         FadeScreenImage(0);
     }
 
     private void RandomizeFillMethod()
     {
-        int randomIndex = RandomizeNumbers(0, 4);
+        var randomIndex = RandomizeNumbers(0, 4);
         switch (randomIndex)
         {
             case 0:
@@ -58,11 +60,18 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
 
                 break;
         }
+
+        randomIndex = 0;
     }
 
     private int RandomizeNumbers(int minValue, int maxValue)
     {
-        return Random.Range(minValue, maxValue);
+        return UnityEngine.Random.Range(minValue, maxValue);
+    }
+
+    public void ExitGame(Action action)
+    {
+        StartCoroutine(IExitingGame(action));
     }
 
     public void LoadScene(int sceneIndex)
@@ -72,6 +81,7 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
 
     public void FadeScreenImage(float targetFillAmount, float fadeSpeed = 1f)
     {
+        RandomizeFillMethod();
         StartCoroutine(IFadeScreenImage(targetFillAmount, 1f));
     }
 
@@ -114,5 +124,14 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
 
         loadText.enabled = false;
         FadeScreenImage(0);
+    }
+
+    private IEnumerator IExitingGame(Action action)
+    {
+        FadeScreenImage(1);
+
+        yield return new WaitUntil(() => !isFading);
+
+        action.Invoke();
     }
 }
