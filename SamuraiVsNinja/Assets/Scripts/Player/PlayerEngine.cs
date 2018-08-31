@@ -140,7 +140,7 @@ public class PlayerEngine : MonoBehaviour
         }
     }
 
-    public void OnAttack()
+    public void OnMeleeAttack()
     {
 
         //var currentFaceDirection = player.Controller2D.Collisions.FaceDirection;

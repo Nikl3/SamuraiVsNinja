@@ -37,17 +37,21 @@ public class PlayerInput : MonoBehaviour
 
         if (Input.GetButtonDown(player.PlayerData.JumpButton))
         {
+            Debug.LogError("JUMP DOWN");
             player.PlayerEngine.OnJumpInputDown();
+            player.Animator.SetTrigger("Jump");
         }
 
         if (Input.GetButtonUp(player.PlayerData.JumpButton))
         {
+            Debug.LogWarning("JUMP UP");
             player.PlayerEngine.OnJumpInputUp();
         }
 
         if (Input.GetButtonDown(player.PlayerData.MeleeAttackButton))
         {
-            player.PlayerEngine.OnAttack();
+            player.PlayerEngine.OnMeleeAttack();
+            player.Animator.SetTrigger("Attack");
         }
 
         rangeAttackAxis = (Input.GetAxisRaw(player.PlayerData.RangeAttackButton));

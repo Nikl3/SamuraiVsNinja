@@ -10,7 +10,7 @@ public class PlayerNetwork : NetworkBehaviour
     private Vector2 serverVelocity;
     private Vector2 predictedPosition;
     private float latency = 0f;
-    private float latencySmoothing = 50f;
+    private float latencySmoothing = 100f;
 
     #endregion VARIABLES
 
