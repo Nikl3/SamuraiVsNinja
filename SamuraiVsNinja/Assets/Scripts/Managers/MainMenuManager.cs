@@ -1,30 +1,54 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
+public enum PanelState
+{
+	MAIN_MENU,
+	CHARACTER_SELECT,
+	OPTIONS,
+	CREDITS,
+	HOW_TO_PLAY,
+	AUDIO,
+	GRAPHICS,
+	CONTROLS
+}
 
 public class MainMenuManager : Singelton<MainMenuManager>
 {
 	#region VARIABLES
 
+	private bool inSubPanel = false;
+
+	private PanelState currentPanelState;
+
+	private EventSystem eventSystem;
+
 	private GameObject menuCanvasGameObject;
 	private GameObject panels;
-	private GameObject mainButtonPanel;
+	private GameObject mainMenuPanel;
 	private GameObject optionsPanel;
+	private GameObject creditsPanel;
 	private GameObject howToPlayPanel;
 	private GameObject audioPanel;
 	private GameObject graphicsPanel;
 	private GameObject controlsPanel;
 	private GameObject characterSelectPanel;
+
 	private GameObject characterSelectContainer;
 
 	private JoinField[] joinFields;
 	private Color fieldColor = Color.green;
 
-	private Button startButton;
+	[SerializeField]
+	private GameObject[] panelDefaultButtonObjcts;
+	private GameObject previousButtonObject;
 	private Text joinedPlayerText;
 
 	private Animator mainMenuCanvasAnimator;
 	private string creditsAnimationTag = "Credits";
+	private bool isCreditsRunning = false;
 
 	#endregion VARIABLES
 
@@ -32,23 +56,26 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	#endregion PROPERTIES
 
-	private bool CanStart()
-	{
-		return startButton.interactable = PlayerDataManager.Instance.CurrentlyJoinedPlayers == 4 || PlayerDataManager.Instance.CurrentlyJoinedPlayers == 2 ? true : false;
-	}
+	//private bool CanStart()
+	//{
+	//	return startButton.interactable = PlayerDataManager.Instance.CurrentlyJoinedPlayers == 4 || PlayerDataManager.Instance.CurrentlyJoinedPlayers == 2 ? true : false;
+	//}
 
 	private JoinField[] GetJoinFields()
 	{
 		return characterSelectContainer.GetComponentsInChildren<JoinField>(true);
 	}
 
-	private void Awake()
+	private void Initialize()
 	{
+		eventSystem = EventSystem.current;
+
 		menuCanvasGameObject = GameObject.Find("MainMenuCanvas");
 
 		panels = menuCanvasGameObject.transform.Find("Panels").gameObject;
-		mainButtonPanel = panels.transform.Find("MainButtonPanel").gameObject;
+		mainMenuPanel = panels.transform.Find("MainMenuPanel").gameObject;
 		optionsPanel = panels.transform.Find("OptionsPanel").gameObject;
+		creditsPanel = panels.transform.Find("CreditsPanel").gameObject;
 		howToPlayPanel = panels.transform.Find("HowToPlayPanel").gameObject;
 		audioPanel = panels.transform.Find("AudioPanel").gameObject;
 		graphicsPanel = panels.transform.Find("GraphicsPanel").gameObject;
@@ -59,39 +86,169 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		joinFields = GetJoinFields();
 
 		joinedPlayerText = characterSelectPanel.transform.Find("JoinedPlayers").GetComponent<Text>();
-		startButton = characterSelectContainer.transform.Find("StartButton").GetComponent<Button>();
+		//startButton = characterSelectContainer.transform.Find("StartButton").GetComponent<Button>();
 		mainMenuCanvasAnimator = menuCanvasGameObject.GetComponent<Animator>();
+	}
+
+	private void Awake()
+	{
+		Initialize();
 	}
 
 	private void Start()
 	{
-		mainButtonPanel.SetActive(true);
-		characterSelectPanel.SetActive(false);
-		optionsPanel.SetActive(false);
-
-		//CanStart();
+		ChangePanelState(PanelState.MAIN_MENU);
 	}
 
 	private void Update()
 	{
-		if (!PlayerDataManager.Instance.CanJoin)
-			return;
+		//if (eventSystem.currentSelectedGameObject == null)
+		//{
+		//	if(Input.anyKeyDown)
+		//	{
+		//		SetDefaultButtonObject(0);
+		//	}
+		//}
+
+		if (isCreditsRunning)
+		{
 			CancelCredits();
+			return;
+		}
+
+		if (PlayerDataManager.Instance.CanJoin)
+		{
 			HadlePlayerJoinings();
+		}
+	}
+
+	private void ChangePanelState(PanelState newPanelState)
+	{
+		currentPanelState = newPanelState;
+
+		switch (currentPanelState)
+		{
+			case PanelState.MAIN_MENU:
+
+				characterSelectPanel.SetActive(false);
+				optionsPanel.SetActive(false);
+				creditsPanel.SetActive(false);
+				howToPlayPanel.SetActive(false);
+				audioPanel.SetActive(false);
+				graphicsPanel.SetActive(false);
+				controlsPanel.SetActive(false);
+
+				mainMenuPanel.SetActive(true);
+
+				eventSystem.SetSelectedGameObject(panelDefaultButtonObjcts[0]);
+
+				break;
+
+			case PanelState.CHARACTER_SELECT:
+
+				mainMenuPanel.SetActive(false);
+				characterSelectPanel.SetActive(true);
+
+				PlayerDataManager.Instance.CanJoin = true;
+
+				eventSystem.SetSelectedGameObject(panelDefaultButtonObjcts[1]);
+
+				break;
+
+			case PanelState.OPTIONS:
+
+				optionsPanel.SetActive(true);
+				mainMenuPanel.SetActive(false);
+				howToPlayPanel.SetActive(false);
+				audioPanel.SetActive(false);
+				graphicsPanel.SetActive(false);
+				controlsPanel.SetActive(false);
+
+				eventSystem.SetSelectedGameObject(inSubPanel ? previousButtonObject : panelDefaultButtonObjcts[2]);
+
+				inSubPanel = false;
+
+
+				break;
+
+			case PanelState.CREDITS:
+
+				//creditsPanel.SetActive(true);
+
+				//mainMenuPanel.SetActive(false);
+
+				//isCreditsRunning = true;
+				//mainMenuCanvasAnimator.Play("Credits");
+
+				break;
+
+			case PanelState.HOW_TO_PLAY:
+
+				howToPlayPanel.SetActive(true);
+				optionsPanel.SetActive(false);
+
+				previousButtonObject = eventSystem.currentSelectedGameObject;	
+				eventSystem.SetSelectedGameObject(panelDefaultButtonObjcts[3]);
+				inSubPanel = true;
+
+				break;
+
+			case PanelState.AUDIO:
+
+				audioPanel.SetActive(true);
+				optionsPanel.SetActive(false);
+
+				previousButtonObject = eventSystem.currentSelectedGameObject;
+				eventSystem.SetSelectedGameObject(panelDefaultButtonObjcts[4]);
+
+				inSubPanel = true;
+
+				break;
+
+			case PanelState.GRAPHICS:
+
+				graphicsPanel.SetActive(true);
+				optionsPanel.SetActive(false);
+
+				previousButtonObject = eventSystem.currentSelectedGameObject;
+				eventSystem.SetSelectedGameObject(panelDefaultButtonObjcts[5]);
+
+				inSubPanel = true;
+
+				break;
+
+			case PanelState.CONTROLS:
+
+				controlsPanel.SetActive(true);
+				optionsPanel.SetActive(false);
+
+				previousButtonObject = eventSystem.currentSelectedGameObject;
+				eventSystem.SetSelectedGameObject(panelDefaultButtonObjcts[6]);
+
+				inSubPanel = true;
+
+				break;
+
+			default:
+
+				ChangePanelState(PanelState.MAIN_MENU);
+
+				break;
+		}
 	}
 
 	private void CancelCredits()
 	{		
-		if (Input.GetButtonDown("Cancel_J1"))
+		if (Input.GetButtonUp("Cancel_J1") && isCreditsRunning)
 		{
 			if (mainMenuCanvasAnimator.GetCurrentAnimatorStateInfo(0).IsTag(creditsAnimationTag))
 			{
 				mainMenuCanvasAnimator.Play("Credits", 0, 0.98f);
-				return;
+				isCreditsRunning = false;
 			}
-		}
 
-		return;	
+			ChangePanelState(PanelState.MAIN_MENU);
+		}
 	}
 
 	public void HadlePlayerJoinings()
@@ -174,14 +331,20 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		//CanStart();
 	}
 
+	private void OnQuit()
+	{
+#if UNITY_EDITOR
+		EditorApplication.isPlaying = false;
+#else
+		Application.Quit();
+#endif
+	}
+
 	#region UI BUTTONS
 
 	public void PlayButton()
 	{
-		mainButtonPanel.SetActive(false);
-		characterSelectPanel.SetActive(true);
-
-		PlayerDataManager.Instance.CanJoin = true;
+		ChangePanelState(PanelState.CHARACTER_SELECT);
 	}
 
 	public void StartButton()
@@ -197,47 +360,37 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	public void OptionsButton()
 	{
-		optionsPanel.SetActive(true);
-		mainButtonPanel.SetActive(false);
+		ChangePanelState(PanelState.OPTIONS);
 	}
 
 	public void HowToPlayButton()
 	{
-		howToPlayPanel.SetActive(true);
-		optionsPanel.SetActive(false);
+		ChangePanelState(PanelState.HOW_TO_PLAY);
 	}
+
 	public void AudioButton()
 	{
-		audioPanel.SetActive(true);
-		optionsPanel.SetActive(false);
-
+		ChangePanelState(PanelState.AUDIO);
 	}
 
 	public void GraphicsButton()
 	{
-		graphicsPanel.SetActive(true);
-		optionsPanel.SetActive(false);
+		ChangePanelState(PanelState.GRAPHICS);
 	}
 
 	public void ControlsButton()
 	{
-		controlsPanel.SetActive(true);
-		optionsPanel.SetActive(false);
+		ChangePanelState(PanelState.CONTROLS);
 	}
 
 	public void CreditsButton()
 	{
-		mainMenuCanvasAnimator.Play("Credits");
+		// ChangePanelState(PanelState.CREDITS);
 	}
 
 	public void BackToOptionsButton()
 	{
-		optionsPanel.SetActive(true);
-		howToPlayPanel.SetActive(false);
-		audioPanel.SetActive(false);
-		graphicsPanel.SetActive(false);
-		controlsPanel.SetActive(false);
-	   
+		ChangePanelState(PanelState.OPTIONS);
 	}
 
 	public void BackToMenuButton()
@@ -247,29 +400,14 @@ public class MainMenuManager : Singelton<MainMenuManager>
 			PlayerDataManager.Instance.CanJoin = false;
 			PlayerDataManager.Instance.ClearPlayerDataIndex();
 			UnSetAllJoinField(joinFields.Length);
-			characterSelectPanel.SetActive(false);
 		}
 
-		optionsPanel.SetActive(false);
-		howToPlayPanel.SetActive(false);
-		audioPanel.SetActive(false);
-		graphicsPanel.SetActive(false);
-		controlsPanel.SetActive(false);
-		mainButtonPanel.SetActive(true);
+		ChangePanelState(PanelState.MAIN_MENU);
 	}
 
 	public void QuitButton()
 	{
 		SceneMaster.Instance.ExitGame(() => OnQuit());
-	}
-
-	private void OnQuit()
-	{
-#if UNITY_EDITOR
-		EditorApplication.isPlaying = false;
-#else
-		Application.Quit();
-#endif
 	}
 
 	#endregion UI BUTTONS
