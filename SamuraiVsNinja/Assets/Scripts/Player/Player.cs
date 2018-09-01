@@ -1,12 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 
 public class Player : MonoBehaviour
 {
 	#region VARIABLES
-
-	private PlayerNetwork playerNetwork;
-	private NetworkIdentity networkIdentity;
 
 	private PlayerInfo playerInfo;
 	private PlayerData playerData;
@@ -15,8 +11,6 @@ public class Player : MonoBehaviour
 	private CharacterController2D controller2D;
 	private PlayerInput playerInput;
 	private PlayerEngine playerEngine;
-
-	private Transform playerInfoContainer;
 
 	#endregion VARIABLES
 
@@ -33,15 +27,11 @@ public class Player : MonoBehaviour
 	{
 		get
 		{
-            if (playerData == null)
-                playerData = new PlayerData(1);
+			if (playerData == null)
+				playerData = new PlayerData(1);
 
-            return playerData;
-        }
-        set
-        {
-            playerData = value;
-        }
+			return playerData;
+		}
 	}
 	public PlayerEngine PlayerEngine
 	{
@@ -82,35 +72,18 @@ public class Player : MonoBehaviour
 
 	#endregion PROPERTIES
 
-	private void Awake ()
+	private void Awake()
 	{
-		playerNetwork = GetComponent<PlayerNetwork>();
-		networkIdentity = GetComponent<NetworkIdentity>();
-
 		playerInput = GetComponent<PlayerInput>();
-		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
 		playerEngine = GetComponent<PlayerEngine>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		animator = GetComponentInChildren<Animator>();
 		controller2D = GetComponent<CharacterController2D>();
-		playerInfoContainer = GameObject.Find("HUD").transform.Find("PlayerInfoContainer");
-
-		if (MainNetworkManager.Instance == null)
-		{
-			Destroy(playerNetwork);
-			Destroy(networkIdentity);
-		}
 	}
 
-	private void Start()
+	public void Initialize(PlayerData playerData, PlayerInfo playerInfo)
 	{
-		//gameObject.name = playerData.PlayerName;
-		playerInfo = Instantiate(ResourceManager.Instance.GetPrefabByName("PlayerInfo").GetComponent<PlayerInfo>());
-
-		playerInfo.transform.SetParent(playerInfoContainer);
-
-		playerInfo.transform.localScale = Vector3.zero;
-		playerInfo.transform.localScale = Vector3.one;
+		this.playerInfo = playerInfo;
+		this.playerData = playerData;
 	}
 }

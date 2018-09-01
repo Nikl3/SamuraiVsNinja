@@ -6,8 +6,8 @@ TagManager:
   tags:
   - OneWayObject
   - Obstacle
-  - Coin
   - JoinField
+  - Onigiri
   layers:
   - Default
   - TransparentFX

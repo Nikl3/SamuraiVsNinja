@@ -19,7 +19,7 @@ public class JoinField : MonoBehaviour
 
     public void ChangeJoinFieldVisuals(int playerID, Color fieldColor)
     {
-        this.joinedPlayerName.text = "Player " + playerID;
+        joinedPlayerName.text = "Player " + playerID;
         fieldImage.color = fieldColor;
     }
 

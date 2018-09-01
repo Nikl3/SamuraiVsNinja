@@ -26,7 +26,6 @@ GameObject:
   - component: {fileID: 114645425799771444}
   - component: {fileID: 61787543257402076}
   - component: {fileID: 50863330635567082}
-  - component: {fileID: 95181914595076326}
   - component: {fileID: 114133605677232856}
   - component: {fileID: 114476322661056276}
   m_Layer: 10
@@ -44,6 +43,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4774729826265756}
+  - component: {fileID: 95618109005572632}
   - component: {fileID: 212747961955186190}
   m_Layer: 10
   m_Name: PlayerGraphics
@@ -124,13 +124,13 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5974348, y: 4.118708}
   m_EdgeRadius: 0
---- !u!95 &95181914595076326
+--- !u!95 &95618109005572632
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1774022551371678}
+  m_GameObject: {fileID: 1783681767451202}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: dab4a527bd5b25449a890622b01febc3, type: 2}

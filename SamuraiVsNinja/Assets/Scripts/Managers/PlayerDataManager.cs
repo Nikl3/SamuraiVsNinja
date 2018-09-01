@@ -8,6 +8,8 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
 
     [SerializeField]
     private PlayerData[] playerDatas;
+    // !!!!!!
+    private int currentlyJoinedPlayers = 4;
 
     private bool canJoin = false;
 
@@ -22,6 +24,13 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
             return MAX_PLAYER_NUMBER;
         }
     }
+    public int CurrentlyJoinedPlayers
+    {
+        get
+        {
+            return currentlyJoinedPlayers;
+        }
+    }
     public bool CanJoin
     {
         get
@@ -32,12 +41,7 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         {
             canJoin = value;
         }
-    }
-    public int CurrentlyJoinedPlayers
-    {
-        get;
-        private set;
-    }
+    } 
 
     #endregion PROPERTIES
 
@@ -45,10 +49,7 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
     {
         base.Awake();
         playerDatas = new PlayerData[MAX_PLAYER_NUMBER];
-    }
 
-    private void Start()
-    {
         for (int i = 0; i < playerDatas.Length; i++)
         {
             playerDatas[i] = new PlayerData(i + 1);
@@ -60,7 +61,7 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         if (!playerDatas[playerID].HasJoined)
         {
             playerDatas[playerID].HasJoined = true;
-            CurrentlyJoinedPlayers++;
+            currentlyJoinedPlayers++;
             return;
         }
     }
@@ -70,14 +71,14 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         if (playerDatas[playerID].HasJoined)
         {
             playerDatas[playerID].HasJoined = false;
-            CurrentlyJoinedPlayers--;
+            currentlyJoinedPlayers--;
             return;
         }
     } 
 
     public void ClearPlayerDataIndex()
     {
-        CurrentlyJoinedPlayers = 0;
+        currentlyJoinedPlayers = 0;
         foreach (var data in playerDatas)
         {
             data.HasJoined = false;
@@ -86,15 +87,19 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
 
     public void SpawnPlayers()
     {
-        if (CurrentlyJoinedPlayers <= 0)
+        if (currentlyJoinedPlayers <= 0)
             return;
 
         foreach (var playerData in playerDatas)
         {
             if (playerData.HasJoined)
             {
-                var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByName("Player"));
-                newPlayer.GetComponent<Player>().PlayerData = playerData;
+                var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByName("Player").GetComponent<Player>());
+                var newPlayerInfo = Instantiate(ResourceManager.Instance.GetPrefabByName("PlayerInfo").GetComponent<PlayerInfo>());
+
+                newPlayer.Initialize(playerData, newPlayerInfo);
+
+                CameraEngine.Instance.AddTarget(newPlayer.transform);
             }
         }
     }

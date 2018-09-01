@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class CoinGenerator : MonoBehaviour
+public class CollectableGenerator : MonoBehaviour
 {
-	private LayerMask coinLayerMask;
+	private LayerMask collectableLayerMask;
 	[SerializeField]
 	private Transform[] Spawnpoints;
 	private GameObject coinPrefab;
@@ -10,8 +10,8 @@ public class CoinGenerator : MonoBehaviour
 
 	private void Awake()
 	{
-		coinLayerMask = LayerMask.GetMask("Collectable");
-		coinPrefab = ResourceManager.Instance.GetPrefabByName("Coin");
+		collectableLayerMask = LayerMask.GetMask("Collectable");
+		coinPrefab = ResourceManager.Instance.GetPrefabByName("Onigiri");
 	}
 	private void Update ()
 	{
@@ -22,7 +22,7 @@ public class CoinGenerator : MonoBehaviour
 			int randomPositionIndex = Random.Range(0, Spawnpoints.Length);
 			Vector2 randomPosition = Spawnpoints[randomPositionIndex].position;
 
-			if (!Physics2D.OverlapCircle(randomPosition, 2f, coinLayerMask))
+			if (!Physics2D.OverlapCircle(randomPosition, 2f, collectableLayerMask))
 			{
 				Instantiate(coinPrefab, randomPosition, Quaternion.identity);
 				SpawnIntervall = 0;
