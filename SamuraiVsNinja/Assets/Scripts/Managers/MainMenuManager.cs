@@ -19,11 +19,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 {
 	#region VARIABLES
 
-	private bool inSubPanel = false;
-
 	private PanelState currentPanelState;
-
-	private EventSystem eventSystem;
 
 	private GameObject menuCanvasGameObject;
 	private GameObject panels;
@@ -41,9 +37,6 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	private JoinField[] joinFields;
 	private Color fieldColor = Color.green;
 
-	[SerializeField]
-	private GameObject[] panelDefaultButtonObjcts;
-	private GameObject previousButtonObject;
 	private Text joinedPlayerText;
 
 	private Animator mainMenuCanvasAnimator;
@@ -68,8 +61,6 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	private void Initialize()
 	{
-		eventSystem = EventSystem.current;
-
 		menuCanvasGameObject = GameObject.Find("MainMenuCanvas");
 
 		panels = menuCanvasGameObject.transform.Find("Panels").gameObject;
@@ -102,14 +93,6 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	private void Update()
 	{
-		//if (eventSystem.currentSelectedGameObject == null)
-		//{
-		//	if(Input.anyKeyDown)
-		//	{
-		//		SetDefaultButtonObject(0);
-		//	}
-		//}
-
 		if (isCreditsRunning)
 		{
 			CancelCredits();
@@ -138,9 +121,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 				graphicsPanel.SetActive(false);
 				controlsPanel.SetActive(false);
 
-				mainMenuPanel.SetActive(true);
-
-				eventSystem.SetSelectedGameObject(panelDefaultButtonObjcts[0]);
+				mainMenuPanel.SetActive(true);	
 
 				break;
 
@@ -150,8 +131,6 @@ public class MainMenuManager : Singelton<MainMenuManager>
 				characterSelectPanel.SetActive(true);
 
 				PlayerDataManager.Instance.CanJoin = true;
-
-				eventSystem.SetSelectedGameObject(panelDefaultButtonObjcts[1]);
 
 				break;
 
@@ -164,21 +143,12 @@ public class MainMenuManager : Singelton<MainMenuManager>
 				graphicsPanel.SetActive(false);
 				controlsPanel.SetActive(false);
 
-				eventSystem.SetSelectedGameObject(inSubPanel ? previousButtonObject : panelDefaultButtonObjcts[2]);
-
-				inSubPanel = false;
-
-
 				break;
 
 			case PanelState.CREDITS:
 
-				//creditsPanel.SetActive(true);
-
-				//mainMenuPanel.SetActive(false);
-
-				//isCreditsRunning = true;
-				//mainMenuCanvasAnimator.Play("Credits");
+				isCreditsRunning = true;
+				mainMenuCanvasAnimator.Play("Credits");
 
 				break;
 
@@ -187,21 +157,12 @@ public class MainMenuManager : Singelton<MainMenuManager>
 				howToPlayPanel.SetActive(true);
 				optionsPanel.SetActive(false);
 
-				previousButtonObject = eventSystem.currentSelectedGameObject;	
-				eventSystem.SetSelectedGameObject(panelDefaultButtonObjcts[3]);
-				inSubPanel = true;
-
 				break;
 
 			case PanelState.AUDIO:
 
 				audioPanel.SetActive(true);
 				optionsPanel.SetActive(false);
-
-				previousButtonObject = eventSystem.currentSelectedGameObject;
-				eventSystem.SetSelectedGameObject(panelDefaultButtonObjcts[4]);
-
-				inSubPanel = true;
 
 				break;
 
@@ -210,22 +171,12 @@ public class MainMenuManager : Singelton<MainMenuManager>
 				graphicsPanel.SetActive(true);
 				optionsPanel.SetActive(false);
 
-				previousButtonObject = eventSystem.currentSelectedGameObject;
-				eventSystem.SetSelectedGameObject(panelDefaultButtonObjcts[5]);
-
-				inSubPanel = true;
-
 				break;
 
 			case PanelState.CONTROLS:
 
 				controlsPanel.SetActive(true);
 				optionsPanel.SetActive(false);
-
-				previousButtonObject = eventSystem.currentSelectedGameObject;
-				eventSystem.SetSelectedGameObject(panelDefaultButtonObjcts[6]);
-
-				inSubPanel = true;
 
 				break;
 
@@ -345,6 +296,8 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	public void PlayButton()
 	{
 		ChangePanelState(PanelState.CHARACTER_SELECT);
+
+		InputManager.Instance.ChangeActiveSelectedObject(2);
 	}
 
 	public void StartButton()
@@ -361,36 +314,48 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	public void OptionsButton()
 	{
 		ChangePanelState(PanelState.OPTIONS);
+
+		InputManager.Instance.ChangeActiveSelectedObject(3);
 	}
 
 	public void HowToPlayButton()
 	{
 		ChangePanelState(PanelState.HOW_TO_PLAY);
+
+		InputManager.Instance.ChangeActiveSelectedObject(4);
 	}
 
 	public void AudioButton()
 	{
 		ChangePanelState(PanelState.AUDIO);
+
+		InputManager.Instance.ChangeActiveSelectedObject(5);
 	}
 
 	public void GraphicsButton()
 	{
 		ChangePanelState(PanelState.GRAPHICS);
+
+		InputManager.Instance.ChangeActiveSelectedObject(6);
 	}
 
 	public void ControlsButton()
 	{
 		ChangePanelState(PanelState.CONTROLS);
+
+		InputManager.Instance.ChangeActiveSelectedObject(7);
 	}
 
 	public void CreditsButton()
 	{
-		// ChangePanelState(PanelState.CREDITS);
+		ChangePanelState(PanelState.CREDITS);
 	}
 
 	public void BackToOptionsButton()
 	{
 		ChangePanelState(PanelState.OPTIONS);
+
+		InputManager.Instance.ChangeToPreviousSelectedObject();
 	}
 
 	public void BackToMenuButton()
@@ -403,6 +368,8 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		}
 
 		ChangePanelState(PanelState.MAIN_MENU);
+
+		InputManager.Instance.ChangeActiveSelectedObject(0);
 	}
 
 	public void QuitButton()
