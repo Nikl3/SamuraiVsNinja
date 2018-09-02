@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4959046110502528}
   - component: {fileID: 114702382452145824}
   m_Layer: 0
-  m_Name: CoinSpawnPos
+  m_Name: CollectablePositions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,8 +145,6 @@ MonoBehaviour:
   - {fileID: 4601211604469806}
   - {fileID: 4790491045928582}
   - {fileID: 4680637557769306}
-  coinPrefab: {fileID: 1485973191965736, guid: d5baa56c33bd21f4ca511005aaf7ec8d, type: 2}
-  SpawnIntervall: 0
 --- !u!212 &212160170056967984
 SpriteRenderer:
   m_ObjectHideFlags: 1

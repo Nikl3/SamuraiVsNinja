@@ -19,7 +19,6 @@ public class DebugManager : SingeltonPersistant<DebugManager>
         {
             switch (messageType)
             {
-
                 case 1:
                     Debug.Log(debugMessage);
                     break;

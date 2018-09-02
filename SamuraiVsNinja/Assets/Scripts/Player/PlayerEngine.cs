@@ -142,20 +142,7 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnMeleeAttack()
     {
-
-        //var currentFaceDirection = player.Controller2D.Collisions.FaceDirection;
-        //RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + new Vector2(1, 0) * currentFaceDirection, Vector2.right * currentFaceDirection, 4f, hitLayer);
-        //var boxcast = Physics2D.BoxCast((Vector2)transform.position, new Vector2(4, 2), 0, Vector2.right * currentFaceDirection);
-        //DebugManager.Instance.DrawRay((Vector2)transform.position + new Vector2(1, 0) * currentFaceDirection, (Vector2.right * currentFaceDirection), 4);
-
-        //if (boxcast)
-        //{
-        //    Debug.DrawLine((Vector2)transform.position, boxcast.point, Color.blue, 1f);
-        //}
-        //if (hit)
-        //{
-        //    DebugManager.Instance.DebugMessage(1, hit.collider.tag);
-        //}
+        player.Controller2D.DoBoxCast();
     }
 
     public void OnRangedAttack()
@@ -176,7 +163,7 @@ public class PlayerEngine : MonoBehaviour
     {
         canRangeAttack = true;
         var currentDirection = player.Controller2D.Collisions.FaceDirection;
-        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByName("Projectile"), transform.position, Quaternion.Euler(new Vector3(currentDirection, 0, 0)));
+        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(1, 1), transform.position, Quaternion.Euler(new Vector3(currentDirection, 0, 0)));
         projectile.GetComponent<Projectile>().BulletMove(currentDirection);
 
         yield return new WaitForSeconds(rangeAttackCooldown);

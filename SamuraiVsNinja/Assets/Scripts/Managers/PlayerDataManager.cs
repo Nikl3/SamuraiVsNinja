@@ -94,8 +94,8 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
         {
             if (playerData.HasJoined)
             {
-                var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByName("Player").GetComponent<Player>());
-                var newPlayerInfo = Instantiate(ResourceManager.Instance.GetPrefabByName("PlayerInfo").GetComponent<PlayerInfo>());
+                var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0).GetComponent<Player>());
+                var newPlayerInfo = Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1).GetComponent<PlayerInfo>());
 
                 newPlayer.Initialize(playerData, newPlayerInfo);
 

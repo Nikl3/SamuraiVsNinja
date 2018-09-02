@@ -11,18 +11,17 @@ public abstract class RaycastController : MonoBehaviour
     protected float verticalRaySpacing;
 
     protected LayerMask collisionMaskLayer;
+    protected LayerMask hitLayerMask;
+    protected string hitLayerName;
     protected string collisionLayerName;
     protected string oneWayCollisionTag;
 
     protected RaycastOrigins raycastOrigins;
     private BoxCollider2D boxCollider2D;
 
-    //public Transform player;
-
     protected virtual void Awake()
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
-        collisionMaskLayer = LayerMask.GetMask(collisionLayerName);
     }
 
     private void Start()
@@ -30,19 +29,8 @@ public abstract class RaycastController : MonoBehaviour
         CalculateRaySpacing();
     }
 
-    private void Update() {
-
-        // boxcastiä seinän sisäänmenon estämiseksi
-        //var boxcast = Physics2D.BoxCast(player.position, new Vector2(0.5f, 2), 0, Vector2.right);
-        //if (boxcast) {
-        //    Debug.DrawLine(player.position, boxcast.point, Color.blue);
-        //}
-    }
-
     protected void UpdateRaycastOrigins()
     {
-        // if 
-
         Bounds bounds = boxCollider2D.bounds;
         bounds.Expand(SKIN_WIDTH * -2);
 

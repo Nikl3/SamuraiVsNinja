@@ -5,14 +5,19 @@ public class CollectableGenerator : MonoBehaviour
 	private LayerMask collectableLayerMask;
 	[SerializeField]
 	private Transform[] Spawnpoints;
-	private GameObject coinPrefab;
+	private GameObject onigiriPrefab;
 	private float SpawnIntervall = 0;
 
 	private void Awake()
 	{
-		collectableLayerMask = LayerMask.GetMask("Collectable");
-		coinPrefab = ResourceManager.Instance.GetPrefabByName("Onigiri");
+		collectableLayerMask = LayerMask.GetMask("Collectable");		
 	}
+
+	private void Start()
+	{
+		onigiriPrefab = ResourceManager.Instance.GetPrefabByIndex(1, 0);
+	}
+
 	private void Update ()
 	{
 		SpawnIntervall += Time.deltaTime;
@@ -24,7 +29,7 @@ public class CollectableGenerator : MonoBehaviour
 
 			if (!Physics2D.OverlapCircle(randomPosition, 2f, collectableLayerMask))
 			{
-				Instantiate(coinPrefab, randomPosition, Quaternion.identity);
+				Instantiate(onigiriPrefab, randomPosition, Quaternion.identity);
 				SpawnIntervall = 0;
 			}
 		}

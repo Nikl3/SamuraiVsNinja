@@ -3,19 +3,31 @@
 public class CharacterController2D : RaycastController
 {
     public CollisionInfo Collisions;
+    private Player player;
     private Vector2 playerInput;
 
     protected override void Awake()
     {
+        player = GetComponent<Player>();
+        hitLayerName = "Character";
         collisionLayerName = "Obstacle";
         oneWayCollisionTag = "OneWayObject";
         Collisions.FaceDirection = 1;
+
+        collisionMaskLayer = LayerMask.GetMask(collisionLayerName);
+        hitLayerMask = LayerMask.GetMask(hitLayerName);
+
         base.Awake();
     }
 
-    private Ray CreateRay(Vector2 origin, Vector2 direction)
+    public void DoBoxCast()
     {
-        return new Ray(origin, direction);
+        Collider2D[] colliderHits = Physics2D.OverlapBoxAll(transform.position, Vector2.one, 0, hitLayerMask);
+
+        foreach (var colliderHit in colliderHits)
+        {
+
+        }
     }
 
     public void Move(Vector2 moveAmount, bool standingOnPlatform)
@@ -70,7 +82,7 @@ public class CharacterController2D : RaycastController
             DebugManager.Instance.DrawRay(rayOrigin, Vector2.right, directionX, Color.red);
           
             if(hit)
-            {         
+            {
                 DebugManager.Instance.DebugMessage(1, hit.transform.name);
 
                 if (hit.distance == 0)
