@@ -12,6 +12,7 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
     private bool isFading;
     private Image screenFadeImage;
     private Text loadText;
+    public GameObject ControllerIM;
 
     protected override void Awake()
     {
@@ -26,6 +27,8 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
     private void Start()
     {
         FadeScreenImage(0);
+        ControllerIM.SetActive(false);
+
     }
 
     private void RandomizeFillMethod()
@@ -105,13 +108,15 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
         FadeScreenImage(1);
 
         yield return new WaitUntil(() => !isFading);
-
+        //
+        ControllerIM.SetActive(true);
         loadText.enabled = true;
         asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
         asyncOperation.allowSceneActivation = false;
 
         yield return new WaitForSeconds(fakeLoadTime);
 
+        ControllerIM.SetActive(false);
         while (!asyncOperation.isDone)
         {
             if (asyncOperation.progress == 0.9f)
