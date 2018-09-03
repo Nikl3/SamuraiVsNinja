@@ -69,6 +69,7 @@ public class PlayerEngine : MonoBehaviour
         if (player.Controller2D.Collisions.Above || player.Controller2D.Collisions.Below)
         {
             velocity.y = 0;
+            player.Animator.SetBool("WallSlide", false);
         }
     }
 
@@ -85,11 +86,17 @@ public class PlayerEngine : MonoBehaviour
             }
 
             wallSliding = true;
+            player.Animator.SetBool("IsRunning", false);
+            player.Animator.SetBool("WallSlide", true);
+
 
             if (velocity.y < -maxWallSlideSpeed)
             {
                 velocity.y = -maxWallSlideSpeed;
             }
+        } 
+        else {
+            player.Animator.SetBool("WallSlide", false);
         }
     }
 
@@ -124,6 +131,8 @@ public class PlayerEngine : MonoBehaviour
                 velocity.x = -wallDirectionX * wallLeap.x;
                 velocity.y = wallLeap.y;
             }
+
+            player.Animator.SetBool("WallSlide", false);
         }
 
         if (player.Controller2D.Collisions.Below)
@@ -155,33 +164,39 @@ public class PlayerEngine : MonoBehaviour
     {
         if(isDashing == false)
         {
-            StartCoroutine(IDash());        
+            StartCoroutine(IDash());
         }
     }
 
-    private IEnumerator IRangeAttack()
+    public IEnumerator IRangeAttack()
     {
         canRangeAttack = true;
+        player.Animator.SetTrigger("Throw");
+
         var currentDirection = player.Controller2D.Collisions.FaceDirection;
         var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 0), transform.position, Quaternion.Euler(new Vector3(currentDirection, 0, 0)));
         projectile.GetComponent<Projectile>().ProjectileMove(currentDirection);
 
+
         yield return new WaitForSeconds(rangeAttackCooldown);
 
         canRangeAttack = false;
+
     }
 
     private IEnumerator IDash()
     {
+        player.Animator.SetBool("Dash", true);
         isDashing = true;
         gravity = 0;
         moveSpeed = isDashing ? dashSpeed + moveSpeed : moveSpeed;
 
         yield return new WaitForSeconds(dashTime);
 
- 
+
         gravity = dashGravity;
         moveSpeed = startSpeed;
+        player.Animator.SetBool("Dash", false);
 
         yield return new WaitForSeconds(dashCooldown);
         isDashing = false;

@@ -63,8 +63,11 @@ public class PlayerInput : MonoBehaviour
 
         if (dashAxis >= 1)
         {
-           if(directionalInput != Vector2.zero)
+            if (directionalInput != Vector2.zero) {
                 player.PlayerEngine.OnDash();
+                player.Animator.SetTrigger("Dash");
+            }
+
         }
 
         player.PlayerEngine.CalculateMovement();
