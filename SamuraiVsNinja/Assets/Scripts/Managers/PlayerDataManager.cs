@@ -6,10 +6,8 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
 
     private const int MAX_PLAYER_NUMBER = 4;
 
-    [SerializeField]
     private PlayerData[] playerDatas;
-    // !!!!!!
-    private int currentlyJoinedPlayers = 4;
+    private int currentlyJoinedPlayers = 0;
 
     private bool canJoin = false;
 

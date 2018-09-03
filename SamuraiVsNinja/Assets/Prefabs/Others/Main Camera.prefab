@@ -100,10 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bff631115f2e814aafa26c6aa1c9f8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  targets: []
   offset: {x: 0, y: 0}
   smoothTime: 0.5
   maxZoom: 10

@@ -256,30 +256,23 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	public void SetJoinField(int playerID)
 	{
 		joinFields[playerID - 1].ChangeJoinFieldVisuals(playerID, fieldColor);
-		joinedPlayerText.text = "PLAYERS " + (playerID) + " / " + PlayerDataManager.Instance.MaxPlayerNumber;
-		//CanStart();
+		joinedPlayerText.text = "PLAYERS " + PlayerDataManager.Instance.CurrentlyJoinedPlayers + " / " + 4;
 	}
 
 	public void UnSetJoinField(int playerID)
-	{
-		for (int i = 0; i < joinFields.Length; i++)
-		{
-			joinFields[i].UnChangeJoinFieldVisuals();         
-		}
-
-		joinedPlayerText.text = "PLAYERS " + (PlayerDataManager.Instance.CurrentlyJoinedPlayers) + " / " + PlayerDataManager.Instance.MaxPlayerNumber;
-		//CanStart();
+	{		
+		joinFields[playerID - 1].UnChangeJoinFieldVisuals();         
+		joinedPlayerText.text = "PLAYERS " + PlayerDataManager.Instance.CurrentlyJoinedPlayers + " / " + 4;
 	}
 
-	public void UnSetAllJoinField(int amount)
+	public void UnSetAllJoinField()
 	{
-		for (int i = 0; i < amount; i++)
+		for (int i = 0; i < joinFields.Length; i++)
 		{
 			joinFields[i].UnChangeJoinFieldVisuals();
 		}
 
 		joinedPlayerText.text = "PLAYERS 0 / " + PlayerDataManager.Instance.MaxPlayerNumber;
-		//CanStart();
 	}
 
 	private void OnQuit()
@@ -360,16 +353,15 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	public void BackToMenuButton()
 	{
-		if (characterSelectPanel.activeSelf)
+		if (currentPanelState == PanelState.CHARACTER_SELECT)
 		{
 			PlayerDataManager.Instance.CanJoin = false;
 			PlayerDataManager.Instance.ClearPlayerDataIndex();
-			UnSetAllJoinField(joinFields.Length);
-		}
+			UnSetAllJoinField();      
+        }
 
-		ChangePanelState(PanelState.MAIN_MENU);
-
-		InputManager.Instance.ChangeActiveSelectedObject(0);
+        ChangePanelState(PanelState.MAIN_MENU);
+        InputManager.Instance.ChangeActiveSelectedObject(0);
 	}
 
 	public void QuitButton()
