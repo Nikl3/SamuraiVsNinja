@@ -65,9 +65,7 @@ public class PlayerInput : MonoBehaviour
         {
             if (directionalInput != Vector2.zero) {
                 player.PlayerEngine.OnDash();
-                player.Animator.SetTrigger("Dash");
             }
-
         }
 
         player.PlayerEngine.CalculateMovement();
