@@ -163,8 +163,8 @@ public class PlayerEngine : MonoBehaviour
     {
         canRangeAttack = true;
         var currentDirection = player.Controller2D.Collisions.FaceDirection;
-        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(1, 1), transform.position, Quaternion.Euler(new Vector3(currentDirection, 0, 0)));
-        projectile.GetComponent<Projectile>().BulletMove(currentDirection);
+        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 0), transform.position, Quaternion.Euler(new Vector3(currentDirection, 0, 0)));
+        projectile.GetComponent<Projectile>().ProjectileMove(currentDirection);
 
         yield return new WaitForSeconds(rangeAttackCooldown);
 

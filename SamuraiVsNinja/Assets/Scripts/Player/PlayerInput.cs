@@ -37,14 +37,12 @@ public class PlayerInput : MonoBehaviour
 
         if (Input.GetButtonDown(player.PlayerData.JumpButton))
         {
-            Debug.LogError("JUMP DOWN");
             player.PlayerEngine.OnJumpInputDown();
             player.Animator.SetTrigger("Jump");
         }
 
         if (Input.GetButtonUp(player.PlayerData.JumpButton))
         {
-            Debug.LogWarning("JUMP UP");
             player.PlayerEngine.OnJumpInputUp();
         }
 

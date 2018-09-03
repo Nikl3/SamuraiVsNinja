@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void BulletMove(int projectileDirection)
+    public void ProjectileMove(int projectileDirection)
     {
         startDirection = projectileDirection;
         spriteRenderer.flipX = startDirection > 0 ? true : false;
