@@ -295,11 +295,13 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	public void StartButton()
 	{
 		PlayerDataManager.Instance.CanJoin = false;
+		InputManager.Instance.CurrentSeletedObject = null;
 		SceneMaster.Instance.LoadScene(1);
 	}
 
 	public void OnlineButton()
 	{
+		InputManager.Instance.CurrentSeletedObject = null;
 		SceneMaster.Instance.LoadScene(2);
 	}
 
@@ -357,10 +359,10 @@ public class MainMenuManager : Singelton<MainMenuManager>
 			PlayerDataManager.Instance.CanJoin = false;
 			PlayerDataManager.Instance.ClearPlayerDataIndex();
 			UnSetAllJoinField();      
-        }
+		}
 
-        ChangePanelState(PanelState.MAIN_MENU);
-        InputManager.Instance.ChangeActiveSelectedObject(0);
+		ChangePanelState(PanelState.MAIN_MENU);
+		InputManager.Instance.ChangeActiveSelectedObject(0);
 	}
 
 	public void QuitButton()

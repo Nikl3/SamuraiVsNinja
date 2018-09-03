@@ -52,4 +52,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDebugingMessages: 0
-  isDebugingRaycasts: 1
+  isDebugingRaycasts: 0

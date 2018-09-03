@@ -11,6 +11,18 @@ public class InputManager : Singelton<InputManager>
     [SerializeField]
     private GameObject previousSelectedObject;
 
+    public GameObject CurrentSeletedObject
+    {
+        get
+        {
+            return eventSystem.currentSelectedGameObject;
+        }
+        set
+        {
+            eventSystem.SetSelectedGameObject(value);
+        }
+    }
+
     [Header("Panel default/start objects")]
     [SerializeField]
     private GameObject[] panelDefaultSelectedObects;

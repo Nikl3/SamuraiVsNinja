@@ -8,27 +8,33 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
 {
     private AsyncOperation asyncOperation;
 
+    private float flickeringSpeed = 1f;
     private float fakeLoadTime = 1f;
     private bool isFading;
+    private bool isAnimatingText;
     private Image screenFadeImage;
     private Text loadText;
-    public GameObject ControllerIM;
+    private Text pressAnyKeyText;
+    private GameObject howToPlayImage;
 
     protected override void Awake()
     {
         base.Awake();
 
         screenFadeImage = transform.Find("FadeImage").GetComponent<Image>();
+        howToPlayImage = transform.Find("HowToPlayImage").gameObject;
         loadText = transform.Find("LoadText").GetComponent<Text>();
+        pressAnyKeyText = howToPlayImage.transform.Find("PressAnyKeyText").GetComponent<Text>();
         screenFadeImage.fillAmount = 1f;
-        loadText.enabled = false;
     }
 
     private void Start()
     {
-        FadeScreenImage(0);
-        ControllerIM.SetActive(false);
+        howToPlayImage.SetActive(false);
+        loadText.enabled = false;
+        pressAnyKeyText.enabled = false;
 
+        FadeScreenImage(0);
     }
 
     private void RandomizeFillMethod()
@@ -82,6 +88,11 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
         StartCoroutine(ILoadSceneAsync(sceneIndex));
     }
 
+    public void AnimateText(Text textToAnimate, float flickeringSpeed)
+    {
+        StartCoroutine(IAnimateText(textToAnimate, flickeringSpeed));
+    }
+
     public void FadeScreenImage(float targetFillAmount, float fadeSpeed = 1f)
     {
         RandomizeFillMethod();
@@ -108,26 +119,42 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
         FadeScreenImage(1);
 
         yield return new WaitUntil(() => !isFading);
-        //
-        ControllerIM.SetActive(true);
+
+        howToPlayImage.SetActive(true);
+        pressAnyKeyText.enabled = true;
         loadText.enabled = true;
+
+        AnimateText(pressAnyKeyText, flickeringSpeed);
+
         asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
         asyncOperation.allowSceneActivation = false;
 
         yield return new WaitForSeconds(fakeLoadTime);
 
-        ControllerIM.SetActive(false);
         while (!asyncOperation.isDone)
         {
             if (asyncOperation.progress == 0.9f)
             {
-                asyncOperation.allowSceneActivation = true;
+                loadText.enabled = false;
+
+                if (Input.anyKeyDown)
+                {
+                  
+                    isAnimatingText = false;
+                    asyncOperation.allowSceneActivation = true;
+                }
             }
 
             yield return null;
         }
 
+        howToPlayImage.SetActive(false);
+        loadText.enabled = true;
+
+        yield return new WaitForSeconds(fakeLoadTime);
+
         loadText.enabled = false;
+        pressAnyKeyText.enabled = false;
         FadeScreenImage(0);
     }
 
@@ -138,5 +165,18 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
         yield return new WaitUntil(() => !isFading);
 
         action.Invoke();
+    }
+
+    private IEnumerator IAnimateText(Text textToAnimate, float flickeringSpeed)
+    {
+        isAnimatingText = true;
+
+        while (isAnimatingText)
+        {
+            textToAnimate.enabled = false;
+            yield return new WaitForSeconds(flickeringSpeed);
+            textToAnimate.enabled = true;
+            yield return new WaitForSeconds(flickeringSpeed);
+        }
     }
 }
