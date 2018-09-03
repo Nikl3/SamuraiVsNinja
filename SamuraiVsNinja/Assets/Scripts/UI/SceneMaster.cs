@@ -11,26 +11,29 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
     private float flickeringSpeed = 1f;
     private float fakeLoadTime = 1f;
     private bool isFading;
+    private bool isHowToPlayImageFading;
     private bool isAnimatingText;
     private Image screenFadeImage;
+    private Image howToPlayImage;
     private Text loadText;
     private Text pressAnyKeyText;
-    private GameObject howToPlayImage;
+
 
     protected override void Awake()
     {
         base.Awake();
 
         screenFadeImage = transform.Find("FadeImage").GetComponent<Image>();
-        howToPlayImage = transform.Find("HowToPlayImage").gameObject;
+        howToPlayImage = transform.Find("HowToPlayImage").GetComponent<Image>();
         loadText = transform.Find("LoadText").GetComponent<Text>();
         pressAnyKeyText = howToPlayImage.transform.Find("PressAnyKeyText").GetComponent<Text>();
         screenFadeImage.fillAmount = 1f;
+        howToPlayImage.fillAmount = 0f;
     }
 
     private void Start()
     {
-        howToPlayImage.SetActive(false);
+        howToPlayImage.gameObject.SetActive(false);
         loadText.enabled = false;
         pressAnyKeyText.enabled = false;
 
@@ -99,6 +102,11 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
         StartCoroutine(IFadeScreenImage(targetFillAmount, 1f));
     }
 
+    private void AnimateHowToPlayImage(float targetFillAmount, float fadeSpeed = 1f)
+    {
+        StartCoroutine(IAnimateHowToPlayImage(targetFillAmount, fadeSpeed));
+    }
+
     private IEnumerator IFadeScreenImage(float targetFillAmount, float fadeSpeed)
     {
         isFading = true;
@@ -120,16 +128,20 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
 
         yield return new WaitUntil(() => !isFading);
 
-        howToPlayImage.SetActive(true);
+        howToPlayImage.gameObject.SetActive(true);
         pressAnyKeyText.enabled = true;
         loadText.enabled = true;
+
+        AnimateHowToPlayImage(1, 0.5f);
 
         AnimateText(pressAnyKeyText, flickeringSpeed);
 
         asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
         asyncOperation.allowSceneActivation = false;
 
-        yield return new WaitForSeconds(fakeLoadTime);
+        yield return new WaitUntil(() => !isHowToPlayImageFading);
+
+        //yield return new WaitForSeconds(fakeLoadTime);
 
         while (!asyncOperation.isDone)
         {
@@ -148,13 +160,18 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
             yield return null;
         }
 
-        howToPlayImage.SetActive(false);
+        pressAnyKeyText.enabled = false;
+        AnimateHowToPlayImage(0, 0.5f);
+        yield return new WaitUntil(() => !isHowToPlayImageFading);
+
+        howToPlayImage.gameObject.SetActive(false);
+
         loadText.enabled = true;
 
         yield return new WaitForSeconds(fakeLoadTime);
 
         loadText.enabled = false;
-        pressAnyKeyText.enabled = false;
+ 
         FadeScreenImage(0);
     }
 
@@ -178,5 +195,19 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
             textToAnimate.enabled = true;
             yield return new WaitForSeconds(flickeringSpeed);
         }
+    }
+
+    private IEnumerator IAnimateHowToPlayImage(float targetFillAmount, float fadeSpeed)
+    {
+        isHowToPlayImageFading = true;
+
+        while (howToPlayImage.fillAmount != targetFillAmount)
+        {
+            howToPlayImage.fillAmount += howToPlayImage.fillAmount < targetFillAmount ? (1f / fadeSpeed) * Time.unscaledDeltaTime : -(1f / fadeSpeed) * Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        isHowToPlayImageFading = false;
+        yield return null;
     }
 }
