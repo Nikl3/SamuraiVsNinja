@@ -131,31 +131,29 @@ public class SceneMaster : Singelton<SceneMaster>
 
         yield return new WaitUntil(() => !isFading);
 
-        howToPlayImage.gameObject.SetActive(true);
-        pressAnyKeyText.enabled = true;
+        pressAnyKeyText.enabled = false;
         loadText.enabled = true;
-
-        AnimateHowToPlayImage(1, 0.5f);
-
-        AnimateText(pressAnyKeyText, flickeringSpeed);
+        howToPlayImage.gameObject.SetActive(true);
 
         asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
         asyncOperation.allowSceneActivation = false;
 
-        yield return new WaitUntil(() => !isHowToPlayImageFading);
+        yield return new WaitForSecondsRealtime(fakeLoadTime);
 
-        //yield return new WaitForSeconds(fakeLoadTime);
+        loadText.enabled = false;
 
         while (!asyncOperation.isDone)
         {
             if (asyncOperation.progress == 0.9f)
             {
-                loadText.enabled = false;
+                if (!isAnimatingText)
+                {
+                    AnimateText(pressAnyKeyText, flickeringSpeed);
+                   
+                }
 
                 if (Input.anyKeyDown)
                 {
-                  
-                    isAnimatingText = false;
                     asyncOperation.allowSceneActivation = true;
                 }
             }
@@ -163,18 +161,15 @@ public class SceneMaster : Singelton<SceneMaster>
             yield return null;
         }
 
+        isAnimatingText = false;
         pressAnyKeyText.enabled = false;
-        AnimateHowToPlayImage(0, 0.5f);
-        yield return new WaitUntil(() => !isHowToPlayImageFading);
-
         howToPlayImage.gameObject.SetActive(false);
 
         loadText.enabled = true;
 
-        yield return new WaitForSeconds(fakeLoadTime);
+        yield return new WaitForSecondsRealtime(fakeLoadTime);
 
         loadText.enabled = false;
- 
         FadeScreenImage(0);
     }
 
@@ -190,13 +185,14 @@ public class SceneMaster : Singelton<SceneMaster>
     private IEnumerator IAnimateText(Text textToAnimate, float flickeringSpeed)
     {
         isAnimatingText = true;
+        pressAnyKeyText.enabled = true;
 
         while (isAnimatingText)
         {
             textToAnimate.enabled = false;
-            yield return new WaitForSeconds(flickeringSpeed);
+            yield return new WaitForSecondsRealtime(flickeringSpeed);
             textToAnimate.enabled = true;
-            yield return new WaitForSeconds(flickeringSpeed);
+            yield return new WaitForSecondsRealtime(flickeringSpeed);
         }
     }
 

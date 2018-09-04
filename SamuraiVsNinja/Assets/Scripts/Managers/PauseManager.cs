@@ -1,55 +1,62 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using System;
+using UnityEngine;
 
-public class PauseManager : MonoBehaviour {
-    public Canvas PauseCanvas;
-
+public class PauseManager : MonoBehaviour
+{
+    private GameObject pausePanel;
+    private bool isPaused;
 
     private void Awake()
     {
-        PauseCanvas.GetComponent<Canvas>();
-
+        pausePanel = transform.Find("PausePanel").gameObject;
     }
 
     private void Start()
     {
-        PauseCanvas.gameObject.SetActive(false);
+        pausePanel.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
-        GamePaused();
-
-    }
-
-    private void GamePaused()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetButtonDown("Cancel_J1"))
         {
-            PauseCanvas.gameObject.SetActive(true);
-            Time.timeScale = 0;
+            if (isPaused)
+            {
+                ContinueButton();
+            }
+            else
+            {
+                Paused();
+            }
         }
+    }
 
-        //if (Input.GetButtonDown())
-
+    private void Paused()
+    {
+        pausePanel.SetActive(true);
+        isPaused = true;
+        Time.timeScale = 0;
     }
 
     public void ContinueButton()
     {
-        PauseCanvas.gameObject.SetActive(false);
+        pausePanel.SetActive(false);
+        isPaused = false;
         Time.timeScale = 1;
     }
 
-    public void RestartGame()
+    public void RestartGameButton()
     {
-       SceneManager.LoadScene(1);
+        SceneMaster.Instance.LoadScene(1);
     }
 
-    public void BackMenu()
+    public void OptionsButton()
     {
-        SceneManager.LoadScene(0);
+
     }
 
+    public void ExitGameButton()
+    {
+        SceneMaster.Instance.LoadScene(0);
+    }
 }
-
-

@@ -3,12 +3,10 @@
 public class CharacterController2D : RaycastController
 {
     public CollisionInfo Collisions;
-    private Player player;
     private Vector2 playerInput;
 
     protected override void Awake()
     {
-        player = GetComponent<Player>();
         hitLayerName = "Character";
         collisionLayerName = "Obstacle";
         oneWayCollisionTag = "OneWayObject";
