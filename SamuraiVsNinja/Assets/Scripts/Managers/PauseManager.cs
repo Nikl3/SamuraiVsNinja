@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour {
     public Canvas PauseCanvas;
@@ -39,6 +40,15 @@ public class PauseManager : MonoBehaviour {
         Time.timeScale = 1;
     }
 
+    public void RestartGame()
+    {
+       SceneManager.LoadScene(1);
+    }
+
+    public void BackMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 
 }
 
