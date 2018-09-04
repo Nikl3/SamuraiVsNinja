@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DebugManager : SingeltonPersistant<DebugManager>
+public class DebugManager : Singelton<DebugManager>
 {
     [SerializeField]
     private bool isDebugingMessages;

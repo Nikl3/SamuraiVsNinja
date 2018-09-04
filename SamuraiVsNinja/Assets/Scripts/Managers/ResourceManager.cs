@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager : SingeltonPersistant<ResourceManager>
+public class ResourceManager : Singelton<ResourceManager>
 {
 	private Dictionary<int, GameObject[]> prefabs;
 
@@ -11,9 +11,6 @@ public class ResourceManager : SingeltonPersistant<ResourceManager>
 	[Header("Collectables")]
 	[SerializeField]
 	private GameObject[] collectablePrefabs;
-	[Header("Managers")]
-	[SerializeField]
-	private GameObject[] managerPrefabs;
 	[Header("Network")]
 	[SerializeField]
 	private GameObject[] networkPrefabs;
@@ -27,9 +24,8 @@ public class ResourceManager : SingeltonPersistant<ResourceManager>
 	[SerializeField]
 	private GameObject[] otherPrefabs;
 
-	protected override void Awake ()
+	private void Awake ()
 	{
-		base.Awake();
 		InitializePrefabDictionary();
 	}
 	
@@ -39,11 +35,10 @@ public class ResourceManager : SingeltonPersistant<ResourceManager>
 		{
 			{ 0, characterPrefabs },
 			{ 1, collectablePrefabs },
-			{ 2, managerPrefabs },
-			{ 3, networkPrefabs },
-			{ 4, projectilePrefabs },
-			{ 5, uiPrefabs },
-			{ 6, otherPrefabs }
+			{ 2, networkPrefabs },
+			{ 3, projectilePrefabs },
+			{ 4, uiPrefabs },
+			{ 5, otherPrefabs }
 		};
 	}
 

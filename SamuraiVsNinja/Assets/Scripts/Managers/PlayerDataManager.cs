@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
+﻿public class PlayerDataManager : Singelton<PlayerDataManager>
 {
     #region VARIABLES
 
@@ -43,9 +41,8 @@ public class PlayerDataManager : SingeltonPersistant<PlayerDataManager>
 
     #endregion PROPERTIES
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         playerDatas = new PlayerData[MAX_PLAYER_NUMBER];
 
         for (int i = 0; i < playerDatas.Length; i++)

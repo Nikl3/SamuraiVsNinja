@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SceneMaster : SingeltonPersistant<SceneMaster>
+public class SceneMaster : Singelton<SceneMaster>
 {
+    #region VARIABLES
+
     private AsyncOperation asyncOperation;
 
     private float flickeringSpeed = 1f;
@@ -18,11 +20,10 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
     private Text loadText;
     private Text pressAnyKeyText;
 
+    #endregion VARIABLES
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
-
         screenFadeImage = transform.Find("FadeImage").GetComponent<Image>();
         howToPlayImage = transform.Find("HowToPlayImage").GetComponent<Image>();
         loadText = transform.Find("LoadText").GetComponent<Text>();
@@ -38,6 +39,11 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
         pressAnyKeyText.enabled = false;
 
         FadeScreenImage(0);
+    }
+
+    private int RandomizeNumbers(int minValue, int maxValue)
+    {
+        return UnityEngine.Random.Range(minValue, maxValue);
     }
 
     private void RandomizeFillMethod()
@@ -76,11 +82,6 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
         randomIndex = 0;
     }
 
-    private int RandomizeNumbers(int minValue, int maxValue)
-    {
-        return UnityEngine.Random.Range(minValue, maxValue);
-    }
-
     public void ExitGame(Action action)
     {
         StartCoroutine(IExitingGame(action));
@@ -91,21 +92,23 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
         StartCoroutine(ILoadSceneAsync(sceneIndex));
     }
 
-    public void AnimateText(Text textToAnimate, float flickeringSpeed)
-    {
-        StartCoroutine(IAnimateText(textToAnimate, flickeringSpeed));
-    }
-
     public void FadeScreenImage(float targetFillAmount, float fadeSpeed = 1f)
     {
         RandomizeFillMethod();
         StartCoroutine(IFadeScreenImage(targetFillAmount, 1f));
     }
 
+    public void AnimateText(Text textToAnimate, float flickeringSpeed)
+    {
+        StartCoroutine(IAnimateText(textToAnimate, flickeringSpeed));
+    }
+
     private void AnimateHowToPlayImage(float targetFillAmount, float fadeSpeed = 1f)
     {
         StartCoroutine(IAnimateHowToPlayImage(targetFillAmount, fadeSpeed));
-    }
+    } 
+
+    #region COROUTINES
 
     private IEnumerator IFadeScreenImage(float targetFillAmount, float fadeSpeed)
     {
@@ -210,4 +213,6 @@ public class SceneMaster : SingeltonPersistant<SceneMaster>
         isHowToPlayImageFading = false;
         yield return null;
     }
+
+    #endregion COROUTINES
 }

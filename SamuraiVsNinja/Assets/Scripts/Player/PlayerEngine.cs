@@ -174,7 +174,7 @@ public class PlayerEngine : MonoBehaviour
         player.Animator.SetTrigger("Throw");
 
         var currentDirection = player.Controller2D.Collisions.FaceDirection;
-        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 0), transform.position, Quaternion.Euler(new Vector3(currentDirection, 0, 0)));
+        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), transform.position, Quaternion.Euler(new Vector3(currentDirection, 0, 0)));
         projectile.GetComponent<Projectile>().ProjectileMove(currentDirection);
 
 
