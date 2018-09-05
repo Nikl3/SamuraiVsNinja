@@ -151,7 +151,7 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnMeleeAttack()
     {
-        player.Controller2D.DoBoxCast();
+
     }
 
     public void OnRangedAttack()
