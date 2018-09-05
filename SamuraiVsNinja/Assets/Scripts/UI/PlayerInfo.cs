@@ -1,23 +1,41 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerInfo : MonoBehaviour
 {
     private Transform parentContainer;
     //private Image playerImage;
-    private Text coinCountText;
-    private string text;
-    private int coins;
-    [SerializeField]
-    private GameObject[] healthpoints;
-    public Image atImage;
-    private float attackCoolDown = 3f;
+    private Text playerNameText;
+    private Text onigiriCountText;
+    private int onigiris;
+    private Image[] healthpoints;
+    private Image cooldownImage;
+
+    public bool IsCooldown
+    {
+        get;
+        private set;
+    }
+    public string PlayerName
+    {
+        set
+        {
+            playerNameText.text = value;
+        }
+    }
 
     private void Awake() 
     {
         //playerImage = GetComponent<Image>();
-        coinCountText = GetComponentInChildren<Text>();
+        playerNameText = transform.Find("PlayerName").GetComponent<Text>();
+        onigiriCountText = transform.Find("OnigiriIcon").GetComponentInChildren<Text>();
         parentContainer = GameObject.Find("HUD").transform.Find("PlayerInfoContainer");
+        healthpoints = transform.Find("HealthBar").GetComponentsInChildren<Image>();
+        Array.Reverse(healthpoints);
+        cooldownImage = transform.Find("RangeAttackCooldown").transform.Find("CooldownImage").GetComponent<Image>();
+        cooldownImage.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -25,26 +43,39 @@ public class PlayerInfo : MonoBehaviour
         transform.SetParent(parentContainer);
         transform.localPosition = Vector3.zero;
         transform.localScale = Vector3.one;
+
+        gameObject.name = playerNameText.text + " Info";
     }
 
     public void ModifyCoinValues(int amount)
     {
-        coins += amount;
-        coinCountText.text = coins.ToString();
+        onigiris += amount;
+        onigiriCountText.text = onigiris.ToString();
     }
 
-    public void AttackInd() {
-        atImage.fillAmount -= 0.1f / attackCoolDown * Time.deltaTime;
-    }
-
-    public void TakeDMG() {
-        print("damage taken");
-        for (int i = 0; i < healthpoints.Length; i++) {
-            if (healthpoints[i].activeSelf) {
-                healthpoints[i].SetActive(false);
+    public void TakeDamage()
+    {
+        for (int i = 0; i < healthpoints.Length; i++)
+        {
+            if (healthpoints[i].gameObject.activeSelf)
+            {
+                healthpoints[i].gameObject.SetActive(false);
                 return;
             }
-
         }
+    }
+
+    public void StartRangeCooldown(float rangeAttackCooldown)
+    {
+        StartCoroutine(IRangeAttackCooldown(rangeAttackCooldown));
+    }
+
+    private IEnumerator IRangeAttackCooldown(float cooldownTime)
+    {
+        IsCooldown = true;
+        cooldownImage.gameObject.SetActive(true);
+        yield return new WaitForSeconds(cooldownTime);
+        cooldownImage.gameObject.SetActive(false);
+        IsCooldown = false;
     }
 }

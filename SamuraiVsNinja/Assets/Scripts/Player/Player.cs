@@ -11,19 +11,19 @@ public class Player : MonoBehaviour
 	private CharacterController2D controller2D;
 	private PlayerInput playerInput;
 	private PlayerEngine playerEngine;
-    private Sword sword;
+	private Sword sword;
 
 	#endregion VARIABLES
 
 	#region PROPERTIES
 
-    public Sword Sword
-    {
-        get
-        {
-            return sword;
-        }
-    }
+	public Sword Sword
+	{
+		get
+		{
+			return sword;
+		}
+	}
 
 	public PlayerInfo PlayerInfo
 	{
@@ -88,12 +88,15 @@ public class Player : MonoBehaviour
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		animator = GetComponentInChildren<Animator>();
 		controller2D = GetComponent<CharacterController2D>();
-        sword = GetComponent<Sword>();
+		sword = GetComponent<Sword>();
 	}
 
 	public void Initialize(PlayerData playerData, PlayerInfo playerInfo)
 	{
-		this.playerInfo = playerInfo;
 		this.playerData = playerData;
+		this.playerInfo = playerInfo;
+
+		gameObject.name = playerData.PlayerName;
+		playerInfo.PlayerName = playerData.PlayerName;
 	}
 }

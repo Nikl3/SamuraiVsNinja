@@ -65,13 +65,14 @@ public class PlayerData
         }
     }
 
-    [SerializeField] private int id;
-    [SerializeField] private string playerName;
+    [SerializeField] private readonly int id;
+    [SerializeField] private readonly string playerName;
     [SerializeField] private bool hasJoined;
 
     public PlayerData(int id)
     {
-        this.id = id;
+        this.id = id;     
+
         playerName = "Player " + id;
         ActionButton = "Action" + "_J" + id;
         HorizontalAxis = "Horizontal" + "_J" + id;

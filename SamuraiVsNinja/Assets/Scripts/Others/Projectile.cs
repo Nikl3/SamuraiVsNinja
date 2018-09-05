@@ -13,6 +13,7 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        gameObject.name = spriteRenderer.sprite.name;
     }
 
     private void SelfDestroy()
@@ -20,7 +21,7 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void ProjectileMove(int projectileDirection)
+    public void ProjectileInitialize(int projectileDirection)
     {
         startDirection = projectileDirection;
         spriteRenderer.flipX = startDirection > 0 ? true : false;
@@ -29,15 +30,18 @@ public class Projectile : MonoBehaviour
 
 
 
-    void OnTriggerEnter2D(Collider2D collision)  {
-        if (collision.gameObject.CompareTag("Player")) {
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
             print(collision.gameObject.name);
             var hittedPlayer = collision.GetComponent<Player>();
-            hittedPlayer.PlayerInfo.TakeDMG();
+            hittedPlayer.PlayerInfo.TakeDamage();
         }
     }
 
-    void Update() {
+    private void Update()
+    {
         transform.position += ((Vector3)new Vector2(startDirection, 0)) * projectileSpeed * Time.deltaTime;
     }
 }

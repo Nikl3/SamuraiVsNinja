@@ -140,8 +140,6 @@ public class SceneMaster : Singelton<SceneMaster>
 
         yield return new WaitForSecondsRealtime(fakeLoadTime);
 
-        loadText.enabled = false;
-
         while (!asyncOperation.isDone)
         {
             if (asyncOperation.progress == 0.9f)
@@ -149,7 +147,7 @@ public class SceneMaster : Singelton<SceneMaster>
                 if (!isAnimatingText)
                 {
                     AnimateText(pressAnyKeyText, flickeringSpeed);
-                   
+                    loadText.enabled = false;
                 }
 
                 if (Input.anyKeyDown)
@@ -165,11 +163,8 @@ public class SceneMaster : Singelton<SceneMaster>
         pressAnyKeyText.enabled = false;
         howToPlayImage.gameObject.SetActive(false);
 
-        loadText.enabled = true;
-
         yield return new WaitForSecondsRealtime(fakeLoadTime);
 
-        loadText.enabled = false;
         FadeScreenImage(0);
     }
 
