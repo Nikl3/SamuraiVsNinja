@@ -18,16 +18,6 @@ public class CharacterController2D : RaycastController
         base.Awake();
     }
 
-    public void DoBoxCast()
-    {
-        Collider2D[] colliderHits = Physics2D.OverlapBoxAll(transform.position, Vector2.one, 0, hitLayerMask);
-
-        foreach (var colliderHit in colliderHits)
-        {
-
-        }
-    }
-
     public void Move(Vector2 moveAmount, bool standingOnPlatform)
     {
         Move(moveAmount, Vector2.zero, standingOnPlatform);
