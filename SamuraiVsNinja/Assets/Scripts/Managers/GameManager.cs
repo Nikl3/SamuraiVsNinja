@@ -6,8 +6,4 @@ public class GameManager : MonoBehaviour
     {
         PlayerDataManager.Instance.SpawnPlayers();
     }
-
-    void Update() {
-
-    }
 }

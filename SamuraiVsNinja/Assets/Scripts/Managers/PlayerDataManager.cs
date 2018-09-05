@@ -90,7 +90,7 @@
             if (playerData.HasJoined)
             {
                 var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0).GetComponent<Player>());
-                var newPlayerInfo = Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1).GetComponent<PlayerInfo>());
+                var newPlayerInfo = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
 
                 newPlayer.Initialize(playerData, newPlayerInfo);
 
