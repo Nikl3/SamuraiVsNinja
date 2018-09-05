@@ -8,6 +8,8 @@ public class PlayerInfo : MonoBehaviour
     private Text coinCountText;
     private string text;
     private int coins;
+    [SerializeField]
+    private GameObject[] healthpoints;
 
     private void Awake()
     {
@@ -27,5 +29,16 @@ public class PlayerInfo : MonoBehaviour
     {
         coins += amount;
         coinCountText.text = coins.ToString();
+    }
+
+    public void TakeDMG() {
+        print("damage taken");
+        for (int i = 0; i < healthpoints.Length; i++) {
+            if (healthpoints[i].activeSelf) {
+                healthpoints[i].SetActive(false);
+                return;
+            }
+
+        }
     }
 }

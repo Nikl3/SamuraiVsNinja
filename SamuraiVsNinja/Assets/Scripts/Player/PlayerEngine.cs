@@ -16,6 +16,8 @@ public class PlayerEngine : MonoBehaviour
     private float startSpeed;
     [SerializeField]
     private float maxWallSlideSpeed = 3f;
+    [SerializeField]
+    private Transform ProjectileSpawnPoint;
 
     private float accelerationTimeAirbourne = 0.2f;
     private float accelerationTimeGrounded = 0.1f;
@@ -174,7 +176,7 @@ public class PlayerEngine : MonoBehaviour
         player.Animator.SetTrigger("Throw");
 
         var currentDirection = player.Controller2D.Collisions.FaceDirection;
-        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), transform.position, Quaternion.Euler(new Vector3(currentDirection, 0, 0)));
+        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), ProjectileSpawnPoint.position, Quaternion.Euler(new Vector3(currentDirection, 0, 0)));
         projectile.GetComponent<Projectile>().ProjectileMove(currentDirection);
 
 

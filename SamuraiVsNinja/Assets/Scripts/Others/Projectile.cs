@@ -7,13 +7,13 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private float selfDestroyTime = 5f;
     private SpriteRenderer spriteRenderer;
+    private int startDirection;
+
 
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
-
-    private int startDirection;
 
     private void SelfDestroy()
     {
@@ -27,8 +27,17 @@ public class Projectile : MonoBehaviour
         Invoke("SelfDestroy", selfDestroyTime);
     }
 
-    private void Update ()
-    {
-        transform.position +=  ((Vector3) new Vector2 (startDirection, 0)) * projectileSpeed * Time.deltaTime;
+
+
+    void OnTriggerEnter2D(Collider2D collision)  {
+        if (collision.gameObject.CompareTag("Player")) {
+            print(collision.gameObject.name);
+            var hittedPlayer = collision.GetComponent<Player>();
+            hittedPlayer.PlayerInfo.TakeDMG();
+        }
+    }
+
+    void Update() {
+        transform.position += ((Vector3)new Vector2(startDirection, 0)) * projectileSpeed * Time.deltaTime;
     }
 }
