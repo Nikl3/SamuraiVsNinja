@@ -18,7 +18,7 @@ public abstract class RaycastController : MonoBehaviour
 
     protected RaycastOrigins raycastOrigins;
     private BoxCollider2D boxCollider2D;
-    private Bounds bounds;
+
 
     protected virtual void Awake()
     {
@@ -32,6 +32,7 @@ public abstract class RaycastController : MonoBehaviour
 
     protected void UpdateRaycastOrigins()
     {
+        Bounds bounds = boxCollider2D.bounds;
         bounds.Expand(SKIN_WIDTH * -2);
 
         raycastOrigins.BottomLeft = new Vector2(bounds.min.x, bounds.min.y);
@@ -42,7 +43,7 @@ public abstract class RaycastController : MonoBehaviour
 
     private void CalculateRaySpacing()
     {
-        bounds = boxCollider2D.bounds;
+        Bounds bounds = boxCollider2D.bounds;
         bounds.Expand(SKIN_WIDTH * -2);
 
         float boundsWidth = bounds.size.x;

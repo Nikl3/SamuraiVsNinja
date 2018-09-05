@@ -34,7 +34,7 @@ public class PlayerInfo : MonoBehaviour
     }
 
     public void AttackInd() {
-        atImage.fillAmount -= 1 / attackCoolDown * Time.deltaTime;
+        atImage.fillAmount -= 0.1f / attackCoolDown * Time.deltaTime;
     }
 
     public void TakeDMG() {

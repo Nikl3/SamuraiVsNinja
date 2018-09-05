@@ -174,6 +174,7 @@ public class PlayerEngine : MonoBehaviour
     {
         canRangeAttack = true;
         player.Animator.SetTrigger("Throw");
+        player.PlayerInfo.AttackInd();
 
         var currentDirection = player.Controller2D.Collisions.FaceDirection;
         var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), ProjectileSpawnPoint.position, Quaternion.Euler(new Vector3(currentDirection, 0, 0)));

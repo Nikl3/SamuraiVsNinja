@@ -309,7 +309,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2506955f2547c84fb80e09d1be466d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atImage: {fileID: 0}
+  healthpoints:
+  - {fileID: 1724544069594698}
+  - {fileID: 1657756309979372}
+  - {fileID: 1356457539830258}
+  atImage: {fileID: 114117051281650092}
 --- !u!114 &114974909584534958
 MonoBehaviour:
   m_ObjectHideFlags: 1
