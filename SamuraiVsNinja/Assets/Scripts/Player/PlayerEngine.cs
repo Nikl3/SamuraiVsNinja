@@ -88,7 +88,6 @@ public class PlayerEngine : MonoBehaviour
             }
 
             wallSliding = true;
-            player.Animator.SetBool("IsRunning", false);
             player.Animator.SetBool("WallSlide", true);
 
 
@@ -97,7 +96,8 @@ public class PlayerEngine : MonoBehaviour
                 velocity.y = -maxWallSlideSpeed;
             }
         } 
-        else {
+        else
+        {
             player.Animator.SetBool("WallSlide", false);
         }
     }
@@ -153,7 +153,7 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnMeleeAttack()
     {
-        player.Controller2D.DoBoxCast();
+
     }
 
     public void OnRangedAttack()
@@ -194,7 +194,6 @@ public class PlayerEngine : MonoBehaviour
         moveSpeed = isDashing ? dashSpeed + moveSpeed : moveSpeed;
 
         yield return new WaitForSeconds(dashTime);
-
 
         gravity = dashGravity;
         moveSpeed = startSpeed;

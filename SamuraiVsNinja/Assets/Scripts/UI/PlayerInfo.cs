@@ -10,8 +10,10 @@ public class PlayerInfo : MonoBehaviour
     private int coins;
     [SerializeField]
     private GameObject[] healthpoints;
+    public Image atImage;
+    private float attackCoolDown = 3f;
 
-    private void Awake()
+    private void Awake() 
     {
         //playerImage = GetComponent<Image>();
         coinCountText = GetComponentInChildren<Text>();
@@ -29,6 +31,10 @@ public class PlayerInfo : MonoBehaviour
     {
         coins += amount;
         coinCountText.text = coins.ToString();
+    }
+
+    public void AttackInd() {
+        atImage.fillAmount -= 1 / attackCoolDown * Time.deltaTime;
     }
 
     public void TakeDMG() {
