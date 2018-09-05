@@ -1,11 +1,12 @@
-﻿public class PlayerDataManager : Singelton<PlayerDataManager>
+﻿using UnityEngine;
+public class PlayerDataManager : Singelton<PlayerDataManager>
 {
     #region VARIABLES
 
     private const int MAX_PLAYER_NUMBER = 4;
-
     private PlayerData[] playerDatas;
-    private int currentlyJoinedPlayers = 0;
+    [SerializeField]
+    private int currentlyJoinedPlayers;
 
     private bool canJoin = false;
 
@@ -43,11 +44,14 @@
 
     private void Awake()
     {
-        playerDatas = new PlayerData[MAX_PLAYER_NUMBER];
+        playerDatas = new PlayerData[currentlyJoinedPlayers];
 
         for (int i = 0; i < playerDatas.Length; i++)
         {
-            playerDatas[i] = new PlayerData(i + 1);
+            playerDatas[i] = new PlayerData(i + 1)
+            {
+                HasJoined = true
+            };
         }
     }
 
