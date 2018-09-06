@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+public enum PlayerState {Normal, Inactive }
+
 public class Player : MonoBehaviour
 {
 	#region VARIABLES
@@ -12,6 +14,8 @@ public class Player : MonoBehaviour
 	private PlayerInput playerInput;
 	private PlayerEngine playerEngine;
 	private Sword sword;
+
+    public PlayerState CurrentState = PlayerState.Normal;
 
 	#endregion VARIABLES
 

@@ -13,6 +13,7 @@ public class PlayerInfo : MonoBehaviour
     private Image[] healthpoints;
     private int healthpt = 3;
     private Image cooldownImage;
+    Player player;
 
     public bool IsCooldown
     {
@@ -54,13 +55,25 @@ public class PlayerInfo : MonoBehaviour
         onigiriCountText.text = onigiris.ToString();
     }
 
-    public void TakeDamage()
+    void ReturnState() {
+        player.CurrentState = PlayerState.Normal;
+    }
+
+    public void TakeDamage(Player hittedPlayer)
     {
+        player = hittedPlayer;
         if (healthpt > 1) {
             for (int i = 0; i < healthpoints.Length; i++) {
                 if (healthpoints[i].gameObject.activeSelf) {
                     healthpoints[i].gameObject.SetActive(false);
                     healthpt--;
+                    hittedPlayer.CurrentState = PlayerState.Inactive;
+                    Invoke("ReturnState", 3f);
+                    if (onigiris > 0) {
+                        ModifyCoinValues(-1);
+                        //instantioi onigiri maahan
+                        Instantiate(ResourceManager.Instance.GetPrefabByIndex(1, 0), hittedPlayer.transform.position, Quaternion.identity);
+                    }
                     return;
                 }
             }
@@ -69,6 +82,11 @@ public class PlayerInfo : MonoBehaviour
             healthpoints[healthpoints.Length - 1].gameObject.SetActive(false);
             healthpt--;
             print("helat loppu, respawncooldown activated");
+            hittedPlayer.transform.position = new Vector2(5, 5);
+            healthpt = 3;
+            foreach (var healthpoint in healthpoints) {
+                healthpoint.gameObject.SetActive(true);
+            }
         }
     }
 
