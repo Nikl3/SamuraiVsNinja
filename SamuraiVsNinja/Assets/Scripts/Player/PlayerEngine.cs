@@ -264,7 +264,6 @@ public class PlayerEngine : MonoBehaviour
         projectile.GetComponent<Projectile>().ProjectileInitialize(player.Controller2D.Collisions.FaceDirection);
 
         yield return new WaitUntil(() => !player.PlayerInfo.IsCooldown);
-        //yield return new WaitForSeconds(RangeAttackCooldown);
 
         isRangeAttacking = false;
     }

@@ -9,7 +9,6 @@ public class Projectile : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private int startDirection;
 
-
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -28,8 +27,6 @@ public class Projectile : MonoBehaviour
         Invoke("SelfDestroy", selfDestroyTime);
     }
 
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -37,6 +34,7 @@ public class Projectile : MonoBehaviour
             print(collision.gameObject.name);
             var hittedPlayer = collision.GetComponent<Player>();
             hittedPlayer.PlayerInfo.TakeDamage();
+            Destroy(gameObject);
         }
     }
 

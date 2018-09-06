@@ -2,6 +2,8 @@
 
 public class PlayerInput : MonoBehaviour
 {
+    public Transform foo;
+
     #region VARIABLES
 
     private float rangeAttackAxis;
@@ -30,7 +32,7 @@ public class PlayerInput : MonoBehaviour
     {
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw(player.PlayerData.HorizontalAxis), Input.GetAxisRaw(player.PlayerData.VerticalAxis));
 
-        transform.localScale = new Vector2( player.Controller2D.Collisions.FaceDirection > 0 ? -1 : 1, 1);
+        foo.localScale = new Vector2(player.Controller2D.Collisions.FaceDirection > 0 ? -1 : 1, 1);
         player.Animator.SetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
 
         player.PlayerEngine.SetDirectionalInput(directionalInput);

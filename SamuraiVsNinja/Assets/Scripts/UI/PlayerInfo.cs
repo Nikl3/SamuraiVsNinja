@@ -72,10 +72,6 @@ public class PlayerInfo : MonoBehaviour
         }
     }
 
-
-
-    
-
     public void StartRangeCooldown(float rangeAttackCooldown)
     {
         StartCoroutine(IRangeAttackCooldown(0, rangeAttackCooldown));
