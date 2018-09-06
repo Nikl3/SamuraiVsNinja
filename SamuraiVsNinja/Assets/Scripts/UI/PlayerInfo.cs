@@ -67,15 +67,20 @@ public class PlayerInfo : MonoBehaviour
 
     public void StartRangeCooldown(float rangeAttackCooldown)
     {
-        StartCoroutine(IRangeAttackCooldown(rangeAttackCooldown));
+        StartCoroutine(IRangeAttackCooldown(0, rangeAttackCooldown));
     }
 
-    private IEnumerator IRangeAttackCooldown(float cooldownTime)
+    private IEnumerator IRangeAttackCooldown(float targetFillAmount, float cooldownTime)
     {
         IsCooldown = true;
         cooldownImage.gameObject.SetActive(true);
-        yield return new WaitForSeconds(cooldownTime);
+        while (cooldownImage.fillAmount != targetFillAmount)
+        {
+            cooldownImage.fillAmount += cooldownImage.fillAmount < targetFillAmount ? (1f / cooldownTime) * Time.unscaledDeltaTime : -(1f / cooldownTime) * Time.unscaledDeltaTime;
+            yield return null;
+        }
         cooldownImage.gameObject.SetActive(false);
         IsCooldown = false;
+        cooldownImage.fillAmount = 1;
     }
 }
