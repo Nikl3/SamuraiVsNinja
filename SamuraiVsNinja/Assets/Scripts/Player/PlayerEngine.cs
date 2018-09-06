@@ -257,6 +257,7 @@ public class PlayerEngine : MonoBehaviour
     public IEnumerator IRangeAttack()
     {
         isRangeAttacking = true;
+        player.Animator.SetTrigger("Throw");
         player.PlayerInfo.StartRangeCooldown(RangeAttackCooldown);
 
         var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), ProjectileSpawnPoint.position, Quaternion.identity);

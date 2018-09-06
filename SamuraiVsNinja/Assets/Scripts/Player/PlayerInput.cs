@@ -56,7 +56,6 @@ public class PlayerInput : MonoBehaviour
         if (rangeAttackAxis <= -1)
         {
             player.PlayerEngine.OnRangedAttack();
-            player.Animator.SetTrigger("Throw");
         }
 
         dashAxis = Input.GetAxisRaw(player.PlayerData.DashButton);

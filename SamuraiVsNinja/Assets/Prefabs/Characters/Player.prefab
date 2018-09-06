@@ -89,7 +89,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1645463958323924}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.77, y: 0, z: 0}
+  m_LocalPosition: {x: -2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4774517903223090}
@@ -258,8 +258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633fad26abdf95b4cb3b515cd8bc1c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangeAttackAxis: 0
-  dashAxis: 0
 --- !u!114 &114684871165924040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -276,9 +274,7 @@ MonoBehaviour:
     m_Bits: 1024
   minJumpHeight: 1
   maxJumpHeight: 6
-  timeToJumpApex: 0.5
   moveSpeed: 10
-  maxWallSlideSpeed: 3
   ProjectileSpawnPoint: {fileID: 4110683654836582}
   dashSpeed: 20
 --- !u!114 &114841644404322898

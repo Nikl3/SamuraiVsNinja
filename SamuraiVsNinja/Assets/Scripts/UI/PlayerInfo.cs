@@ -11,6 +11,7 @@ public class PlayerInfo : MonoBehaviour
     private Text onigiriCountText;
     private int onigiris;
     private Image[] healthpoints;
+    private int healthpt = 3;
     private Image cooldownImage;
 
     public bool IsCooldown
@@ -55,15 +56,25 @@ public class PlayerInfo : MonoBehaviour
 
     public void TakeDamage()
     {
-        for (int i = 0; i < healthpoints.Length; i++)
-        {
-            if (healthpoints[i].gameObject.activeSelf)
-            {
-                healthpoints[i].gameObject.SetActive(false);
-                return;
+        if (healthpt > 1) {
+            for (int i = 0; i < healthpoints.Length; i++) {
+                if (healthpoints[i].gameObject.activeSelf) {
+                    healthpoints[i].gameObject.SetActive(false);
+                    healthpt--;
+                    return;
+                }
             }
         }
+        else {
+            healthpoints[healthpoints.Length - 1].gameObject.SetActive(false);
+            healthpt--;
+            print("helat loppu, respawncooldown activated");
+        }
     }
+
+
+
+    
 
     public void StartRangeCooldown(float rangeAttackCooldown)
     {
@@ -77,5 +88,6 @@ public class PlayerInfo : MonoBehaviour
         yield return new WaitForSeconds(cooldownTime);
         cooldownImage.gameObject.SetActive(false);
         IsCooldown = false;
+  
     }
 }
