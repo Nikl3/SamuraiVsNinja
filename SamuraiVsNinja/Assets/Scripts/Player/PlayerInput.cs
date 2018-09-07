@@ -2,11 +2,11 @@
 
 public class PlayerInput : MonoBehaviour
 {
+    public Transform foo;
+
     #region VARIABLES
 
-    [SerializeField]
     private float rangeAttackAxis;
-    [SerializeField]
     private float dashAxis;
 
     private Player player;
@@ -31,14 +31,15 @@ public class PlayerInput : MonoBehaviour
     public void UpdateLocalInputs()
     {
         Vector2 directionalInput = new Vector2(Input.GetAxisRaw(player.PlayerData.HorizontalAxis), Input.GetAxisRaw(player.PlayerData.VerticalAxis));
-        player.SpriteRenderer.flipX = player.Controller2D.Collisions.FaceDirection > 0 ? true : false;
+
+        foo.localScale = new Vector2(player.Controller2D.Collisions.FaceDirection > 0 ? -1 : 1, 1);
         player.Animator.SetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
+
         player.PlayerEngine.SetDirectionalInput(directionalInput);
 
         if (Input.GetButtonDown(player.PlayerData.JumpButton))
         {
             player.PlayerEngine.OnJumpInputDown();
-            player.Animator.SetTrigger("Jump");
         }
 
         if (Input.GetButtonUp(player.PlayerData.JumpButton))
@@ -48,7 +49,7 @@ public class PlayerInput : MonoBehaviour
 
         if (Input.GetButtonDown(player.PlayerData.MeleeAttackButton))
         {
-            player.PlayerEngine.OnMeleeAttack();
+            //player.PlayerEngine.OnMeleeAttack();
             player.Animator.SetTrigger("Attack");
         }
 
@@ -63,7 +64,8 @@ public class PlayerInput : MonoBehaviour
 
         if (dashAxis >= 1)
         {
-            if (directionalInput != Vector2.zero) {
+            if (directionalInput != Vector2.zero)
+            {
                 player.PlayerEngine.OnDash();
             }
         }

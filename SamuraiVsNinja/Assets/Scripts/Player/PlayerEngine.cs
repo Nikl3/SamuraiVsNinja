@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerEngine : MonoBehaviour
 {
+    #region VARIABLES
+
     [SerializeField]
     private LayerMask hitLayer;
     [SerializeField]
@@ -10,16 +12,16 @@ public class PlayerEngine : MonoBehaviour
     [SerializeField]
     private float maxJumpHeight = 4f;
     [SerializeField]
-    private float timeToJumpApex = 0.5f;
+    private readonly float timeToJumpApex = 0.5f;
     [SerializeField]
     private float moveSpeed = 6f;
     private float startSpeed;
     [SerializeField]
-    private float maxWallSlideSpeed = 3f;
+    private readonly float maxWallSlideSpeed = 3f;
     [SerializeField]
     private Transform ProjectileSpawnPoint;
 
-    private float accelerationTimeAirbourne = 0.2f;
+    private readonly float accelerationTimeAirbourne = 0.2f;
     private float accelerationTimeGrounded = 0.1f;
 
     private float maxJumpVelocity;
@@ -41,12 +43,96 @@ public class PlayerEngine : MonoBehaviour
     private float dashSpeed = 20;
     private bool isDashing = false;
     private float dashCooldown = 2f;
-    private float dashTime = 0.2f;
+    private readonly float dashTime = 0.2f;
 
-    private bool canRangeAttack = false;
+    private bool isRangeAttacking = false;
     private float rangeAttackCooldown = 2f;
 
     private Player player;
+
+#endregion VARIABLES
+
+    #region PROPERTIES
+
+    public float DashSpeed
+    {
+        get
+        {
+            return dashSpeed;
+        }
+
+        set
+        {
+            dashSpeed = value;
+        }
+    }
+
+    public float DashCooldown
+    {
+        get
+        {
+            return dashCooldown;
+        }
+
+        set
+        {
+            dashCooldown = value;
+        }
+    }
+
+    public float RangeAttackCooldown
+    {
+        get
+        {
+            return rangeAttackCooldown;
+        }
+
+        set
+        {
+            rangeAttackCooldown = value;
+        }
+    }
+
+    public float MinJumpHeight
+    {
+        get
+        {
+            return minJumpHeight;
+        }
+
+        set
+        {
+            minJumpHeight = value;
+        }
+    }
+
+    public float MaxJumpHeight
+    {
+        get
+        {
+            return maxJumpHeight;
+        }
+
+        set
+        {
+            maxJumpHeight = value;
+        }
+    }
+
+    public float AccelerationTimeGrounded
+    {
+        get
+        {
+            return accelerationTimeGrounded;
+        }
+
+        set
+        {
+            accelerationTimeGrounded = value;
+        }
+    }
+
+    #endregion PROPERTIES
 
     private void Awake()
     {
@@ -56,9 +142,9 @@ public class PlayerEngine : MonoBehaviour
     private void Start()
     {
         startSpeed = moveSpeed;
-        gravity = dashGravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+        gravity = dashGravity = -(2 * MaxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity * timeToJumpApex);
-        minJumpVelocity = Mathf.Sqrt(2* Mathf.Abs(gravity) * minJumpHeight);
+        minJumpVelocity = Mathf.Sqrt(2* Mathf.Abs(gravity) * MinJumpHeight);
     }
 
     public void CalculateMovement()
@@ -105,7 +191,7 @@ public class PlayerEngine : MonoBehaviour
     private void CalculateVelocity()
     {
         float targetVelocityX = directionalInput.x * moveSpeed;
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (player.Controller2D.Collisions.Below) ? accelerationTimeGrounded : accelerationTimeAirbourne);
+        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (player.Controller2D.Collisions.Below) ? AccelerationTimeGrounded : accelerationTimeAirbourne);
         velocity.y += gravity * Time.deltaTime;
     }
 
@@ -133,8 +219,6 @@ public class PlayerEngine : MonoBehaviour
                 velocity.x = -wallDirectionX * wallLeap.x;
                 velocity.y = wallLeap.y;
             }
-
-            player.Animator.SetBool("WallSlide", false);
         }
 
         if (player.Controller2D.Collisions.Below)
@@ -151,14 +235,14 @@ public class PlayerEngine : MonoBehaviour
         }
     }
 
-    public void OnMeleeAttack()
-    {
+    //public void OnMeleeAttack()
+    //{
 
-    }
+    //}
 
     public void OnRangedAttack()
     {
-        if(!canRangeAttack)
+        if(!isRangeAttacking)
         StartCoroutine(IRangeAttack());     
     }
 
@@ -172,19 +256,16 @@ public class PlayerEngine : MonoBehaviour
 
     public IEnumerator IRangeAttack()
     {
-        canRangeAttack = true;
+        isRangeAttacking = true;
         player.Animator.SetTrigger("Throw");
-        player.PlayerInfo.AttackInd();
+        player.PlayerInfo.StartRangeCooldown(RangeAttackCooldown);
 
-        var currentDirection = player.Controller2D.Collisions.FaceDirection;
-        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), ProjectileSpawnPoint.position, Quaternion.Euler(new Vector3(currentDirection, 0, 0)));
-        projectile.GetComponent<Projectile>().ProjectileMove(currentDirection);
+        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), ProjectileSpawnPoint.position, Quaternion.identity);
+        projectile.GetComponent<Projectile>().ProjectileInitialize(player.Controller2D.Collisions.FaceDirection);
 
+        yield return new WaitUntil(() => !player.PlayerInfo.IsCooldown);
 
-        yield return new WaitForSeconds(rangeAttackCooldown);
-
-        canRangeAttack = false;
-
+        isRangeAttacking = false;
     }
 
     private IEnumerator IDash()
@@ -192,7 +273,7 @@ public class PlayerEngine : MonoBehaviour
         player.Animator.SetBool("Dash", true);
         isDashing = true;
         gravity = 0;
-        moveSpeed = isDashing ? dashSpeed + moveSpeed : moveSpeed;
+        moveSpeed = isDashing ? DashSpeed + moveSpeed : moveSpeed;
 
         yield return new WaitForSeconds(dashTime);
 
@@ -200,7 +281,7 @@ public class PlayerEngine : MonoBehaviour
         moveSpeed = startSpeed;
         player.Animator.SetBool("Dash", false);
 
-        yield return new WaitForSeconds(dashCooldown);
+        yield return new WaitForSeconds(DashCooldown);
         isDashing = false;
     }
 }

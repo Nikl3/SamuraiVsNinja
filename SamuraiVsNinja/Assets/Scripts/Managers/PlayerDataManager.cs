@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
+
 public class PlayerDataManager : Singelton<PlayerDataManager>
 {
+    public int TestPlayerAmount;
+
     #region VARIABLES
 
     private const int MAX_PLAYER_NUMBER = 4;
     private PlayerData[] playerDatas;
-    [SerializeField]
-    private int currentlyJoinedPlayers;
-
     private bool canJoin = false;
 
     #endregion VARIABLES
@@ -21,13 +21,13 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
             return MAX_PLAYER_NUMBER;
         }
     }
+
     public int CurrentlyJoinedPlayers
     {
-        get
-        {
-            return currentlyJoinedPlayers;
-        }
+        get;
+        private set;
     }
+
     public bool CanJoin
     {
         get
@@ -44,23 +44,28 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
     private void Awake()
     {
-        playerDatas = new PlayerData[currentlyJoinedPlayers];
+        CreatePlayerDatas();
+    }
+
+    private void CreatePlayerDatas()
+    {
+        playerDatas = new PlayerData[MAX_PLAYER_NUMBER];
 
         for (int i = 0; i < playerDatas.Length; i++)
         {
             playerDatas[i] = new PlayerData(i + 1)
             {
-                HasJoined = true
+               
             };
         }
     }
 
     public void PlayerJoin(int playerID)
-    {  
+    {
         if (!playerDatas[playerID].HasJoined)
         {
             playerDatas[playerID].HasJoined = true;
-            currentlyJoinedPlayers++;
+            CurrentlyJoinedPlayers++;
             return;
         }
     }
@@ -70,14 +75,14 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         if (playerDatas[playerID].HasJoined)
         {
             playerDatas[playerID].HasJoined = false;
-            currentlyJoinedPlayers--;
+            CurrentlyJoinedPlayers--;
             return;
         }
     } 
 
     public void ClearPlayerDataIndex()
     {
-        currentlyJoinedPlayers = 0;
+        CurrentlyJoinedPlayers = 0;
         foreach (var data in playerDatas)
         {
             data.HasJoined = false;
@@ -86,11 +91,10 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
     public void SpawnPlayers()
     {
-        if (currentlyJoinedPlayers <= 0)
-            return;
+        AddTestPlayers(TestPlayerAmount);
 
         foreach (var playerData in playerDatas)
-        {
+        {       
             if (playerData.HasJoined)
             {
                 var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0).GetComponent<Player>());
@@ -99,7 +103,17 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
                 newPlayer.Initialize(playerData, newPlayerInfo);
 
                 CameraEngine.Instance.AddTarget(newPlayer.transform);
-            }
+            }                     
+        }
+    }
+
+    private void AddTestPlayers(int testPlayerAmount)
+    {
+        testPlayerAmount = testPlayerAmount > MAX_PLAYER_NUMBER ? MAX_PLAYER_NUMBER : testPlayerAmount;
+
+        for (int i = 0; i < testPlayerAmount; i++)
+        {
+            playerDatas[i].HasJoined = true;
         }
     }
 }

@@ -362,7 +362,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 1
+    positiveButton: joystick 1 button 1
     altNegativeButton: 
     altPositiveButton: mouse 0
     gravity: 1000
@@ -585,8 +585,8 @@ InputManager:
     m_Name: RangeAttack_J1
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: e
+    negativeButton: e
+    positiveButton: 
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
