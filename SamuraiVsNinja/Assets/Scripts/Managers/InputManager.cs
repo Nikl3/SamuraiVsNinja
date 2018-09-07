@@ -36,7 +36,13 @@ public class InputManager : Singelton<InputManager>
 
     private void Update()
     {
-        Debug.DrawRay(Input.mousePosition, transform.forward * 200, Color.red);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Debug.LogError(hit.collider.name);
+        }
     }
 
     public void ChangeActiveSelectedObject(int newSelectedObjectIndex)
