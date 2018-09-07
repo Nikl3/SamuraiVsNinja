@@ -250,7 +250,39 @@ public class MainMenuManager : Singelton<MainMenuManager>
 			PlayerDataManager.Instance.PlayerUnjoin(3);
 			UnSetJoinField(4);
 		}
-	}
+
+        if (Mathf.Abs(Input.GetAxisRaw("Horizontal_J1")) > 0)
+        {
+            ChangePlayerIcon(joinFields[0], Input.GetAxisRaw("Horizontal_J1"));
+        }
+
+        if (Mathf.Abs(Input.GetAxisRaw("Horizontal_J2")) > 0)
+        {
+            ChangePlayerIcon(joinFields[1], Input.GetAxisRaw("Horizontal_J2"));
+        }
+
+        if (Mathf.Abs(Input.GetAxisRaw("Horizontal_J3")) > 0)
+        {
+            ChangePlayerIcon(joinFields[2], Input.GetAxisRaw("Horizontal_J3"));
+        }
+
+        if (Mathf.Abs(Input.GetAxisRaw("Horizontal_J4")) > 0)
+        {
+            ChangePlayerIcon(joinFields[3], Input.GetAxisRaw("Horizontal_J4"));
+        }
+    }
+
+    private void ChangePlayerIcon(JoinField joinField, float direction)
+    {
+        if(direction >= 1)
+        {
+            joinField.ChangeSprite(Color.green);
+        }
+        else
+        {
+            joinField.ChangeSprite(Color.white);
+        }
+    }
 
 	public void SetJoinField(int playerID)
 	{

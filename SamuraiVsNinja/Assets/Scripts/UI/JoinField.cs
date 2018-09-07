@@ -5,7 +5,7 @@ public class JoinField : MonoBehaviour
 {
     private Text joinedPlayerName;
     private Image fieldImage;
-    //private Image icon;
+    private Image icon;
     private Color defaulcolor;
     private string defaultText = "JOIN";
 
@@ -13,8 +13,13 @@ public class JoinField : MonoBehaviour
     {
         joinedPlayerName = GetComponentInChildren<Text>();
         fieldImage = GetComponent<Image>();
-        //icon = fieldImage.GetComponentInChildren<Image>();
+        icon = fieldImage.transform.GetChild(1).GetComponent<Image>();
         defaulcolor = fieldImage.color;
+    }
+
+    public void ChangeSprite(Color spriteColor)
+    {
+        icon.color = spriteColor;
     }
 
     public void ChangeJoinFieldVisuals(int playerID, Color fieldColor)
