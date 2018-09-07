@@ -97,7 +97,8 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         {       
             if (playerData.HasJoined)
             {
-                var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0).GetComponent<Player>());
+                var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0).GetComponent<Player>(),
+                    GameManager.Instance.RandomSpawnPoint(), Quaternion.identity);
                 var newPlayerInfo = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
 
                 newPlayer.Initialize(playerData, newPlayerInfo);
@@ -106,6 +107,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
             }                     
         }
     }
+
 
     private void AddTestPlayers(int testPlayerAmount)
     {
