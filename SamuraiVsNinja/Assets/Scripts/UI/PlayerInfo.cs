@@ -13,6 +13,8 @@ public class PlayerInfo : MonoBehaviour
     private Image[] healthpoints;
     private int healthpt = 3;
     private Image cooldownImage;
+    [SerializeField]
+    private int targetOni = 3;
 
     
 
@@ -23,11 +25,17 @@ public class PlayerInfo : MonoBehaviour
     }
     public string PlayerName
     {
+        get
+        {
+            return playerNameText.text;
+        }
         set
         {
             playerNameText.text = value;
         }
     }
+
+
 
     private void Awake() 
     {
@@ -52,8 +60,14 @@ public class PlayerInfo : MonoBehaviour
 
     public void ModifyCoinValues(int amount)
     {
-        onigiris += amount;
-        onigiriCountText.text = onigiris.ToString();
+        if (onigiris == targetOni - 1) {
+            onigiris += amount;
+            onigiriCountText.text = onigiris.ToString();
+            GameManager.Instance.Victory(PlayerName);
+        } else {
+            onigiris += amount;
+            onigiriCountText.text = onigiris.ToString();
+        }
     }
 
     public void TakeDamage(Player hittedPlayer)
