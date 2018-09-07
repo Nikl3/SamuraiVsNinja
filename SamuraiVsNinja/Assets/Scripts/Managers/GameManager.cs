@@ -7,25 +7,29 @@ public class GameManager : Singelton<GameManager>
     [SerializeField]
     LayerMask playerLayer;
 
-    private void Start() {
+    private void Start()
+    {
         StartRound();
     }
 
-    void StartRound() {
-            PlayerDataManager.Instance.SpawnPlayers();
+    void StartRound()
+    {
+        PlayerDataManager.Instance.SpawnPlayers();
     }
 
-    public Vector2 RandomSpawnPoint() {
+    public Vector2 RandomSpawnPoint()
+    {
         int randomPosIndex = Random.Range(0, RespawnSpawnPoints.Length);
         Vector2 randomPos = RespawnSpawnPoints[randomPosIndex].position;
-        if (!Physics2D.OverlapBox(randomPos, Vector2.one, 0f, playerLayer)) {
+        if (!Physics2D.OverlapBox(randomPos, Vector2.one, 0f, playerLayer))
+        {
             return randomPos;
         }
         return RandomSpawnPoint();
     }
 
-    public void Victory(string winnerName) {
+    public void Victory(string winnerName)
+    {
         PauseManager.Instance.VictoryPanel(winnerName);
     }
-
 }

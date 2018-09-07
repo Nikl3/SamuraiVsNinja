@@ -34,6 +34,11 @@ public class InputManager : Singelton<InputManager>
         eventSystem.firstSelectedGameObject = firstSelectedObject;
     }
 
+    private void Update()
+    {
+        Debug.DrawRay(Input.mousePosition, transform.forward * 200, Color.red);
+    }
+
     public void ChangeActiveSelectedObject(int newSelectedObjectIndex)
     {
         previousSelectedObject = eventSystem.currentSelectedGameObject;
