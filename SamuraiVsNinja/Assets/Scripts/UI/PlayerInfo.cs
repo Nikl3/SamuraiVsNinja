@@ -92,7 +92,7 @@ public class PlayerInfo : MonoBehaviour
                 healthpt--;
                 hittedPlayer.ReturnState(0.2f);
                 print("helat loppu, respawncooldown activated");
-                hittedPlayer.transform.position = new Vector2(5, 5);
+                hittedPlayer.transform.position = GameManager.Instance.RandomSpawnPoint();
                 healthpt = 3;
                 foreach (var healthpoint in healthpoints) {
                     healthpoint.gameObject.SetActive(true);

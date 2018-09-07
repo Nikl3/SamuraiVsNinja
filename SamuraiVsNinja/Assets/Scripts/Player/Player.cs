@@ -118,7 +118,6 @@ public class Player : MonoBehaviour
         float currentTime = 0f;
         while (currentTime <= flashTime) {
             currentTime += Time.unscaledDeltaTime;
-            Debug.Log(currentTime);
             spriteRenderer.color = flashColor;
             yield return new WaitForSeconds(flashSpeed);
             spriteRenderer.color = defaultColor;
