@@ -1,50 +1,10 @@
-﻿using UnityEngine;
-
-[System.Serializable]
+﻿[System.Serializable]
 public class PlayerData
 {
-    public string ActionButton
-    {
-        get;
-        private set;
-    }
-    public string HorizontalAxis
-    {
-        get;
-        private set;
-    }
-    public string VerticalAxis
-    {
-        get;
-        private set;
-    }
-    public string JumpButton
-    {
-        get;
-        private set;
-    }
-    public string MeleeAttackButton
-    {
-        get;
-        private set;
-    }
-    public string RangeAttackButton
-    {
-        get;
-        private set;
-    }
-    public string DashButton
-    {
-        get;
-        private set;
-    }
-
     public int ID
     {
-        get
-        {
-            return id;
-        }
+        get;
+        private set;
     }
     public string PlayerName
     {
@@ -53,33 +13,21 @@ public class PlayerData
             return playerName;
         }
     }
-    public bool HasJoined
-    {
-        get
-        {
-            return hasJoined;
-        }
-        set
-        {
-            hasJoined = value;
-        }
-    }
+    public bool HasJoined { get; set; }
 
-    [SerializeField] private readonly int id;
-    [SerializeField] private readonly string playerName;
-    [SerializeField] private bool hasJoined;
+    private readonly string playerName;
 
     public PlayerData(int id)
     {
-        this.id = id;     
+        ID = id;           
 
         playerName = "Player " + id;
-        ActionButton = "Action" + "_J" + id;
-        HorizontalAxis = "Horizontal" + "_J" + id;
-        VerticalAxis = "Vertical" + "_J" + id;
-        JumpButton = "Jump" + "_J" + id;
-        MeleeAttackButton = "MeleeAttack" + "_J" + id;
-        RangeAttackButton = "RangeAttack" + "_J" + id;
-        DashButton = "Dash" + "_J" + id;
+        //ActionButton = "Action" + "_J" + id;
+        //HorizontalAxis = "Horizontal" + "_J" + id;
+        //VerticalAxis = "Vertical" + "_J" + id;
+        //JumpButton = "Jump" + "_J" + id;
+        //MeleeAttackButton = "MeleeAttack" + "_J" + id;
+        //RangeAttackButton = "RangeAttack" + "_J" + id;
+        //DashButton = "Dash" + "_J" + id;
     }
 }

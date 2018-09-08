@@ -14,9 +14,7 @@ public class PlayerInfo : MonoBehaviour
     private int healthpt = 3;
     private Image cooldownImage;
     [SerializeField]
-    private int targetOni = 3;
-
-    
+    private readonly int targetOnigiri = 3;
 
     public bool IsCooldown
     {
@@ -34,8 +32,6 @@ public class PlayerInfo : MonoBehaviour
             playerNameText.text = value;
         }
     }
-
-
 
     private void Awake() 
     {
@@ -60,11 +56,14 @@ public class PlayerInfo : MonoBehaviour
 
     public void ModifyCoinValues(int amount)
     {
-        if (onigiris == targetOni - 1) {
+        if (onigiris == targetOnigiri - 1)
+        {
             onigiris += amount;
             onigiriCountText.text = onigiris.ToString();
             GameManager.Instance.Victory(PlayerName);
-        } else {
+        }
+        else
+        {
             onigiris += amount;
             onigiriCountText.text = onigiris.ToString();
         }
@@ -72,10 +71,13 @@ public class PlayerInfo : MonoBehaviour
 
     public void TakeDamage(Player hittedPlayer)
     {
-        if (hittedPlayer.CurrentState == PlayerState.Normal) {
+        if (hittedPlayer.CurrentState == PlayerState.Normal)
+        {
             if (healthpt > 1) {
-                for (int i = 0; i < healthpoints.Length; i++) {
-                    if (healthpoints[i].gameObject.activeSelf) {
+                for (int i = 0; i < healthpoints.Length; i++)
+                {
+                    if (healthpoints[i].gameObject.activeSelf)
+                    {
                         healthpoints[i].gameObject.SetActive(false);
                         healthpt--;
                         hittedPlayer.ReturnState();
@@ -87,7 +89,9 @@ public class PlayerInfo : MonoBehaviour
                         return;
                     }
                 }
-            } else {
+            }
+            else
+            {
                 healthpoints[healthpoints.Length - 1].gameObject.SetActive(false);
                 healthpt--;
                 hittedPlayer.ReturnState(0.2f);

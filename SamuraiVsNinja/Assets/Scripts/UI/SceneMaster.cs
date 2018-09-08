@@ -10,10 +10,9 @@ public class SceneMaster : Singelton<SceneMaster>
 
     private AsyncOperation asyncOperation;
 
-    private float flickeringSpeed = 1f;
-    private float fakeLoadTime = 1f;
+    private readonly float flickeringSpeed = 1f;
+    private readonly float fakeLoadTime = 1f;
     private bool isFading;
-    private bool isHowToPlayImageFading;
     private bool isAnimatingText;
     private Image screenFadeImage;
     private Image howToPlayImage;
@@ -103,10 +102,10 @@ public class SceneMaster : Singelton<SceneMaster>
         StartCoroutine(IAnimateText(textToAnimate, flickeringSpeed));
     }
 
-    private void AnimateHowToPlayImage(float targetFillAmount, float fadeSpeed = 1f)
-    {
-        StartCoroutine(IAnimateHowToPlayImage(targetFillAmount, fadeSpeed));
-    } 
+    //private void AnimateHowToPlayImage(float targetFillAmount, float fadeSpeed = 1f)
+    //{
+    //    StartCoroutine(IAnimateHowToPlayImage(targetFillAmount, fadeSpeed));
+    //} 
 
     #region COROUTINES
 
@@ -191,19 +190,19 @@ public class SceneMaster : Singelton<SceneMaster>
         }
     }
 
-    private IEnumerator IAnimateHowToPlayImage(float targetFillAmount, float fadeSpeed)
-    {
-        isHowToPlayImageFading = true;
+    //private IEnumerator IAnimateHowToPlayImage(float targetFillAmount, float fadeSpeed)
+    //{
+    //    isHowToPlayImageFading = true;
 
-        while (howToPlayImage.fillAmount != targetFillAmount)
-        {
-            howToPlayImage.fillAmount += howToPlayImage.fillAmount < targetFillAmount ? (1f / fadeSpeed) * Time.unscaledDeltaTime : -(1f / fadeSpeed) * Time.unscaledDeltaTime;
-            yield return null;
-        }
+    //    while (howToPlayImage.fillAmount != targetFillAmount)
+    //    {
+    //        howToPlayImage.fillAmount += howToPlayImage.fillAmount < targetFillAmount ? (1f / fadeSpeed) * Time.unscaledDeltaTime : -(1f / fadeSpeed) * Time.unscaledDeltaTime;
+    //        yield return null;
+    //    }
 
-        isHowToPlayImageFading = false;
-        yield return null;
-    }
+    //    isHowToPlayImageFading = false;
+    //    yield return null;
+    //}
 
     #endregion COROUTINES
 }

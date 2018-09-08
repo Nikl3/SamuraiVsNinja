@@ -585,7 +585,7 @@ InputManager:
     m_Name: RangeAttack_J1
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: e
+    negativeButton: mouse 1
     positiveButton: 
     altNegativeButton: 
     altPositiveButton: 

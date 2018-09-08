@@ -6,9 +6,12 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
     #region VARIABLES
 
+    private GameObject playerPrefab;
+    private GameObject playerInfoPrefab;
+
     private const int MAX_PLAYER_NUMBER = 4;
+    [SerializeField]
     private PlayerData[] playerDatas;
-    private bool canJoin = false;
 
     #endregion VARIABLES
 
@@ -28,23 +31,14 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         private set;
     }
 
-    public bool CanJoin
-    {
-        get
-        {
-            return canJoin;
-        }
-        set
-        {
-            canJoin = value;
-        }
-    } 
-
     #endregion PROPERTIES
 
     private void Awake()
     {
         CreatePlayerDatas();
+
+        playerPrefab = ResourceManager.Instance.GetPrefabByIndex(0, 0);
+        playerInfoPrefab = ResourceManager.Instance.GetPrefabByIndex(4, 1);
     }
 
     private void CreatePlayerDatas()
@@ -62,9 +56,9 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
     public void PlayerJoin(int playerID)
     {
-        if (!playerDatas[playerID].HasJoined)
+        if (!playerDatas[playerID - 1].HasJoined)
         {
-            playerDatas[playerID].HasJoined = true;
+            playerDatas[playerID - 1].HasJoined = true;
             CurrentlyJoinedPlayers++;
             return;
         }
@@ -89,15 +83,18 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         }
     }
 
-    public void SpawnPlayers() {
+    public void SpawnPlayers()
+    {
         AddTestPlayers(TestPlayerAmount);
 
-        foreach (var playerData in playerDatas) {
-            if (playerData.HasJoined) {
-                var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0).GetComponent<Player>(),
+        foreach (var playerData in playerDatas)
+        {
+            if (playerData.HasJoined)
+            {
+                var newPlayer = Instantiate(playerPrefab.GetComponent<Player>(),
                     GameManager.Instance.RandomSpawnPoint(),
                     Quaternion.identity);
-                var newPlayerInfo = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
+                var newPlayerInfo = Instantiate(playerInfoPrefab.GetComponent<PlayerInfo>());
 
                 newPlayer.Initialize(playerData, newPlayerInfo);
 

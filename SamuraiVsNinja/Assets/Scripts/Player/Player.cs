@@ -6,24 +6,16 @@ public enum PlayerState {Normal, Inactive }
 public class Player : MonoBehaviour
 {
 	#region VARIABLES
-
-	private PlayerInfo playerInfo;
 	private PlayerData playerData;
-	private SpriteRenderer spriteRenderer;
-	private Animator animator;
-	private CharacterController2D controller2D;
-	private PlayerInput playerInput;
-	private PlayerEngine playerEngine;
-	private Sword sword;
-    [SerializeField]
-    private float flashTime;
-    [SerializeField]
-    private float flashSpeed;
-    [SerializeField]
-    private Color flashColor;
-    private Color defaultColor;
+	[SerializeField]
+	private readonly float flashTime;
+	[SerializeField]
+	private readonly float flashSpeed;
+	[SerializeField]
+	private Color flashColor;
+	private Color defaultColor;
 
-    public PlayerState CurrentState = PlayerState.Normal;
+	public PlayerState CurrentState = PlayerState.Normal;
 
 	#endregion VARIABLES
 
@@ -31,18 +23,14 @@ public class Player : MonoBehaviour
 
 	public Sword Sword
 	{
-		get
-		{
-			return sword;
-		}
+		get;
+		private set;
 	}
 
 	public PlayerInfo PlayerInfo
 	{
-		get
-		{
-			return playerInfo;
-		}
+		get;
+		private set;
 	}
 	public PlayerData PlayerData
 	{
@@ -56,84 +44,77 @@ public class Player : MonoBehaviour
 	}
 	public PlayerEngine PlayerEngine
 	{
-		get
-		{
-			return playerEngine;
-		}
+		get;
+		private set;
 	}
 	public PlayerInput PlayerInput
 	{
-		get
-		{
-			return playerInput;
-		}
+		get;
+		private set;
 	}
 	public CharacterController2D Controller2D
 	{
-		get
-		{
-			return controller2D;
-		}        
+		get;
+		private set;
 	}
 
 	public Animator Animator
 	{
-		get
-		{
-			return animator;
-		}
+		get;
+		private set;
 	}
 	public SpriteRenderer SpriteRenderer
-	{
-		get
-		{
-			return spriteRenderer;
-		}
+	{ get;
+		private set;
 	}
 
 	#endregion PROPERTIES
 
 	private void Awake()
 	{
-		playerInput = GetComponent<PlayerInput>();
-		playerEngine = GetComponent<PlayerEngine>();
-		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		animator = GetComponentInChildren<Animator>();
-		controller2D = GetComponent<CharacterController2D>();
-		sword = GetComponent<Sword>();
-        defaultColor = spriteRenderer.color;
+		PlayerInput = GetComponent<PlayerInput>();
+		PlayerEngine = GetComponent<PlayerEngine>();
+		SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		Animator = GetComponentInChildren<Animator>();
+		Controller2D = GetComponent<CharacterController2D>();
+		Sword = GetComponent<Sword>();
+		defaultColor = SpriteRenderer.color;
 	}
 
 	public void Initialize(PlayerData playerData, PlayerInfo playerInfo)
 	{
 		this.playerData = playerData;
-		this.playerInfo = playerInfo;
+		PlayerInfo = playerInfo;
 
 		gameObject.name = playerData.PlayerName;
 		playerInfo.PlayerName = playerData.PlayerName;
 	}
 
-    IEnumerator IReturnState(float flashSpeed, float flashTime) {
-        CurrentState = PlayerState.Inactive;
-        float currentTime = 0f;
-        while (currentTime <= flashTime) {
-            currentTime += Time.unscaledDeltaTime;
-            spriteRenderer.color = flashColor;
-            yield return new WaitForSeconds(flashSpeed);
-            spriteRenderer.color = defaultColor;
-            yield return new WaitForSeconds(flashSpeed);
-        }
-        currentTime = 0f;
-        CurrentState = PlayerState.Normal;
+	public void ReturnState()
+	{
+		StartCoroutine(IReturnState(flashSpeed, flashTime));
+	}
 
-        yield return null;
-    }
+	public void ReturnState(float flashTime)
+	{
+		StartCoroutine(IReturnState(flashSpeed, flashTime));
+	}
 
-    public void ReturnState() {
-        StartCoroutine(IReturnState(flashSpeed, flashTime));
-    }
+	private IEnumerator IReturnState(float flashSpeed, float flashTime)
+	{
+		CurrentState = PlayerState.Inactive;
+		float currentTime = 0f;
+		while (currentTime <= flashTime)
+		{
+			currentTime += Time.unscaledDeltaTime;
+			SpriteRenderer.color = flashColor;
+			yield return new WaitForSeconds(flashSpeed);
+			SpriteRenderer.color = defaultColor;
+			yield return new WaitForSeconds(flashSpeed);
+		}
+		currentTime = 0f;
+		CurrentState = PlayerState.Normal;
 
-    public void ReturnState(float flashTime) {
-        StartCoroutine(IReturnState(flashSpeed, flashTime));
-    }
+		yield return null;
+	}
 }

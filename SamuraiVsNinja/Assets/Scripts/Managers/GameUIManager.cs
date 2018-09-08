@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class PauseManager : Singelton<PauseManager>
+public class GameUIManager : Singelton<GameUIManager>
 {
     private GameObject pausePanel;
     private GameObject victoryPanel;
@@ -24,7 +24,7 @@ public class PauseManager : Singelton<PauseManager>
 
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel_J1"))
+        if (InputManager.Instance.Y_ButtonDown(1))
         {
             if (isPaused)
             {
@@ -37,9 +37,10 @@ public class PauseManager : Singelton<PauseManager>
         }
     }
 
-    public void VictoryPanel(string wienerName) {
+    public void VictoryPanel(string winnerName)
+    {
         victoryPanel.SetActive(true);
-        wienerText.text = wienerName + "\nYou are THE wiener!";
+        wienerText.text = winnerName + "\nYou are THE winner!";
         Time.timeScale = 0;
     }
 

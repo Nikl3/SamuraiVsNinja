@@ -2,25 +2,22 @@
 
 public class PlayerInput : MonoBehaviour
 {
-    public Transform foo;
-
     #region VARIABLES
 
-    private float rangeAttackAxis;
-    private float dashAxis;
-
     private Player player;
+    private Transform playerGraphics;
 
     #endregion VARIABLES
 
     #region PROPERTIES
 
-  
+
     #endregion PROPERTIES
 
     private void Awake()
     {
         player = GetComponent<Player>();
+        playerGraphics = transform.Find("PlayerGraphics");
     }
 
     private void Update()
@@ -30,39 +27,36 @@ public class PlayerInput : MonoBehaviour
   
     public void UpdateLocalInputs()
     {
-        Vector2 directionalInput = new Vector2(Input.GetAxisRaw(player.PlayerData.HorizontalAxis), Input.GetAxisRaw(player.PlayerData.VerticalAxis));
+        Vector2 directionalInput = new Vector2 (
+            InputManager.Instance.GetHorizontalAxisRaw(player.PlayerData.ID),
+            InputManager.Instance.GetVerticalAxisRaw(player.PlayerData.ID)
+            );
 
-        foo.localScale = new Vector2(player.Controller2D.Collisions.FaceDirection > 0 ? -1 : 1, 1);
-        player.Animator.SetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
+        playerGraphics.localScale = new Vector2(player.Controller2D.Collisions.FaceDirection > 0 ? -1 : 1, 1);
 
         player.PlayerEngine.SetDirectionalInput(directionalInput);
 
-        if (Input.GetButtonDown(player.PlayerData.JumpButton))
+        if (InputManager.Instance.A_ButtonDown(player.PlayerData.ID))
         {
             player.PlayerEngine.OnJumpInputDown();
         }
 
-        if (Input.GetButtonUp(player.PlayerData.JumpButton))
+        if (InputManager.Instance.A_ButtonUp(player.PlayerData.ID))
         {
             player.PlayerEngine.OnJumpInputUp();
         }
 
-        if (Input.GetButtonDown(player.PlayerData.MeleeAttackButton))
+        if (InputManager.Instance.B_ButtonDown(player.PlayerData.ID))
         {
-            //player.PlayerEngine.OnMeleeAttack();
-            player.Animator.SetTrigger("Attack");
+            player.PlayerEngine.OnMeleeAttack();
         }
 
-        rangeAttackAxis = (Input.GetAxisRaw(player.PlayerData.RangeAttackButton));
-
-        if (rangeAttackAxis <= -1)
+        if (InputManager.Instance.GetRangeAttackAxisRaw(player.PlayerData.ID) <= -1)
         {
             player.PlayerEngine.OnRangedAttack();
         }
 
-        dashAxis = Input.GetAxisRaw(player.PlayerData.DashButton);
-
-        if (dashAxis >= 1)
+        if (InputManager.Instance.GetDashAxisRaw(player.PlayerData.ID) >= 1)
         {
             if (directionalInput != Vector2.zero)
             {

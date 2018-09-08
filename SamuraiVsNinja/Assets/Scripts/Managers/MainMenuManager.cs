@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +21,8 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	#region VARIABLES
 
 	private PanelState currentPanelState;
+
+	private readonly Coroutine[] coroutines = new Coroutine[4];
 
 	private GameObject menuCanvasGameObject;
 	private GameObject panels;
@@ -45,6 +49,24 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	#endregion VARIABLES
 
 	#region PROPERTIES
+
+	public string CreditsAnimationTag
+	{
+		get
+		{
+			return creditsAnimationTag;
+		}
+
+		set
+		{
+			creditsAnimationTag = value;
+		}
+	}
+	public bool CanJoin
+	{
+		get;
+		private set;
+	}
 
 	#endregion PROPERTIES
 
@@ -98,9 +120,10 @@ public class MainMenuManager : Singelton<MainMenuManager>
 			return;
 		}
 
-		if (PlayerDataManager.Instance.CanJoin)
+		if (CanJoin)
 		{
 			HadlePlayerJoinings();
+			HandleCharacterChange();
 		}
 	}
 
@@ -129,7 +152,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 				mainMenuPanel.SetActive(false);
 				characterSelectPanel.SetActive(true);
 
-				PlayerDataManager.Instance.CanJoin = true;
+				CanJoin = true;
 
 				break;
 
@@ -189,9 +212,9 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	private void CancelCredits()
 	{		
-		if (Input.GetButtonUp("Cancel_J1") && isCreditsRunning)
+		if (InputManager.Instance.Y_ButtonDown(1) && isCreditsRunning)
 		{
-			if (mainMenuCanvasAnimator.GetCurrentAnimatorStateInfo(0).IsTag(creditsAnimationTag))
+			if (mainMenuCanvasAnimator.GetCurrentAnimatorStateInfo(0).IsTag(CreditsAnimationTag))
 			{
 				mainMenuCanvasAnimator.Play("Credits", 0, 0.98f);
 				isCreditsRunning = false;
@@ -201,91 +224,51 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		}
 	}
 
-	public void HadlePlayerJoinings()
+	private void HadlePlayerJoinings()
 	{
-		if (Input.GetButtonDown("Action_J1"))
+		for (int i = 0; i < joinFields.Length; i++)
 		{
-			PlayerDataManager.Instance.PlayerJoin(0);
-			SetJoinField(1);
+			if (!joinFields[i].HasJoined)
+			{
+				if (InputManager.Instance.Start_ButtonDown(i + 1))
+				{
+					coroutines[i] = StartCoroutine(IChangeCharacter(i + 1));
+					PlayerDataManager.Instance.PlayerJoin(i + 1);
+					SetJoinField(i + 1);
+				}
+			}
 		}
 
-		if (Input.GetButtonDown("Action_J2"))
+		for (int i = 0; i < joinFields.Length; i++)
 		{
-			PlayerDataManager.Instance.PlayerJoin(1);
-			SetJoinField(2);
+			if (joinFields[i].HasJoined)
+			{
+				if (InputManager.Instance.Y_ButtonDown(i + 1))
+				{
+					StopCoroutine(coroutines[i]);
+					PlayerDataManager.Instance.PlayerUnjoin(i + 1);
+					UnSetJoinField(i + 1);
+				}
+			}
 		}
+	}
 
-		if (Input.GetButtonDown("Action_J3"))
+	private void HandleCharacterChange()
+	{
+		for (int i = 0; i < joinFields.Length; i++)
 		{
-			PlayerDataManager.Instance.PlayerJoin(2);
-			SetJoinField(3);
+			if (joinFields[i].HasJoined)
+				InputManager.Instance.GetHorizontalAxisRaw(i + 1);
 		}
+	}
 
-		if (Input.GetButtonDown("Action_J4"))
-		{
-			PlayerDataManager.Instance.PlayerJoin(3);
-			SetJoinField(4);
-		}
-
-		if (Input.GetButtonDown("Cancel_J1"))
-		{
-			PlayerDataManager.Instance.PlayerUnjoin(0);
-			UnSetJoinField(1);
-		}
-
-		if (Input.GetButtonDown("Cancel_J2"))
-		{
-			PlayerDataManager.Instance.PlayerUnjoin(1);
-			UnSetJoinField(2);
-		}
-
-		if (Input.GetButtonDown("Cancel_J3"))
-		{
-			PlayerDataManager.Instance.PlayerUnjoin(2);
-			UnSetJoinField(3);
-		}
-
-		if (Input.GetButtonDown("Cancel_J4"))
-		{
-			PlayerDataManager.Instance.PlayerUnjoin(3);
-			UnSetJoinField(4);
-		}
-
-        if (Mathf.Abs(Input.GetAxisRaw("Horizontal_J1")) > 0)
-        {
-            ChangePlayerIcon(joinFields[0], Input.GetAxisRaw("Horizontal_J1"));
-        }
-
-        if (Mathf.Abs(Input.GetAxisRaw("Horizontal_J2")) > 0)
-        {
-            ChangePlayerIcon(joinFields[1], Input.GetAxisRaw("Horizontal_J2"));
-        }
-
-        if (Mathf.Abs(Input.GetAxisRaw("Horizontal_J3")) > 0)
-        {
-            ChangePlayerIcon(joinFields[2], Input.GetAxisRaw("Horizontal_J3"));
-        }
-
-        if (Mathf.Abs(Input.GetAxisRaw("Horizontal_J4")) > 0)
-        {
-            ChangePlayerIcon(joinFields[3], Input.GetAxisRaw("Horizontal_J4"));
-        }
-    }
-
-    private void ChangePlayerIcon(JoinField joinField, float direction)
-    {
-        if(direction >= 1)
-        {
-            joinField.ChangeSprite(Color.green);
-        }
-        else
-        {
-            joinField.ChangeSprite(Color.white);
-        }
-    }
+	private void ChangePlayerIcon(JoinField joinField)
+	{
+		joinField.ChangeSprite(joinField.CurrentColor == Color.white ? Color.green : Color.white);
+	}
 
 	public void SetJoinField(int playerID)
-	{
+	{		
 		joinFields[playerID - 1].ChangeJoinFieldVisuals(playerID, fieldColor);
 		joinedPlayerText.text = "PLAYERS " + PlayerDataManager.Instance.CurrentlyJoinedPlayers + " / " + 4;
 	}
@@ -298,6 +281,12 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	public void UnSetAllJoinField()
 	{
+		foreach (var coroutine in coroutines)
+		{
+			if(coroutine != null)
+			StopCoroutine(coroutine);
+		}
+
 		for (int i = 0; i < joinFields.Length; i++)
 		{
 			joinFields[i].UnChangeJoinFieldVisuals();
@@ -326,7 +315,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	public void StartButton()
 	{
-		PlayerDataManager.Instance.CanJoin = false;
+		CanJoin = false;
 		InputManager.Instance.CurrentSeletedObject = null;
 		SceneMaster.Instance.LoadScene(1);
 	}
@@ -388,7 +377,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	{
 		if (currentPanelState == PanelState.CHARACTER_SELECT)
 		{
-			PlayerDataManager.Instance.CanJoin = false;
+			CanJoin = false;
 			PlayerDataManager.Instance.ClearPlayerDataIndex();
 			UnSetAllJoinField();      
 		}
@@ -403,4 +392,14 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	}
 
 	#endregion UI BUTTONS
+
+	private IEnumerator IChangeCharacter(int id)
+	{
+		while (true)
+		{
+			yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) == 0);
+			ChangePlayerIcon(joinFields[id - 1]);
+			yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) != 0);
+		}		
+	}
 }

@@ -154,18 +154,29 @@ public class PlayerEngine : MonoBehaviour
 
         player.Controller2D.Move(velocity * Time.deltaTime, directionalInput);
 
+        player.Animator.SetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
+
+        // player.Animator.SetBool("IsWallsliding", wallSliding);
+
         if (player.Controller2D.Collisions.Above || player.Controller2D.Collisions.Below)
         {
             velocity.y = 0;
-            player.Animator.SetBool("WallSlide", false);
+            player.Animator.SetBool("IsJumping", false);
+            player.Animator.SetBool("IsDropping", false);
+        }
+        else
+        {
+            player.Animator.SetBool("IsJumping", velocity.y > 0 ? true : false);
+            player.Animator.SetBool("IsDropping", velocity.y < 0 ? true : false);
         }
     }
 
     private void HandleWallSliding()
     {
         wallDirectionX = (player.Controller2D.Collisions.Left) ? -1 : 1;
-        wallSliding = false;
 
+        wallSliding = false;
+        
         if ((player.Controller2D.Collisions.Left || player.Controller2D.Collisions.Right) && !player.Controller2D.Collisions.Below && velocity.y < 0)
         {
             if (directionalInput.x == 0)
@@ -174,18 +185,12 @@ public class PlayerEngine : MonoBehaviour
             }
 
             wallSliding = true;
-            player.Animator.SetBool("WallSlide", true);
-
-
+                             
             if (velocity.y < -maxWallSlideSpeed)
             {
                 velocity.y = -maxWallSlideSpeed;
             }
         } 
-        else
-        {
-            player.Animator.SetBool("WallSlide", false);
-        }
     }
 
     private void CalculateVelocity()
@@ -215,7 +220,7 @@ public class PlayerEngine : MonoBehaviour
                 velocity.y = wallJumpOff.y;
             }
             else
-            {
+            {            
                 velocity.x = -wallDirectionX * wallLeap.x;
                 velocity.y = wallLeap.y;
             }
@@ -223,7 +228,7 @@ public class PlayerEngine : MonoBehaviour
 
         if (player.Controller2D.Collisions.Below)
         {
-            velocity.y = maxJumpVelocity;           
+            velocity.y = maxJumpVelocity;        
         }
     }
 
@@ -235,10 +240,10 @@ public class PlayerEngine : MonoBehaviour
         }
     }
 
-    //public void OnMeleeAttack()
-    //{
-
-    //}
+    public void OnMeleeAttack()
+    {
+        player.Animator.SetTrigger("Attack");
+    }
 
     public void OnRangedAttack()
     {
@@ -270,8 +275,8 @@ public class PlayerEngine : MonoBehaviour
 
     private IEnumerator IDash()
     {
-        player.Animator.SetBool("Dash", true);
         isDashing = true;
+        player.Animator.SetBool("IsDashing", true);
         gravity = 0;
         moveSpeed = isDashing ? DashSpeed + moveSpeed : moveSpeed;
 
@@ -279,7 +284,7 @@ public class PlayerEngine : MonoBehaviour
 
         gravity = dashGravity;
         moveSpeed = startSpeed;
-        player.Animator.SetBool("Dash", false);
+        player.Animator.SetBool("IsDashing", false);
 
         yield return new WaitForSeconds(DashCooldown);
         isDashing = false;
