@@ -58,11 +58,7 @@ public class Player : MonoBehaviour
 		private set;
 	}
 
-	public Animator Animator
-	{
-		get;
-		private set;
-	}
+	public AnimatorController AnimatorController;
 	public SpriteRenderer SpriteRenderer
 	{ get;
 		private set;
@@ -75,7 +71,7 @@ public class Player : MonoBehaviour
 		PlayerInput = GetComponent<PlayerInput>();
 		PlayerEngine = GetComponent<PlayerEngine>();
 		SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		Animator = GetComponentInChildren<Animator>();
+		AnimatorController = GetComponentInChildren<AnimatorController>();
 		Controller2D = GetComponent<CharacterController2D>();
 		Sword = GetComponent<Sword>();
 		defaultColor = SpriteRenderer.color;

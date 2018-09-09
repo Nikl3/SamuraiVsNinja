@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4774517903223090}
   - component: {fileID: 95850094115325978}
   - component: {fileID: 212331344400638728}
+  - component: {fileID: 114928000032198002}
   m_Layer: 10
   m_Name: PlayerGraphics
   m_TagString: Untagged
@@ -55,7 +56,7 @@ GameObject:
   m_Layer: 10
   m_Name: ProjectileSpawnPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -258,7 +259,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633fad26abdf95b4cb3b515cd8bc1c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foo: {fileID: 4774517903223090}
 --- !u!114 &114684871165924040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,9 +275,11 @@ MonoBehaviour:
     m_Bits: 1024
   minJumpHeight: 1
   maxJumpHeight: 6
-  moveSpeed: 10
+  moveSpeed: 15
+  dashSpeed: 40
+  dashCooldown: 2
   ProjectileSpawnPoint: {fileID: 4110683654836582}
-  dashSpeed: 20
+  rangeAttackCooldown: 2
 --- !u!114 &114841644404322898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -289,10 +291,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e4b82e4e01459409f836c8c99de43e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashTime: 0.15
-  flashSpeed: 0.2
   flashColor: {r: 1, g: 1, b: 1, a: 0.56078434}
   CurrentState: 0
+  AnimatorController: {fileID: 0}
+--- !u!114 &114928000032198002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1418286482907732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa72a5d91f6381c4a8ea0fbacc7a4d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114929046794207950
 MonoBehaviour:
   m_ObjectHideFlags: 1

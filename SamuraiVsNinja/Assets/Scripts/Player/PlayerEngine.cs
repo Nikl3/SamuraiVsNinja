@@ -5,50 +5,78 @@ public class PlayerEngine : MonoBehaviour
 {
     #region VARIABLES
 
+    private Player player;
     [SerializeField]
     private LayerMask hitLayer;
+
+    #region JUMP
+    [Header("JUMP")]
+
     [SerializeField]
     private float minJumpHeight = 1f;
     [SerializeField]
     private float maxJumpHeight = 4f;
     [SerializeField]
     private readonly float timeToJumpApex = 0.5f;
-    [SerializeField]
-    private float moveSpeed = 6f;
-    private float startSpeed;
-    [SerializeField]
-    private readonly float maxWallSlideSpeed = 3f;
-    [SerializeField]
-    private Transform ProjectileSpawnPoint;
-
-    private readonly float accelerationTimeAirbourne = 0.2f;
-    private float accelerationTimeGrounded = 0.1f;
 
     private float maxJumpVelocity;
     private float minJumpVelocity;
+    #endregion JUMP
+
+    #region MOVEMENT
+
+    [Header("MOVEMENT")]
+    [SerializeField]
+    private float moveSpeed = 6f;
+    private float startSpeed;
+    private readonly float accelerationTimeAirbourne = 0.2f;
+    private float accelerationTimeGrounded = 0.1f;
     private float gravity;
     private float dashGravity;
     private Vector2 velocity;
     private float velocityXSmoothing;
+    private Vector2 directionalInput;
 
+    #endregion MOVEMENT
+
+    #region WALL_SLIDE
+
+    [Header("WALL SLIDE")]
+
+    [SerializeField]
+    private readonly float maxWallSlideSpeed = 3f;
     private Vector2 wallJumpClimb = new Vector2(2.5f, 16);
     private Vector2 wallJumpOff = new Vector2(8.5f, 7);
     private Vector2 wallLeap = new Vector2(18, 17);
-
-    private Vector2 directionalInput;
     private bool wallSliding;
     private int wallDirectionX;
 
+    #endregion WALL_SLIDE
+
+    #region DASH
+
+    [Header("DASH")]
     [SerializeField]
     private float dashSpeed = 20;
     private bool isDashing = false;
+    [SerializeField]
     private float dashCooldown = 2f;
-    private readonly float dashTime = 0.2f;
+    private readonly float dashTime = 0.3f;
+
+    #endregion DASH
+
+    #region RANGE_ATTACK
+
+    [Header("RANGE ATTACK")]
+
+    [SerializeField]
+    private Transform ProjectileSpawnPoint;
 
     private bool isRangeAttacking = false;
+    [SerializeField]
     private float rangeAttackCooldown = 2f;
 
-    private Player player;
+    #endregion RANGE_ATTACK
 
 #endregion VARIABLES
 
@@ -154,20 +182,18 @@ public class PlayerEngine : MonoBehaviour
 
         player.Controller2D.Move(velocity * Time.deltaTime, directionalInput);
 
-        player.Animator.SetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
-
-        // player.Animator.SetBool("IsWallsliding", wallSliding);
-
+        player.AnimatorController.AnimatorSetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
+     
         if (player.Controller2D.Collisions.Above || player.Controller2D.Collisions.Below)
         {
             velocity.y = 0;
-            player.Animator.SetBool("IsJumping", false);
-            player.Animator.SetBool("IsDropping", false);
+            player.AnimatorController.AnimatorSetBool("IsJumping", false);
+            player.AnimatorController.AnimatorSetBool("IsDropping", false);
         }
         else
         {
-            player.Animator.SetBool("IsJumping", velocity.y > 0 ? true : false);
-            player.Animator.SetBool("IsDropping", velocity.y < 0 ? true : false);
+            player.AnimatorController.AnimatorSetBool("IsJumping", velocity.y > 0 ? true : false);
+            player.AnimatorController.AnimatorSetBool("IsDropping", velocity.y < 0 ? true : false);
         }
     }
 
@@ -176,7 +202,8 @@ public class PlayerEngine : MonoBehaviour
         wallDirectionX = (player.Controller2D.Collisions.Left) ? -1 : 1;
 
         wallSliding = false;
-        
+        player.AnimatorController.AnimatorSetBool("IsWallsliding", false);
+
         if ((player.Controller2D.Collisions.Left || player.Controller2D.Collisions.Right) && !player.Controller2D.Collisions.Below && velocity.y < 0)
         {
             if (directionalInput.x == 0)
@@ -185,7 +212,8 @@ public class PlayerEngine : MonoBehaviour
             }
 
             wallSliding = true;
-                             
+            player.AnimatorController.AnimatorSetBool("IsWallsliding", true);
+
             if (velocity.y < -maxWallSlideSpeed)
             {
                 velocity.y = -maxWallSlideSpeed;
@@ -228,7 +256,7 @@ public class PlayerEngine : MonoBehaviour
 
         if (player.Controller2D.Collisions.Below)
         {
-            velocity.y = maxJumpVelocity;        
+            velocity.y = maxJumpVelocity;
         }
     }
 
@@ -242,7 +270,7 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnMeleeAttack()
     {
-        player.Animator.SetTrigger("Attack");
+        player.AnimatorController.AnimatorSetTrigger("Attack");
     }
 
     public void OnRangedAttack()
@@ -262,7 +290,7 @@ public class PlayerEngine : MonoBehaviour
     public IEnumerator IRangeAttack()
     {
         isRangeAttacking = true;
-        player.Animator.SetTrigger("Throw");
+        player.AnimatorController.AnimatorSetTrigger("Throw");
         player.PlayerInfo.StartRangeCooldown(RangeAttackCooldown);
 
         var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), ProjectileSpawnPoint.position, Quaternion.identity);
@@ -276,7 +304,7 @@ public class PlayerEngine : MonoBehaviour
     private IEnumerator IDash()
     {
         isDashing = true;
-        player.Animator.SetBool("IsDashing", true);
+        player.AnimatorController.AnimatorSetBool("IsDashing", true);
         gravity = 0;
         moveSpeed = isDashing ? DashSpeed + moveSpeed : moveSpeed;
 
@@ -284,7 +312,7 @@ public class PlayerEngine : MonoBehaviour
 
         gravity = dashGravity;
         moveSpeed = startSpeed;
-        player.Animator.SetBool("IsDashing", false);
+        player.AnimatorController.AnimatorSetBool("IsDashing", false);
 
         yield return new WaitForSeconds(DashCooldown);
         isDashing = false;

@@ -51,7 +51,7 @@ public class ResourceManager : Singelton<ResourceManager>
 			return gameObjectPrefabs[prefabArrayIndex];
 		}
 
-		Debug.LogError("There is not gameobject prefab: " + prefabKey + " !");
+		DebugManager.Instance.DebugMessage(2, "There is not gameobject prefab: " + prefabKey + " !");
 		return null;
 	}
 }

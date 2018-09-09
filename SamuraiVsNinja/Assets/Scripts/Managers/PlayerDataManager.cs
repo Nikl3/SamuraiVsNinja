@@ -10,7 +10,6 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
     private GameObject playerInfoPrefab;
 
     private const int MAX_PLAYER_NUMBER = 4;
-    [SerializeField]
     private PlayerData[] playerDatas;
 
     #endregion VARIABLES
@@ -35,10 +34,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
     private void Awake()
     {
-        CreatePlayerDatas();
-
-        playerPrefab = ResourceManager.Instance.GetPrefabByIndex(0, 0);
-        playerInfoPrefab = ResourceManager.Instance.GetPrefabByIndex(4, 1);
+        CreatePlayerDatas();        
     }
 
     private void CreatePlayerDatas()
@@ -91,12 +87,13 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         {
             if (playerData.HasJoined)
             {
-                var newPlayer = Instantiate(playerPrefab.GetComponent<Player>(),
+                var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0),
                     GameManager.Instance.RandomSpawnPoint(),
                     Quaternion.identity);
-                var newPlayerInfo = Instantiate(playerInfoPrefab.GetComponent<PlayerInfo>());
+                var newPlayerInfo = Instantiate(
+                    ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
 
-                newPlayer.Initialize(playerData, newPlayerInfo);
+                newPlayer.GetComponent<Player>().Initialize(playerData, newPlayerInfo);
 
                 CameraEngine.Instance.AddTarget(newPlayer.transform);
             }

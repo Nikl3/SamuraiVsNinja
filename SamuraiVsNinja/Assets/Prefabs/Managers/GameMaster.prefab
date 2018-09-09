@@ -534,7 +534,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TestPlayerAmount: 1
-  playerDatas: []
 --- !u!114 &114839743022412076
 MonoBehaviour:
   m_ObjectHideFlags: 1
