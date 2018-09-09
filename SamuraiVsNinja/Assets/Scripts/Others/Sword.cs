@@ -15,7 +15,7 @@ public class Sword : MonoBehaviour
 		{
 			if (collision.CompareTag("Player"))
 			{
-				print("player hit");
+				//print("player hit");
 				var hittedPlayer = collision.GetComponent<Player>();
 				hittedPlayer.PlayerInfo.TakeDamage(hittedPlayer);
 			}

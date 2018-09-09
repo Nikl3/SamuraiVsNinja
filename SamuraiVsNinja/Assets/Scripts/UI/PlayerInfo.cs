@@ -11,12 +11,17 @@ public class PlayerInfo : MonoBehaviour
     private Text onigiriCountText;
     private int onigiris;
     private Image[] healthpoints;
-    private int healthpt = 3;
-    private Image cooldownImage;
-    [SerializeField]
+    private int healthPoints = 3;
+    private Image rangeAttackCooldown;
+    private Image dashAttackCooldown;
     private readonly int targetOnigiri = 3;
 
-    public bool IsCooldown
+    public bool IsRangeCooldown
+    {
+        get;
+        private set;
+    }
+    public bool IsDashCooldown
     {
         get;
         private set;
@@ -41,8 +46,10 @@ public class PlayerInfo : MonoBehaviour
         parentContainer = GameObject.Find("HUD").transform.Find("PlayerInfoContainer");
         healthpoints = transform.Find("HealthBar").GetComponentsInChildren<Image>();
         Array.Reverse(healthpoints);
-        cooldownImage = transform.Find("RangeAttackCooldown").transform.Find("CooldownImage").GetComponent<Image>();
-        cooldownImage.gameObject.SetActive(false);
+        rangeAttackCooldown = transform.Find("RangeAttackCooldown").transform.Find("CooldownImage").GetComponent<Image>();
+        rangeAttackCooldown.gameObject.SetActive(false);
+        dashAttackCooldown = transform.Find("DashCooldown").transform.Find("CooldownImage").GetComponent<Image>();
+        dashAttackCooldown.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -52,6 +59,16 @@ public class PlayerInfo : MonoBehaviour
         transform.localScale = Vector3.one;
 
         gameObject.name = playerNameText.text + " Info";
+    }
+
+    private void ResetPlayerStats(Player hittedPlayer)
+    {
+        hittedPlayer.transform.position = GameManager.Instance.RandomSpawnPoint();
+        healthPoints = 3;
+        foreach (var healthpoint in healthpoints)
+        {
+            healthpoint.gameObject.SetActive(true);
+        }
     }
 
     public void ModifyCoinValues(int amount)
@@ -73,17 +90,20 @@ public class PlayerInfo : MonoBehaviour
     {
         if (hittedPlayer.CurrentState == PlayerState.Normal)
         {
-            if (healthpt > 1) {
+            if (healthPoints > 1)
+            {
+                hittedPlayer.PlayAudioClip(2);
+
                 for (int i = 0; i < healthpoints.Length; i++)
                 {
                     if (healthpoints[i].gameObject.activeSelf)
                     {
                         healthpoints[i].gameObject.SetActive(false);
-                        healthpt--;
+                        healthPoints--;
                         hittedPlayer.ReturnState();
-                        if (onigiris > 0) {
+                        if (onigiris > 0)
+                        {
                             ModifyCoinValues(-1);
-                            //instantioi onigiri maahan
                             Instantiate(ResourceManager.Instance.GetPrefabByIndex(1, 0), hittedPlayer.transform.position, Quaternion.identity);
                         }
                         return;
@@ -92,15 +112,12 @@ public class PlayerInfo : MonoBehaviour
             }
             else
             {
+                hittedPlayer.PlayAudioClip(3);
+                Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), hittedPlayer.transform.position, Quaternion.identity);
                 healthpoints[healthpoints.Length - 1].gameObject.SetActive(false);
-                healthpt--;
-                hittedPlayer.ReturnState(0.2f);
-                print("helat loppu, respawncooldown activated");
-                hittedPlayer.transform.position = GameManager.Instance.RandomSpawnPoint();
-                healthpt = 3;
-                foreach (var healthpoint in healthpoints) {
-                    healthpoint.gameObject.SetActive(true);
-                }
+                healthPoints--;
+                hittedPlayer.ReturnState(0.4f);
+                ResetPlayerStats(hittedPlayer);
             }
         }
     }
@@ -110,17 +127,36 @@ public class PlayerInfo : MonoBehaviour
         StartCoroutine(IRangeAttackCooldown(0, rangeAttackCooldown));
     }
 
+    public void StartDashCooldown(float dashCooldown)
+    {
+        StartCoroutine(IDashCooldown(0, dashCooldown));
+    }
+
     private IEnumerator IRangeAttackCooldown(float targetFillAmount, float cooldownTime)
     {
-        IsCooldown = true;
-        cooldownImage.gameObject.SetActive(true);
-        while (cooldownImage.fillAmount != targetFillAmount)
+        IsRangeCooldown = true;
+        rangeAttackCooldown.gameObject.SetActive(true);
+        while (rangeAttackCooldown.fillAmount != targetFillAmount)
         {
-            cooldownImage.fillAmount += cooldownImage.fillAmount < targetFillAmount ? (1f / cooldownTime) * Time.unscaledDeltaTime : -(1f / cooldownTime) * Time.unscaledDeltaTime;
+            rangeAttackCooldown.fillAmount += rangeAttackCooldown.fillAmount < targetFillAmount ? (1f / cooldownTime) * Time.deltaTime : -(1f / cooldownTime) * Time.deltaTime;
             yield return null;
         }
-        cooldownImage.gameObject.SetActive(false);
-        IsCooldown = false;
-        cooldownImage.fillAmount = 1;
+        rangeAttackCooldown.gameObject.SetActive(false);
+        IsRangeCooldown = false;
+        rangeAttackCooldown.fillAmount = 1;
+    }
+
+    private IEnumerator IDashCooldown(float targetFillAmount, float cooldownTime)
+    {
+        IsDashCooldown = true;
+        dashAttackCooldown.gameObject.SetActive(true);
+        while (dashAttackCooldown.fillAmount != targetFillAmount)
+        {
+            dashAttackCooldown.fillAmount += dashAttackCooldown.fillAmount < targetFillAmount ? (1f / cooldownTime) * Time.deltaTime : -(1f / cooldownTime) * Time.deltaTime;
+            yield return null;
+        }
+        dashAttackCooldown.gameObject.SetActive(false);
+        IsDashCooldown = false;
+        dashAttackCooldown.fillAmount = 1;
     }
 }

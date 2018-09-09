@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public abstract class Projectile : MonoBehaviour
 {
-    [SerializeField]
-    private float projectileSpeed;
-    [SerializeField]
-    private float selfDestroyTime = 5f;
+    protected float projectileSpeed = 60f;
+    protected float selfDestroyTime = 5f;
     private SpriteRenderer spriteRenderer;
     private int startDirection;
 
@@ -31,7 +29,7 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            print(collision.gameObject.name);
+            //print(collision.gameObject.name);
             var hittedPlayer = collision.GetComponent<Player>();
             hittedPlayer.PlayerInfo.TakeDamage(hittedPlayer);
             Destroy(gameObject);

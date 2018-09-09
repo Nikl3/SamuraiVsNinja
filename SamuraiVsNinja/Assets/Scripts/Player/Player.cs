@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public enum PlayerState {Normal, Inactive }
+public enum PlayerState
+{
+	Normal,
+	Inactive
+}
 
 public class Player : MonoBehaviour
 {
 	#region VARIABLES
+
+	[SerializeField]
+	public AudioClip[] PlayerAudioClips;
+
 	private PlayerData playerData;
-	[SerializeField]
-	private readonly float flashTime;
-	[SerializeField]
-	private readonly float flashSpeed;
 	[SerializeField]
 	private Color flashColor;
 	private Color defaultColor;
@@ -22,6 +26,12 @@ public class Player : MonoBehaviour
 	#region PROPERTIES
 
 	public Sword Sword
+	{
+		get;
+		private set;
+	}
+
+	public AudioSource AudioSource
 	{
 		get;
 		private set;
@@ -58,9 +68,14 @@ public class Player : MonoBehaviour
 		private set;
 	}
 
-	public AnimatorController AnimatorController;
+	public AnimatorController AnimatorController
+	{
+		get;
+		private set;
+	}
 	public SpriteRenderer SpriteRenderer
-	{ get;
+	{
+		get;
 		private set;
 	}
 
@@ -73,6 +88,7 @@ public class Player : MonoBehaviour
 		SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		AnimatorController = GetComponentInChildren<AnimatorController>();
 		Controller2D = GetComponent<CharacterController2D>();
+		AudioSource = GetComponent<AudioSource>();
 		Sword = GetComponent<Sword>();
 		defaultColor = SpriteRenderer.color;
 	}
@@ -84,14 +100,26 @@ public class Player : MonoBehaviour
 
 		gameObject.name = playerData.PlayerName;
 		playerInfo.PlayerName = playerData.PlayerName;
+
+		CreatePlayerIndicator();
 	}
 
-	public void ReturnState()
+	private void CreatePlayerIndicator()
 	{
-		StartCoroutine(IReturnState(flashSpeed, flashTime));
+		var playerIndicator = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 2));
+		playerIndicator.GetComponent<PlayerIndicator>().PlayerIdText = "P" + playerData.ID;
+		playerIndicator.transform.SetParent(transform);
+		playerIndicator.transform.localPosition = new Vector2(0, 4);
 	}
 
-	public void ReturnState(float flashTime)
+	public void PlayAudioClip(int audioIndex)
+	{
+		AudioSource.clip = PlayerAudioClips[audioIndex];
+		//if(!AudioSource.isPlaying)
+		AudioSource.Play();
+	}
+
+	public void ReturnState(float flashSpeed = 0.2f, float flashTime = 0.1f)
 	{
 		StartCoroutine(IReturnState(flashSpeed, flashTime));
 	}
@@ -103,10 +131,11 @@ public class Player : MonoBehaviour
 		while (currentTime <= flashTime)
 		{
 			currentTime += Time.unscaledDeltaTime;
+
 			SpriteRenderer.color = flashColor;
 			yield return new WaitForSeconds(flashSpeed);
 			SpriteRenderer.color = defaultColor;
-			yield return new WaitForSeconds(flashSpeed);
+			yield return new WaitForSeconds(flashSpeed);		
 		}
 		currentTime = 0f;
 		CurrentState = PlayerState.Normal;

@@ -16,8 +16,7 @@ public class SceneMaster : Singelton<SceneMaster>
     private bool isAnimatingText;
     private Image screenFadeImage;
     private Image howToPlayImage;
-    private Text loadText;
-    private Text pressAnyKeyText;
+    private Text messageText;
 
     #endregion VARIABLES
 
@@ -25,8 +24,7 @@ public class SceneMaster : Singelton<SceneMaster>
     {
         screenFadeImage = transform.Find("FadeImage").GetComponent<Image>();
         howToPlayImage = transform.Find("HowToPlayImage").GetComponent<Image>();
-        loadText = transform.Find("LoadText").GetComponent<Text>();
-        pressAnyKeyText = howToPlayImage.transform.Find("PressAnyKeyText").GetComponent<Text>();
+        messageText = transform.GetChild(1).GetComponentInChildren<Text>();
         screenFadeImage.fillAmount = 1f;
         howToPlayImage.fillAmount = 0f;
     }
@@ -34,8 +32,7 @@ public class SceneMaster : Singelton<SceneMaster>
     private void Start()
     {
         howToPlayImage.gameObject.SetActive(false);
-        loadText.enabled = false;
-        pressAnyKeyText.enabled = false;
+        messageText.enabled = false;
 
         FadeScreenImage(0);
     }
@@ -130,8 +127,8 @@ public class SceneMaster : Singelton<SceneMaster>
 
         yield return new WaitUntil(() => !isFading);
 
-        pressAnyKeyText.enabled = false;
-        loadText.enabled = true;
+        messageText.enabled = true;
+        messageText.text = "LOADING...";
         howToPlayImage.gameObject.SetActive(true);
 
         asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
@@ -145,8 +142,8 @@ public class SceneMaster : Singelton<SceneMaster>
             {
                 if (!isAnimatingText)
                 {
-                    AnimateText(pressAnyKeyText, flickeringSpeed);
-                    loadText.enabled = false;
+                    AnimateText(messageText, flickeringSpeed);
+                    messageText.text = "PRESS ANY KEY";
                 }
 
                 if (Input.anyKeyDown)
@@ -159,7 +156,6 @@ public class SceneMaster : Singelton<SceneMaster>
         }
 
         isAnimatingText = false;
-        pressAnyKeyText.enabled = false;
         howToPlayImage.gameObject.SetActive(false);
 
         yield return new WaitForSecondsRealtime(fakeLoadTime);
@@ -179,7 +175,7 @@ public class SceneMaster : Singelton<SceneMaster>
     private IEnumerator IAnimateText(Text textToAnimate, float flickeringSpeed)
     {
         isAnimatingText = true;
-        pressAnyKeyText.enabled = true;
+        messageText.enabled = true;
 
         while (isAnimatingText)
         {

@@ -270,13 +270,17 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnMeleeAttack()
     {
+        player.PlayAudioClip(0);
         player.AnimatorController.AnimatorSetTrigger("Attack");
     }
 
     public void OnRangedAttack()
     {
-        if(!isRangeAttacking)
-        StartCoroutine(IRangeAttack());     
+        if (!isRangeAttacking)
+        {
+            player.PlayAudioClip(1);
+            StartCoroutine(IRangeAttack());
+        }
     }
 
     public void OnDash()
@@ -296,7 +300,7 @@ public class PlayerEngine : MonoBehaviour
         var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), ProjectileSpawnPoint.position, Quaternion.identity);
         projectile.GetComponent<Projectile>().ProjectileInitialize(player.Controller2D.Collisions.FaceDirection);
 
-        yield return new WaitUntil(() => !player.PlayerInfo.IsCooldown);
+        yield return new WaitUntil(() => !player.PlayerInfo.IsRangeCooldown);
 
         isRangeAttacking = false;
     }
@@ -305,6 +309,8 @@ public class PlayerEngine : MonoBehaviour
     {
         isDashing = true;
         player.AnimatorController.AnimatorSetBool("IsDashing", true);
+        player.PlayerInfo.StartDashCooldown(DashCooldown);
+
         gravity = 0;
         moveSpeed = isDashing ? DashSpeed + moveSpeed : moveSpeed;
 
@@ -314,7 +320,7 @@ public class PlayerEngine : MonoBehaviour
         moveSpeed = startSpeed;
         player.AnimatorController.AnimatorSetBool("IsDashing", false);
 
-        yield return new WaitForSeconds(DashCooldown);
+        yield return new WaitUntil(() => !player.PlayerInfo.IsDashCooldown);
         isDashing = false;
     }
 }

@@ -20,6 +20,9 @@ public class ResourceManager : Singelton<ResourceManager>
 	[Header("Ui")]
 	[SerializeField]
 	private GameObject[] uiPrefabs;
+	[Header("Effects")]
+	[SerializeField]
+	private GameObject[] effectPrefabs;
 	[Header("Others")]
 	[SerializeField]
 	private GameObject[] otherPrefabs;
@@ -38,7 +41,8 @@ public class ResourceManager : Singelton<ResourceManager>
 			{ 2, networkPrefabs },
 			{ 3, projectilePrefabs },
 			{ 4, uiPrefabs },
-			{ 5, otherPrefabs }
+			{ 5, effectPrefabs },
+			{ 6, otherPrefabs }
 		};
 	}
 
