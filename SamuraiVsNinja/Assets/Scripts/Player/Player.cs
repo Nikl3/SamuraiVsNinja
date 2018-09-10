@@ -90,7 +90,8 @@ public class Player : MonoBehaviour
 		Controller2D = GetComponent<CharacterController2D>();
 		AudioSource = GetComponent<AudioSource>();
 		Sword = GetComponent<Sword>();
-	}
+        defaultColor = SpriteRenderer.color;
+    }
 
 	public void Initialize(PlayerData playerData, PlayerInfo playerInfo)
 	{
@@ -100,7 +101,7 @@ public class Player : MonoBehaviour
 		gameObject.name = playerData.PlayerName;
 		playerInfo.PlayerName = playerData.PlayerName;
 
-        defaultColor = PlayerData.PlayerColor;
+        //defaultColor = PlayerData.PlayerColor;
 
 		CreatePlayerIndicator();
 	}
@@ -120,7 +121,7 @@ public class Player : MonoBehaviour
 		AudioSource.Play();
 	}
 
-	public void ReturnState(float flashSpeed = 0.2f, float flashTime = 0.1f)
+    public void ReturnState(float flashSpeed = 0.2f, float flashTime = 0.1f)
 	{
 		StartCoroutine(IReturnState(flashSpeed, flashTime));
 	}

@@ -396,7 +396,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  flashColor: {r: 1, g: 1, b: 1, a: 0.078431375}
+  flashColor: {r: 1, g: 1, b: 1, a: 0.19607843}
   CurrentState: 0
 --- !u!114 &114928000032198002
 MonoBehaviour:
