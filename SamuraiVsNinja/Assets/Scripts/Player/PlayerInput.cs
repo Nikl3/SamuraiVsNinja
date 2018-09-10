@@ -21,8 +21,10 @@ public class PlayerInput : MonoBehaviour
         PlayerGraphics = transform.Find("PlayerGraphics");
     }
 
-    private void Update() {
-        if (player.CurrentState != PlayerState.Respawn) {
+    private void Update()
+    {
+        if (player.CurrentState != PlayerState.RESPAWN)
+        {
             UpdateLocalInputs();
         }
     }

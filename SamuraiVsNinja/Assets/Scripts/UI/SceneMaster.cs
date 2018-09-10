@@ -99,11 +99,6 @@ public class SceneMaster : Singelton<SceneMaster>
         StartCoroutine(IAnimateText(textToAnimate, flickeringSpeed));
     }
 
-    //private void AnimateHowToPlayImage(float targetFillAmount, float fadeSpeed = 1f)
-    //{
-    //    StartCoroutine(IAnimateHowToPlayImage(targetFillAmount, fadeSpeed));
-    //} 
-
     #region COROUTINES
 
     private IEnumerator IFadeScreenImage(float targetFillAmount, float fadeSpeed)
@@ -185,20 +180,6 @@ public class SceneMaster : Singelton<SceneMaster>
             yield return new WaitForSecondsRealtime(flickeringSpeed);
         }
     }
-
-    //private IEnumerator IAnimateHowToPlayImage(float targetFillAmount, float fadeSpeed)
-    //{
-    //    isHowToPlayImageFading = true;
-
-    //    while (howToPlayImage.fillAmount != targetFillAmount)
-    //    {
-    //        howToPlayImage.fillAmount += howToPlayImage.fillAmount < targetFillAmount ? (1f / fadeSpeed) * Time.unscaledDeltaTime : -(1f / fadeSpeed) * Time.unscaledDeltaTime;
-    //        yield return null;
-    //    }
-
-    //    isHowToPlayImageFading = false;
-    //    yield return null;
-    //}
 
     #endregion COROUTINES
 }

@@ -9,6 +9,8 @@ public class PlayerEngine : MonoBehaviour
     [SerializeField]
     private LayerMask hitLayer;
 
+    private Coroutine onKnockbackCoroutine;
+
     #region JUMP
     [Header("JUMP")]
 
@@ -81,7 +83,15 @@ public class PlayerEngine : MonoBehaviour
 
     #endregion RANGE_ATTACK
 
-#endregion VARIABLES
+    #region KNOCKBACK
+
+    private readonly float knockbackTime;
+    private readonly float knockbackCounter;
+    private readonly float knockbackForce = 20f;
+
+    #endregion KNOCKBACK
+
+    #endregion VARIABLES
 
     #region PROPERTIES
 
@@ -190,28 +200,6 @@ public class PlayerEngine : MonoBehaviour
         minJumpVelocity = Mathf.Sqrt(2* Mathf.Abs(gravity) * MinJumpHeight);
     }
 
-    public void CalculateMovement()
-    {
-        CalculateVelocity();
-        HandleWallSliding();
-
-        player.Controller2D.Move(velocity * Time.deltaTime, directionalInput);
-
-        player.AnimatorController.AnimatorSetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
-     
-        if (player.Controller2D.Collisions.Above || player.Controller2D.Collisions.Below)
-        {
-            velocity.y = 0;
-            player.AnimatorController.AnimatorSetBool("IsJumping", false);
-            player.AnimatorController.AnimatorSetBool("IsDropping", false);
-        }
-        else
-        {
-            player.AnimatorController.AnimatorSetBool("IsJumping", velocity.y > 0 ? true : false);
-            player.AnimatorController.AnimatorSetBool("IsDropping", velocity.y < 0 ? true : false);
-        }
-    }
-
     private void HandleWallSliding()
     {
         wallDirectionX = (player.Controller2D.Collisions.Left) ? -1 : 1;
@@ -233,7 +221,7 @@ public class PlayerEngine : MonoBehaviour
             {
                 velocity.y = -maxWallSlideSpeed;
             }
-        } 
+        }
     }
 
     private void CalculateVelocity()
@@ -241,6 +229,28 @@ public class PlayerEngine : MonoBehaviour
         float targetVelocityX = directionalInput.x * moveSpeed;
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (player.Controller2D.Collisions.Below) ? AccelerationTimeGrounded : accelerationTimeAirbourne);
         velocity.y += gravity * Time.deltaTime;
+    }
+
+    public void CalculateMovement()
+    {
+        CalculateVelocity();
+        HandleWallSliding();
+
+        player.Controller2D.Move(velocity * Time.deltaTime, directionalInput);
+
+        player.AnimatorController.AnimatorSetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
+     
+        if (player.Controller2D.Collisions.Above || player.Controller2D.Collisions.Below)
+        {
+            velocity.y = 0;
+            player.AnimatorController.AnimatorSetBool("IsJumping", false);
+            player.AnimatorController.AnimatorSetBool("IsDropping", false);
+        }
+        else
+        {
+            player.AnimatorController.AnimatorSetBool("IsJumping", velocity.y > 0 ? true : false);
+            player.AnimatorController.AnimatorSetBool("IsDropping", velocity.y < 0 ? true : false);
+        }
     }
 
     public void SetDirectionalInput(Vector2 input)
@@ -306,12 +316,22 @@ public class PlayerEngine : MonoBehaviour
         }
     }
 
-    public void OnKnockback(Vector2 knockbackVelocity, float knockdownDirection)
+    public void OnKnockback(Vector2 knockdownDirection)
     {
-        velocity = knockbackVelocity * knockdownDirection;
+        if(onKnockbackCoroutine == null)
+        onKnockbackCoroutine = StartCoroutine(IKnockback(knockdownDirection));
+        onKnockbackCoroutine = null;
     }
 
-    public IEnumerator IRangeAttack()
+    public void Invincibility()
+    {
+        player.ChangePlayerState(PlayerState.INVINCIBILITY);
+        StartCoroutine(IInvincibility(2f));
+    }
+
+    #region COROUTINES
+
+    private IEnumerator IRangeAttack()
     {
         isRangeAttacking = true;
         player.AnimatorController.AnimatorSetTrigger("Throw");
@@ -343,4 +363,21 @@ public class PlayerEngine : MonoBehaviour
         yield return new WaitUntil(() => !player.PlayerInfo.IsDashCooldown);
         isDashing = false;
     }
+
+    private IEnumerator IKnockback(Vector2 knockdownDirection)
+    {
+        print(knockdownDirection);
+        velocity.x = knockdownDirection.x * knockbackForce;
+        if(velocity.y != 0)
+        velocity.y = knockbackForce;
+        yield return null;
+    }
+
+    private IEnumerator IInvincibility(float invincibilityTime)
+    {
+        yield return new WaitForSeconds(invincibilityTime);
+        player.ChangePlayerState(PlayerState.NORMAL);
+    }
+
+    #endregion COROUTINES
 }

@@ -73,9 +73,9 @@ GameObject:
   - component: {fileID: 114072020697738718}
   - component: {fileID: 114684871165924040}
   - component: {fileID: 114929046794207950}
+  - component: {fileID: 114174056013699626}
   - component: {fileID: 61677806527832666}
   - component: {fileID: 50099194521277942}
-  - component: {fileID: 114174056013699626}
   - component: {fileID: 82101183532161562}
   m_Layer: 10
   m_Name: Player
@@ -397,7 +397,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   flashColor: {r: 1, g: 1, b: 1, a: 0.19607843}
-  CurrentState: 0
 --- !u!114 &114928000032198002
 MonoBehaviour:
   m_ObjectHideFlags: 1

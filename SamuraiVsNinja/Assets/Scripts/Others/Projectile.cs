@@ -29,12 +29,15 @@ public abstract class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //print(collision.gameObject.name);
             var hittedPlayer = collision.GetComponent<Player>();
-            Vector2 direction = collision.transform.position - transform.position;
-            direction = direction.normalized;
-            Debug.Log(direction);
-            hittedPlayer.PlayerInfo.TakeDamage(hittedPlayer, direction);
+
+            if(hittedPlayer != null)
+            {
+                var hitDirection = collision.transform.position - transform.position;
+                hitDirection = hitDirection.normalized;
+                hittedPlayer.TakeDamage(hitDirection);
+            }
+           
             Destroy(gameObject);
         }
     }

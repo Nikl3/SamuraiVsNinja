@@ -10,14 +10,21 @@ public class PlayerItemCollector : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {   if (player.CurrentState == PlayerState.Normal) {
-            if (collision.CompareTag("Onigiri")) {
-                player.PlayerInfo.ModifyCoinValues(1);
+    {
+        if (player.CurrentState == PlayerState.NORMAL)
+        {
+            if (collision.CompareTag("Onigiri"))
+            {
+                player.AddOnigiri(1);
                 Destroy(collision.gameObject);
+                return;
             }
-            if (collision.CompareTag("Spike")) {
-                var hitDir = collision.transform.position - transform.position;
-                player.PlayerInfo.TakeDamage(player, hitDir);
+            if (collision.CompareTag("Spike"))
+            {
+                var hitDirection = collision.transform.position - transform.position;
+                hitDirection = hitDirection.normalized;
+                player.TakeDamage(hitDirection);
+                return;
             }
         }
     }

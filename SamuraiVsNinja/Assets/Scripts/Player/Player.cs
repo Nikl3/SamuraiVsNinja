@@ -1,16 +1,18 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum PlayerState
 {
-	Normal,
-	Inactive,
-    Respawn
+	NORMAL,
+	INVINCIBILITY,
+	RESPAWN
 }
 
 public class Player : MonoBehaviour
 {
 	#region VARIABLES
+
+	private int healthPoints;
+	private int onigiris;
 
 	[SerializeField]
 	public AudioClip[] PlayerAudioClips;
@@ -18,9 +20,13 @@ public class Player : MonoBehaviour
 	private PlayerData playerData;
 	[SerializeField]
 	private Color flashColor;
-	private Color defaultColor;
+	// private Color defaultColor;
 
-	public PlayerState CurrentState = PlayerState.Normal;
+	public PlayerState CurrentState
+	{
+		get;
+		private set;
+	}
 
 	#endregion VARIABLES
 
@@ -82,6 +88,20 @@ public class Player : MonoBehaviour
 
 	#endregion PROPERTIES
 
+	private void CreatePlayerIndicator()
+	{
+		var playerIndicator = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 2));
+		playerIndicator.GetComponent<PlayerIndicator>().PlayerIdText = "P" + playerData.ID;
+		playerIndicator.transform.SetParent(transform);
+		playerIndicator.transform.localPosition = new Vector2(0, 4);
+	}
+
+	private void ResetValues()
+	{
+		healthPoints = 3;
+		onigiris = 0;
+	}
+
 	private void Awake()
 	{
 		PlayerInput = GetComponent<PlayerInput>();
@@ -91,8 +111,13 @@ public class Player : MonoBehaviour
 		Controller2D = GetComponent<CharacterController2D>();
 		AudioSource = GetComponent<AudioSource>();
 		Sword = GetComponent<Sword>();
-        defaultColor = SpriteRenderer.color;
-    }
+		// defaultColor = SpriteRenderer.color;
+	}
+
+	private void Start()
+	{
+		ResetValues();
+	}
 
 	public void Initialize(PlayerData playerData, PlayerInfo playerInfo)
 	{
@@ -102,17 +127,14 @@ public class Player : MonoBehaviour
 		gameObject.name = playerData.PlayerName;
 		playerInfo.PlayerName = playerData.PlayerName;
 
-        //defaultColor = PlayerData.PlayerColor;
+		//defaultColor = PlayerData.PlayerColor;
 
 		CreatePlayerIndicator();
 	}
 
-	private void CreatePlayerIndicator()
+	public void ChangePlayerState(PlayerState newPlayerState)
 	{
-		var playerIndicator = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 2));
-		playerIndicator.GetComponent<PlayerIndicator>().PlayerIdText = "P" + playerData.ID;
-		playerIndicator.transform.SetParent(transform);
-		playerIndicator.transform.localPosition = new Vector2(0, 4);
+		CurrentState = newPlayerState;
 	}
 
 	public void PlayAudioClip(int audioIndex)
@@ -122,29 +144,53 @@ public class Player : MonoBehaviour
 		AudioSource.Play();
 	}
 
-    public void ReturnState(float flashSpeed = 0.2f, float flashTime = 0.1f)
+	public void AddOnigiri(int amount)
 	{
-		StartCoroutine(IReturnState(flashSpeed, flashTime));
+		onigiris += amount;
+		PlayerInfo.UpdateOnigiris(onigiris);
 	}
 
-	private IEnumerator IReturnState(float flashSpeed, float flashTime)
-	{ if (CurrentState != PlayerState.Respawn) { 
-		CurrentState = PlayerState.Inactive;
-        }
-
-        float currentTime = 0f;
-		while (currentTime <= flashTime)
+	public void TakeDamage(Vector2 direction)
+	{
+		if (CurrentState == PlayerState.NORMAL)
 		{
-			currentTime += Time.unscaledDeltaTime;
+			healthPoints--;
 
-			SpriteRenderer.color = flashColor;
-			yield return new WaitForSeconds(flashSpeed);
-			SpriteRenderer.color = defaultColor;
-			yield return new WaitForSeconds(flashSpeed);		
+			if (healthPoints >= 1)
+			{
+
+				PlayerEngine.Invincibility();
+
+				PlayerEngine.OnKnockback(direction);
+				PlayAudioClip(2);
+
+				if (onigiris > 0)
+					DropOnigiri();
+			}
+			else
+			{
+				//hittedPlayer.ChangePlayerState(PlayerState.RESPAWN);
+
+				Die();
+				ResetValues();
+			}
+
+			PlayerInfo.UpdateHealthPoints(healthPoints);
 		}
-		currentTime = 0f;
-		CurrentState = PlayerState.Normal;
+	}
 
-		yield return null;
+	private void DropOnigiri()
+	{
+			Instantiate(
+				ResourceManager.Instance.GetPrefabByIndex(1, 0),
+				transform.position,
+				Quaternion.identity
+				);
+	}
+
+	private void Die()
+	{
+		PlayAudioClip(3);
+		Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position, Quaternion.identity);
 	}
 }

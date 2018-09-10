@@ -5,20 +5,18 @@ using UnityEngine.UI;
 
 public class PlayerInfo : MonoBehaviour
 {
+    #region VARIABLES
+
     private Transform parentContainer;
-    //private Image playerImage;
     private Text playerNameText;
     private Text onigiriCountText;
-    private int onigiris;
-    private Image[] healthpoints;
-    private int healthPoints = 3;
+    private Image[] healthpointImages;
     private Image rangeAttackCooldown;
     private Image dashAttackCooldown;
-    private readonly int targetOnigiri = 3;
 
-    void RespawnCooldown(float cooldownTime, GameObject targetObject, Vector2 spawnPosition) {
-        StartCoroutine(IRespawnCooldown(cooldownTime, targetObject, spawnPosition));
-    }
+    #endregion VARIABLES
+
+    #region PROPERTIES
 
     public bool IsRangeCooldown
     {
@@ -42,91 +40,61 @@ public class PlayerInfo : MonoBehaviour
         }
     }
 
+    #endregion PROPERTIES
+
     private void Awake() 
     {
-        //playerImage = GetComponent<Image>();
+        Initialize();
+    }
+
+    private void Start()
+    {
+        SetValues();
+    }
+
+    private void Initialize()
+    {
         playerNameText = transform.Find("PlayerName").GetComponent<Text>();
         onigiriCountText = transform.Find("OnigiriIcon").GetComponentInChildren<Text>();
         parentContainer = GameObject.Find("HUD").transform.Find("PlayerInfoContainer");
-        healthpoints = transform.Find("HealthBar").GetComponentsInChildren<Image>();
-        Array.Reverse(healthpoints);
+        healthpointImages = transform.Find("HealthBar").GetComponentsInChildren<Image>();
+        Array.Reverse(healthpointImages);
         rangeAttackCooldown = transform.Find("RangeAttackCooldown").transform.Find("CooldownImage").GetComponent<Image>();
         rangeAttackCooldown.gameObject.SetActive(false);
         dashAttackCooldown = transform.Find("DashCooldown").transform.Find("CooldownImage").GetComponent<Image>();
         dashAttackCooldown.gameObject.SetActive(false);
     }
 
-    private void Start()
+    private void SetValues()
     {
         transform.SetParent(parentContainer);
         transform.localPosition = Vector3.zero;
         transform.localScale = Vector3.one;
-
         gameObject.name = playerNameText.text + " Info";
     }
 
-    private void ResetPlayerStats(Player hittedPlayer)
+    private void ResetHealthPointImages()
     {
-        //RespawnCooldown(2f,hittedPlayer.gameObject, GameManager.Instance.RandomSpawnPoint());
-        hittedPlayer.transform.position = GameManager.Instance.RandomSpawnPoint();
-        healthPoints = 3;
-        foreach (var healthpoint in healthpoints)
+        foreach (var healthImage in healthpointImages)
         {
-            healthpoint.gameObject.SetActive(true);
+            healthImage.gameObject.SetActive(true);
         }
     }
 
-    public void ModifyCoinValues(int amount)
+    public void UpdateOnigiris(int currentOnigiris)
     {
-        if (onigiris == targetOnigiri - 1)
-        {
-            onigiris += amount;
-            onigiriCountText.text = onigiris.ToString();
-            GameManager.Instance.Victory(PlayerName);
-        }
-        else
-        {
-            onigiris += amount;
-            onigiriCountText.text = onigiris.ToString();
-        }
+        onigiriCountText.text = currentOnigiris.ToString();
     }
 
-    public void TakeDamage(Player hittedPlayer, Vector2 direction)
+    public void UpdateHealthPoints(int currentHealthPoints)
     {
-        if (hittedPlayer.CurrentState == PlayerState.Normal)
+        if (currentHealthPoints == 3)
         {
-            if (healthPoints > 1)
-            {
-                hittedPlayer.PlayerEngine.OnKnockback(Vector2.right * 10, direction.x);
-                hittedPlayer.PlayAudioClip(2);
+            ResetHealthPointImages();
+            return;
+        }        
 
-                for (int i = 0; i < healthpoints.Length; i++)
-                {
-                    if (healthpoints[i].gameObject.activeSelf)
-                    {
-                        healthpoints[i].gameObject.SetActive(false);
-                        healthPoints--;
-                        hittedPlayer.ReturnState();
-                        if (onigiris > 0)
-                        {
-                            ModifyCoinValues(-1);
-                            Instantiate(ResourceManager.Instance.GetPrefabByIndex(1, 0), hittedPlayer.transform.position, Quaternion.identity);
-                        }
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                hittedPlayer.PlayAudioClip(3);
-                Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), hittedPlayer.transform.position, Quaternion.identity);
-                healthpoints[healthpoints.Length - 1].gameObject.SetActive(false);
-                healthPoints--;
-                hittedPlayer.CurrentState = PlayerState.Respawn;
-                hittedPlayer.ReturnState(0.4f);
-                ResetPlayerStats(hittedPlayer);
-            }
-        }
+        healthpointImages[currentHealthPoints - 1].gameObject.SetActive(false);
     }
 
     public void StartRangeCooldown(float rangeAttackCooldown)
@@ -138,6 +106,8 @@ public class PlayerInfo : MonoBehaviour
     {
         StartCoroutine(IDashCooldown(0, dashCooldown));
     }
+
+    #region COROUTINES
 
     private IEnumerator IRangeAttackCooldown(float targetFillAmount, float cooldownTime)
     {
@@ -173,4 +143,6 @@ public class PlayerInfo : MonoBehaviour
         yield return new WaitForSeconds(cooldownTime);
         targetObject.SetActive(true);
     }
+
+    #endregion COROUTINES
 }
