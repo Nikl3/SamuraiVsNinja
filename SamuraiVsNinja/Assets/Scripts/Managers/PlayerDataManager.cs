@@ -79,6 +79,11 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         }
     }
 
+    public PlayerData GetPlayerData(int id)
+    {
+        return playerDatas[id];
+    }
+
     public void SpawnPlayers()
     {
         AddTestPlayers(TestPlayerAmount);

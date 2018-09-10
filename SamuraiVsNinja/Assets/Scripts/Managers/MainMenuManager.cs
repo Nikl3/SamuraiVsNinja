@@ -262,9 +262,11 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		}
 	}
 
-	private void ChangePlayerIcon(JoinField joinField)
+	private void ChangePlayerIcon(JoinField joinField, PlayerData playerData)
 	{
-		joinField.ChangeSprite(joinField.CurrentColor == Color.white ? Color.green : Color.white);
+        var currentIconColor = joinField.CurrentColor == Color.white ? Color.green : Color.white;
+        playerData.PlayerColor = currentIconColor;
+        joinField.ChangeSprite(currentIconColor);
 	}
 
 	public void SetJoinField(int playerID)
@@ -398,7 +400,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		while (true)
 		{
 			yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) == 0);
-			ChangePlayerIcon(joinFields[id - 1]);
+			ChangePlayerIcon(joinFields[id - 1], (PlayerDataManager.Instance.GetPlayerData(id - 1)));
 			yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) != 0);
 		}		
 	}

@@ -372,6 +372,10 @@ MonoBehaviour:
   minJumpHeight: 1
   maxJumpHeight: 6
   moveSpeed: 15
+  maxWallSlideSpeed: 3
+  wallJumpClimb: {x: 2.5, y: 30}
+  wallJumpOff: {x: 8.5, y: 7}
+  wallLeap: {x: 20, y: 18}
   dashSpeed: 40
   dashCooldown: 2
   ProjectileSpawnPoint: {fileID: 4110683654836582}
@@ -388,10 +392,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerAudioClips:
-  - {fileID: 8300000, guid: b76357a42d03a4722afcba74c3073136, type: 3}
-  - {fileID: 8300000, guid: c0ac0614aa7b64de7ba2f569a0793a16, type: 3}
-  - {fileID: 8300000, guid: 07c38e0499aea4acd81b44991c0e4d07, type: 3}
-  - {fileID: 8300000, guid: 0ffa761a5a83744d3ab5e27ac9505eed, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   flashColor: {r: 1, g: 1, b: 1, a: 0.078431375}
   CurrentState: 0
 --- !u!114 &114928000032198002

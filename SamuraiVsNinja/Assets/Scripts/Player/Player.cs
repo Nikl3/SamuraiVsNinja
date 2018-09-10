@@ -90,7 +90,6 @@ public class Player : MonoBehaviour
 		Controller2D = GetComponent<CharacterController2D>();
 		AudioSource = GetComponent<AudioSource>();
 		Sword = GetComponent<Sword>();
-		defaultColor = SpriteRenderer.color;
 	}
 
 	public void Initialize(PlayerData playerData, PlayerInfo playerInfo)
@@ -100,6 +99,8 @@ public class Player : MonoBehaviour
 
 		gameObject.name = playerData.PlayerName;
 		playerInfo.PlayerName = playerData.PlayerName;
+
+        defaultColor = PlayerData.PlayerColor;
 
 		CreatePlayerIndicator();
 	}

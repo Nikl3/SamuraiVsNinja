@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using UnityEngine;
+
+[System.Serializable]
 public class PlayerData
 {
     public int ID
@@ -14,6 +16,7 @@ public class PlayerData
         }
     }
     public bool HasJoined { get; set; }
+    public Color PlayerColor { get; set; }
 
     private readonly string playerName;
 

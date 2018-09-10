@@ -44,9 +44,12 @@ public class PlayerEngine : MonoBehaviour
     [Header("WALL SLIDE")]
 
     [SerializeField]
-    private readonly float maxWallSlideSpeed = 3f;
+    private float maxWallSlideSpeed = 3f;
+    [SerializeField]
     private Vector2 wallJumpClimb = new Vector2(2.5f, 16);
+    [SerializeField]
     private Vector2 wallJumpOff = new Vector2(8.5f, 7);
+    [SerializeField]
     private Vector2 wallLeap = new Vector2(18, 17);
     private bool wallSliding;
     private int wallDirectionX;
