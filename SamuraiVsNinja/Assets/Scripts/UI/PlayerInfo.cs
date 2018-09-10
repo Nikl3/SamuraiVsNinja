@@ -92,7 +92,7 @@ public class PlayerInfo : MonoBehaviour
         {
             if (healthPoints > 1)
             {
-                hittedPlayer.PlayerEngine.OnKnockback(Vector2.right * 10, direction.x);
+                hittedPlayer.PlayerEngine.OnKnockback(Vector2.right * 10, (int)direction.x);
                 hittedPlayer.PlayAudioClip(2);
 
                 for (int i = 0; i < healthpoints.Length; i++)
