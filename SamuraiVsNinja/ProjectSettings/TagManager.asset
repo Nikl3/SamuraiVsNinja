@@ -8,6 +8,7 @@ TagManager:
   - Obstacle
   - JoinField
   - Onigiri
+  - Spike
   layers:
   - Default
   - TransparentFX

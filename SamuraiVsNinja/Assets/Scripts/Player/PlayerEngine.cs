@@ -297,7 +297,6 @@ public class PlayerEngine : MonoBehaviour
     public void OnKnockback(Vector2 knockbackVelocity, float knockdownDirection)
     {
         velocity = knockbackVelocity * knockdownDirection;
-        player.PlayerInput.PlayerGraphics.localScale = new Vector2(knockdownDirection, 1);
     }
 
     public IEnumerator IRangeAttack()

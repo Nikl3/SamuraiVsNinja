@@ -22,6 +22,9 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
+        if (player.CurrentState == PlayerState.Respawn) {
+            return;
+        }
         UpdateLocalInputs();
     }
   

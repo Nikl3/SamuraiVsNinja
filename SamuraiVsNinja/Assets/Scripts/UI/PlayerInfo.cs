@@ -117,6 +117,7 @@ public class PlayerInfo : MonoBehaviour
                 Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), hittedPlayer.transform.position, Quaternion.identity);
                 healthpoints[healthpoints.Length - 1].gameObject.SetActive(false);
                 healthPoints--;
+                hittedPlayer.CurrentState = PlayerState.Respawn;
                 hittedPlayer.ReturnState(0.4f);
                 ResetPlayerStats(hittedPlayer);
             }

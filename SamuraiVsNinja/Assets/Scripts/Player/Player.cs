@@ -4,7 +4,8 @@ using UnityEngine;
 public enum PlayerState
 {
 	Normal,
-	Inactive
+	Inactive,
+    Respawn
 }
 
 public class Player : MonoBehaviour
@@ -127,9 +128,11 @@ public class Player : MonoBehaviour
 	}
 
 	private IEnumerator IReturnState(float flashSpeed, float flashTime)
-	{
+	{ if (CurrentState != PlayerState.Respawn) { 
 		CurrentState = PlayerState.Inactive;
-		float currentTime = 0f;
+        }
+
+        float currentTime = 0f;
 		while (currentTime <= flashTime)
 		{
 			currentTime += Time.unscaledDeltaTime;

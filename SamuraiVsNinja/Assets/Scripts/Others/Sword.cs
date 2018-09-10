@@ -9,9 +9,9 @@ public class Sword : MonoBehaviour
 		player = GetComponent<Player>();
 	}
 
-	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		if (player.CurrentState == PlayerState.Normal)
+	private void OnTriggerEnter2D(Collider2D collision) { 
+
+        if (player.CurrentState == PlayerState.Normal)
 		{
 			if (collision.CompareTag("Player"))
 			{

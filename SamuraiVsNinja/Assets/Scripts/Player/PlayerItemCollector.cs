@@ -15,6 +15,10 @@ public class PlayerItemCollector : MonoBehaviour
                 player.PlayerInfo.ModifyCoinValues(1);
                 Destroy(collision.gameObject);
             }
+            if (collision.CompareTag("Spike")) {
+                var hitDir = collision.transform.position - transform.position;
+                player.PlayerInfo.TakeDamage(player, hitDir);
+            }
         }
     }
 }
