@@ -86,12 +86,13 @@ public class PlayerInfo : MonoBehaviour
         }
     }
 
-    public void TakeDamage(Player hittedPlayer)
+    public void TakeDamage(Player hittedPlayer, Vector2 direction)
     {
         if (hittedPlayer.CurrentState == PlayerState.Normal)
         {
             if (healthPoints > 1)
             {
+                hittedPlayer.PlayerEngine.OnKnockback(Vector2.right * 10, direction.x);
                 hittedPlayer.PlayAudioClip(2);
 
                 for (int i = 0; i < healthpoints.Length; i++)
@@ -116,6 +117,7 @@ public class PlayerInfo : MonoBehaviour
                 Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), hittedPlayer.transform.position, Quaternion.identity);
                 healthpoints[healthpoints.Length - 1].gameObject.SetActive(false);
                 healthPoints--;
+                hittedPlayer.CurrentState = PlayerState.Respawn;
                 hittedPlayer.ReturnState(0.4f);
                 ResetPlayerStats(hittedPlayer);
             }

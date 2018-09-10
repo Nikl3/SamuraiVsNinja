@@ -294,6 +294,11 @@ public class PlayerEngine : MonoBehaviour
         }
     }
 
+    public void OnKnockback(Vector2 knockbackVelocity, float knockdownDirection)
+    {
+        velocity = knockbackVelocity * knockdownDirection;
+    }
+
     public IEnumerator IRangeAttack()
     {
         isRangeAttacking = true;
@@ -301,7 +306,7 @@ public class PlayerEngine : MonoBehaviour
         player.PlayerInfo.StartRangeCooldown(RangeAttackCooldown);
 
         var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), ProjectileSpawnPoint.position, Quaternion.identity);
-        projectile.GetComponent<Projectile>().ProjectileInitialize(player.Controller2D.Collisions.FaceDirection);
+        projectile.GetComponent<Kunai>().ProjectileInitialize(player.Controller2D.Collisions.FaceDirection);
 
         yield return new WaitUntil(() => !player.PlayerInfo.IsRangeCooldown);
 

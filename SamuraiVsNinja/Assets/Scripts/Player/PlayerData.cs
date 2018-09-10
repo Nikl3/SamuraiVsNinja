@@ -22,7 +22,8 @@ public class PlayerData
 
     public PlayerData(int id)
     {
-        ID = id;           
+        ID = id;
+        PlayerColor = new Color(1,1,1,0.4f);
 
         playerName = "Player " + id;
         //ActionButton = "Action" + "_J" + id;

@@ -9,15 +9,20 @@ public class Sword : MonoBehaviour
 		player = GetComponent<Player>();
 	}
 
-	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		if (player.CurrentState == PlayerState.Normal)
+	private void OnTriggerEnter2D(Collider2D collision) { 
+
+        if (player.CurrentState == PlayerState.Normal)
 		{
 			if (collision.CompareTag("Player"))
 			{
 				//print("player hit");
 				var hittedPlayer = collision.GetComponent<Player>();
-				hittedPlayer.PlayerInfo.TakeDamage(hittedPlayer);
+
+                Vector2 direction = collision.transform.position - transform.position;          
+                direction = direction.normalized;
+                Debug.Log(direction);
+
+                hittedPlayer.PlayerInfo.TakeDamage(hittedPlayer, direction);
 			}
 		}
 	}

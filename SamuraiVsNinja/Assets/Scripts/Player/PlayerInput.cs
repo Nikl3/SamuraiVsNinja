@@ -5,7 +5,7 @@ public class PlayerInput : MonoBehaviour
     #region VARIABLES
 
     private Player player;
-    private Transform playerGraphics;
+    public Transform PlayerGraphics { get; private set; }
 
     #endregion VARIABLES
 
@@ -17,11 +17,14 @@ public class PlayerInput : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<Player>();
-        playerGraphics = transform.Find("PlayerGraphics");
+        PlayerGraphics = transform.Find("PlayerGraphics");
     }
 
     private void Update()
     {
+        if (player.CurrentState == PlayerState.Respawn) {
+            return;
+        }
         UpdateLocalInputs();
     }
   
@@ -32,7 +35,8 @@ public class PlayerInput : MonoBehaviour
             InputManager.Instance.GetVerticalAxisRaw(player.PlayerData.ID)
             );
 
-        playerGraphics.localScale = new Vector2(player.Controller2D.Collisions.FaceDirection > 0 ? -1 : 1, 1);
+        if(directionalInput != Vector2.zero)
+        PlayerGraphics.localScale = new Vector2(player.Controller2D.Collisions.FaceDirection > 0 ? -1 : 1, 1);
 
         player.PlayerEngine.SetDirectionalInput(directionalInput);
 
