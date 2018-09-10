@@ -163,6 +163,18 @@ public class PlayerEngine : MonoBehaviour
         }
     }
 
+    public Vector2 Velocity
+    {
+        get
+        {
+            return velocity;
+        }
+        set
+        {
+            velocity = value;
+        }
+    }
+
     #endregion PROPERTIES
 
     private void Awake()

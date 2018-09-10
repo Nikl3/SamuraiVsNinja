@@ -7,6 +7,7 @@ public class PlayerInput : MonoBehaviour
     private Player player;
     public Transform PlayerGraphics { get; private set; }
 
+
     #endregion VARIABLES
 
     #region PROPERTIES
@@ -20,17 +21,15 @@ public class PlayerInput : MonoBehaviour
         PlayerGraphics = transform.Find("PlayerGraphics");
     }
 
-    private void Update()
-    {
-        if (player.CurrentState == PlayerState.Respawn) {
-            return;
+    private void Update() {
+        if (player.CurrentState != PlayerState.Respawn) {
+            UpdateLocalInputs();
         }
-        UpdateLocalInputs();
     }
-  
+
     public void UpdateLocalInputs()
     {
-        Vector2 directionalInput = new Vector2 (
+            Vector2 directionalInput = new Vector2 (
             InputManager.Instance.GetHorizontalAxisRaw(player.PlayerData.ID),
             InputManager.Instance.GetVerticalAxisRaw(player.PlayerData.ID)
             );
@@ -69,5 +68,7 @@ public class PlayerInput : MonoBehaviour
         }
 
         player.PlayerEngine.CalculateMovement();
+
     }
+
 }

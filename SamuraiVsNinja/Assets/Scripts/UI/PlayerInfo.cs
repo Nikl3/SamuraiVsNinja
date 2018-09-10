@@ -16,6 +16,10 @@ public class PlayerInfo : MonoBehaviour
     private Image dashAttackCooldown;
     private readonly int targetOnigiri = 3;
 
+    void RespawnCooldown(float cooldownTime, GameObject targetObject, Vector2 spawnPosition) {
+        StartCoroutine(IRespawnCooldown(cooldownTime, targetObject, spawnPosition));
+    }
+
     public bool IsRangeCooldown
     {
         get;
@@ -63,6 +67,7 @@ public class PlayerInfo : MonoBehaviour
 
     private void ResetPlayerStats(Player hittedPlayer)
     {
+        //RespawnCooldown(2f,hittedPlayer.gameObject, GameManager.Instance.RandomSpawnPoint());
         hittedPlayer.transform.position = GameManager.Instance.RandomSpawnPoint();
         healthPoints = 3;
         foreach (var healthpoint in healthpoints)
@@ -160,5 +165,12 @@ public class PlayerInfo : MonoBehaviour
         dashAttackCooldown.gameObject.SetActive(false);
         IsDashCooldown = false;
         dashAttackCooldown.fillAmount = 1;
+    }
+
+    private IEnumerator IRespawnCooldown(float cooldownTime, GameObject targetObject, Vector2 spawnPosition) {
+        targetObject.SetActive(false);
+        targetObject.transform.position = spawnPosition;
+        yield return new WaitForSeconds(cooldownTime);
+        targetObject.SetActive(true);
     }
 }
