@@ -6,6 +6,7 @@ public abstract class Projectile : MonoBehaviour
     protected float selfDestroyTime = 5f;
     private SpriteRenderer spriteRenderer;
     private int startDirection;
+    private Vector2 knockbackForce = new Vector2(20, 10);
 
     private void Awake()
     {
@@ -34,8 +35,9 @@ public abstract class Projectile : MonoBehaviour
             if(hittedPlayer != null)
             {
                 var hitDirection = collision.transform.position - transform.position;
+                hitDirection.x = -hitDirection.x;
                 hitDirection = hitDirection.normalized;
-                hittedPlayer.TakeDamage(hitDirection);
+                hittedPlayer.TakeDamage(hitDirection, knockbackForce);
             }
            
             Destroy(gameObject);

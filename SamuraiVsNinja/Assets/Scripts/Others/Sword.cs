@@ -2,7 +2,8 @@
 
 public class Sword : MonoBehaviour
 {
-	Player player;
+	private Player player;
+	private Vector2 knockbackForce = new Vector2(40, 10);
 
 	private void Awake ()
 	{
@@ -11,7 +12,6 @@ public class Sword : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{ 
-
 		if (player.CurrentState == PlayerState.NORMAL)
 		{
 			if (collision.CompareTag("Player"))
@@ -21,8 +21,9 @@ public class Sword : MonoBehaviour
 				if (hittedPlayer != null)
 				{
 					var hitDirection = collision.transform.position - transform.position;
+					hitDirection.x = -hitDirection.x;
 					hitDirection = hitDirection.normalized;
-					hittedPlayer.TakeDamage(hitDirection);
+					hittedPlayer.TakeDamage(hitDirection, knockbackForce);
 				}
 			}
 		}

@@ -11,23 +11,14 @@ public class PlayerInfo : MonoBehaviour
     private Text playerNameText;
     private Text onigiriCountText;
     private Image[] healthpointImages;
-    private Image rangeAttackCooldown;
-    private Image dashAttackCooldown;
+    private Image rangeAttackCooldownImage;
+    private Image dashAttackCooldownImage;
+    private Image playerRespawnCooldownImage;
 
     #endregion VARIABLES
 
     #region PROPERTIES
 
-    public bool IsRangeCooldown
-    {
-        get;
-        private set;
-    }
-    public bool IsDashCooldown
-    {
-        get;
-        private set;
-    }
     public string PlayerName
     {
         get
@@ -59,10 +50,12 @@ public class PlayerInfo : MonoBehaviour
         parentContainer = GameObject.Find("HUD").transform.Find("PlayerInfoContainer");
         healthpointImages = transform.Find("HealthBar").GetComponentsInChildren<Image>();
         Array.Reverse(healthpointImages);
-        rangeAttackCooldown = transform.Find("RangeAttackCooldown").transform.Find("CooldownImage").GetComponent<Image>();
-        rangeAttackCooldown.gameObject.SetActive(false);
-        dashAttackCooldown = transform.Find("DashCooldown").transform.Find("CooldownImage").GetComponent<Image>();
-        dashAttackCooldown.gameObject.SetActive(false);
+        rangeAttackCooldownImage = transform.Find("RangeAttackCooldown").transform.Find("CooldownImage").GetComponent<Image>();
+        rangeAttackCooldownImage.gameObject.SetActive(false);
+        dashAttackCooldownImage = transform.Find("DashCooldown").transform.Find("CooldownImage").GetComponent<Image>();
+        dashAttackCooldownImage.gameObject.SetActive(false);
+        playerRespawnCooldownImage = transform.Find("PlayerIcon").transform.Find("CooldownImage").GetComponent<Image>();
+        playerRespawnCooldownImage.gameObject.SetActive(false);
     }
 
     private void SetValues()
@@ -97,51 +90,33 @@ public class PlayerInfo : MonoBehaviour
         healthpointImages[currentHealthPoints - 1].gameObject.SetActive(false);
     }
 
-    public void StartRangeCooldown(float rangeAttackCooldown)
+    public void StartRangeCooldown(bool IsCooldown,  float rangeAttackCooldown)
     {
-        StartCoroutine(IRangeAttackCooldown(0, rangeAttackCooldown));
+        StartCoroutine(ICooldown(rangeAttackCooldownImage, 0, rangeAttackCooldown));
     }
 
     public void StartDashCooldown(float dashCooldown)
     {
-        StartCoroutine(IDashCooldown(0, dashCooldown));
+        StartCoroutine(ICooldown(dashAttackCooldownImage, 0, dashCooldown));
+    }
+
+    public void StartRespawnCooldown( float respawnCooldown)
+    {
+        StartCoroutine(ICooldown(playerRespawnCooldownImage, 0, respawnCooldown));
     }
 
     #region COROUTINES
 
-    private IEnumerator IRangeAttackCooldown(float targetFillAmount, float cooldownTime)
-    {
-        IsRangeCooldown = true;
-        rangeAttackCooldown.gameObject.SetActive(true);
-        while (rangeAttackCooldown.fillAmount != targetFillAmount)
+    private IEnumerator ICooldown(Image cooldownImage, float targetFillAmount, float cooldownTime)
+    {       
+        cooldownImage.gameObject.SetActive(true);
+        while (cooldownImage.fillAmount != targetFillAmount)
         {
-            rangeAttackCooldown.fillAmount += rangeAttackCooldown.fillAmount < targetFillAmount ? (1f / cooldownTime) * Time.deltaTime : -(1f / cooldownTime) * Time.deltaTime;
+            cooldownImage.fillAmount += cooldownImage.fillAmount < targetFillAmount ? (1f / cooldownTime) * Time.deltaTime : -(1f / cooldownTime) * Time.deltaTime;
             yield return null;
         }
-        rangeAttackCooldown.gameObject.SetActive(false);
-        IsRangeCooldown = false;
-        rangeAttackCooldown.fillAmount = 1;
-    }
-
-    private IEnumerator IDashCooldown(float targetFillAmount, float cooldownTime)
-    {
-        IsDashCooldown = true;
-        dashAttackCooldown.gameObject.SetActive(true);
-        while (dashAttackCooldown.fillAmount != targetFillAmount)
-        {
-            dashAttackCooldown.fillAmount += dashAttackCooldown.fillAmount < targetFillAmount ? (1f / cooldownTime) * Time.deltaTime : -(1f / cooldownTime) * Time.deltaTime;
-            yield return null;
-        }
-        dashAttackCooldown.gameObject.SetActive(false);
-        IsDashCooldown = false;
-        dashAttackCooldown.fillAmount = 1;
-    }
-
-    private IEnumerator IRespawnCooldown(float cooldownTime, GameObject targetObject, Vector2 spawnPosition) {
-        targetObject.SetActive(false);
-        targetObject.transform.position = spawnPosition;
-        yield return new WaitForSeconds(cooldownTime);
-        targetObject.SetActive(true);
+        cooldownImage.gameObject.SetActive(false);
+        cooldownImage.fillAmount = 1;
     }
 
     #endregion COROUTINES

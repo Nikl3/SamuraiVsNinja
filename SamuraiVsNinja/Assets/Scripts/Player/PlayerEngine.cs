@@ -9,8 +9,6 @@ public class PlayerEngine : MonoBehaviour
     [SerializeField]
     private LayerMask hitLayer;
 
-    private Coroutine onKnockbackCoroutine;
-
     #region JUMP
     [Header("JUMP")]
 
@@ -65,7 +63,7 @@ public class PlayerEngine : MonoBehaviour
     private float dashSpeed = 20;
     private bool isDashing = false;
     [SerializeField]
-    private float dashCooldown = 2f;
+    private readonly float dashCooldown = 2f;
     private readonly float dashTime = 0.3f;
 
     #endregion DASH
@@ -79,17 +77,11 @@ public class PlayerEngine : MonoBehaviour
 
     private bool isRangeAttacking = false;
     [SerializeField]
-    private float rangeAttackCooldown = 2f;
+    private readonly float rangeAttackCooldown = 2f;
 
     #endregion RANGE_ATTACK
 
-    #region KNOCKBACK
-
-    private readonly float knockbackTime;
-    private readonly float knockbackCounter;
-    private readonly float knockbackForce = 20f;
-
-    #endregion KNOCKBACK
+    private readonly float respawnCooldown = 2f;
 
     #endregion VARIABLES
 
@@ -114,11 +106,6 @@ public class PlayerEngine : MonoBehaviour
         {
             return dashCooldown;
         }
-
-        set
-        {
-            dashCooldown = value;
-        }
     }
 
     public float RangeAttackCooldown
@@ -127,10 +114,13 @@ public class PlayerEngine : MonoBehaviour
         {
             return rangeAttackCooldown;
         }
+    }
 
-        set
+    public float RespawnCooldown
+    {
+        get
         {
-            rangeAttackCooldown = value;
+            return respawnCooldown;
         }
     }
 
@@ -170,18 +160,6 @@ public class PlayerEngine : MonoBehaviour
         set
         {
             accelerationTimeGrounded = value;
-        }
-    }
-
-    public Vector2 Velocity
-    {
-        get
-        {
-            return velocity;
-        }
-        set
-        {
-            velocity = value;
         }
     }
 
@@ -229,6 +207,12 @@ public class PlayerEngine : MonoBehaviour
         float targetVelocityX = directionalInput.x * moveSpeed;
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (player.Controller2D.Collisions.Below) ? AccelerationTimeGrounded : accelerationTimeAirbourne);
         velocity.y += gravity * Time.deltaTime;
+    }
+
+    public void ResetVariables()
+    {
+        directionalInput = Vector2.zero;
+        velocity = Vector2.zero;
     }
 
     public void CalculateMovement()
@@ -316,17 +300,19 @@ public class PlayerEngine : MonoBehaviour
         }
     }
 
-    public void OnKnockback(Vector2 knockdownDirection)
+    public void OnKnockback(Vector2 knockdownDirection, Vector2 knockbackForce)
     {
-        if(onKnockbackCoroutine == null)
-        onKnockbackCoroutine = StartCoroutine(IKnockback(knockdownDirection));
-        onKnockbackCoroutine = null;
+        StartCoroutine(IKnockback(knockdownDirection, knockbackForce));
     }
 
-    public void Invincibility()
+    public void Invincibility(float invincibilityDuartion, float flashSpeed)
     {
-        player.ChangePlayerState(PlayerState.INVINCIBILITY);
-        StartCoroutine(IInvincibility(2f));
+        StartCoroutine(IInvincibility(invincibilityDuartion, flashSpeed));
+    }
+
+    public void Respawn()
+    {
+        StartCoroutine(IRespawn());
     }
 
     #region COROUTINES
@@ -334,13 +320,14 @@ public class PlayerEngine : MonoBehaviour
     private IEnumerator IRangeAttack()
     {
         isRangeAttacking = true;
+
         player.AnimatorController.AnimatorSetTrigger("Throw");
-        player.PlayerInfo.StartRangeCooldown(RangeAttackCooldown);
+        player.PlayerInfo.StartRangeCooldown(isRangeAttacking, RangeAttackCooldown);
 
         var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), ProjectileSpawnPoint.position, Quaternion.identity);
         projectile.GetComponent<Kunai>().ProjectileInitialize(player.Controller2D.Collisions.FaceDirection);
 
-        yield return new WaitUntil(() => !player.PlayerInfo.IsRangeCooldown);
+        yield return new WaitForSeconds(RangeAttackCooldown);
 
         isRangeAttacking = false;
     }
@@ -348,6 +335,7 @@ public class PlayerEngine : MonoBehaviour
     private IEnumerator IDash()
     {
         isDashing = true;
+
         player.AnimatorController.AnimatorSetBool("IsDashing", true);
         player.PlayerInfo.StartDashCooldown(DashCooldown);
 
@@ -360,23 +348,61 @@ public class PlayerEngine : MonoBehaviour
         moveSpeed = startSpeed;
         player.AnimatorController.AnimatorSetBool("IsDashing", false);
 
-        yield return new WaitUntil(() => !player.PlayerInfo.IsDashCooldown);
+        yield return new WaitForSeconds(DashCooldown);
+
         isDashing = false;
     }
 
-    private IEnumerator IKnockback(Vector2 knockdownDirection)
+    private IEnumerator IKnockback(Vector2 knockdownDirection, Vector2 knockbackForce)
     {
-        print(knockdownDirection);
-        velocity.x = knockdownDirection.x * knockbackForce;
-        if(velocity.y != 0)
-        velocity.y = knockbackForce;
+        //print("Knockdown direction: " + knockdownDirection);
+        //print("Knockback force: " + knockbackForce);
+
+        velocity.x = (velocity.x) > 0 ?
+            knockdownDirection.x * -(velocity.x + knockbackForce.x) :
+            knockdownDirection.x * (velocity.x - knockbackForce.x);
+
+        velocity.y = knockdownDirection.y + knockbackForce.y;
+
+
         yield return null;
     }
 
-    private IEnumerator IInvincibility(float invincibilityTime)
+    private IEnumerator IInvincibility(float invincibilityDuration, float flashSpeed)
     {
-        yield return new WaitForSeconds(invincibilityTime);
+
+        float currentInvincibilityDuration = 0;
+        StartCoroutine(IFlashSpriteRenderer(flashSpeed));
+
+        while(currentInvincibilityDuration <= invincibilityDuration)
+        {
+            currentInvincibilityDuration += Time.deltaTime;
+            yield return null;
+        }
+
         player.ChangePlayerState(PlayerState.NORMAL);
+    }
+
+    private IEnumerator IFlashSpriteRenderer(float flashSpeed)
+    {
+        while (player.CurrentState.Equals(PlayerState.INVINCIBILITY))
+        {
+            player.SpriteRenderer.enabled = !player.SpriteRenderer.enabled;
+
+            yield return new WaitForSeconds(flashSpeed);
+        }
+
+        player.SpriteRenderer.enabled = true;
+    }
+
+    private IEnumerator IRespawn()
+    {
+        player.AnimatorController.AnimatorSetBool("Die", true);
+        player.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
+        yield return new WaitForSeconds(RespawnCooldown);
+        player.ChangePlayerState(PlayerState.NORMAL);
+        player.AnimatorController.AnimatorSetBool("Die", false);
+        Invincibility(2, 0.2f);
     }
 
     #endregion COROUTINES

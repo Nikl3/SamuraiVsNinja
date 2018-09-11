@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 	private PlayerData playerData;
 	[SerializeField]
 	private Color flashColor;
-	// private Color defaultColor;
+	private Color defaultColor;
 
 	public PlayerState CurrentState
 	{
@@ -37,13 +37,11 @@ public class Player : MonoBehaviour
 		get;
 		private set;
 	}
-
 	public AudioSource AudioSource
 	{
 		get;
 		private set;
 	}
-
 	public PlayerInfo PlayerInfo
 	{
 		get;
@@ -74,7 +72,6 @@ public class Player : MonoBehaviour
 		get;
 		private set;
 	}
-
 	public AnimatorController AnimatorController
 	{
 		get;
@@ -100,6 +97,7 @@ public class Player : MonoBehaviour
 	{
 		healthPoints = 3;
 		onigiris = 0;
+		PlayerEngine.ResetVariables();
 	}
 
 	private void Awake()
@@ -111,7 +109,7 @@ public class Player : MonoBehaviour
 		Controller2D = GetComponent<CharacterController2D>();
 		AudioSource = GetComponent<AudioSource>();
 		Sword = GetComponent<Sword>();
-		// defaultColor = SpriteRenderer.color;
+		defaultColor = SpriteRenderer.color;
 	}
 
 	private void Start()
@@ -135,6 +133,32 @@ public class Player : MonoBehaviour
 	public void ChangePlayerState(PlayerState newPlayerState)
 	{
 		CurrentState = newPlayerState;
+
+		switch (CurrentState)
+		{
+			case PlayerState.NORMAL:
+				SpriteRenderer.color = defaultColor;
+				break;
+
+			case PlayerState.INVINCIBILITY:
+
+				PlayerEngine.Invincibility(2f, 0.1f);
+
+				break;
+
+			case PlayerState.RESPAWN:
+
+				SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
+				PlayerEngine.Respawn();		
+
+				break;
+
+			default:
+
+				CurrentState = PlayerState.NORMAL;
+
+				break;
+		}
 	}
 
 	public void PlayAudioClip(int audioIndex)
@@ -150,7 +174,7 @@ public class Player : MonoBehaviour
 		PlayerInfo.UpdateOnigiris(onigiris);
 	}
 
-	public void TakeDamage(Vector2 direction)
+	public void TakeDamage(Vector2 direction, Vector2 knockbackForce)
 	{
 		if (CurrentState == PlayerState.NORMAL)
 		{
@@ -159,9 +183,9 @@ public class Player : MonoBehaviour
 			if (healthPoints >= 1)
 			{
 
-				PlayerEngine.Invincibility();
+				ChangePlayerState(PlayerState.INVINCIBILITY);
 
-				PlayerEngine.OnKnockback(direction);
+				PlayerEngine.OnKnockback(direction, knockbackForce);
 				PlayAudioClip(2);
 
 				if (onigiris > 0)
@@ -169,8 +193,6 @@ public class Player : MonoBehaviour
 			}
 			else
 			{
-				//hittedPlayer.ChangePlayerState(PlayerState.RESPAWN);
-
 				Die();
 				ResetValues();
 			}
@@ -192,5 +214,6 @@ public class Player : MonoBehaviour
 	{
 		PlayAudioClip(3);
 		Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position, Quaternion.identity);
+		ChangePlayerState(PlayerState.RESPAWN);
 	}
 }

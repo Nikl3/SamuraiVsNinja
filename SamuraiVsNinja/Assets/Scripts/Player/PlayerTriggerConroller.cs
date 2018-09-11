@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 
-public class PlayerItemCollector : MonoBehaviour
+public class PlayerTriggerConroller : MonoBehaviour
 {
     private Player player;
+    private Vector2 knockbackForce = new Vector2(10, 20);
 
     private void Awake()
     {
@@ -23,7 +24,7 @@ public class PlayerItemCollector : MonoBehaviour
             {
                 var hitDirection = collision.transform.position - transform.position;
                 hitDirection = hitDirection.normalized;
-                player.TakeDamage(hitDirection);
+                player.TakeDamage(hitDirection, knockbackForce);
                 return;
             }
         }
