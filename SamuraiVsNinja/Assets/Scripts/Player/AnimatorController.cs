@@ -2,20 +2,20 @@
 
 public class AnimatorController : MonoBehaviour
 {
-	public Animator Animator { get; private set; }
+	private Animator animator;
 
 	private void Awake ()
 	{
-		Animator = GetComponentInChildren<Animator>();
+		animator = GetComponentInChildren<Animator>();
 	}
 
 	public void AnimatorSetBool(string animationName, bool isActive)
 	{
-		Animator.SetBool(animationName, isActive);
+		animator.SetBool(animationName, isActive);
 	}
 
 	public void AnimatorSetTrigger(string animationName)
 	{
-		Animator.SetTrigger(animationName);
+		animator.SetTrigger(animationName);
 	}
 }

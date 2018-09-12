@@ -142,14 +142,16 @@ public class Player : MonoBehaviour
 
 			case PlayerState.INVINCIBILITY:
 
-				PlayerEngine.Invincibility(2f, 0.1f);
+				SpriteRenderer.color = defaultColor;
+				PlayerEngine.StartInvincibility(2f, 0.1f);
 
 				break;
 
 			case PlayerState.RESPAWN:
 
 				SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
-				PlayerEngine.Respawn();		
+				PlayerEngine.Respawn(GameManager.Instance.RandomSpawnPoint());
+				AnimatorController.AnimatorSetBool("IsRunning", false);
 
 				break;
 

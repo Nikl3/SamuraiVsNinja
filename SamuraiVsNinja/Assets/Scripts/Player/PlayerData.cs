@@ -26,12 +26,5 @@ public class PlayerData
         PlayerColor = new Color(1,1,1,0.4f);
 
         playerName = "Player " + id;
-        //ActionButton = "Action" + "_J" + id;
-        //HorizontalAxis = "Horizontal" + "_J" + id;
-        //VerticalAxis = "Vertical" + "_J" + id;
-        //JumpButton = "Jump" + "_J" + id;
-        //MeleeAttackButton = "MeleeAttack" + "_J" + id;
-        //RangeAttackButton = "RangeAttack" + "_J" + id;
-        //DashButton = "Dash" + "_J" + id;
     }
 }

@@ -305,14 +305,14 @@ public class PlayerEngine : MonoBehaviour
         StartCoroutine(IKnockback(knockdownDirection, knockbackForce));
     }
 
-    public void Invincibility(float invincibilityDuartion, float flashSpeed)
+    public void StartInvincibility(float invincibilityDuartion, float flashSpeed)
     {
         StartCoroutine(IInvincibility(invincibilityDuartion, flashSpeed));
     }
 
-    public void Respawn()
+    public void Respawn(Vector2 spawnPoint)
     {
-        StartCoroutine(IRespawn());
+        StartCoroutine(IRespawn(spawnPoint));
     }
 
     #region COROUTINES
@@ -370,7 +370,6 @@ public class PlayerEngine : MonoBehaviour
 
     private IEnumerator IInvincibility(float invincibilityDuration, float flashSpeed)
     {
-
         float currentInvincibilityDuration = 0;
         StartCoroutine(IFlashSpriteRenderer(flashSpeed));
 
@@ -395,14 +394,22 @@ public class PlayerEngine : MonoBehaviour
         player.SpriteRenderer.enabled = true;
     }
 
-    private IEnumerator IRespawn()
+    private IEnumerator IRespawn(Vector2 spawnPoint)
     {
-        player.AnimatorController.AnimatorSetBool("Die", true);
         player.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
-        yield return new WaitForSeconds(RespawnCooldown);
-        player.ChangePlayerState(PlayerState.NORMAL);
-        player.AnimatorController.AnimatorSetBool("Die", false);
-        Invincibility(2, 0.2f);
+
+        float startTime = Time.time;
+        float totalDistanceToSpawnPoint = Vector2.Distance(transform.position, spawnPoint);
+
+        while ((Vector2)transform.position != spawnPoint)
+        {
+            float currentDuration = Time.time - startTime;
+            float journeyFraction = currentDuration / totalDistanceToSpawnPoint;
+            transform.position = Vector2.Lerp(transform.position, spawnPoint, journeyFraction);
+            yield return null;
+        }
+      
+        player.ChangePlayerState(PlayerState.INVINCIBILITY);
     }
 
     #endregion COROUTINES
