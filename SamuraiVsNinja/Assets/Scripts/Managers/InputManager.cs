@@ -84,11 +84,20 @@ public class InputManager : Singelton<InputManager>
     [SerializeField]
     private GameObject[] panelDefaultSelectedObects;
 
+    [Header("Connected joysticks")]
+    [SerializeField]
+    private string[] joystickNames;
+
     private void Awake()
     {
         eventSystem = EventSystem.current;
         firstSelectedObject = eventSystem.firstSelectedGameObject;
         eventSystem.firstSelectedGameObject = firstSelectedObject;
+    }
+
+    private void Start()
+    {
+        joystickNames = Input.GetJoystickNames();
     }
 
     public void ChangeActiveSelectedObject(int newSelectedObjectIndex)

@@ -5,8 +5,11 @@ public class PlayerInput : MonoBehaviour
     #region VARIABLES
 
     private Player player;
-    public Transform PlayerGraphics { get; private set; }
-
+    public Transform PlayerGraphics
+    {
+        get;
+        private set;
+    }
 
     #endregion VARIABLES
 
@@ -31,7 +34,7 @@ public class PlayerInput : MonoBehaviour
 
     public void UpdateLocalInputs()
     {
-            Vector2 directionalInput = new Vector2 (
+            Vector2 directionalInput = new Vector2(
             InputManager.Instance.GetHorizontalAxisRaw(player.PlayerData.ID),
             InputManager.Instance.GetVerticalAxisRaw(player.PlayerData.ID)
             );
@@ -70,7 +73,5 @@ public class PlayerInput : MonoBehaviour
         }
 
         player.PlayerEngine.CalculateMovement();
-
     }
-
 }

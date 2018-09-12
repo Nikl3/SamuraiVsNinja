@@ -149,6 +149,7 @@ public class Player : MonoBehaviour
 
 			case PlayerState.RESPAWN:
 
+				ResetValues();
 				SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
 				PlayerEngine.Respawn(GameManager.Instance.RandomSpawnPoint());
 				AnimatorController.AnimatorSetBool("IsRunning", false);
@@ -196,7 +197,6 @@ public class Player : MonoBehaviour
 			else
 			{
 				Die();
-				ResetValues();
 			}
 
 			PlayerInfo.UpdateHealthPoints(healthPoints);
