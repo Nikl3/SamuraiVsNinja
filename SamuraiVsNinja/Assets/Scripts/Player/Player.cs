@@ -95,6 +95,7 @@ public class Player : MonoBehaviour
 
 	private void ResetValues()
 	{
+		gameObject.tag = "Player";
 		healthPoints = 3;
 		onigiris = 0;
 		PlayerEngine.ResetVariables();
@@ -137,14 +138,14 @@ public class Player : MonoBehaviour
 		switch (CurrentState)
 		{
 			case PlayerState.NORMAL:
+				gameObject.tag = "Player";
 				SpriteRenderer.color = defaultColor;
 				break;
 
 			case PlayerState.INVINCIBILITY:
-
+				gameObject.tag = "Untagged";
 				SpriteRenderer.color = defaultColor;
 				PlayerEngine.StartInvincibility(2f, 0.1f);
-
 				break;
 
 			case PlayerState.RESPAWN:
@@ -152,7 +153,7 @@ public class Player : MonoBehaviour
 				ResetValues();
 				SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
 				PlayerEngine.Respawn(GameManager.Instance.RandomSpawnPoint());
-				AnimatorController.AnimatorSetBool("IsRunning", false);
+				//AnimatorController.AnimatorSetBool("IsRunning", false);
 
 				break;
 
@@ -185,7 +186,6 @@ public class Player : MonoBehaviour
 
 			if (healthPoints >= 1)
 			{
-
 				ChangePlayerState(PlayerState.INVINCIBILITY);
 
 				PlayerEngine.OnKnockback(direction, knockbackForce);

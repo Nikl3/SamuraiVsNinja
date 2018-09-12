@@ -28,7 +28,9 @@ public abstract class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        var collisionGameObject = collision.gameObject;
+
+        if (collisionGameObject.CompareTag("Player"))
         {
             var hittedPlayer = collision.GetComponent<Player>();
 
@@ -40,6 +42,10 @@ public abstract class Projectile : MonoBehaviour
                 hittedPlayer.TakeDamage(hitDirection, knockbackForce);
             }
            
+            Destroy(gameObject);
+        }
+        else if (collisionGameObject.CompareTag("Obstacle"))
+        {
             Destroy(gameObject);
         }
     }

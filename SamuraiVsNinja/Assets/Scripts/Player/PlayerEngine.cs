@@ -6,8 +6,6 @@ public class PlayerEngine : MonoBehaviour
     #region VARIABLES
 
     private Player player;
-    [SerializeField]
-    private LayerMask hitLayer;
 
     #region JUMP
     [Header("JUMP")]
@@ -294,7 +292,7 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnDash()
     {
-        if(isDashing == false)
+        if(!isDashing)
         {
             StartCoroutine(IDash());
         }
@@ -320,7 +318,6 @@ public class PlayerEngine : MonoBehaviour
     private IEnumerator IRangeAttack()
     {
         isRangeAttacking = true;
-
         player.AnimatorController.AnimatorSetTrigger("Throw");
         player.PlayerInfo.StartRangeCooldown(isRangeAttacking, RangeAttackCooldown);
 
@@ -328,14 +325,12 @@ public class PlayerEngine : MonoBehaviour
         projectile.GetComponent<Kunai>().ProjectileInitialize(player.Controller2D.Collisions.FaceDirection);
 
         yield return new WaitForSeconds(RangeAttackCooldown);
-
         isRangeAttacking = false;
     }
 
     private IEnumerator IDash()
     {
         isDashing = true;
-
         player.AnimatorController.AnimatorSetBool("IsDashing", true);
         player.PlayerInfo.StartDashCooldown(DashCooldown);
 
@@ -349,7 +344,6 @@ public class PlayerEngine : MonoBehaviour
         player.AnimatorController.AnimatorSetBool("IsDashing", false);
 
         yield return new WaitForSeconds(DashCooldown);
-
         isDashing = false;
     }
 
@@ -363,7 +357,6 @@ public class PlayerEngine : MonoBehaviour
             knockdownDirection.x * (velocity.x - knockbackForce.x);
 
         velocity.y = knockdownDirection.y + knockbackForce.y;
-
 
         yield return null;
     }
@@ -398,6 +391,8 @@ public class PlayerEngine : MonoBehaviour
     {
         player.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
 
+        player.AnimatorController.AnimatorSetBool("HasDied", true);
+
         float startTime = Time.time;
         float totalDistanceToSpawnPoint = Vector2.Distance(transform.position, spawnPoint);
 
@@ -408,7 +403,8 @@ public class PlayerEngine : MonoBehaviour
             transform.position = Vector2.Lerp(transform.position, spawnPoint, journeyFraction);
             yield return null;
         }
-      
+
+        player.AnimatorController.AnimatorSetBool("HasDied", false);
         player.ChangePlayerState(PlayerState.INVINCIBILITY);
     }
 
