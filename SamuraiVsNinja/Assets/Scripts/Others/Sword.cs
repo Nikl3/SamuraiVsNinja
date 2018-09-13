@@ -14,7 +14,7 @@ public class Sword : MonoBehaviour
 	{ 
 		if (player.CurrentState == PlayerState.NORMAL)
 		{
-			if (collision.CompareTag("Player"))
+			if (collision.CompareTag("Player") && player.PlayerEngine.IsAttacking)
 			{
 				var hittedPlayer = collision.GetComponent<Player>();
 

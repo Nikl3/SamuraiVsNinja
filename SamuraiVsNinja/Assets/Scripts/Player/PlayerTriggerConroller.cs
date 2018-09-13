@@ -26,7 +26,8 @@ public class PlayerTriggerConroller : MonoBehaviour {
                 print("hit");
                 var hitDirection = collision.transform.position - transform.position;
                 hitDirection = hitDirection.normalized;
-                player.TakeDamage(hitDirection, new Vector2(40, 15), 0);
+                var hittedPlayer = collision.gameObject.GetComponent<Player>();
+                hittedPlayer.TakeDamage(hitDirection, new Vector2(-40, 15), 0);
                 return;
 
             }

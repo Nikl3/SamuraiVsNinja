@@ -186,8 +186,9 @@ public class Player : MonoBehaviour
 
 			if (healthPoints >= 1)
 			{
-				ChangePlayerState(PlayerState.INVINCIBILITY);
-
+                if (damage > 0) {
+                    ChangePlayerState(PlayerState.INVINCIBILITY);
+                }
 				PlayerEngine.OnKnockback(direction, knockbackForce);
 				PlayAudioClip(2);
 
