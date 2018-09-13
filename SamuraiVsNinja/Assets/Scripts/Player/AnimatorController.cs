@@ -3,10 +3,12 @@
 public class AnimatorController : MonoBehaviour
 {
 	private Animator animator;
+    private Player player;
 
 	private void Awake ()
 	{
 		animator = GetComponentInChildren<Animator>();
+        player = GetComponentInParent<Player>();
 	}
 
 	public void AnimatorSetBool(string animationName, bool isActive)
@@ -18,4 +20,12 @@ public class AnimatorController : MonoBehaviour
 	{
 		animator.SetTrigger(animationName);
 	}
+
+    public void ChangeAttackTrue() {
+        player.PlayerEngine.IsAttacking = true;
+    }
+
+    public void ChangeAttackFalse() {
+        player.PlayerEngine.IsAttacking = false;
+    }
 }

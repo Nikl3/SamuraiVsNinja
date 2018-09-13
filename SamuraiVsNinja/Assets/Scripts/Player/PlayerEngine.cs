@@ -85,6 +85,20 @@ public class PlayerEngine : MonoBehaviour
 
     #region PROPERTIES
 
+    public bool IsAttacking
+    {
+        get;
+        set;
+    }
+
+    public bool IsDashing
+    {
+        get
+        {
+            return isDashing;
+        }
+    }
+
     public float DashSpeed
     {
         get
@@ -342,9 +356,8 @@ public class PlayerEngine : MonoBehaviour
         gravity = dashGravity;
         moveSpeed = startSpeed;
         player.AnimatorController.AnimatorSetBool("IsDashing", false);
-
-        yield return new WaitForSeconds(DashCooldown);
         isDashing = false;
+        yield return new WaitForSeconds(DashCooldown);
     }
 
     private IEnumerator IKnockback(Vector2 knockdownDirection, Vector2 knockbackForce)

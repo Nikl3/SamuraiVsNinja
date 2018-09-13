@@ -39,7 +39,7 @@ public abstract class Projectile : MonoBehaviour
                 var hitDirection = collision.transform.position - transform.position;
                 hitDirection.x = -hitDirection.x;
                 hitDirection = hitDirection.normalized;
-                hittedPlayer.TakeDamage(hitDirection, knockbackForce);
+                hittedPlayer.TakeDamage(hitDirection, knockbackForce, 1);
             }
            
             Destroy(gameObject);

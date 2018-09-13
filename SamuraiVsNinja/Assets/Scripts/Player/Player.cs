@@ -178,11 +178,11 @@ public class Player : MonoBehaviour
 		PlayerInfo.UpdateOnigiris(onigiris);
 	}
 
-	public void TakeDamage(Vector2 direction, Vector2 knockbackForce)
+	public void TakeDamage(Vector2 direction, Vector2 knockbackForce, int damage)
 	{
 		if (CurrentState == PlayerState.NORMAL)
 		{
-			healthPoints--;
+			healthPoints -= damage;
 
 			if (healthPoints >= 1)
 			{
