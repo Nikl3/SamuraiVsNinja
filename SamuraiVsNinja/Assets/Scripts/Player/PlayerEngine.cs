@@ -405,6 +405,8 @@ public class PlayerEngine : MonoBehaviour
         player.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
 
         player.AnimatorController.AnimatorSetBool("HasDied", true);
+        var bc = player.GetComponent<BoxCollider2D>();
+        bc.enabled = false;
 
         float startTime = Time.time;
         float totalDistanceToSpawnPoint = Vector2.Distance(transform.position, spawnPoint);
@@ -416,7 +418,7 @@ public class PlayerEngine : MonoBehaviour
             transform.position = Vector2.Lerp(transform.position, spawnPoint, journeyFraction);
             yield return null;
         }
-
+        bc.enabled = true;
         player.AnimatorController.AnimatorSetBool("HasDied", false);
         player.ChangePlayerState(PlayerState.INVINCIBILITY);
     }

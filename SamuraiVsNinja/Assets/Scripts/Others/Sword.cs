@@ -24,7 +24,6 @@ public class Sword : MonoBehaviour
 					hitDirection.x = -hitDirection.x;
 					hitDirection = hitDirection.normalized;
 					hittedPlayer.TakeDamage(hitDirection, knockbackForce, 1);
-                    print("swordhit");  
 				}
 			}
 		}
