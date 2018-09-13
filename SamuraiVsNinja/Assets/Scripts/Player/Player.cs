@@ -14,9 +14,6 @@ public class Player : MonoBehaviour
 	private int healthPoints;
 	private int onigiris;
 
-	[SerializeField]
-	public AudioClip[] PlayerAudioClips;
-
 	private PlayerData playerData;
 	[SerializeField]
 	private Color flashColor;

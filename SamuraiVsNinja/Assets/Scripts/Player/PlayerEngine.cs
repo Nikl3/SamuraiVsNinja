@@ -286,14 +286,11 @@ public class PlayerEngine : MonoBehaviour
         {
             velocity.y = minJumpVelocity;
         }
-        Fabric.EventManager.Instance.PostEvent("Jump");
-
     }
 
     public void OnMeleeAttack()
     {
         player.AnimatorController.AnimatorSetTrigger("Attack");
-        Fabric.EventManager.Instance.PostEvent("Melee");
     }
 
     public void OnRangedAttack()
@@ -301,9 +298,6 @@ public class PlayerEngine : MonoBehaviour
         if (!isRangeAttacking) 
         { 
             StartCoroutine(IRangeAttack());
-            Fabric.EventManager.Instance.PostEvent("Throw");
-
-
         }
     }
 

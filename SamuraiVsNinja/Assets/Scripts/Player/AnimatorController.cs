@@ -21,11 +21,18 @@ public class AnimatorController : MonoBehaviour
 		animator.SetTrigger(animationName);
 	}
 
-    public void ChangeAttackTrue() {
+    public void ChangeAttackTrue()
+    {
         player.PlayerEngine.IsAttacking = true;
     }
 
-    public void ChangeAttackFalse() {
+    public void ChangeAttackFalse()
+    {
         player.PlayerEngine.IsAttacking = false;
+    }
+
+    public void PlaySoundInAnimation(string soundName)
+    {
+        Fabric.EventManager.Instance.PostEvent(soundName);
     }
 }
