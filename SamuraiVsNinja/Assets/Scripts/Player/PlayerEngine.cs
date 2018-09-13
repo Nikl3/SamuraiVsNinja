@@ -60,7 +60,6 @@ public class PlayerEngine : MonoBehaviour
     [SerializeField]
     private float dashSpeed = 20;
     private bool isDashing = false;
-    [SerializeField]
     private readonly float dashCooldown = 2f;
     private readonly float dashTime = 0.3f;
 
@@ -356,8 +355,9 @@ public class PlayerEngine : MonoBehaviour
         gravity = dashGravity;
         moveSpeed = startSpeed;
         player.AnimatorController.AnimatorSetBool("IsDashing", false);
-        isDashing = false;
+       
         yield return new WaitForSeconds(DashCooldown);
+        isDashing = false;
     }
 
     private IEnumerator IKnockback(Vector2 knockdownDirection, Vector2 knockbackForce)
