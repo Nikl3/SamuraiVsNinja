@@ -108,7 +108,7 @@ public class PlayerInfo : MonoBehaviour
     #region COROUTINES
 
     private IEnumerator ICooldown(Image cooldownImage, float targetFillAmount, float cooldownTime)
-    {       
+    {
         cooldownImage.gameObject.SetActive(true);
         while (cooldownImage.fillAmount != targetFillAmount)
         {
@@ -116,6 +116,8 @@ public class PlayerInfo : MonoBehaviour
             yield return null;
         }
         cooldownImage.gameObject.SetActive(false);
+        Fabric.EventManager.Instance.PostEvent("Cooldown");
+
         cooldownImage.fillAmount = 1;
     }
 
