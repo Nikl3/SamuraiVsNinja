@@ -11,6 +11,7 @@ public class PlayerTriggerConroller : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision) {
         if (player.CurrentState == PlayerState.NORMAL) {
             if (collision.CompareTag("Onigiri")) {
+                Fabric.EventManager.Instance.PostEvent("Pickup");
                 player.AddOnigiri(1);
                 Destroy(collision.gameObject);
                 return;
