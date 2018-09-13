@@ -37,11 +37,13 @@ public class GameManager : Singelton<GameManager>
     private void Start()
     {
         StartRound();
+
     }
 
     private void StartRound()
     {
         PlayerDataManager.Instance.SpawnPlayers();
+        Fabric.EventManager.Instance.PostEvent("Music");
     }
 
     public Vector2 RandomSpawnPoint()

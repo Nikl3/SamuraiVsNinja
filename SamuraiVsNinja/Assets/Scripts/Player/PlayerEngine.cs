@@ -290,16 +290,19 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnMeleeAttack()
     {
-        player.PlayAudioClip(0);
         player.AnimatorController.AnimatorSetTrigger("Attack");
+        Fabric.EventManager.Instance.PostEvent("Melee");
+
     }
 
     public void OnRangedAttack()
     {
-        if (!isRangeAttacking)
-        {
-            player.PlayAudioClip(1);
+        if (!isRangeAttacking) 
+        { 
             StartCoroutine(IRangeAttack());
+            Fabric.EventManager.Instance.PostEvent("Throw");
+
+
         }
     }
 

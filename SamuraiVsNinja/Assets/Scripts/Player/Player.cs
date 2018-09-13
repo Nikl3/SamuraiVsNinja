@@ -165,12 +165,6 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	public void PlayAudioClip(int audioIndex)
-	{
-		AudioSource.clip = PlayerAudioClips[audioIndex];
-		//if(!AudioSource.isPlaying)
-		AudioSource.Play();
-	}
 
 	public void AddOnigiri(int amount)
 	{
@@ -190,9 +184,10 @@ public class Player : MonoBehaviour
                     ChangePlayerState(PlayerState.INVINCIBILITY);
                 }
 				PlayerEngine.OnKnockback(direction, knockbackForce);
-				PlayAudioClip(2);
+                Fabric.EventManager.Instance.PostEvent("HitContact");
 
-				if (onigiris > 0)
+
+                if (onigiris > 0)
 					DropOnigiri();
 			}
 			else
@@ -215,8 +210,9 @@ public class Player : MonoBehaviour
 
 	private void Die()
 	{
-		PlayAudioClip(3);
 		Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position, Quaternion.identity);
 		ChangePlayerState(PlayerState.RESPAWN);
-	}
+        Fabric.EventManager.Instance.PostEvent("Die");
+
+    }
 }
