@@ -343,6 +343,7 @@ public class PlayerEngine : MonoBehaviour
     {
         isDashing = true;
         player.AnimatorController.AnimatorSetBool("IsDashing", true);
+        Fabric.EventManager.Instance.PostEvent("Dash");
         player.PlayerInfo.StartDashCooldown(DashCooldown);
 
         gravity = 0;

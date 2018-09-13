@@ -527,11 +527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e4b82e4e01459409f836c8c99de43e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerAudioClips:
-  - {fileID: 8300000, guid: b76357a42d03a4722afcba74c3073136, type: 3}
-  - {fileID: 8300000, guid: c0ac0614aa7b64de7ba2f569a0793a16, type: 3}
-  - {fileID: 8300000, guid: 07c38e0499aea4acd81b44991c0e4d07, type: 3}
-  - {fileID: 8300000, guid: 0ffa761a5a83744d3ab5e27ac9505eed, type: 3}
   flashColor: {r: 1, g: 1, b: 1, a: 0.19607843}
 --- !u!114 &114928000032198002
 MonoBehaviour:
