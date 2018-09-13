@@ -144,7 +144,6 @@ public class Player : MonoBehaviour
 				ResetValues();
 				SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
 				PlayerEngine.Respawn(GameManager.Instance.RandomSpawnPoint());
-				//AnimatorController.AnimatorSetBool("IsRunning", false);
 
 				break;
 
@@ -155,7 +154,6 @@ public class Player : MonoBehaviour
 				break;
 		}
 	}
-
 
 	public void AddOnigiri(int amount)
 	{
@@ -171,14 +169,14 @@ public class Player : MonoBehaviour
 
 			if (healthPoints >= 1)
 			{
-                if (damage > 0) {
-                    ChangePlayerState(PlayerState.INVINCIBILITY);
-                }
+				if (damage > 0)
+				{
+					ChangePlayerState(PlayerState.INVINCIBILITY);
+				}
 				PlayerEngine.OnKnockback(direction, knockbackForce);
-                Fabric.EventManager.Instance.PostEvent("HitContact");
+				Fabric.EventManager.Instance.PostEvent("HitContact");
 
-
-                if (onigiris > 0)
+				if (onigiris > 0)
 					DropOnigiri();
 			}
 			else
@@ -203,7 +201,6 @@ public class Player : MonoBehaviour
 	{
 		Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position, Quaternion.identity);
 		ChangePlayerState(PlayerState.RESPAWN);
-        Fabric.EventManager.Instance.PostEvent("Die");
-
-    }
+		Fabric.EventManager.Instance.PostEvent("Die");
+	}
 }

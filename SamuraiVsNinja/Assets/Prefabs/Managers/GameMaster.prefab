@@ -974,7 +974,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06c25182772b6614890cee853b69604e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventSystem: {fileID: 114376525883001642}
   firstSelectedObject: {fileID: 0}
   previousSelectedObject: {fileID: 0}
   panelDefaultSelectedObects:
@@ -2434,7 +2433,7 @@ MonoBehaviour:
   m_Script: {fileID: -139544205, guid: 8fbbb066689c25147bc9215ea62dbd30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dontDestroyOnLoad: 1
+  _dontDestroyOnLoad: 0
   _audioSourcePool: 0
   _audioSourcePoolFadeInTime: 0
   _audioSourcePoolFadeOutTime: 0

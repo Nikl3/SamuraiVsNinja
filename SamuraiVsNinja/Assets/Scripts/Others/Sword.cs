@@ -14,7 +14,7 @@ public class Sword : MonoBehaviour
 	{ 
 		if (player.CurrentState == PlayerState.NORMAL)
 		{
-			if (collision.CompareTag("Player") && player.PlayerEngine.IsAttacking)
+			if (collision.CompareTag("Player") && player.AnimatorController.GetAnimaionState("MeleeAttack"))
 			{
 				var hittedPlayer = collision.GetComponent<Player>();
 

@@ -9,6 +9,7 @@ TagManager:
   - JoinField
   - Onigiri
   - Spike
+  - Killzone
   layers:
   - Default
   - TransparentFX

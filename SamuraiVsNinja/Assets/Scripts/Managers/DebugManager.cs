@@ -3,10 +3,10 @@
 public class DebugManager : Singelton<DebugManager>
 {
     [SerializeField]
-    private bool isDebugingMessages;
+    private bool isDebugingMessages = false;
 
     [SerializeField]
-    private bool isDebugingRaycasts;
+    private bool isDebugingRaycasts = false;
 
     /// <summary>
     /// Message types: 1 = print, 2 = warning, 3 = error.

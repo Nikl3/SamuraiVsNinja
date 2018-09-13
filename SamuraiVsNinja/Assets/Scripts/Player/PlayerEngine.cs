@@ -42,7 +42,7 @@ public class PlayerEngine : MonoBehaviour
     [Header("WALL SLIDE")]
 
     [SerializeField]
-    private float maxWallSlideSpeed = 3f;
+    private readonly float maxWallSlideSpeed = 3f;
     [SerializeField]
     private Vector2 wallJumpClimb = new Vector2(2.5f, 16);
     [SerializeField]
@@ -79,6 +79,12 @@ public class PlayerEngine : MonoBehaviour
     #endregion RANGE_ATTACK
 
     private readonly float respawnCooldown = 2f;
+    
+    private Coroutine rangeAttackCoroutine;
+    private Coroutine dashCoroutine;
+    private Coroutine knockbackCoroutine;
+    private Coroutine invincibilityCoroutine;
+    private Coroutine respawnCoroutine;
 
     #endregion VARIABLES
 
@@ -198,7 +204,7 @@ public class PlayerEngine : MonoBehaviour
 
         if ((player.Controller2D.Collisions.Left || player.Controller2D.Collisions.Right) && !player.Controller2D.Collisions.Below && velocity.y < 0)
         {
-            if (directionalInput.x == 0)
+            if (!InputManager.Instance.X_ButtonUp(player.PlayerData.ID))
             {
                 return;
             }
@@ -220,6 +226,34 @@ public class PlayerEngine : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
     }
 
+    private void CheckifRunningAndLocalScale()
+    {
+        if (directionalInput.x != 0)
+        {
+            player.AnimatorController.PlayerGraphics.localScale = new Vector2(player.Controller2D.Collisions.FaceDirection > 0 ? -1 : 1, 1);
+            player.AnimatorController.AnimatorSetBool("IsRunning", true);
+        }
+        else
+        {
+            player.AnimatorController.AnimatorSetBool("IsRunning", false);
+        }
+    }
+
+    private void CheckTopAndBottomCollision()
+    {
+        if (player.Controller2D.Collisions.Above || player.Controller2D.Collisions.Below)
+        {
+            velocity.y = 0;
+            player.AnimatorController.AnimatorSetBool("IsJumping", false);
+            player.AnimatorController.AnimatorSetBool("IsDropping", false);
+        }
+        else
+        {         
+            player.AnimatorController.AnimatorSetBool("IsJumping", velocity.y > 0 ? true : false);
+            player.AnimatorController.AnimatorSetBool("IsDropping", velocity.y < 0 ? true : false);                     
+        }
+    }
+
     public void ResetVariables()
     {
         directionalInput = Vector2.zero;
@@ -230,22 +264,10 @@ public class PlayerEngine : MonoBehaviour
     {
         CalculateVelocity();
         HandleWallSliding();
-
         player.Controller2D.Move(velocity * Time.deltaTime, directionalInput);
 
-        player.AnimatorController.AnimatorSetBool("IsRunning", Mathf.Abs(directionalInput.x) > 0 ? true : false);
-     
-        if (player.Controller2D.Collisions.Above || player.Controller2D.Collisions.Below)
-        {
-            velocity.y = 0;
-            player.AnimatorController.AnimatorSetBool("IsJumping", false);
-            player.AnimatorController.AnimatorSetBool("IsDropping", false);
-        }
-        else
-        {
-            player.AnimatorController.AnimatorSetBool("IsJumping", velocity.y > 0 ? true : false);
-            player.AnimatorController.AnimatorSetBool("IsDropping", velocity.y < 0 ? true : false);
-        }
+        CheckifRunningAndLocalScale();
+        CheckTopAndBottomCollision();
     }
 
     public void SetDirectionalInput(Vector2 input)
@@ -288,40 +310,54 @@ public class PlayerEngine : MonoBehaviour
         }
     }
 
-    public void OnMeleeAttack()
-    {
-        player.AnimatorController.AnimatorSetTrigger("Attack");
+    public void HandleMeleeAttacks()
+    { 
+       
     }
 
     public void OnRangedAttack()
     {
-        if (!isRangeAttacking) 
-        { 
-            StartCoroutine(IRangeAttack());
+        if (rangeAttackCoroutine == null &&
+            !isRangeAttacking && 
+            !wallSliding && 
+            !IsDashing)
+        {
+            rangeAttackCoroutine = StartCoroutine(IRangeAttack());         
         }
     }
 
     public void OnDash()
     {
-        if(!isDashing)
+        if (dashCoroutine == null &&
+            !isDashing && 
+            !wallSliding)
         {
-            StartCoroutine(IDash());
+            dashCoroutine = StartCoroutine(IDash());
         }
     }
 
     public void OnKnockback(Vector2 knockdownDirection, Vector2 knockbackForce)
     {
-        StartCoroutine(IKnockback(knockdownDirection, knockbackForce));
+        if(knockbackCoroutine == null)
+        {
+            knockbackCoroutine = StartCoroutine(IKnockback(knockdownDirection, knockbackForce));
+        }     
     }
 
     public void StartInvincibility(float invincibilityDuartion, float flashSpeed)
     {
-        StartCoroutine(IInvincibility(invincibilityDuartion, flashSpeed));
+        if(invincibilityCoroutine == null)
+        {
+            invincibilityCoroutine = StartCoroutine(IInvincibility(invincibilityDuartion, flashSpeed));
+        }    
     }
 
     public void Respawn(Vector2 spawnPoint)
     {
-        StartCoroutine(IRespawn(spawnPoint));
+        if (respawnCoroutine == null)
+        {
+            respawnCoroutine = StartCoroutine(IRespawn(spawnPoint));
+        }
     }
 
     #region COROUTINES
@@ -337,6 +373,7 @@ public class PlayerEngine : MonoBehaviour
 
         yield return new WaitForSeconds(RangeAttackCooldown);
         isRangeAttacking = false;
+        rangeAttackCoroutine = null;
     }
 
     private IEnumerator IDash()
@@ -347,23 +384,22 @@ public class PlayerEngine : MonoBehaviour
         player.PlayerInfo.StartDashCooldown(DashCooldown);
 
         gravity = 0;
-        moveSpeed = isDashing ? DashSpeed + moveSpeed : moveSpeed;
+        moveSpeed =+ DashSpeed;
 
         yield return new WaitForSeconds(dashTime);
 
         gravity = dashGravity;
         moveSpeed = startSpeed;
         player.AnimatorController.AnimatorSetBool("IsDashing", false);
-       
-        yield return new WaitForSeconds(DashCooldown);
+
         isDashing = false;
+        yield return new WaitForSeconds(DashCooldown);
+
+        dashCoroutine = null;
     }
 
     private IEnumerator IKnockback(Vector2 knockdownDirection, Vector2 knockbackForce)
     {
-        //print("Knockdown direction: " + knockdownDirection);
-        //print("Knockback force: " + knockbackForce);
-
         velocity.x = (velocity.x) > 0 ?
             knockdownDirection.x * -(velocity.x + knockbackForce.x) :
             knockdownDirection.x * (velocity.x - knockbackForce.x);
@@ -371,6 +407,8 @@ public class PlayerEngine : MonoBehaviour
         velocity.y = knockdownDirection.y + knockbackForce.y;
 
         yield return null;
+
+        knockbackCoroutine = null;
     }
 
     private IEnumerator IInvincibility(float invincibilityDuration, float flashSpeed)
@@ -385,6 +423,7 @@ public class PlayerEngine : MonoBehaviour
         }
 
         player.ChangePlayerState(PlayerState.NORMAL);
+        invincibilityCoroutine = null;
     }
 
     private IEnumerator IFlashSpriteRenderer(float flashSpeed)
@@ -404,8 +443,6 @@ public class PlayerEngine : MonoBehaviour
         player.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
 
         player.AnimatorController.AnimatorSetBool("HasDied", true);
-        var bc = player.GetComponent<BoxCollider2D>();
-        bc.enabled = false;
 
         float startTime = Time.time;
         float totalDistanceToSpawnPoint = Vector2.Distance(transform.position, spawnPoint);
@@ -417,9 +454,10 @@ public class PlayerEngine : MonoBehaviour
             transform.position = Vector2.Lerp(transform.position, spawnPoint, journeyFraction);
             yield return null;
         }
-        bc.enabled = true;
+
         player.AnimatorController.AnimatorSetBool("HasDied", false);
         player.ChangePlayerState(PlayerState.INVINCIBILITY);
+        respawnCoroutine = null;
     }
 
     #endregion COROUTINES

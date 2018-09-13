@@ -3,12 +3,21 @@
 public class AnimatorController : MonoBehaviour
 {
 	private Animator animator;
-    private Player player;
+	public Transform PlayerGraphics
+	{
+		get;
+		private set;
+	}
 
 	private void Awake ()
 	{
 		animator = GetComponentInChildren<Animator>();
-        player = GetComponentInParent<Player>();
+		PlayerGraphics = transform;
+	}
+
+	public bool GetAnimaionState(string animaionStateTag)
+	{
+		return animator.GetCurrentAnimatorStateInfo(0).IsTag(animaionStateTag);
 	}
 
 	public void AnimatorSetBool(string animationName, bool isActive)
@@ -21,18 +30,8 @@ public class AnimatorController : MonoBehaviour
 		animator.SetTrigger(animationName);
 	}
 
-    public void ChangeAttackTrue()
-    {
-        player.PlayerEngine.IsAttacking = true;
-    }
-
-    public void ChangeAttackFalse()
-    {
-        player.PlayerEngine.IsAttacking = false;
-    }
-
-    public void PlaySoundInAnimation(string soundName)
-    {
-        Fabric.EventManager.Instance.PostEvent(soundName);
-    }
+	public void PlaySoundInAnimation(string soundName)
+	{
+		Fabric.EventManager.Instance.PostEvent(soundName);
+	}
 }

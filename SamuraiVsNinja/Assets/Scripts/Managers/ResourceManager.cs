@@ -7,25 +7,25 @@ public class ResourceManager : Singelton<ResourceManager>
 
 	[Header("Characters")]
 	[SerializeField]
-	private GameObject[] characterPrefabs;
+	private GameObject[] characterPrefabs = new GameObject[0];
 	[Header("Collectables")]
 	[SerializeField]
-	private GameObject[] collectablePrefabs;
+	private GameObject[] collectablePrefabs = new GameObject[0];
 	[Header("Network")]
 	[SerializeField]
-	private GameObject[] networkPrefabs;
+	private GameObject[] networkPrefabs = new GameObject[0];
 	[Header("Projectiles")]
 	[SerializeField]
-	private GameObject[] projectilePrefabs;
+	private GameObject[] projectilePrefabs = new GameObject[0];
 	[Header("Ui")]
 	[SerializeField]
-	private GameObject[] uiPrefabs;
+	private GameObject[] uiPrefabs = new GameObject[0];
 	[Header("Effects")]
 	[SerializeField]
-	private GameObject[] effectPrefabs;
+	private GameObject[] effectPrefabs = new GameObject[0];
 	[Header("Others")]
 	[SerializeField]
-	private GameObject[] otherPrefabs;
+	private GameObject[] otherPrefabs = new GameObject[0];
 
 	private void Awake ()
 	{
