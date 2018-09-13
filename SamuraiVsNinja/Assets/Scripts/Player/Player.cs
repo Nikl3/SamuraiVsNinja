@@ -37,11 +37,6 @@ public class Player : MonoBehaviour
 		get;
 		private set;
 	}
-	public AudioSource AudioSource
-	{
-		get;
-		private set;
-	}
 	public PlayerInfo PlayerInfo
 	{
 		get;
@@ -108,7 +103,6 @@ public class Player : MonoBehaviour
 		SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		AnimatorController = GetComponentInChildren<AnimatorController>();
 		Controller2D = GetComponent<CharacterController2D>();
-		AudioSource = GetComponent<AudioSource>();
 		Sword = GetComponent<Sword>();
 		defaultColor = SpriteRenderer.color;
 	}
