@@ -7,13 +7,8 @@ public class CharacterController2D : RaycastController
 
     protected override void Awake()
     {
-        hitLayerName = "Character";
-        collisionLayerName = "Obstacle";
         oneWayCollisionTag = "OneWayObject";
         Collisions.FaceDirection = 1;
-
-        collisionMaskLayer = LayerMask.GetMask(collisionLayerName);
-        hitLayerMask = LayerMask.GetMask(hitLayerName);
 
         base.Awake();
     }

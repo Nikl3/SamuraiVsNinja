@@ -10,8 +10,8 @@ public abstract class RaycastController : MonoBehaviour
     protected float horizontalRaySpacing;
     protected float verticalRaySpacing;
 
+    [SerializeField]
     protected LayerMask collisionMaskLayer;
-    protected LayerMask hitLayerMask;
     protected string hitLayerName;
     protected string collisionLayerName;
     protected string oneWayCollisionTag;
