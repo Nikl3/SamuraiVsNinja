@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public class InputManager : Singelton<InputManager>
 {
+    [SerializeField]
     private EventSystem eventSystem;
 
     #region AXIS_INPUTS
@@ -90,7 +91,7 @@ public class InputManager : Singelton<InputManager>
 
     private void Awake()
     {
-        eventSystem = EventSystem.current;
+        //eventSystem = EventSystem.current;
         firstSelectedObject = eventSystem.firstSelectedGameObject;
         eventSystem.firstSelectedGameObject = firstSelectedObject;
     }
