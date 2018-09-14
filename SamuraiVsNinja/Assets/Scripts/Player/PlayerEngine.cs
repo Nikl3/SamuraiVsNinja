@@ -204,13 +204,13 @@ public class PlayerEngine : MonoBehaviour
 
         if ((player.Controller2D.Collisions.Left || player.Controller2D.Collisions.Right) && !player.Controller2D.Collisions.Below && velocity.y < 0)
         {
+            player.AnimatorController.AnimatorSetBool("IsWallsliding", true);
+            wallSliding = true;
+
             if (!InputManager.Instance.X_ButtonUp(player.PlayerData.ID))
-            {
+            {       
                 return;
             }
-
-            wallSliding = true;
-            player.AnimatorController.AnimatorSetBool("IsWallsliding", true);
 
             if (velocity.y < -maxWallSlideSpeed)
             {
@@ -311,8 +311,9 @@ public class PlayerEngine : MonoBehaviour
     }
 
     public void HandleMeleeAttacks()
-    { 
-       
+    {
+        if(!player.AnimatorController.GetAnimaionState("Attack"))
+        player.AnimatorController.AnimatorSetTrigger("Attack");
     }
 
     public void OnRangedAttack()
@@ -369,7 +370,7 @@ public class PlayerEngine : MonoBehaviour
         player.PlayerInfo.StartRangeCooldown(isRangeAttacking, RangeAttackCooldown);
 
         var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), ProjectileSpawnPoint.position, Quaternion.identity);
-        projectile.GetComponent<Kunai>().ProjectileInitialize(player.Controller2D.Collisions.FaceDirection);
+        projectile.GetComponent<Kunai>().ProjectileInitialize((int)player.AnimatorController.transform.localScale.x);
 
         yield return new WaitForSeconds(RangeAttackCooldown);
         isRangeAttacking = false;

@@ -21,7 +21,7 @@ public abstract class Projectile : MonoBehaviour
 
     public void ProjectileInitialize(int projectileDirection)
     {
-        startDirection = projectileDirection;
+        startDirection = -projectileDirection;
         spriteRenderer.flipX = startDirection > 0 ? true : false;
         Invoke("SelfDestroy", selfDestroyTime);
     }

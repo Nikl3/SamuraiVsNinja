@@ -13,6 +13,7 @@ public class AnimatorController : MonoBehaviour
 	{
 		animator = GetComponentInChildren<Animator>();
 		PlayerGraphics = transform;
+        transform.localScale = new Vector2(-1, 1);
 	}
 
 	public bool GetAnimaionState(string animaionStateTag)
