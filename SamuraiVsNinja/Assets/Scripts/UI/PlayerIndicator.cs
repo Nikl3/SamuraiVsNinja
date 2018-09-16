@@ -4,21 +4,18 @@ using UnityEngine.UI;
 public class PlayerIndicator : MonoBehaviour
 {
 	private Text playerIdText;
-
-	public string PlayerIdText
-	{
-		get
-		{
-			return playerIdText.text;
-		}
-		set
-		{
-			playerIdText.text = value;
-		}
-	}
+	private Outline playerTextOutline;
 
 	private void Awake ()
 	{
 		playerIdText = GetComponentInChildren<Text>();
+		playerTextOutline = GetComponentInChildren<Outline>();
+	}
+
+	public void ChangeTextVisuals(string newText, Color textColor)
+	{
+		playerIdText.text = newText;
+		playerIdText.color = textColor;
+		playerTextOutline.effectColor = Color.white;
 	}
 }

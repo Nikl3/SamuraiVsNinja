@@ -16,7 +16,7 @@ public class JoinField : MonoBehaviour
 
     private readonly string defaultText = "JOIN";
 
-    public Color CurrentColor
+    public Sprite CurrentIcon
     {
         get;
         private set;
@@ -30,14 +30,14 @@ public class JoinField : MonoBehaviour
         defaultColor = fieldImage.color;
     }
 
-    public void ChangeSprite(Color spriteColor)
+    public void ChangeSprite(Sprite newIconSprite)
     {
-        CurrentColor = icon.color = spriteColor;
+        CurrentIcon = icon.sprite = newIconSprite;
     }
 
     public void ChangeJoinFieldVisuals(int playerID, Color fieldColor)
     {
-        joinedPlayerName.text = "Player " + playerID;
+        joinedPlayerName.text = "PLAYER " + playerID;
         fieldImage.color = fieldColor;
         HasJoined = true;
     }

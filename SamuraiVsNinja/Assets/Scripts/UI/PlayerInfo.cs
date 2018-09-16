@@ -9,6 +9,7 @@ public class PlayerInfo : MonoBehaviour
 
     private Transform parentContainer;
     private Text playerNameText;
+    private Outline playerNameTextOutline;
     private Text onigiriCountText;
     private Image[] healthpointImages;
     private Image rangeAttackCooldownImage;
@@ -19,16 +20,10 @@ public class PlayerInfo : MonoBehaviour
 
     #region PROPERTIES
 
-    public string PlayerName
+    public Player Owner
     {
-        get
-        {
-            return playerNameText.text;
-        }
-        set
-        {
-            playerNameText.text = value;
-        }
+        get;
+        set;
     }
 
     #endregion PROPERTIES
@@ -41,11 +36,14 @@ public class PlayerInfo : MonoBehaviour
     private void Start()
     {
         SetValues();
+
+        CreatePlayerIndicator();       
     }
 
     private void Initialize()
     {
         playerNameText = transform.Find("PlayerName").GetComponent<Text>();
+        playerNameTextOutline = playerNameText.GetComponent<Outline>();
         onigiriCountText = transform.Find("OnigiriIcon").GetComponentInChildren<Text>();
         parentContainer = GameObject.Find("HUD").transform.Find("PlayerInfoContainer");
         healthpointImages = transform.Find("HealthBar").GetComponentsInChildren<Image>();
@@ -63,7 +61,18 @@ public class PlayerInfo : MonoBehaviour
         transform.SetParent(parentContainer);
         transform.localPosition = Vector3.zero;
         transform.localScale = Vector3.one;
+        playerNameText.text = Owner.name;
+        playerNameText.color = Owner.PlayerData.PlayerColor;
+        playerNameTextOutline.effectColor = Color.white;
         gameObject.name = playerNameText.text + " Info";
+    }
+
+    private void CreatePlayerIndicator()
+    {
+        var playerIndicator = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 2));
+        playerIndicator.GetComponent<PlayerIndicator>().ChangeTextVisuals("P" + Owner.PlayerData.ID, Owner.PlayerData.PlayerColor);
+        playerIndicator.transform.SetParent(Owner.transform);
+        playerIndicator.transform.localPosition = new Vector2(0, 4);
     }
 
     private void ResetHealthPointImages()

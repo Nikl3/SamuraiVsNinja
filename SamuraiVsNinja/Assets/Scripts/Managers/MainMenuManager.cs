@@ -38,7 +38,6 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	private GameObject characterSelectContainer;
 
 	private JoinField[] joinFields;
-	private Color fieldColor = Color.green;
 
 	private Text joinedPlayerText;
 
@@ -234,7 +233,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 				{
 					coroutines[i] = StartCoroutine(IChangeCharacter(i + 1));
 					PlayerDataManager.Instance.PlayerJoin(i + 1);
-					SetJoinField(i + 1);
+					SetJoinField(i + 1, PlayerDataManager.Instance.GetPlayerData(i).PlayerColor);
 				}
 			}
 		}
@@ -264,14 +263,13 @@ public class MainMenuManager : Singelton<MainMenuManager>
 
 	private void ChangePlayerIcon(JoinField joinField, PlayerData playerData)
 	{
-        var currentIconColor = joinField.CurrentColor == Color.white ? Color.green : Color.white;
-        playerData.PlayerColor = currentIconColor;
-        joinField.ChangeSprite(currentIconColor);
+		
+
 	}
 
-	public void SetJoinField(int playerID)
+	public void SetJoinField(int playerID, Color joinColor)
 	{		
-		joinFields[playerID - 1].ChangeJoinFieldVisuals(playerID, fieldColor);
+		joinFields[playerID - 1].ChangeJoinFieldVisuals(playerID, joinColor);
 		joinedPlayerText.text = "PLAYERS " + PlayerDataManager.Instance.CurrentlyJoinedPlayers + " / " + 4;
 	}
 

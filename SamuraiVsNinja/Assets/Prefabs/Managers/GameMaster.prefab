@@ -607,7 +607,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1375359669990616}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4459546560624252}
@@ -808,7 +808,7 @@ MonoBehaviour:
   - {fileID: 1933520091028282, guid: 88bf6bc2077bffb45aec5c4360ec765d, type: 2}
   - {fileID: 1072594860372848, guid: e193ff130c0c1d14f9953356ad57c154, type: 2}
   effectPrefabs:
-  - {fileID: 1432145355386162, guid: 037cbe4432931df4c95fa044d88fe84a, type: 2}
+  - {fileID: 1432145355386162, guid: d5b93853b1d84ed47ac703671563ffe9, type: 2}
   otherPrefabs:
   - {fileID: 1046966472210488, guid: 79c8b046c138e2643b6ad50d3880ef47, type: 2}
   - {fileID: 1892241798875878, guid: 5a5d873568f7d65478d4a40270301f92, type: 2}
@@ -974,6 +974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06c25182772b6614890cee853b69604e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseInputModule: {fileID: 114774297245180586}
   firstSelectedObject: {fileID: 0}
   previousSelectedObject: {fileID: 0}
   panelDefaultSelectedObects:

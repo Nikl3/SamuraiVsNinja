@@ -77,14 +77,6 @@ public class Player : MonoBehaviour
 
 	#endregion PROPERTIES
 
-	private void CreatePlayerIndicator()
-	{
-		var playerIndicator = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 2));
-		playerIndicator.GetComponent<PlayerIndicator>().PlayerIdText = "P" + playerData.ID;
-		playerIndicator.transform.SetParent(transform);
-		playerIndicator.transform.localPosition = new Vector2(0, 4);
-	}
-
 	private void ResetValues()
 	{
 		gameObject.tag = "Player";
@@ -113,13 +105,9 @@ public class Player : MonoBehaviour
 	{
 		this.playerData = playerData;
 		PlayerInfo = playerInfo;
+		PlayerInfo.Owner = this;
 
 		gameObject.name = playerData.PlayerName;
-		playerInfo.PlayerName = playerData.PlayerName;
-
-		//defaultColor = PlayerData.PlayerColor;
-
-		CreatePlayerIndicator();
 	}
 
 	public void ChangePlayerState(PlayerState newPlayerState)
@@ -143,7 +131,7 @@ public class Player : MonoBehaviour
 
 				ResetValues();
 				SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
-				PlayerEngine.Respawn(GameManager.Instance.RandomSpawnPoint());
+				PlayerEngine.Respawn(LevelManager.Instance.RandomSpawnPoint());
 
 				break;
 

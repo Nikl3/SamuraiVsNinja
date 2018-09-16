@@ -20,10 +20,11 @@ public class PlayerData
 
     private readonly string playerName;
 
-    public PlayerData(int id)
+    public PlayerData(int id, Color playerColor = default(Color))
     {
         ID = id;
-        PlayerColor = new Color(1,1,1,0.4f);
+       
+        PlayerColor = playerColor;
 
         playerName = "Player " + id;
     }
