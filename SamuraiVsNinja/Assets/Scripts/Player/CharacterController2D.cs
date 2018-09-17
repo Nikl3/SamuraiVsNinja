@@ -4,6 +4,7 @@ public class CharacterController2D : RaycastController
 {
     public CollisionInfo Collisions;
     private Vector2 playerInput;
+    Player player;
 
     protected override void Awake()
     {
@@ -11,6 +12,7 @@ public class CharacterController2D : RaycastController
         Collisions.FaceDirection = 1;
 
         base.Awake();
+        player = GetComponent<Player>();
     }
 
     public void Move(Vector2 moveAmount, bool standingOnPlatform)
@@ -109,10 +111,10 @@ public class CharacterController2D : RaycastController
                     {
                         continue;
                     }
-                    if (playerInput.y == -1)
+                    if (playerInput.y == -1 && InputManager.Instance.X_ButtonDown(player.PlayerData.ID))
                     {
                         Collisions.FallingThroughPlatform = true;
-                        Invoke("ResetFallingThroughPlatform", 0.5f);
+                        Invoke("ResetFallingThroughPlatform", 0.2f);
                         continue;
                     }
                 }
