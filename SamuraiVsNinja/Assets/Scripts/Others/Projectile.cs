@@ -3,7 +3,7 @@
 public abstract class Projectile : MonoBehaviour
 {
     protected float projectileSpeed = 60f;
-    protected float selfDestroyTime = 5f;
+    protected float selfDestroyTime = 2f;
     private SpriteRenderer spriteRenderer;
     private int startDirection;
     private Vector2 knockbackForce = new Vector2(20, 10);
@@ -29,7 +29,7 @@ public abstract class Projectile : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var collisionGameObject = collision.gameObject;
-
+        print(collisionGameObject.layer);
         if (collisionGameObject.CompareTag("Player"))
         {
             var hittedPlayer = collision.GetComponent<Player>();
@@ -44,7 +44,7 @@ public abstract class Projectile : MonoBehaviour
            
             Destroy(gameObject);
         }
-        else if (collisionGameObject.CompareTag("Obstacle"))
+        if (collisionGameObject.layer == 9)
         {
             Destroy(gameObject);
         }
@@ -52,6 +52,7 @@ public abstract class Projectile : MonoBehaviour
 
     private void Update()
     {
+        LevelManager.Instance.TeleportObject(transform);
         transform.position += ((Vector3)new Vector2(startDirection, 0)) * projectileSpeed * Time.deltaTime;
     }
 }

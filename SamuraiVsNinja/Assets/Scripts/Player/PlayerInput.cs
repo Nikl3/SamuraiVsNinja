@@ -18,6 +18,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (player.CurrentState != PlayerState.RESPAWN)
         {
+            LevelManager.Instance.TeleportObject(transform);
             UpdateLocalInputs();
         }
     }

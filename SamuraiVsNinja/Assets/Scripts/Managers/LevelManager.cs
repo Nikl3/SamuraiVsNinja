@@ -5,6 +5,7 @@ public class LevelManager : Singelton<LevelManager>
     private Transform spawnPoint;
     private Transform[] respawnSpawnPoints;
     private LayerMask characterLayer;
+    private int MapHorizontalBorder = 40;
 
     public int[] UsedSpawns
     {
@@ -31,6 +32,14 @@ public class LevelManager : Singelton<LevelManager>
         for (int i = 0; i < childCount; i++)
         {
             respawnSpawnPoints[i] = spawnPoint.GetChild(i);
+        }
+    }
+
+    public void TeleportObject(Transform objectToTeleport) {
+        if (objectToTeleport.position.x >= MapHorizontalBorder) {
+            objectToTeleport.position = new Vector2(-objectToTeleport.position.x, objectToTeleport.position.y);
+        } else if (objectToTeleport.position.x <= -MapHorizontalBorder) {
+            objectToTeleport.position = new Vector2(-objectToTeleport.position.x, objectToTeleport.position.y);
         }
     }
 
