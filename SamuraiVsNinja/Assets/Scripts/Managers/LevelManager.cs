@@ -5,7 +5,7 @@ public class LevelManager : Singelton<LevelManager>
     private Transform spawnPoint;
     private Transform[] respawnSpawnPoints;
     private LayerMask characterLayer;
-    private int MapHorizontalBorder = 40;
+    private int MapHorizontalBorder = 50;
 
     public int[] UsedSpawns
     {

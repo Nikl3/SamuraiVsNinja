@@ -69,9 +69,6 @@ public class PlayerEngine : MonoBehaviour
 
     [Header("RANGE ATTACK")]
 
-    [SerializeField]
-    private Transform ProjectileSpawnPoint;
-
     private bool isRangeAttacking = false;
     [SerializeField]
     private readonly float rangeAttackCooldown = 2f;
