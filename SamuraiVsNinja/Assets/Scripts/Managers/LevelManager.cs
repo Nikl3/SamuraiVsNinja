@@ -5,13 +5,7 @@ public class LevelManager : Singelton<LevelManager>
     private Transform spawnPoint;
     private Transform[] respawnSpawnPoints;
     private LayerMask characterLayer;
-    private int MapHorizontalBorder = 50;
-
-    public int[] UsedSpawns
-    {
-        get;
-        set;
-    }
+    private readonly int mapHorizontalBorder = 50;
 
     private void Awake()
     {
@@ -35,15 +29,22 @@ public class LevelManager : Singelton<LevelManager>
         }
     }
 
-    public void TeleportObject(Transform objectToTeleport) {
-        if (objectToTeleport.position.x >= MapHorizontalBorder) {
+    public void TeleportObject(Transform objectToTeleport)
+    {
+        if (objectToTeleport.position.x > mapHorizontalBorder)
+        {
             objectToTeleport.position = new Vector2(-objectToTeleport.position.x, objectToTeleport.position.y);
-        } else if (objectToTeleport.position.x <= -MapHorizontalBorder) {
+            Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1), objectToTeleport.position, Quaternion.identity);
+        }
+        else if (objectToTeleport.position.x < -mapHorizontalBorder)
+        {
             objectToTeleport.position = new Vector2(-objectToTeleport.position.x, objectToTeleport.position.y);
+            Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1), objectToTeleport.position, Quaternion.identity);
         }
     }
 
-    public void SpawnProjectile(Transform graphicParent, Vector2 spawnPoint) {
+    public void SpawnProjectile(Transform graphicParent, Vector2 spawnPoint)
+    {
         var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), spawnPoint, Quaternion.identity);
         projectile.GetComponent<Kunai>().ProjectileInitialize((int)graphicParent.localScale.x);
     }
@@ -51,7 +52,6 @@ public class LevelManager : Singelton<LevelManager>
     private void Start()
     {
         StartRound();
-
     }
 
     private void StartRound()
@@ -63,10 +63,10 @@ public class LevelManager : Singelton<LevelManager>
     public Vector2 RandomSpawnPoint()
     {
         int randomPosIndex = Random.Range(0, respawnSpawnPoints.Length);
-        Vector2 randomPos = respawnSpawnPoints[randomPosIndex].position;
-        if (!Physics2D.OverlapBox(randomPos, Vector2.one, 0f, characterLayer))
+        Vector2 randomPosition = respawnSpawnPoints[randomPosIndex].position;
+        if (!Physics2D.OverlapBox(randomPosition, Vector2.one, 0f, characterLayer))
         {
-            return randomPos;
+            return randomPosition;
         }
         return RandomSpawnPoint();
     }

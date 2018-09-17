@@ -450,6 +450,7 @@ public class PlayerEngine : MonoBehaviour
             yield return null;
         }
 
+        Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1), transform.position, Quaternion.identity);
         player.AnimatorController.AnimatorSetBool("HasDied", false);
         player.ChangePlayerState(PlayerState.INVINCIBILITY);
         respawnCoroutine = null;

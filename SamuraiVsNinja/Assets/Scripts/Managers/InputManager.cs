@@ -4,8 +4,7 @@ using UnityEngine.EventSystems;
 public class InputManager : Singelton<InputManager>
 {
     private EventSystem eventSystem;
-    [SerializeField]
-    private BaseInputModule baseInputModule;
+    public StandaloneInputModule standaloneInputModule;
 
     #region AXIS_INPUTS
 
@@ -114,15 +113,22 @@ public class InputManager : Singelton<InputManager>
     private void Start()
     {
         eventSystem = EventSystem.current;
+        standaloneInputModule = GetComponentInChildren<StandaloneInputModule>();
         firstSelectedObject = eventSystem.firstSelectedGameObject;
         eventSystem.firstSelectedGameObject = firstSelectedObject;
         joystickNames = Input.GetJoystickNames();   
     }
 
-    public void ChangeActiveSelectedObject(int newSelectedObjectIndex)
+    //public void ChangeActiveSelectedObject(int newSelectedObjectIndex)
+    //{
+    //    previousSelectedObject = eventSystem.currentSelectedGameObject;
+    //    eventSystem.SetSelectedGameObject(PanelDefaultSelectedObects[newSelectedObjectIndex]);
+    //}
+
+    public void ChangeActiveSelectedObject(GameObject newSelectedObject)
     {
         previousSelectedObject = eventSystem.currentSelectedGameObject;
-        eventSystem.SetSelectedGameObject(PanelDefaultSelectedObects[newSelectedObjectIndex]);
+        eventSystem.SetSelectedGameObject(newSelectedObject);
     }
 
     public void ChangeToPreviousSelectedObject()

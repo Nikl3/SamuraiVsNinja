@@ -4,7 +4,7 @@ public class CharacterController2D : RaycastController
 {
     public CollisionInfo Collisions;
     private Vector2 playerInput;
-    Player player;
+    private Player player;
 
     protected override void Awake()
     {

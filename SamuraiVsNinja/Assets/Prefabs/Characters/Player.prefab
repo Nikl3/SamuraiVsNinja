@@ -280,7 +280,6 @@ MonoBehaviour:
   wallJumpOff: {x: 8.5, y: 7}
   wallLeap: {x: 20, y: 18}
   dashSpeed: 40
-  ProjectileSpawnPoint: {fileID: 4110683654836582}
 --- !u!114 &114841644404322898
 MonoBehaviour:
   m_ObjectHideFlags: 1

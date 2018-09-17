@@ -310,7 +310,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	{
 		ChangePanelState(PanelState.CHARACTER_SELECT);
 
-		InputManager.Instance.ChangeActiveSelectedObject(2);
+		//InputManager.Instance.ChangeActiveSelectedObject(2);
 	}
 
 	public void StartButton()
@@ -330,35 +330,35 @@ public class MainMenuManager : Singelton<MainMenuManager>
 	{
 		ChangePanelState(PanelState.OPTIONS);
 
-		InputManager.Instance.ChangeActiveSelectedObject(3);
+		//InputManager.Instance.ChangeActiveSelectedObject(3);
 	}
 
 	public void HowToPlayButton()
 	{
 		ChangePanelState(PanelState.HOW_TO_PLAY);
 
-		InputManager.Instance.ChangeActiveSelectedObject(4);
+		//InputManager.Instance.ChangeActiveSelectedObject(4);
 	}
 
 	public void AudioButton()
 	{
 		ChangePanelState(PanelState.AUDIO);
 
-		InputManager.Instance.ChangeActiveSelectedObject(5);
+		//InputManager.Instance.ChangeActiveSelectedObject(5);
 	}
 
 	public void GraphicsButton()
 	{
 		ChangePanelState(PanelState.GRAPHICS);
 
-		InputManager.Instance.ChangeActiveSelectedObject(6);
+		//InputManager.Instance.ChangeActiveSelectedObject(6);
 	}
 
 	public void ControlsButton()
 	{
 		ChangePanelState(PanelState.CONTROLS);
 
-		InputManager.Instance.ChangeActiveSelectedObject(7);
+		//InputManager.Instance.ChangeActiveSelectedObject(7);
 	}
 
 	public void CreditsButton()
@@ -383,7 +383,7 @@ public class MainMenuManager : Singelton<MainMenuManager>
 		}
 
 		ChangePanelState(PanelState.MAIN_MENU);
-		InputManager.Instance.ChangeActiveSelectedObject(0);
+		//InputManager.Instance.ChangeActiveSelectedObject(0);
 	}
 
 	public void QuitButton()
