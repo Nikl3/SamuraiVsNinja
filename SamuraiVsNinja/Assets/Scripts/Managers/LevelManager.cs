@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GameManager : Singelton<GameManager>
+public class LevelManager : Singelton<LevelManager>
 {
     private Transform spawnPoint;
     private Transform[] respawnSpawnPoints;

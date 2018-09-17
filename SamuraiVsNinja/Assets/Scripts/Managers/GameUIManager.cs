@@ -12,14 +12,13 @@ public class GameUIManager : Singelton<GameUIManager>
     {
         pausePanel = transform.Find("PausePanel").gameObject;
         victoryPanel = transform.Find("VictoryPanel").gameObject;
-        wienerText = victoryPanel.transform.Find("WienerText").GetComponent<Text>();
+        wienerText = victoryPanel.transform.Find("WinnerText").GetComponent<Text>();
     }
 
     private void Start()
     {
         pausePanel.SetActive(false);
         victoryPanel.SetActive(false);
-
     }
 
     private void Update()

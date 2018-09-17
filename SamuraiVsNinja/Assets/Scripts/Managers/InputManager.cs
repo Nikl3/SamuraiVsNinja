@@ -4,6 +4,8 @@ using UnityEngine.EventSystems;
 public class InputManager : Singelton<InputManager>
 {
     private EventSystem eventSystem;
+    [SerializeField]
+    private BaseInputModule baseInputModule;
 
     #region AXIS_INPUTS
 
@@ -109,16 +111,12 @@ public class InputManager : Singelton<InputManager>
 
     #endregion VARIABLES
 
-    private void Awake()
+    private void Start()
     {
         eventSystem = EventSystem.current;
         firstSelectedObject = eventSystem.firstSelectedGameObject;
         eventSystem.firstSelectedGameObject = firstSelectedObject;
-    }
-
-    private void Start()
-    {
-        joystickNames = Input.GetJoystickNames();
+        joystickNames = Input.GetJoystickNames();   
     }
 
     public void ChangeActiveSelectedObject(int newSelectedObjectIndex)

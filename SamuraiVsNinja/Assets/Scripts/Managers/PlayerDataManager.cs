@@ -43,10 +43,31 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
         for (int i = 0; i < playerDatas.Length; i++)
         {
-            playerDatas[i] = new PlayerData(i + 1)
+            playerDatas[i] = new PlayerData(i + 1, CreatePlayerColor(i + 1))
             {
                
             };
+        }
+    }
+
+    private Color CreatePlayerColor(int playerID)
+    {
+        switch (playerID)
+        {
+            case 1:
+                return Color.blue;
+
+            case 2:
+                return Color.red;
+
+            case 3:
+                return Color.green;
+
+            case 4:
+                return Color.yellow;
+
+            default:
+                return Color.magenta;
         }
     }
 
@@ -62,9 +83,9 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
     public void PlayerUnjoin(int playerID)
     {
-        if (playerDatas[playerID].HasJoined)
+        if (playerDatas[playerID - 1].HasJoined)
         {
-            playerDatas[playerID].HasJoined = false;
+            playerDatas[playerID - 1].HasJoined = false;
             CurrentlyJoinedPlayers--;
             return;
         }
@@ -93,7 +114,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
             if (playerData.HasJoined)
             {
                 var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0),
-                    GameManager.Instance.RandomSpawnPoint(),
+                    LevelManager.Instance.RandomSpawnPoint(),
                     Quaternion.identity);
                 var newPlayerInfo = Instantiate(
                     ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
