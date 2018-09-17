@@ -43,6 +43,11 @@ public class LevelManager : Singelton<LevelManager>
         }
     }
 
+    public void SpawnProjectile(Transform graphicParent, Vector2 spawnPoint) {
+        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), spawnPoint, Quaternion.identity);
+        projectile.GetComponent<Kunai>().ProjectileInitialize((int)graphicParent.localScale.x);
+    }
+
     private void Start()
     {
         StartRound();

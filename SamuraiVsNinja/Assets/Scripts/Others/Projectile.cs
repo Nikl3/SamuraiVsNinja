@@ -29,7 +29,6 @@ public abstract class Projectile : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var collisionGameObject = collision.gameObject;
-        print(collisionGameObject.layer);
         if (collisionGameObject.CompareTag("Player"))
         {
             var hittedPlayer = collision.GetComponent<Player>();

@@ -369,9 +369,6 @@ public class PlayerEngine : MonoBehaviour
         player.AnimatorController.AnimatorSetTrigger("Throw");
         player.PlayerInfo.StartRangeCooldown(isRangeAttacking, RangeAttackCooldown);
 
-        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), ProjectileSpawnPoint.position, Quaternion.identity);
-        projectile.GetComponent<Kunai>().ProjectileInitialize((int)player.AnimatorController.transform.localScale.x);
-
         yield return new WaitForSeconds(RangeAttackCooldown);
         isRangeAttacking = false;
         rangeAttackCoroutine = null;
