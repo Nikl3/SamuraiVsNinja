@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4076453237922912}
   - component: {fileID: 58571536665342220}
+  - component: {fileID: 114370600779153950}
   m_Layer: 11
   m_Name: Onigiri
   m_TagString: Onigiri
@@ -85,6 +86,17 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.08
+--- !u!114 &114370600779153950
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1485973191965736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efa6dec46269998479e32269f9caff96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212798550775207542
 SpriteRenderer:
   m_ObjectHideFlags: 1
