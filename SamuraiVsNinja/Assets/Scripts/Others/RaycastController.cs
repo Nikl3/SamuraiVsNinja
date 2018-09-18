@@ -22,7 +22,7 @@ public abstract class RaycastController : MonoBehaviour
 
     protected virtual void Awake()
     {
-        boxCollider2D = GetComponent<BoxCollider2D>();
+        boxCollider2D = GetComponentInChildren<BoxCollider2D>();
     }
 
     private void Start()

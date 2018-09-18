@@ -8,14 +8,14 @@ public class AnimatorController : MonoBehaviour
 		get;
 		private set;
 	}
-    [SerializeField]
-    private Transform ProjectileSpawnPoint;
+	private Transform ProjectileSpawnPoint;
 
-    private void Awake ()
+	private void Awake ()
 	{
 		animator = GetComponentInChildren<Animator>();
 		PlayerGraphics = transform;
 		transform.localScale = new Vector2(-1, 1);
+		ProjectileSpawnPoint = transform.Find("ProjectileSpawnPoint");
 	}
 
 	public bool GetAnimaionState(string animaionStateTag)
@@ -38,7 +38,8 @@ public class AnimatorController : MonoBehaviour
 		Fabric.EventManager.Instance.PostEvent(soundName);
 	}
 
-    public void ThrowKeyEvent() {
-        LevelManager.Instance.SpawnProjectile(PlayerGraphics, ProjectileSpawnPoint.position);
-    }
+	public void ThrowKeyEvent()
+	{
+		LevelManager.Instance.SpawnProjectile(PlayerGraphics, ProjectileSpawnPoint.position);
+	}
 }

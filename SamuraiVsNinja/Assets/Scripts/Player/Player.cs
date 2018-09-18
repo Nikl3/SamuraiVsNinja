@@ -19,15 +19,15 @@ public class Player : MonoBehaviour
 	private Color flashColor;
 	private Color defaultColor;
 
+	#endregion VARIABLES
+
+	#region PROPERTIES
+
 	public PlayerState CurrentState
 	{
 		get;
 		private set;
 	}
-
-	#endregion VARIABLES
-
-	#region PROPERTIES
 
 	public Sword Sword
 	{

@@ -68,38 +68,8 @@ public class InputManager : Singelton<InputManager>
 
     #region VARIABLES
 
-    [Header("Event system variables")]
-    [SerializeField]
-    private GameObject firstSelectedObject;
     [SerializeField]
     private GameObject previousSelectedObject;
-    public GameObject CurrentSeletedObject
-    {
-        get
-        {
-            return eventSystem.currentSelectedGameObject;
-        }
-        set
-        {
-            eventSystem.SetSelectedGameObject(value);
-        }
-    }
-    public GameObject[] PanelDefaultSelectedObects
-    {
-        get
-        {
-            return panelDefaultSelectedObects;
-        }
-
-        set
-        {
-            panelDefaultSelectedObects = value;
-        }
-    }
-
-    [Header("Panel default/start objects")]
-    [SerializeField]
-    private GameObject[] panelDefaultSelectedObects;
 
     [Header("Connected joysticks")]
     [SerializeField]
@@ -111,25 +81,24 @@ public class InputManager : Singelton<InputManager>
     {
         eventSystem = EventSystem.current;
         standaloneInputModule = GetComponentInChildren<StandaloneInputModule>();
-        firstSelectedObject = eventSystem.firstSelectedGameObject;
-        eventSystem.firstSelectedGameObject = firstSelectedObject;
         joystickNames = Input.GetJoystickNames();   
     }
 
-    //public void ChangeActiveSelectedObject(int newSelectedObjectIndex)
-    //{
-    //    previousSelectedObject = eventSystem.currentSelectedGameObject;
-    //    eventSystem.SetSelectedGameObject(PanelDefaultSelectedObects[newSelectedObjectIndex]);
-    //}
+    public void FocusMenuPanel()
+    {
+        if (Input.anyKeyDown && eventSystem.currentSelectedGameObject == null)
+        {
+            ChangeActiveSelectedObject(previousSelectedObject);
+        }
+    }
 
     public void ChangeActiveSelectedObject(GameObject newSelectedObject)
     {
         previousSelectedObject = eventSystem.currentSelectedGameObject;
-        eventSystem.SetSelectedGameObject(newSelectedObject);
-    }
 
-    public void ChangeToPreviousSelectedObject()
-    {
-        eventSystem.SetSelectedGameObject(previousSelectedObject);
+        if (!eventSystem.alreadySelecting)
+        {
+            eventSystem.SetSelectedGameObject(newSelectedObject);
+        }
     }
 }

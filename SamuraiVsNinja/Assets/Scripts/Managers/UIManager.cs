@@ -21,7 +21,7 @@ public class UIManager : Singelton<UIManager>
     }
 
     [SerializeField]
-    private Transform matchContainer;
+    private readonly Transform matchContainer;
     public Transform MatchContainer
     {
         get
@@ -31,7 +31,7 @@ public class UIManager : Singelton<UIManager>
     }
 
     [SerializeField]
-    private GameObject matchButtonPrefab;
+    private readonly GameObject matchButtonPrefab;
     public GameObject MatchButtonPrefab
     {
         get

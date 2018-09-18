@@ -31,7 +31,7 @@ public abstract class Projectile : MonoBehaviour
         var collisionGameObject = collision.gameObject;
         if (collisionGameObject.CompareTag("Player"))
         {
-            var hittedPlayer = collision.GetComponent<Player>();
+            var hittedPlayer = collision.GetComponentInParent<Player>();
 
             if(hittedPlayer != null)
             {

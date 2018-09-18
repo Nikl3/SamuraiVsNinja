@@ -7,7 +7,7 @@ public class PlayerTriggerController : MonoBehaviour
 
     private void Awake()
     {
-        player = GetComponent<Player>();
+        player = GetComponentInParent<Player>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -30,11 +30,11 @@ public class PlayerTriggerController : MonoBehaviour
                 return;
             }
 
-            if (collision.CompareTag("Player") && player.AnimatorController.GetAnimaionState("IsDashing"))
+            if (collision.CompareTag("Player"))
             {
                 var hitDirection = collision.transform.position - transform.position;
                 hitDirection = hitDirection.normalized;
-                var hittedPlayer = collision.gameObject.GetComponent<Player>();
+                var hittedPlayer = collision.gameObject.GetComponentInParent<Player>();
                 hittedPlayer.TakeDamage(hitDirection, new Vector2(-40, 15), 0);
                 return;
             }

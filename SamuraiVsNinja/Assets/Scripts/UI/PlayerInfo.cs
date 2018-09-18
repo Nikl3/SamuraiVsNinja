@@ -73,6 +73,7 @@ public class PlayerInfo : MonoBehaviour
         playerIndicator.GetComponent<PlayerIndicator>().ChangeTextVisuals("P" + Owner.PlayerData.ID, Owner.PlayerData.PlayerColor);
         playerIndicator.transform.SetParent(Owner.transform);
         playerIndicator.transform.localPosition = new Vector2(0, 4);
+        playerIndicator.name = "Player " + Owner.PlayerData.ID + " Indicator";
     }
 
     private void ResetHealthPointImages()
