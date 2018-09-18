@@ -37,8 +37,7 @@ public class InputManager : Singelton<InputManager>
         return Input.GetButtonDown("Action_J" + id);
     }
 
-    public bool Y_ButtonDown(int id)
-    {
+    public bool Y_ButtonDown(int id) {
         return Input.GetButtonDown("Cancel_J" + id);
     }
 

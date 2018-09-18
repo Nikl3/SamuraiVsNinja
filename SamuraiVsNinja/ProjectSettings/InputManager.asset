@@ -300,7 +300,7 @@ InputManager:
     negativeButton: 
     positiveButton: joystick 1 button 7
     altNegativeButton: 
-    altPositiveButton: space
+    altPositiveButton: escape
     gravity: 1000
     dead: 0
     sensitivity: 1000
@@ -631,7 +631,7 @@ InputManager:
     joyNum: 3
   - serializedVersion: 3
     m_Name: Grab_J1
-    descriptiveName: 
+    descriptiveName: wallslide grab J1 and keyboard
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick 1 button 2
@@ -658,7 +658,7 @@ InputManager:
     sensitivity: 1000
     snap: 0
     invert: 0
-    type: 2
+    type: 0
     axis: 0
     joyNum: 2
   - serializedVersion: 3

@@ -23,7 +23,7 @@ public class GameUIManager : Singelton<GameUIManager>
 
     private void Update()
     {
-        if (InputManager.Instance.Y_ButtonDown(1))
+        if (InputManager.Instance.Start_ButtonDown(1))
         {
             if (isPaused)
             {
