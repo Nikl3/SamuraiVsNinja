@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-
-public class Kunai : Projectile { 
+﻿public class Kunai : Projectile
+{ 
 	private Kunai()
 	{
 		projectileSpeed = 60f;

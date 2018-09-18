@@ -474,8 +474,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 436350432}
+    m_SelectOnDown: {fileID: 436350432}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 3
@@ -1102,10 +1102,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 376850628}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 842c2e2508b4e39458b952fad3a779f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 790eebf0ff12c9c46ad9263f52725a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelDefaultButton: {fileID: 485045801}
+  IsOpen: 0
+  PanelDefaultButton: {fileID: 0}
+  LastSelectedButton: {fileID: 0}
 --- !u!1 &424886459
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,8 +1234,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 116177498}
+    m_SelectOnDown: {fileID: 116177498}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 3
@@ -1510,10 +1512,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 453800676}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 842c2e2508b4e39458b952fad3a779f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e108642345849d49be23f741b52c58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelDefaultButton: {fileID: 116177498}
+  IsOpen: 0
+  PanelDefaultButton: {fileID: 0}
+  LastSelectedButton: {fileID: 0}
 --- !u!222 &453800679
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2896,10 +2900,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 736721416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 842c2e2508b4e39458b952fad3a779f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e120277ea985514d8258692231249f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelDefaultButton: {fileID: 581351338}
+  IsOpen: 0
+  PanelDefaultButton: {fileID: 0}
+  LastSelectedButton: {fileID: 0}
 --- !u!1 &761802823
 GameObject:
   m_ObjectHideFlags: 0
@@ -3865,7 +3871,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1018633683
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3893,10 +3899,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1018633682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 842c2e2508b4e39458b952fad3a779f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 969b65033cabc014cb05f3f5a26f5081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelDefaultButton: {fileID: 1255107562}
+  IsOpen: 0
+  PanelDefaultButton: {fileID: 0}
+  LastSelectedButton: {fileID: 0}
 --- !u!222 &1018633685
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3956,10 +3964,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1040577150}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 842c2e2508b4e39458b952fad3a779f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a4975461cb191b439bb1d8861b42ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelDefaultButton: {fileID: 249976987}
+  IsOpen: 0
+  PanelDefaultButton: {fileID: 0}
+  LastSelectedButton: {fileID: 0}
 --- !u!1 &1043032184
 GameObject:
   m_ObjectHideFlags: 0
@@ -4260,6 +4270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4fe57777e4108a46ad5b302a11fe935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentPanel: {fileID: 0}
+  MainMenuCanvasAnimator: {fileID: 0}
 --- !u!4 &1107777669
 Transform:
   m_ObjectHideFlags: 0
@@ -4400,10 +4412,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1216329597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 842c2e2508b4e39458b952fad3a779f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 696598825dcf75b4d8c39bff5b9e97ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelDefaultButton: {fileID: 1369537234}
+  IsOpen: 0
+  PanelDefaultButton: {fileID: 0}
+  LastSelectedButton: {fileID: 0}
 --- !u!1 &1255107560
 GameObject:
   m_ObjectHideFlags: 0
@@ -5385,10 +5399,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1446966641}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 842c2e2508b4e39458b952fad3a779f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ae80cd606e58d74e996e7fa6c845db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelDefaultButton: {fileID: 437065154}
+  IsOpen: 0
+  PanelDefaultButton: {fileID: 0}
+  LastSelectedButton: {fileID: 0}
 --- !u!1001 &1469209579
 Prefab:
   m_ObjectHideFlags: 0
@@ -6784,7 +6800,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2132192727}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 842c2e2508b4e39458b952fad3a779f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b29117f91af820429939eeb449f9a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelDefaultButton: {fileID: 919851649}
+  IsOpen: 0
+  PanelDefaultButton: {fileID: 0}
+  LastSelectedButton: {fileID: 0}

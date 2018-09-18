@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 public class InputManager : Singelton<InputManager>
 {
     private EventSystem eventSystem;
-    public StandaloneInputModule standaloneInputModule;
 
     #region AXIS_INPUTS
 
@@ -80,7 +79,6 @@ public class InputManager : Singelton<InputManager>
     private void Start()
     {
         eventSystem = EventSystem.current;
-        standaloneInputModule = GetComponentInChildren<StandaloneInputModule>();
         joystickNames = Input.GetJoystickNames();   
     }
 

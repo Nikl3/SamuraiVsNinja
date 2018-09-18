@@ -14,37 +14,34 @@ public class PlayerTriggerController : MonoBehaviour
     {
         if (player.CurrentState == PlayerState.NORMAL)
         {
-            if (collision.CompareTag("Onigiri"))
-            {
-                Fabric.EventManager.Instance.PostEvent("Pickup");
-                player.AddOnigiri(1);
-                Destroy(collision.gameObject);
-                return;
-            }
+            var hitDirection = collision.transform.position - transform.position;
+            hitDirection = hitDirection.normalized;
 
-            if (collision.CompareTag("Spike"))
+            switch (collision.tag)
             {
-                var hitDirection = collision.transform.position - transform.position;
-                hitDirection = hitDirection.normalized;
-                player.TakeDamage(hitDirection, knockbackForce, 1);
-                return;
-            }
+                case "Onigiri":
+                    Fabric.EventManager.Instance.PostEvent("Pickup");
+                    player.AddOnigiri(1);
+                    Destroy(collision.gameObject);
+                    break;
+                case "Pickup":
 
-            if (collision.CompareTag("Player"))
-            {
-                var hitDirection = collision.transform.position - transform.position;
-                hitDirection = hitDirection.normalized;
-                var hittedPlayer = collision.gameObject.GetComponentInParent<Player>();
-                hittedPlayer.TakeDamage(hitDirection, new Vector2(-40, 15), 0);
-                return;
-            }
+                    player.TakeDamage(hitDirection, knockbackForce, 1);
+                    break;
+                case "Spike":
 
-            if (collision.CompareTag("Killzone"))
-            {
-                var hitDirection = collision.transform.position - transform.position;
-                hitDirection = hitDirection.normalized;
-                player.TakeDamage(hitDirection,Vector2.zero, 3);
+                    player.TakeDamage(hitDirection, knockbackForce, 1);
+                    break;
+                case "Player":
+
+                    var hittedPlayer = collision.gameObject.GetComponentInParent<Player>();
+                    hittedPlayer.TakeDamage(hitDirection, new Vector2(-40, 15), 0);
+                    break;
+                case "Killzone":
+
+                    player.TakeDamage(hitDirection, Vector2.zero, 3);
+                    break;
             }
-        }
+        }    
     }
 }
