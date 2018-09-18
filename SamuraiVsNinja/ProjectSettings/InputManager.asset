@@ -131,7 +131,7 @@ InputManager:
     snap: 0
     invert: 1
     type: 2
-    axis: 0
+    axis: 1
     joyNum: 2
   - serializedVersion: 3
     m_Name: Vertical_J3
@@ -147,7 +147,7 @@ InputManager:
     snap: 0
     invert: 1
     type: 2
-    axis: 0
+    axis: 1
     joyNum: 3
   - serializedVersion: 3
     m_Name: Vertical_J4
@@ -163,7 +163,7 @@ InputManager:
     snap: 0
     invert: 1
     type: 2
-    axis: 0
+    axis: 1
     joyNum: 4
   - serializedVersion: 3
     m_Name: Submit_J1
@@ -631,7 +631,7 @@ InputManager:
     joyNum: 3
   - serializedVersion: 3
     m_Name: Grab_J1
-    descriptiveName: wallslide grab J1 and keyboard
+    descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick 1 button 2
