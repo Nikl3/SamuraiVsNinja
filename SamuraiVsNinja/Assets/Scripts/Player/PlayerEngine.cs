@@ -458,9 +458,19 @@ public class PlayerEngine : MonoBehaviour
 
         while ((Vector2)transform.position != spawnPoint)
         {
+<<<<<<< Updated upstream
             float timeSinceStarted = Time.time - startTime;
             float perc = timeSinceStarted / lerpTime;
             transform.position = Vector2.Lerp(transform.position, spawnPoint, perc);
+=======
+            float currentDuration = Time.time - startTime;
+            float journeyFraction = currentDuration / totalDistanceToSpawnPoint;
+
+            print("Fraction: " + journeyFraction);
+            print("Current duration:" + currentDuration);
+
+            transform.position = Vector2.Lerp(transform.position, spawnPoint, journeyFraction);
+>>>>>>> Stashed changes
             yield return null;
             //float currentDuration = Time.time - startTime;
             //float journeyFraction = currentDuration / totalDistanceToSpawnPoint;
