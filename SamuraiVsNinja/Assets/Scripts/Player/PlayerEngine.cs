@@ -431,6 +431,7 @@ public class PlayerEngine : MonoBehaviour
 
         player.ChangePlayerState(PlayerState.NORMAL);
         invincibilityCoroutine = null;
+        
     }
 
     private IEnumerator IFlashSpriteRenderer(float flashSpeed)
