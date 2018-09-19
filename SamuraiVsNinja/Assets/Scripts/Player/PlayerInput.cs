@@ -32,7 +32,7 @@ public class PlayerInput : MonoBehaviour
 
         player.PlayerEngine.SetDirectionalInput(directionalInput);      
 
-        if (InputManager.Instance.A_ButtonDown(player.PlayerData.ID))
+        if (InputManager.Instance.A_ButtonDown(player.PlayerData.ID) && directionalInput.y != -1)
         {
             player.PlayerEngine.OnJumpInputDown();
         }

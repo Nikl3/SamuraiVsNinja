@@ -111,7 +111,7 @@ public class CharacterController2D : RaycastController
                     {
                         continue;
                     }
-                    if (playerInput.y == -1 && InputManager.Instance.X_ButtonDown(player.PlayerData.ID))
+                    if (playerInput.y == -1 && InputManager.Instance.A_ButtonDown(player.PlayerData.ID))
                     {
                         Collisions.FallingThroughPlatform = true;
                         Invoke("ResetFallingThroughPlatform", 0.2f);

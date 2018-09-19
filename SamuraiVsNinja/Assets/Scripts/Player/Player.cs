@@ -163,16 +163,14 @@ public class Player : MonoBehaviour
 				}
 				PlayerEngine.OnKnockback(direction, knockbackForce);
 				Fabric.EventManager.Instance.PostEvent("HitContact");
-
-				if (onigiris > 0)
-					DropOnigiri();
 			}
 			else
 			{
-				Die();
-			}
+                Die();
 
-			PlayerInfo.UpdateHealthPoints(healthPoints);
+            }
+
+            PlayerInfo.UpdateHealthPoints(healthPoints);
 		}
 	}
 
@@ -185,10 +183,12 @@ public class Player : MonoBehaviour
 				);
 	}
 
-	private void Die()
-	{
-		Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position, Quaternion.identity);
+	private void Die() {
+        if (onigiris > 0) {
+            DropOnigiri();
+        }
+        Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position, Quaternion.identity);
 		ChangePlayerState(PlayerState.RESPAWN);
-		Fabric.EventManager.Instance.PostEvent("Die");
-	}
+        Fabric.EventManager.Instance.PostEvent("Die");
+    }
 }
