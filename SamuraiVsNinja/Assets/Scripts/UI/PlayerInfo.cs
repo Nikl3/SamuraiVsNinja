@@ -45,7 +45,7 @@ public class PlayerInfo : MonoBehaviour
         playerNameText = transform.Find("PlayerName").GetComponent<Text>();
         playerNameTextOutline = playerNameText.GetComponent<Outline>();
         onigiriCountText = transform.Find("OnigiriIcon").GetComponentInChildren<Text>();
-        parentContainer = GameObject.Find("HUD").transform.Find("PlayerInfoContainer");
+        parentContainer = UIManager.Instance.transform.Find("PlayerInfoContainer");
         healthpointImages = transform.Find("HealthBar").GetComponentsInChildren<Image>();
         Array.Reverse(healthpointImages);
         rangeAttackCooldownImage = transform.Find("RangeAttackCooldown").transform.Find("CooldownImage").GetComponent<Image>();

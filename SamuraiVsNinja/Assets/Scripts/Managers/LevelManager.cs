@@ -73,6 +73,6 @@ public class LevelManager : Singelton<LevelManager>
 
     public void Victory(string winnerName)
     {
-        GameUIManager.Instance.VictoryPanel(winnerName);
+        //GameUIManager.Instance.VictoryPanel(winnerName);
     }
 }

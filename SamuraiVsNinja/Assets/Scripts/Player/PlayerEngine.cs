@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerEngine : MonoBehaviour
 {
+    public bool UsingLerpMethod1 = true;
+
     #region VARIABLES
 
     private Player player;
@@ -42,7 +44,7 @@ public class PlayerEngine : MonoBehaviour
     [Header("WALL SLIDE")]
 
     [SerializeField]
-    private readonly float maxWallSlideSpeed = 5f;
+    private readonly float maxWallSlideSpeed = 3f;
     [SerializeField]
     private Vector2 wallJumpClimb = new Vector2(2.5f, 16);
     [SerializeField]
@@ -204,10 +206,10 @@ public class PlayerEngine : MonoBehaviour
             player.AnimatorController.AnimatorSetBool("IsWallsliding", true);
             wallSliding = true;
 
-            //if (!InputManager.Instance.X_ButtonUp(player.PlayerData.ID))
-            //{       
-            //    return;
-            //}
+            if (!InputManager.Instance.X_ButtonUp(player.PlayerData.ID))
+            {       
+                return;
+            }
 
             if (velocity.y < -maxWallSlideSpeed)
             {
@@ -431,7 +433,6 @@ public class PlayerEngine : MonoBehaviour
 
         player.ChangePlayerState(PlayerState.NORMAL);
         invincibilityCoroutine = null;
-        
     }
 
     private IEnumerator IFlashSpriteRenderer(float flashSpeed)
@@ -449,33 +450,45 @@ public class PlayerEngine : MonoBehaviour
     private IEnumerator IRespawn(Vector2 spawnPoint)
     {
         player.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
-
         player.AnimatorController.AnimatorSetBool("HasDied", true);
 
-        float startTime = Time.time;
-        float lerpTime = 1.2f;
-        //float totalDistanceToSpawnPoint = Vector2.Distance(transform.position, spawnPoint);
+        Vector2 startPosition = transform.position;
+        Vector2 endPosition = spawnPoint;
 
-        while ((Vector2)transform.position != spawnPoint)
+        if (UsingLerpMethod1)
         {
-<<<<<<< Updated upstream
-            float timeSinceStarted = Time.time - startTime;
-            float perc = timeSinceStarted / lerpTime;
-            transform.position = Vector2.Lerp(transform.position, spawnPoint, perc);
-=======
-            float currentDuration = Time.time - startTime;
-            float journeyFraction = currentDuration / totalDistanceToSpawnPoint;
+            #region LERP_METHOD_1
 
-            print("Fraction: " + journeyFraction);
-            print("Current duration:" + currentDuration);
+            float startTime = Time.time;
+            float totalDistanceToSpawnPoint = Vector2.Distance(transform.position, spawnPoint);
 
-            transform.position = Vector2.Lerp(transform.position, spawnPoint, journeyFraction);
->>>>>>> Stashed changes
-            yield return null;
-            //float currentDuration = Time.time - startTime;
-            //float journeyFraction = currentDuration / totalDistanceToSpawnPoint;
-            //transform.position = Vector2.Lerp(transform.position, spawnPoint, journeyFraction);
-            //yield return null;
+            while ((Vector2)transform.position != spawnPoint)
+            {
+                float currentDuration = Time.time - startTime;
+                float journeyFraction = (currentDuration / totalDistanceToSpawnPoint) * 20;
+                transform.position = Vector2.Lerp(startPosition, endPosition, journeyFraction);
+                yield return null;
+            }
+
+            #endregion LERP_METHOD_1
+        }
+        else
+        {
+            #region LERP_METHOD_2
+
+            float lerpTime = 1f;
+            float startedLerpTime = Time.time;
+            float perC = 0f;
+
+            while (perC <= 1.0f)
+            {
+                float timeSinceStartedLerping = Time.time - startedLerpTime;
+                perC = timeSinceStartedLerping / lerpTime;
+                transform.position = Vector2.Lerp(startPosition, endPosition, perC);
+                yield return null;
+            }
+
+            #endregion LERP_METHOD_2
         }
 
         Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1), transform.position, Quaternion.identity);

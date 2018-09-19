@@ -25,7 +25,7 @@ public class CreditsPanel : UIPanel
         if (!isCreditsRunning)
         {
             isCreditsRunning = true;
-            MainMenuManager.Instance.MainMenuCanvasAnimator.Play("Credits");
+            //UIManager.Instance.MainMenuCanvasAnimator.Play("Credits");
         }
     }
 
@@ -33,7 +33,7 @@ public class CreditsPanel : UIPanel
     {
         if (InputManager.Instance.Y_ButtonDown(1) && isCreditsRunning)
         {
-            StopAnimation(MainMenuManager.Instance.MainMenuCanvasAnimator);
+            //StopAnimation(UIManager.Instance.MainMenuCanvasAnimator);
         }
     }
 

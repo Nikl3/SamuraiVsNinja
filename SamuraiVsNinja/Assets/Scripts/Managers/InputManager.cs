@@ -75,7 +75,7 @@ public class InputManager : Singelton<InputManager>
 
     #endregion VARIABLES
 
-    private void Start()
+    private void Awake()
     {
         eventSystem = EventSystem.current;
         joystickNames = Input.GetJoystickNames();   

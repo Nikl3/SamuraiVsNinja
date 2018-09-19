@@ -152,14 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 378978b1c55743e4a954d0b29196a2f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitLayer:
-    serializedVersion: 2
-    m_Bits: 1024
+  UsingLerpMethod1: 1
   minJumpHeight: 1
   maxJumpHeight: 4
-  timeToJumpApex: 0.5
   moveSpeed: 6
-  maxWallSlideSpeed: 3
+  wallJumpClimb: {x: 2.5, y: 16}
+  wallJumpOff: {x: 8.5, y: 7}
+  wallLeap: {x: 18, y: 17}
   dashSpeed: 20
 --- !u!114 &114133605677232856
 MonoBehaviour:
@@ -229,8 +228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633fad26abdf95b4cb3b515cd8bc1c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangeAttackAxis: 0
-  dashAxis: 0
 --- !u!114 &114686945179325366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -242,6 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e4b82e4e01459409f836c8c99de43e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!212 &212747961955186190
 SpriteRenderer:
   m_ObjectHideFlags: 1

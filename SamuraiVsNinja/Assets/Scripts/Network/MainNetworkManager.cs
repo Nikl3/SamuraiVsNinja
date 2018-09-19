@@ -54,7 +54,7 @@ public class MainNetworkManager : NetworkManager
     {
         CheckMachMakerState();
 
-        RefreshMatches();
+        //RefreshMatches();
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public class MainNetworkManager : NetworkManager
 
         matchList.Clear();
     }
-
+    /*
     public void CreateMatch()
     {
         CheckMachMakerState();
@@ -157,4 +157,5 @@ public class MainNetworkManager : NetworkManager
             UIManager.Instance.StatusText = "No matches available";
         }
     }
+    */
 }

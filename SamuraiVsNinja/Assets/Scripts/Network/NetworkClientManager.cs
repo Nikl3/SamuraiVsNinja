@@ -48,11 +48,11 @@ public class NetworkClientManager : NetworkBehaviour
 		{
 			Mathf.RoundToInt(timeLeft -= Time.deltaTime);
 			timeLeft = Mathf.Clamp(timeLeft, 0f, startTime);
-			UIManager.Instance.ModifyTimerText(timeLeft.ToString("#"), Color.white);
+			//UIManager.Instance.ModifyTimerText(timeLeft.ToString("#"), Color.white);
 			yield return null;
 		}
 
-		UIManager.Instance.ModifyTimerText("Time's up!", Color.white);
+		//UIManager.Instance.ModifyTimerText("Time's up!", Color.white);
 
 		yield return new WaitForSeconds(restartCounter);
 	}

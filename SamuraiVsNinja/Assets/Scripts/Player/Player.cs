@@ -166,11 +166,10 @@ public class Player : MonoBehaviour
 			}
 			else
 			{
-                Die();
+				Die();
+			}
 
-            }
-
-            PlayerInfo.UpdateHealthPoints(healthPoints);
+			PlayerInfo.UpdateHealthPoints(healthPoints);
 		}
 	}
 
@@ -184,11 +183,11 @@ public class Player : MonoBehaviour
 	}
 
 	private void Die() {
-        if (onigiris > 0) {
-            DropOnigiri();
-        }
-        Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position, Quaternion.identity);
+		if (onigiris > 0) {
+			DropOnigiri();
+		}
+		Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position, Quaternion.identity);
 		ChangePlayerState(PlayerState.RESPAWN);
-        Fabric.EventManager.Instance.PostEvent("Die");
-    }
+		Fabric.EventManager.Instance.PostEvent("Die");
+	}
 }

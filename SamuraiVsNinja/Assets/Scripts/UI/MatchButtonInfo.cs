@@ -26,6 +26,6 @@ public class MatchButtonInfo : MonoBehaviour
     public void JoinMatch()
     {
         JoinMatchCallback.Invoke(match);
-        UIManager.Instance.LobbyPanel.SetActive(false);
+        //UIManager.Instance.LobbyPanel.SetActive(false);
     }
 }

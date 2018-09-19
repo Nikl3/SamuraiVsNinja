@@ -35,7 +35,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
 
         latency = MainNetworkManager.Instance.client.GetRTT();
-        UIManager.Instance.DebugText = latency.ToString();
+        //UIManager.Instance.DebugText = latency.ToString();
         AuthorityUpdate();
         CmdUpdateVelocity(serverVelocity, transform.position);
 
