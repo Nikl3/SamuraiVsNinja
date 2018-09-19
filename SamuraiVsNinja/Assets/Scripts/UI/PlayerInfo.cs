@@ -60,7 +60,7 @@ public class PlayerInfo : MonoBehaviour
     {
         transform.SetParent(parentContainer);
         transform.localPosition = Vector3.zero;
-        transform.localScale = Vector3.one;
+        transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
         playerNameText.text = Owner.name;
         playerNameText.color = Owner.PlayerData.PlayerColor;
         playerNameTextOutline.effectColor = Color.white;

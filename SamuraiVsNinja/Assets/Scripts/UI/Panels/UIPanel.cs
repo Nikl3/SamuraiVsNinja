@@ -10,9 +10,10 @@ public abstract class UIPanel : MonoBehaviour
     {
         if (!IsOpen)
         {
-            //InputManager.Instance.ChangeActiveSelectedObject(PanelDefaultButton.gameObject);
+      
             gameObject.SetActive(true);
             IsOpen = true;
+            InputManager.Instance.ChangeActiveSelectedObject(PanelDefaultButton.gameObject);
         }
     }
 

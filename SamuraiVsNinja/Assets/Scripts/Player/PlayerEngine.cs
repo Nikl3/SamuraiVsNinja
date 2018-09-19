@@ -42,7 +42,7 @@ public class PlayerEngine : MonoBehaviour
     [Header("WALL SLIDE")]
 
     [SerializeField]
-    private readonly float maxWallSlideSpeed = 3f;
+    private readonly float maxWallSlideSpeed = 5f;
     [SerializeField]
     private Vector2 wallJumpClimb = new Vector2(2.5f, 16);
     [SerializeField]
@@ -204,10 +204,10 @@ public class PlayerEngine : MonoBehaviour
             player.AnimatorController.AnimatorSetBool("IsWallsliding", true);
             wallSliding = true;
 
-            if (!InputManager.Instance.X_ButtonUp(player.PlayerData.ID))
-            {       
-                return;
-            }
+            //if (!InputManager.Instance.X_ButtonUp(player.PlayerData.ID))
+            //{       
+            //    return;
+            //}
 
             if (velocity.y < -maxWallSlideSpeed)
             {
@@ -431,6 +431,7 @@ public class PlayerEngine : MonoBehaviour
 
         player.ChangePlayerState(PlayerState.NORMAL);
         invincibilityCoroutine = null;
+        
     }
 
     private IEnumerator IFlashSpriteRenderer(float flashSpeed)

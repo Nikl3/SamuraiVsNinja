@@ -1106,7 +1106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOpen: 0
-  PanelDefaultButton: {fileID: 0}
+  PanelDefaultButton: {fileID: 485045801}
   LastSelectedButton: {fileID: 0}
 --- !u!1 &424886459
 GameObject:
@@ -1516,7 +1516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOpen: 0
-  PanelDefaultButton: {fileID: 0}
+  PanelDefaultButton: {fileID: 116177498}
   LastSelectedButton: {fileID: 0}
 --- !u!222 &453800679
 CanvasRenderer:
@@ -2904,7 +2904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOpen: 0
-  PanelDefaultButton: {fileID: 0}
+  PanelDefaultButton: {fileID: 581351338}
   LastSelectedButton: {fileID: 0}
 --- !u!1 &761802823
 GameObject:
@@ -3903,7 +3903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOpen: 0
-  PanelDefaultButton: {fileID: 0}
+  PanelDefaultButton: {fileID: 1255107562}
   LastSelectedButton: {fileID: 0}
 --- !u!222 &1018633685
 CanvasRenderer:
@@ -3968,7 +3968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOpen: 0
-  PanelDefaultButton: {fileID: 0}
+  PanelDefaultButton: {fileID: 249976987}
   LastSelectedButton: {fileID: 0}
 --- !u!1 &1043032184
 GameObject:
@@ -4416,7 +4416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOpen: 0
-  PanelDefaultButton: {fileID: 0}
+  PanelDefaultButton: {fileID: 1369537234}
   LastSelectedButton: {fileID: 0}
 --- !u!1 &1255107560
 GameObject:
@@ -5403,7 +5403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOpen: 0
-  PanelDefaultButton: {fileID: 0}
+  PanelDefaultButton: {fileID: 437065154}
   LastSelectedButton: {fileID: 0}
 --- !u!1001 &1469209579
 Prefab:
@@ -6804,5 +6804,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOpen: 0
-  PanelDefaultButton: {fileID: 0}
+  PanelDefaultButton: {fileID: 919851649}
   LastSelectedButton: {fileID: 0}
