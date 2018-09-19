@@ -476,19 +476,10 @@ Prefab:
       propertyPath: m_Name
       value: LevelDesing
       objectReference: {fileID: 0}
-    - target: {fileID: 61890932339565806, guid: 2375495060fe6284784b30bde0cfbf9d,
+    - target: {fileID: 114100440940710430, guid: 2375495060fe6284784b30bde0cfbf9d,
         type: 2}
-      propertyPath: m_Offset.y
-      value: 1.2186191
-      objectReference: {fileID: 0}
-    - target: {fileID: 61890932339565806, guid: 2375495060fe6284784b30bde0cfbf9d,
-        type: 2}
-      propertyPath: m_Size.y
-      value: 0.12276161
-      objectReference: {fileID: 0}
-    - target: {fileID: 1802170422873578, guid: 2375495060fe6284784b30bde0cfbf9d, type: 2}
-      propertyPath: m_TagString
-      value: OneWayObject
+      propertyPath: radius
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2375495060fe6284784b30bde0cfbf9d, type: 2}

@@ -55,11 +55,11 @@ public class InputManager : Singelton<InputManager>
     }
 
     public bool X_ButtonDown(int id) {
-        return Input.GetButtonDown("Grab_J" + id);
+        return Input.GetButtonDown("RangeAttack_J" + id);
     }
 
     public bool X_ButtonUp(int id) {
-        return Input.GetButton("Grab_J" + id);
+        return Input.GetButton("RangeAttack_J" + id);
     }
 
     #endregion BUTTON_INPUTS
