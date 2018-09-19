@@ -453,14 +453,19 @@ public class PlayerEngine : MonoBehaviour
         player.AnimatorController.AnimatorSetBool("HasDied", true);
 
         float startTime = Time.time;
-        float totalDistanceToSpawnPoint = Vector2.Distance(transform.position, spawnPoint);
+        float lerpTime = 1.2f;
+        //float totalDistanceToSpawnPoint = Vector2.Distance(transform.position, spawnPoint);
 
         while ((Vector2)transform.position != spawnPoint)
         {
-            float currentDuration = Time.time - startTime;
-            float journeyFraction = currentDuration / totalDistanceToSpawnPoint;
-            transform.position = Vector2.Lerp(transform.position, spawnPoint, journeyFraction);
+            float timeSinceStarted = Time.time - startTime;
+            float perc = timeSinceStarted / lerpTime;
+            transform.position = Vector2.Lerp(transform.position, spawnPoint, perc);
             yield return null;
+            //float currentDuration = Time.time - startTime;
+            //float journeyFraction = currentDuration / totalDistanceToSpawnPoint;
+            //transform.position = Vector2.Lerp(transform.position, spawnPoint, journeyFraction);
+            //yield return null;
         }
 
         Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1), transform.position, Quaternion.identity);
