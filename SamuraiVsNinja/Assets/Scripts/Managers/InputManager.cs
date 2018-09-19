@@ -83,7 +83,7 @@ public class InputManager : Singelton<InputManager>
 
     public void FocusMenuPanel()
     {
-        if (Input.anyKeyDown && eventSystem.currentSelectedGameObject == null)
+        if (GetVerticalAxisRaw(1) != 0 && eventSystem.currentSelectedGameObject == null)
         {
             ChangeActiveSelectedObject(previousSelectedObject);
         }
