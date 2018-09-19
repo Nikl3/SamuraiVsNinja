@@ -27,11 +27,11 @@ public class CollectableGenerator : MonoBehaviour
 			int randomPositionIndex = Random.Range(0, Spawnpoints.Length);
 			Vector2 randomPosition = Spawnpoints[randomPositionIndex].position;
 
-			if (!Physics2D.OverlapCircle(randomPosition, 2f, collectableLayerMask))
-			{
-				Instantiate(onigiriPrefab, randomPosition, Quaternion.identity);
-				SpawnIntervall = 0;
-			}
+            if (!Physics2D.OverlapCircle(randomPosition, 2f, collectableLayerMask)) {
+                Instantiate(onigiriPrefab, randomPosition, Quaternion.identity);
+                SpawnIntervall = 0;
+            }
+            SpawnIntervall = 0f;
 		}
 	}
 }

@@ -31,8 +31,7 @@ public class InputManager : Singelton<InputManager>
 
     #region BUTTON_INPUTS
 
-    public bool Start_ButtonDown(int id)
-    {
+    public bool Start_ButtonDown(int id) {
         return Input.GetButtonDown("Action_J" + id);
     }
 

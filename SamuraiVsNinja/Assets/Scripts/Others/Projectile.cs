@@ -3,7 +3,7 @@
 public abstract class Projectile : MonoBehaviour
 {
     protected float projectileSpeed = 60f;
-    protected float selfDestroyTime = 2f;
+    protected float selfDestroyTime = 1.8f;
     private SpriteRenderer spriteRenderer;
     private int startDirection;
     private Vector2 knockbackForce = new Vector2(20, 10);
