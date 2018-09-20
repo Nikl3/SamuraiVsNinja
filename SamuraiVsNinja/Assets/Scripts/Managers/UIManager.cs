@@ -4,33 +4,69 @@ using UnityEngine.UI;
 
 public class UIManager : Singelton<UIManager>
 {
-	public UIPanel CurrentPanel;
-    public GameObject TitleCharacters, TitleGameObject;
-	public Sprite[] bgImages;
-    public Image BackgroundImage, Panelborders;
+	#region VARIABLES
 
-    #region VARIABLES
+	public Sprite[] BackgroundSprites;
 
-    [SerializeField] private UIPanel mainMenuPanel;
-	[SerializeField] private UIPanel characterSelectPanel;
-	[SerializeField] private UIPanel optionsPanel;
-	[SerializeField] private UIPanel creditsPanel;
-	[SerializeField] private UIPanel howToPlayPanel;
-	[SerializeField] private UIPanel audioPanel;
-	[SerializeField] private UIPanel graphicsPanel;
-	[SerializeField] private UIPanel controlsPanel;
-	[SerializeField] private UIPanel pausePanel;
-	[SerializeField] private UIPanel victoryPanel;
-	[SerializeField] private UIPanel onlineLobbyPanel;
+	#endregion VARIABLES
 
-    //public Animator MainMenuCanvasAnimator;
+	#region PROPERTIES
 
+	[SerializeField] public UIPanel CurrentPanel { get; private set; }
+	[SerializeField] public GameObject TitleCharacters { get; private set; }
+	[SerializeField] public GameObject TitleGameObject { get; private set; }
+	[SerializeField] public GameObject PanelsGameObject { get; private set; }
+	[SerializeField] public Image BackgroundImage { get; private set; }
 
-    #endregion VARIABLES
+	[SerializeField] public UIPanel MainMenuPanel { get; private set; }
+	[SerializeField] public UIPanel CharacterSelectPanel { get; private set; }
+	[SerializeField] public UIPanel OptionsPanel { get; private set; }
+	[SerializeField] public UIPanel CreditsPanel { get; private set; }
+	[SerializeField] public UIPanel HowToPlayPanel { get; private set; }
+	[SerializeField] public UIPanel AudioPanel { get; private set; }
+	[SerializeField] public UIPanel GraphicsPanel { get; private set; }
+	[SerializeField] public UIPanel ControlsPanel { get; private set; }
+	[SerializeField] public UIPanel PausePanel { get; private set; }
+	[SerializeField] public UIPanel VictoryPanel { get; private set; }
+	[SerializeField] public UIPanel OnlineLobbyPanel { get; private set; }
 
-    private void Update()
+	public Animator UIManagerAnimator { get; private set; }
+
+	#endregion PROPERTIES
+
+	private void Awake()
 	{
+		TitleCharacters = transform.Find("TitleCharacters").gameObject;
+		TitleGameObject = transform.Find("Title").gameObject;
+		PanelsGameObject = transform.Find("Panels").gameObject;
+		BackgroundImage = transform.Find("BackgroundImage").GetComponent<Image>();
+
+		PanelsGameObject = transform.Find("Panels").gameObject;
+		MainMenuPanel = PanelsGameObject.transform.Find("MainMenuPanel").GetComponent<UIPanel>();
+		CharacterSelectPanel = PanelsGameObject.transform.Find("CharacterSelectPanel").GetComponent<UIPanel>();
+		OptionsPanel = PanelsGameObject.transform.Find("OptionsPanel").GetComponent<UIPanel>();
+		CreditsPanel = PanelsGameObject.transform.Find("CreditsPanel").GetComponent<UIPanel>();
+		HowToPlayPanel = PanelsGameObject.transform.Find("HowToPlayPanel").GetComponent<UIPanel>();
+		AudioPanel = PanelsGameObject.transform.Find("AudioPanel").GetComponent<UIPanel>();
+		GraphicsPanel = PanelsGameObject.transform.Find("GraphicsPanel").GetComponent<UIPanel>();
+		ControlsPanel = PanelsGameObject.transform.Find("ControlsPanel").GetComponent<UIPanel>();
+		PausePanel = PanelsGameObject.transform.Find("PausePanel").GetComponent<UIPanel>();
+		VictoryPanel = PanelsGameObject.transform.Find("VictoryPanel").GetComponent<UIPanel>();
+		OnlineLobbyPanel = PanelsGameObject.transform.Find("OnlineLobbyPanel").GetComponent<UIPanel>();
+
+		UIManagerAnimator = GetComponent<Animator>();
+	}
+
+	private void Update()
+	{
+		if(CurrentPanel != null)
 		InputManager.Instance.FocusMenuPanel();
+
+		if (InputManager.Instance.Start_ButtonDown(1))
+		{
+			if (GameMaster.Instance.CurrentSceneName != "MainMenu")
+				TriggerPanelBehaviour(PausePanel);
+		}
 	}
 
 	private void TriggerPanelBehaviour(UIPanel panel)
@@ -42,32 +78,23 @@ public class UIManager : Singelton<UIManager>
 		CurrentPanel.OpenBehaviour();
 	}
 
-	public void TriggerMainMenuBehaviour()
+	public void SetMainMenuUI()
 	{
-		if (CurrentPanel != null)
+		TriggerPanelBehaviour(MainMenuPanel);
+		BackgroundImage.sprite = BackgroundSprites[0];
+		TitleCharacters.SetActive(true);
+		TitleGameObject.SetActive(true);
+	}
+
+	public void SetLevelUI()
+	{
+		if(CurrentPanel != null)
 			CurrentPanel.CloseBehaviour();
 
-		CurrentPanel = mainMenuPanel;
-		CurrentPanel.OpenBehaviour();
-    }
-
-    public void SetMainMenuUI()
-    {
-        TriggerPanelBehaviour(mainMenuPanel);
-        BackgroundImage.sprite = bgImages[0];
-        TitleCharacters.SetActive(true);
-        TitleGameObject.SetActive(true);
-        Panelborders.enabled = true;
-    }
-
-    public void SetLevelUI()
-    {
-        //TriggerPanelBehaviour(mainMenuPanel);
-        BackgroundImage.sprite = bgImages[1];
-        TitleCharacters.SetActive(false);
-        TitleGameObject.SetActive(false);
-        Panelborders.enabled = false;
-    }
+		BackgroundImage.sprite = BackgroundSprites[1];
+		TitleCharacters.SetActive(false);
+		TitleGameObject.SetActive(false);
+	}
 
 	private void OnQuit()
 	{
@@ -84,59 +111,57 @@ public class UIManager : Singelton<UIManager>
 
 	public void PlayButton()
 	{
-		TriggerPanelBehaviour(characterSelectPanel);
+		TriggerPanelBehaviour(CharacterSelectPanel);
 	}
 
 	public void StartButton()
 	{
-		InputManager.Instance.ChangeActiveSelectedObject(null);
 		GameMaster.Instance.LoadScene(1);
 	}
 
 	public void OnlineButton()
 	{
-		InputManager.Instance.ChangeActiveSelectedObject(null);
 		GameMaster.Instance.LoadScene(2);
 	}
 
 	public void OptionsButton()
 	{
-		TriggerPanelBehaviour(optionsPanel);
+		TriggerPanelBehaviour(OptionsPanel);
 	}
 
 	public void HowToPlayButton()
 	{
-		TriggerPanelBehaviour(howToPlayPanel);
+		TriggerPanelBehaviour(HowToPlayPanel);
 	}
 
 	public void AudioButton()
 	{
-		TriggerPanelBehaviour(audioPanel);
+		TriggerPanelBehaviour(AudioPanel);
 	}
 
 	public void GraphicsButton()
 	{
-		TriggerPanelBehaviour(graphicsPanel);
+		TriggerPanelBehaviour(GraphicsPanel);
 	}
 
 	public void ControlsButton()
 	{
-		TriggerPanelBehaviour(controlsPanel);
+		TriggerPanelBehaviour(ControlsPanel);
 	}
 
 	public void CreditsButton()
 	{
-		TriggerPanelBehaviour(creditsPanel);
+		TriggerPanelBehaviour(CreditsPanel);
 	}
 
 	public void BackToOptionsButton()
 	{
-		TriggerPanelBehaviour(optionsPanel);
+		TriggerPanelBehaviour(OptionsPanel);
 	}
 
 	public void BackToMainMenuButton()
 	{
-		TriggerPanelBehaviour(mainMenuPanel);
+		TriggerPanelBehaviour(MainMenuPanel);
 	}
 
 	public void QuitButton()
@@ -150,9 +175,10 @@ public class UIManager : Singelton<UIManager>
 
 	public void ContinueButton()
 	{
-		//pausePanel.SetActive(false);
-		//isPaused = false;
-		//Time.timeScale = 1;
+		if(CurrentPanel != null)
+		{
+			CurrentPanel.CloseBehaviour();
+		}
 	}
 
 	public void RestartGameButton()
@@ -176,58 +202,7 @@ public class UIManager : Singelton<UIManager>
 	/// <summary>
 	/// Temp stuff
 	/// </summary>
-
 	/*
-	private GameObject pausePanel;
-	private GameObject victoryPanel;
-	private Text wienerText;
-	private bool isPaused;
-
-	private void Awake()
-	{
-	pausePanel = transform.Find("PausePanel").gameObject;
-	victoryPanel = transform.Find("VictoryPanel").gameObject;
-	wienerText = victoryPanel.transform.Find("WinnerText").GetComponent<Text>();
-	}
-
-	private void Start()
-	{
-	pausePanel.SetActive(false);
-	victoryPanel.SetActive(false);
-	}
-
-	private void Update()
-	{
-	if (InputManager.Instance.Start_ButtonDown(1))
-	{
-		if (isPaused)
-		{
-			ContinueButton();
-		}
-		else
-		{
-			Paused();
-		}
-	}
-	}
-
-	public void VictoryPanel(string winnerName)
-	{
-	victoryPanel.SetActive(true);
-	wienerText.text = winnerName + "\nYou are THE winner!";
-	Time.timeScale = 0;
-	}
-
-	private void Paused()
-	{
-	pausePanel.SetActive(true);
-	isPaused = true;
-	Time.timeScale = 0;
-	}
-	}
-
-
-
 	[SerializeField]
 	private Transform HUDCanvas;
 

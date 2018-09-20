@@ -78,7 +78,8 @@ public class InputManager : Singelton<InputManager>
     private void Awake()
     {
         eventSystem = EventSystem.current;
-        joystickNames = Input.GetJoystickNames();   
+        joystickNames = Input.GetJoystickNames();
+        previousSelectedObject = eventSystem.firstSelectedGameObject;
     }
 
     public void FocusMenuPanel()

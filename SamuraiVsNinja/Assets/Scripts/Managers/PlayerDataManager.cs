@@ -105,7 +105,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         return playerDatas[id];
     }
 
-    public void SpawnPlayers()
+    public void SpawnPlayers(Transform parent)
     {
         AddTestPlayers(TestPlayerAmount);
 
@@ -116,6 +116,9 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
                 var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0),
                     LevelManager.Instance.RandomSpawnPoint(),
                     Quaternion.identity);
+
+                newPlayer.transform.SetParent(parent);
+
                 var newPlayerInfo = Instantiate(
                     ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
 

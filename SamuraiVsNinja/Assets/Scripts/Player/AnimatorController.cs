@@ -28,10 +28,10 @@ public class AnimatorController : MonoBehaviour
 		animator.SetBool(animationName, isActive);
 	}
 
-    public void DeactivateAttack()
-    {
-        animator.SetBool("IsAttacking", false);
-    }
+	public void DeactivateParameter(string AnimationParameter)
+	{
+		animator.SetBool(AnimationParameter, false);
+	}
 
 	public void AnimatorSetTrigger(string animationName)
 	{

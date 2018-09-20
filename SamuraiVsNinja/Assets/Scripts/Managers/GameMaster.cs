@@ -8,7 +8,8 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 {
     #region VARIABLES
 
-    private string currentSceneName;
+    public string CurrentSceneName { get; private set; }
+
     private AsyncOperation asyncOperation;
 
     private readonly float flickeringSpeed = 1f;
@@ -18,6 +19,11 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     private Image screenFadeImage;
     private Image howToPlayImage;
     private Text messageText;
+
+    private Coroutine fadeScreenImage;
+    private Coroutine loadSceneAsync;
+    private Coroutine exitingGame;
+    private Coroutine animateText;
 
     #endregion VARIABLES
 
@@ -29,13 +35,13 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         howToPlayImage = UIManager.Instance.transform.Find("HowToPlayImage").GetComponent<Image>();
         messageText = howToPlayImage.transform.GetComponentInChildren<Text>();
         screenFadeImage.fillAmount = 1f;
-        howToPlayImage.fillAmount = 0f;
-
-        CheckCurrentScene();
+        howToPlayImage.fillAmount = 0f;       
     }
 
     private void Start()
     {
+        CheckCurrentScene();
+
         howToPlayImage.gameObject.SetActive(false);
         messageText.enabled = false;
 
@@ -49,7 +55,9 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
     private void CheckCurrentScene()
     {
-        switch (SceneManager.GetActiveScene().name)
+        CurrentSceneName = SceneManager.GetActiveScene().name;
+
+        switch (CurrentSceneName)
         {
             case "DevScene - Niko":
                 UIManager.Instance.SetLevelUI();
@@ -99,23 +107,27 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
     public void ExitGame(Action action)
     {
-        StartCoroutine(IExitingGame(action));
+        if(exitingGame == null)
+           exitingGame = StartCoroutine(IExitingGame(action));
     }
 
     public void LoadScene(int sceneIndex)
     {
-        StartCoroutine(ILoadSceneAsync(sceneIndex));
+        if (loadSceneAsync == null)
+            loadSceneAsync = StartCoroutine(ILoadSceneAsync(sceneIndex));
     }
 
     public void FadeScreenImage(float targetFillAmount, float fadeSpeed = 1f)
     {
         RandomizeFillMethod();
-        StartCoroutine(IFadeScreenImage(targetFillAmount, 1f));
+        if (fadeScreenImage == null)
+            fadeScreenImage = StartCoroutine(IFadeScreenImage(targetFillAmount, 1f));
     }
 
     public void AnimateText(Text textToAnimate, float flickeringSpeed)
     {
-        StartCoroutine(IAnimateText(textToAnimate, flickeringSpeed));
+        if (animateText == null)
+        animateText = StartCoroutine(IAnimateText(textToAnimate, flickeringSpeed));
     }
 
     #region COROUTINES
@@ -133,6 +145,8 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
         screenFadeImage.raycastTarget = false;
         isFading = false;
+
+        fadeScreenImage = null;
     }
 
     private IEnumerator ILoadSceneAsync(int sceneIndex)
@@ -174,7 +188,11 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
         yield return new WaitForSecondsRealtime(fakeLoadTime);
 
+        CheckCurrentScene();
+
         FadeScreenImage(0);
+
+        loadSceneAsync = null;
     }
 
     private IEnumerator IExitingGame(Action action)
@@ -184,6 +202,8 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         yield return new WaitUntil(() => !isFading);
 
         action.Invoke();
+
+        exitingGame = null;
     }
 
     private IEnumerator IAnimateText(Text textToAnimate, float flickeringSpeed)
@@ -198,6 +218,8 @@ public class GameMaster : SingeltonPersistant<GameMaster>
             textToAnimate.enabled = true;
             yield return new WaitForSecondsRealtime(flickeringSpeed);
         }
+
+        animateText = null;
     }
 
     #endregion COROUTINES

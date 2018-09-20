@@ -2,6 +2,7 @@
 
 public class LevelManager : Singelton<LevelManager>
 {
+    private Transform players;
     private Transform spawnPoint;
     private Transform[] respawnSpawnPoints;
     private LayerMask characterLayer;
@@ -15,6 +16,7 @@ public class LevelManager : Singelton<LevelManager>
     private void Initialized()
     {
         characterLayer = LayerMask.GetMask("Character");
+        players = transform.Find("Players");
         GetSpawnPoints();
     }
 
@@ -56,7 +58,7 @@ public class LevelManager : Singelton<LevelManager>
 
     private void StartRound()
     {
-        PlayerDataManager.Instance.SpawnPlayers();
+        PlayerDataManager.Instance.SpawnPlayers(players);
         Fabric.EventManager.Instance.PostEvent("Music");
     }
 

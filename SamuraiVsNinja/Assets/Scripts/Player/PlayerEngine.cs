@@ -368,7 +368,7 @@ public class PlayerEngine : MonoBehaviour
     private IEnumerator IRangeAttack()
     {
         isRangeAttacking = true;
-        player.AnimatorController.AnimatorSetTrigger("Throw");
+        player.AnimatorController.AnimatorSetBool("IsThrowing", true);
         player.PlayerInfo.StartRangeCooldown(isRangeAttacking, RangeAttackCooldown);
 
         yield return new WaitForSeconds(RangeAttackCooldown);

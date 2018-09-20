@@ -4,10 +4,13 @@ public class Sword : MonoBehaviour
 {
 	private Player player;
 	private Vector2 knockbackForce = new Vector2(40, 10);
+	private GameObject hitEffect;
 
 	private void Awake ()
 	{
 		player = GetComponentInParent<Player>();
+		hitEffect = ResourceManager.Instance.GetPrefabByIndex(5, 2);
+
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -16,7 +19,7 @@ public class Sword : MonoBehaviour
 		{
 			if (collision.CompareTag("Player"))
 			{
-                var hittedPlayer = collision.GetComponentInParent<Player>();
+				var hittedPlayer = collision.GetComponentInParent<Player>();
 
 				if (hittedPlayer != null)
 				{
@@ -24,6 +27,8 @@ public class Sword : MonoBehaviour
 					hitDirection.x = -hitDirection.x;
 					hitDirection = hitDirection.normalized;
 					hittedPlayer.TakeDamage(hitDirection, knockbackForce, 1);
+
+					Instantiate(hitEffect, collision.transform.position, Quaternion.identity);
 				}
 			}
 		}

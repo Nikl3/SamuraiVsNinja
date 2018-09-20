@@ -4,6 +4,7 @@ public abstract class Projectile : MonoBehaviour
 {
     protected float projectileSpeed = 60f;
     protected float selfDestroyTime = 1.8f;
+    private GameObject hitEffect;
     private SpriteRenderer spriteRenderer;
     private int startDirection;
     private Vector2 knockbackForce = new Vector2(20, 10);
@@ -12,6 +13,7 @@ public abstract class Projectile : MonoBehaviour
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         gameObject.name = spriteRenderer.sprite.name;
+        hitEffect = ResourceManager.Instance.GetPrefabByIndex(5, 2);
     }
 
     private void SelfDestroy()
@@ -39,6 +41,8 @@ public abstract class Projectile : MonoBehaviour
                 hitDirection.x = -hitDirection.x;
                 hitDirection = hitDirection.normalized;
                 hittedPlayer.TakeDamage(hitDirection, knockbackForce, 1);
+
+                Instantiate(hitEffect, collision.transform.position, Quaternion.identity);
             }
            
             Destroy(gameObject);
