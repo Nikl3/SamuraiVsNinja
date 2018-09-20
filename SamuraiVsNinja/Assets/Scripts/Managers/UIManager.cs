@@ -5,13 +5,13 @@ using UnityEngine.UI;
 public class UIManager : Singelton<UIManager>
 {
 	public UIPanel CurrentPanel;
+    public GameObject TitleCharacters, TitleGameObject;
+	public Sprite[] bgImages;
+    public Image BackgroundImage, Panelborders;
 
-	public Image[] bgImages;
+    #region VARIABLES
 
-
-	#region VARIABLES
-
-	[SerializeField] private UIPanel mainMenuPanel;
+    [SerializeField] private UIPanel mainMenuPanel;
 	[SerializeField] private UIPanel characterSelectPanel;
 	[SerializeField] private UIPanel optionsPanel;
 	[SerializeField] private UIPanel creditsPanel;
@@ -23,22 +23,17 @@ public class UIManager : Singelton<UIManager>
 	[SerializeField] private UIPanel victoryPanel;
 	[SerializeField] private UIPanel onlineLobbyPanel;
 
-	//public Animator MainMenuCanvasAnimator;
+    //public Animator MainMenuCanvasAnimator;
 
 
-	#endregion VARIABLES
+    #endregion VARIABLES
 
-	private void Start()
-	{
-		//TriggerOpenBehaviour(mainMenuPanel);
-	}
-
-	private void Update()
+    private void Update()
 	{
 		InputManager.Instance.FocusMenuPanel();
 	}
 
-	private void TriggerOpenBehaviour(UIPanel panel)
+	private void TriggerPanelBehaviour(UIPanel panel)
 	{
 		if (CurrentPanel != null)
 			CurrentPanel.CloseBehaviour();
@@ -54,7 +49,25 @@ public class UIManager : Singelton<UIManager>
 
 		CurrentPanel = mainMenuPanel;
 		CurrentPanel.OpenBehaviour();
-	}
+    }
+
+    public void SetMainMenuUI()
+    {
+        TriggerPanelBehaviour(mainMenuPanel);
+        BackgroundImage.sprite = bgImages[0];
+        TitleCharacters.SetActive(true);
+        TitleGameObject.SetActive(true);
+        Panelborders.enabled = true;
+    }
+
+    public void SetLevelUI()
+    {
+        //TriggerPanelBehaviour(mainMenuPanel);
+        BackgroundImage.sprite = bgImages[1];
+        TitleCharacters.SetActive(false);
+        TitleGameObject.SetActive(false);
+        Panelborders.enabled = false;
+    }
 
 	private void OnQuit()
 	{
@@ -71,7 +84,7 @@ public class UIManager : Singelton<UIManager>
 
 	public void PlayButton()
 	{
-		TriggerOpenBehaviour(characterSelectPanel);
+		TriggerPanelBehaviour(characterSelectPanel);
 	}
 
 	public void StartButton()
@@ -88,42 +101,42 @@ public class UIManager : Singelton<UIManager>
 
 	public void OptionsButton()
 	{
-		TriggerOpenBehaviour(optionsPanel);
+		TriggerPanelBehaviour(optionsPanel);
 	}
 
 	public void HowToPlayButton()
 	{
-		TriggerOpenBehaviour(howToPlayPanel);
+		TriggerPanelBehaviour(howToPlayPanel);
 	}
 
 	public void AudioButton()
 	{
-		TriggerOpenBehaviour(audioPanel);
+		TriggerPanelBehaviour(audioPanel);
 	}
 
 	public void GraphicsButton()
 	{
-		TriggerOpenBehaviour(graphicsPanel);
+		TriggerPanelBehaviour(graphicsPanel);
 	}
 
 	public void ControlsButton()
 	{
-		TriggerOpenBehaviour(controlsPanel);
+		TriggerPanelBehaviour(controlsPanel);
 	}
 
 	public void CreditsButton()
 	{
-		TriggerOpenBehaviour(creditsPanel);
+		TriggerPanelBehaviour(creditsPanel);
 	}
 
 	public void BackToOptionsButton()
 	{
-		TriggerOpenBehaviour(optionsPanel);
+		TriggerPanelBehaviour(optionsPanel);
 	}
 
-	public void BackToMenuButton()
+	public void BackToMainMenuButton()
 	{
-		TriggerOpenBehaviour(mainMenuPanel);
+		TriggerPanelBehaviour(mainMenuPanel);
 	}
 
 	public void QuitButton()
@@ -147,7 +160,7 @@ public class UIManager : Singelton<UIManager>
 		GameMaster.Instance.LoadScene(1);
 	}
 
-	public void BackToMainMenuButton()
+	public void BackToMainMenuSceneButton()
 	{
 		GameMaster.Instance.LoadScene(0);
 	}

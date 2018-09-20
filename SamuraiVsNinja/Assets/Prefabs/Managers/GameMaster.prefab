@@ -592,13 +592,14 @@ GameObject:
   - component: {fileID: 224654598967568528}
   - component: {fileID: 222734517016175160}
   - component: {fileID: 114767169437705048}
+  - component: {fileID: 223730831628239546}
   m_Layer: 5
   m_Name: BackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1271549359956328
 GameObject:
   m_ObjectHideFlags: 0
@@ -3267,8 +3268,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: BackToMenuButton
+      - m_Target: {fileID: 114345974947749816}
+        m_MethodName: BackToMainMenuButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3393,8 +3394,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: BackToMenuButton
+      - m_Target: {fileID: 114345974947749816}
+        m_MethodName: BackToMainMenuButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4068,7 +4069,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: PlayButton
         m_Mode: 1
         m_Arguments:
@@ -4267,7 +4268,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: BackToOptionsButton
         m_Mode: 1
         m_Arguments:
@@ -4352,7 +4353,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: ControlsButton
         m_Mode: 1
         m_Arguments:
@@ -4729,7 +4730,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: AudioButton
         m_Mode: 1
         m_Arguments:
@@ -5264,15 +5265,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentPanel: {fileID: 0}
-  bgImages: []
-  mainMenuPanel: {fileID: 0}
-  characterSelectPanel: {fileID: 0}
-  optionsPanel: {fileID: 0}
-  creditsPanel: {fileID: 0}
-  howToPlayPanel: {fileID: 0}
-  audioPanel: {fileID: 0}
-  graphicsPanel: {fileID: 0}
-  controlsPanel: {fileID: 0}
+  TitleCharacters: {fileID: 1897819210792600}
+  TitleGameObject: {fileID: 1165513521411778}
+  bgImages:
+  - {fileID: 21300000, guid: 18bf595299b1f674b884351a93c83f6c, type: 3}
+  - {fileID: 21300000, guid: 17cdea9362bafb0409e20abd44e2ab64, type: 3}
+  BackgroundImage: {fileID: 114767169437705048}
+  Panelborders: {fileID: 114651183679027550}
+  mainMenuPanel: {fileID: 114956955490805344}
+  characterSelectPanel: {fileID: 114705621415320138}
+  optionsPanel: {fileID: 114110575659821808}
+  creditsPanel: {fileID: 114119915331180730}
+  howToPlayPanel: {fileID: 114073290075386586}
+  audioPanel: {fileID: 114216405039334276}
+  graphicsPanel: {fileID: 114608375016216768}
+  controlsPanel: {fileID: 114435917043674712}
   pausePanel: {fileID: 0}
   victoryPanel: {fileID: 0}
   onlineLobbyPanel: {fileID: 0}
@@ -5403,7 +5410,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: CreditsButton
         m_Mode: 1
         m_Arguments:
@@ -5469,7 +5476,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: OptionsButton
         m_Mode: 1
         m_Arguments:
@@ -5521,7 +5528,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: StartButton
         m_Mode: 1
         m_Arguments:
@@ -6408,7 +6415,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: QuitButton
         m_Mode: 1
         m_Arguments:
@@ -7346,7 +7353,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: BackToOptionsButton
         m_Mode: 1
         m_Arguments:
@@ -7431,7 +7438,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: GraphicsButton
         m_Mode: 1
         m_Arguments:
@@ -8317,7 +8324,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: HowToPlayButton
         m_Mode: 1
         m_Arguments:
@@ -8726,7 +8733,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: OnlineButton
         m_Mode: 1
         m_Arguments:
@@ -8778,7 +8785,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: BackToOptionsButton
         m_Mode: 1
         m_Arguments:
@@ -9233,7 +9240,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114345974947749816}
         m_MethodName: BackToOptionsButton
         m_Mode: 1
         m_Arguments:
@@ -10401,6 +10408,26 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!223 &223730831628239546
+Canvas:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1270205772610110}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: -596994665
+  m_SortingOrder: -1
+  m_TargetDisplay: 0
 --- !u!224 &224009417512321352
 RectTransform:
   m_ObjectHideFlags: 1
@@ -10420,7 +10447,7 @@ RectTransform:
   - {fileID: 224541399495778902}
   - {fileID: 224477172794277032}
   m_Father: {fileID: 224426493577745090}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
@@ -11182,7 +11209,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224426493577745090}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -11502,9 +11529,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 224340134203312788}
   - {fileID: 224486909943692156}
   - {fileID: 224009417512321352}
-  - {fileID: 224340134203312788}
   m_Father: {fileID: 224412851063702796}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11677,7 +11704,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224426493577745090}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}

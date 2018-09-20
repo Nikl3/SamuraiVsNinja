@@ -8,9 +8,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 {
     #region VARIABLES
 
-    public Transform UIManager { get; private set; }
-    public Transform MainMenuUI { get; private set; }
-
+    private string currentSceneName;
     private AsyncOperation asyncOperation;
 
     private readonly float flickeringSpeed = 1f;
@@ -27,23 +25,13 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     {
         base.Awake();
 
-        UIManager = transform.Find("UIManager");
-        MainMenuUI = UIManager.Find("MainMenuUI");
-
-        screenFadeImage = UIManager.transform.Find("FadeImage").GetComponent<Image>();
-        howToPlayImage = UIManager.transform.Find("HowToPlayImage").GetComponent<Image>();
+        screenFadeImage = UIManager.Instance.transform.Find("FadeImage").GetComponent<Image>();
+        howToPlayImage = UIManager.Instance.transform.Find("HowToPlayImage").GetComponent<Image>();
         messageText = howToPlayImage.transform.GetComponentInChildren<Text>();
         screenFadeImage.fillAmount = 1f;
         howToPlayImage.fillAmount = 0f;
 
-        if (SceneManager.GetActiveScene().name == "MainMenuScene")
-        {
-            MainMenuUI.gameObject.SetActive(true);
-        }
-        else if (SceneManager.GetActiveScene().name == "DevScene - Niko")
-        {
-            MainMenuUI.gameObject.SetActive(false);
-        }
+        CheckCurrentScene();
     }
 
     private void Start()
@@ -57,6 +45,20 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     private int RandomizeNumbers(int minValue, int maxValue)
     {
         return UnityEngine.Random.Range(minValue, maxValue);
+    }
+
+    private void CheckCurrentScene()
+    {
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "DevScene - Niko":
+                UIManager.Instance.SetLevelUI();
+                break;
+
+            case "MainMenuScene":
+                UIManager.Instance.SetMainMenuUI();
+                break;
+        }
     }
 
     private void RandomizeFillMethod()
