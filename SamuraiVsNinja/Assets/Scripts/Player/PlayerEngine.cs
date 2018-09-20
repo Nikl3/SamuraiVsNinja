@@ -204,6 +204,7 @@ public class PlayerEngine : MonoBehaviour
         if ((player.Controller2D.Collisions.Left || player.Controller2D.Collisions.Right) && !player.Controller2D.Collisions.Below && velocity.y < 0)
         {
             player.AnimatorController.AnimatorSetBool("IsWallsliding", true);
+            player.AnimatorController.AnimatorSetBool("IsAttacking", false);
             wallSliding = true;
 
             if (!InputManager.Instance.X_ButtonUp(player.PlayerData.ID))
@@ -230,8 +231,7 @@ public class PlayerEngine : MonoBehaviour
         if (directionalInput.x != 0 && !wallSliding)
         {
             player.AnimatorController.PlayerGraphics.localScale = new Vector2(player.Controller2D.Collisions.FaceDirection > 0 ? -1 : 1, 1);
-
-            player.AnimatorController.AnimatorSetBool("IsRunning", true);
+            player.AnimatorController.AnimatorSetBool("IsRunning", player.Controller2D.Collisions.Below ? true : false );
         }
         else
         {
@@ -248,9 +248,12 @@ public class PlayerEngine : MonoBehaviour
             player.AnimatorController.AnimatorSetBool("IsDropping", false);
         }
         else
-        {   
-            player.AnimatorController.AnimatorSetBool("IsJumping", velocity.y > 0 ? true : false);
-            player.AnimatorController.AnimatorSetBool("IsDropping", velocity.y < 0 ? true : false);
+        {
+            if (!player.AnimatorController.GetAnimaionState("Attack"))
+            {
+                player.AnimatorController.AnimatorSetBool("IsJumping", velocity.y > 0 ? true : false);
+                player.AnimatorController.AnimatorSetBool("IsDropping", velocity.y < 0 ? true : false);
+            }        
         }
     }
 
@@ -312,18 +315,7 @@ public class PlayerEngine : MonoBehaviour
 
     public void HandleMeleeAttacks()
     {
-        player.AnimatorController.AnimatorSetTrigger("Attack");
-
-        RaycastHit2D hit = Physics2D.CircleCast(transform.position, 1f, Vector2.right, 1f, 10);
-        if (hit)
-        {
-            Debug.LogError(hit.collider.name);
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(transform.position, 1f);
+        player.AnimatorController.AnimatorSetBool("IsAttacking", true);
     }
 
     public void OnRangedAttack()

@@ -5260,19 +5260,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1553147145655500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4fe57777e4108a46ad5b302a11fe935, type: 3}
+  m_Script: {fileID: 11500000, guid: 76fabacf17711644abab344eeb2b5a7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentPanel: {fileID: 0}
   bgImages: []
-  mainMenuPanel: {fileID: 114956955490805344}
-  characterSelectPanel: {fileID: 114705621415320138}
-  optionsPanel: {fileID: 114110575659821808}
-  creditsPanel: {fileID: 114119915331180730}
-  howToPlayPanel: {fileID: 114073290075386586}
-  audioPanel: {fileID: 114216405039334276}
-  graphicsPanel: {fileID: 114608375016216768}
-  controlsPanel: {fileID: 114435917043674712}
+  mainMenuPanel: {fileID: 0}
+  characterSelectPanel: {fileID: 0}
+  optionsPanel: {fileID: 0}
+  creditsPanel: {fileID: 0}
+  howToPlayPanel: {fileID: 0}
+  audioPanel: {fileID: 0}
+  graphicsPanel: {fileID: 0}
+  controlsPanel: {fileID: 0}
   pausePanel: {fileID: 0}
   victoryPanel: {fileID: 0}
   onlineLobbyPanel: {fileID: 0}
