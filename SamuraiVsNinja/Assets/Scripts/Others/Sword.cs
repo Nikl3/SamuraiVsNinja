@@ -7,16 +7,16 @@ public class Sword : MonoBehaviour
 
 	private void Awake ()
 	{
-		player = GetComponent<Player>();
+		player = GetComponentInParent<Player>();
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
-	{ 
+	{
 		if (player.CurrentState == PlayerState.NORMAL)
 		{
-			if (collision.CompareTag("Player") && player.AnimatorController.GetAnimaionState("Attack"))
+			if (collision.CompareTag("Player"))
 			{
-				var hittedPlayer = collision.GetComponent<Player>();
+                var hittedPlayer = collision.GetComponentInParent<Player>();
 
 				if (hittedPlayer != null)
 				{
