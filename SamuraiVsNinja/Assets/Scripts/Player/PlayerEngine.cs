@@ -181,6 +181,9 @@ public class PlayerEngine : MonoBehaviour
 
     #endregion PROPERTIES
 
+    public GameObject jumpCloud;
+    public GameObject dashEffect;
+
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -280,6 +283,8 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnJumpInputDown()
     {
+        Instantiate(jumpCloud, transform.position, transform.rotation);
+
         if (wallSliding)
         {
             if (wallDirectionX == directionalInput.x)
@@ -331,6 +336,7 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnDash()
     {
+        Instantiate(dashEffect, transform.position, transform.rotation);
         if (dashCoroutine == null &&
             !isDashing && 
             !wallSliding)

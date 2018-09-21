@@ -131,7 +131,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1992585746390968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 7.98, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4229023168579494}
@@ -310,6 +310,8 @@ MonoBehaviour:
   wallJumpOff: {x: 8.5, y: 7}
   wallLeap: {x: 20, y: 18}
   dashSpeed: 40
+  jumpCloud: {fileID: 1674375301271430, guid: 06756cf8f7115944b976efb8f02a4bd4, type: 2}
+  dashEffect: {fileID: 1299724192643068, guid: ab98359113970a94cab5288ee22767eb, type: 2}
 --- !u!114 &114841644404322898
 MonoBehaviour:
   m_ObjectHideFlags: 1
