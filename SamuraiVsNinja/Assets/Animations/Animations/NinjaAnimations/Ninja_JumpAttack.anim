@@ -38,7 +38,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.18333334
+        time: 0.16666667
         value: 0
         inSlope: Infinity
         outSlope: Infinity
@@ -204,11 +204,11 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: aee9aba4a038c5d4e977b727eb53303f, type: 3}
+      value: {fileID: 21300000, guid: bf0861517ff242d45a301fd4e01f3127, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: 5abe658ee4f91e048b7d63b326b4564c, type: 3}
+      value: {fileID: 21300002, guid: bf0861517ff242d45a301fd4e01f3127, type: 3}
     - time: 0.16666667
-      value: {fileID: 21300000, guid: f0afcb64af7d54441998e93683b3f0a2, type: 3}
+      value: {fileID: 21300004, guid: bf0861517ff242d45a301fd4e01f3127, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -263,9 +263,9 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: aee9aba4a038c5d4e977b727eb53303f, type: 3}
-    - {fileID: 21300000, guid: 5abe658ee4f91e048b7d63b326b4564c, type: 3}
-    - {fileID: 21300000, guid: f0afcb64af7d54441998e93683b3f0a2, type: 3}
+    - {fileID: 21300000, guid: bf0861517ff242d45a301fd4e01f3127, type: 3}
+    - {fileID: 21300002, guid: bf0861517ff242d45a301fd4e01f3127, type: 3}
+    - {fileID: 21300004, guid: bf0861517ff242d45a301fd4e01f3127, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -309,7 +309,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.18333334
+        time: 0.16666667
         value: 0
         inSlope: Infinity
         outSlope: Infinity
@@ -477,7 +477,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
-  - time: 0.083333336
+  - time: 0
     functionName: PlaySoundInAnimation
     data: Melee
     objectReferenceParameter: {fileID: 0}

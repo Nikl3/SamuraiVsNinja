@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4991587544898554}
   - component: {fileID: 198876960863023498}
   - component: {fileID: 199786160722599666}
-  - component: {fileID: 114959840877575954}
+  - component: {fileID: 114810171374102848}
   m_Layer: 0
   m_Name: DashEffect
   m_TagString: Untagged
@@ -35,14 +35,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1299724192643068}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114959840877575954
+--- !u!114 &114810171374102848
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -50,10 +50,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1299724192643068}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b38ad678e1b86254a81eeb8db00b33bb, type: 3}
+  m_Script: {fileID: 11500000, guid: d954e063c135c3449b33c49a0868da19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyTime: 2
 --- !u!198 &198876960863023498
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -64,7 +63,7 @@ ParticleSystem:
   lengthInSec: 3
   simulationSpeed: 1
   stopAction: 0
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0

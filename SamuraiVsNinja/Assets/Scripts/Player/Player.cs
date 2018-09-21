@@ -64,6 +64,11 @@ public class Player : MonoBehaviour
 		get;
 		private set;
 	}
+	public PlayerTriggerController PlayerTriggerController
+	{
+		get;
+		private set;
+	}
 	public AnimatorController AnimatorController
 	{
 		get;
@@ -92,6 +97,7 @@ public class Player : MonoBehaviour
 		SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		AnimatorController = GetComponentInChildren<AnimatorController>();
 		Controller2D = GetComponent<CharacterController2D>();
+		PlayerTriggerController = GetComponentInChildren<PlayerTriggerController>();
 		Sword = GetComponent<Sword>();
 		defaultColor = SpriteRenderer.color;
 	}
@@ -117,12 +123,12 @@ public class Player : MonoBehaviour
 		switch (CurrentState)
 		{
 			case PlayerState.NORMAL:
-				gameObject.tag = "Player";
+				PlayerTriggerController.gameObject.tag = "Player";
 				SpriteRenderer.color = defaultColor;
 				break;
 
 			case PlayerState.INVINCIBILITY:
-				gameObject.tag = "Untagged";
+				PlayerTriggerController.gameObject.tag = "Untagged";
 				SpriteRenderer.color = defaultColor;
 				PlayerEngine.StartInvincibility(2f, 0.1f);
 				break;
@@ -146,6 +152,12 @@ public class Player : MonoBehaviour
 	public void AddOnigiri(int amount)
 	{
 		onigiris += amount;
+
+		if (onigiris >= 1)
+		{
+			LevelManager.Instance.Victory(playerData.PlayerName);
+		}
+
 		PlayerInfo.UpdateOnigiris(onigiris);
 	}
 

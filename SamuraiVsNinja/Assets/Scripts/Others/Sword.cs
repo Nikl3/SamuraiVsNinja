@@ -8,9 +8,12 @@ public class Sword : MonoBehaviour
 
 	private void Awake ()
 	{
-		player = GetComponentInParent<Player>();
-		hitEffect = ResourceManager.Instance.GetPrefabByIndex(5, 2);
+		player = GetComponentInParent<Player>();		
+	}
 
+	private void Start()
+	{
+		hitEffect = ResourceManager.Instance.GetPrefabByIndex(5, 2);
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)

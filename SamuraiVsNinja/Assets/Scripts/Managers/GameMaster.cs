@@ -114,7 +114,9 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     public void LoadScene(int sceneIndex)
     {
         if (loadSceneAsync == null)
+        {
             loadSceneAsync = StartCoroutine(ILoadSceneAsync(sceneIndex));
+        }        
     }
 
     public void FadeScreenImage(float targetFillAmount, float fadeSpeed = 1f)
@@ -154,6 +156,9 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         FadeScreenImage(1);
 
         yield return new WaitUntil(() => !isFading);
+
+        CameraEngine.Instance.ClearTargets();
+        UIManager.Instance.ClearPlayerInfoContainer();
 
         messageText.enabled = true;
         messageText.text = "LOADING...";

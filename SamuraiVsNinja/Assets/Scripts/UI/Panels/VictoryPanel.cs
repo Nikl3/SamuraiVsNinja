@@ -7,15 +7,16 @@ public class VictoryPanel : UIPanel
 
     private void Awake()
     {
-        wienerText = transform.Find("WinnerText").GetComponent<Text>();
+        wienerText = transform.Find("PlayerStatsPanel").transform.Find("WinnerText").GetComponent<Text>();
     }
 
     public override void OpenBehaviour()
     {
         base.OpenBehaviour();
-
-        //wienerText.text = winnerName + "\nYou are THE winner!";
         Time.timeScale = 0;
+
+        var winnerName = LevelManager.Instance.WinnerName;
+        wienerText.text = winnerName + "\nYou are THE winner!";
     }
 
     public override void CloseBehaviour()

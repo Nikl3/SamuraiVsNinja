@@ -8,6 +8,8 @@ public class LevelManager : Singelton<LevelManager>
     private LayerMask characterLayer;
     private readonly int mapHorizontalBorder = 50;
 
+    public string WinnerName { get; private set; }
+
     private void Awake()
     {
         Initialized();
@@ -75,6 +77,7 @@ public class LevelManager : Singelton<LevelManager>
 
     public void Victory(string winnerName)
     {
-        //GameUIManager.Instance.VictoryPanel(winnerName);
+        WinnerName = winnerName;
+        UIManager.Instance.UpdateVictoryPanel();
     }
 }

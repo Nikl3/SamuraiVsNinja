@@ -336,7 +336,6 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnDash()
     {
-        Instantiate(dashEffect, transform.position, transform.rotation);
         if (dashCoroutine == null &&
             !isDashing && 
             !wallSliding)
@@ -385,7 +384,7 @@ public class PlayerEngine : MonoBehaviour
     private IEnumerator IDash()
     {
         isDashing = true;
-
+        Instantiate(dashEffect, transform.position, transform.rotation);
         player.PlayerInfo.StartDashCooldown(DashCooldown);
         player.AnimatorController.AnimatorSetBool("IsDashing", true);
         Fabric.EventManager.Instance.PostEvent("Dash");

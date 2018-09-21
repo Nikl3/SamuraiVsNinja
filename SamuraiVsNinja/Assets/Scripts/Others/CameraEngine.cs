@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CameraEngine : Singelton<CameraEngine>
 {
+    #region VARIABLES
+
     [SerializeField]
     private List<Transform> targets;
 
@@ -18,6 +20,8 @@ public class CameraEngine : Singelton<CameraEngine>
     private Vector2 offset = Vector2.zero;
     private Vector2 cameraVelocity;
     private Camera mainCamera;
+
+    #endregion VARIABLES
 
     private void Awake()
     {
@@ -74,5 +78,13 @@ public class CameraEngine : Singelton<CameraEngine>
     public void AddTarget(Transform newTarget)
     {
         targets.Add(newTarget);
+    }
+
+    public void ClearTargets()
+    {
+        if (targets != null && targets.Count > 0)
+        {
+            targets.Clear();
+        }
     }
 }

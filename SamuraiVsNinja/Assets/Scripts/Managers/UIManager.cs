@@ -12,36 +12,40 @@ public class UIManager : Singelton<UIManager>
 
 	#region PROPERTIES
 
-	[SerializeField] public UIPanel CurrentPanel { get; private set; }
-	[SerializeField] public GameObject TitleCharacters { get; private set; }
-	[SerializeField] public GameObject TitleGameObject { get; private set; }
-	[SerializeField] public GameObject PanelsGameObject { get; private set; }
-	[SerializeField] public Image BackgroundImage { get; private set; }
+	public Transform PlayerInfoContainer { get; private set; }
+	public UIPanel CurrentPanel { get; private set; }
+	public GameObject TitleCharacters { get; private set; }
+	public GameObject TitleGameObject { get; private set; }
+	public GameObject PanelsGameObject { get; private set; }
+	public Image PanelBackgroundImage { get; private set; }
+	public Image BackgroundImage { get; private set; }
 
-	[SerializeField] public UIPanel MainMenuPanel { get; private set; }
-	[SerializeField] public UIPanel CharacterSelectPanel { get; private set; }
-	[SerializeField] public UIPanel OptionsPanel { get; private set; }
-	[SerializeField] public UIPanel CreditsPanel { get; private set; }
-	[SerializeField] public UIPanel HowToPlayPanel { get; private set; }
-	[SerializeField] public UIPanel AudioPanel { get; private set; }
-	[SerializeField] public UIPanel GraphicsPanel { get; private set; }
-	[SerializeField] public UIPanel ControlsPanel { get; private set; }
-	[SerializeField] public UIPanel PausePanel { get; private set; }
-	[SerializeField] public UIPanel VictoryPanel { get; private set; }
-	[SerializeField] public UIPanel OnlineLobbyPanel { get; private set; }
+	public UIPanel MainMenuPanel { get; private set; }
+	public UIPanel CharacterSelectPanel { get; private set; }
+	public UIPanel OptionsPanel { get; private set; }
+	public UIPanel CreditsPanel { get; private set; }
+	public UIPanel HowToPlayPanel { get; private set; }
+	public UIPanel AudioPanel { get; private set; }
+	public UIPanel GraphicsPanel { get; private set; }
+	public UIPanel ControlsPanel { get; private set; }
+	public UIPanel PausePanel { get; private set; }
+	public UIPanel VictoryPanel { get; private set; }
+	public UIPanel OnlineLobbyPanel { get; private set; }
 
 	public Animator UIManagerAnimator { get; private set; }
 
 	#endregion PROPERTIES
 
-	private void Awake()
+	private void Initialize()
 	{
+		PlayerInfoContainer = transform.Find("PlayerInfoContainer");
+
 		TitleCharacters = transform.Find("TitleCharacters").gameObject;
 		TitleGameObject = transform.Find("Title").gameObject;
 		PanelsGameObject = transform.Find("Panels").gameObject;
+		PanelBackgroundImage = PanelsGameObject.transform.GetComponent<Image>();
 		BackgroundImage = transform.Find("BackgroundImage").GetComponent<Image>();
 
-		PanelsGameObject = transform.Find("Panels").gameObject;
 		MainMenuPanel = PanelsGameObject.transform.Find("MainMenuPanel").GetComponent<UIPanel>();
 		CharacterSelectPanel = PanelsGameObject.transform.Find("CharacterSelectPanel").GetComponent<UIPanel>();
 		OptionsPanel = PanelsGameObject.transform.Find("OptionsPanel").GetComponent<UIPanel>();
@@ -55,6 +59,11 @@ public class UIManager : Singelton<UIManager>
 		OnlineLobbyPanel = PanelsGameObject.transform.Find("OnlineLobbyPanel").GetComponent<UIPanel>();
 
 		UIManagerAnimator = GetComponent<Animator>();
+	}
+
+	private void Awake()
+	{
+		Initialize();
 	}
 
 	private void Update()
@@ -76,7 +85,35 @@ public class UIManager : Singelton<UIManager>
 
 		CurrentPanel = panel;
 		CurrentPanel.OpenBehaviour();
+
+		PanelBackgroundImage.enabled = true;
 	}
+
+	private void TriggerPanelCloseBehaviour()
+	{
+		if (CurrentPanel != null)
+		{
+			CurrentPanel.CloseBehaviour();
+			PanelBackgroundImage.enabled = false;
+			CurrentPanel = null;
+		}		
+	}
+
+	private void OnQuit()
+	{
+#if UNITY_EDITOR
+		EditorApplication.isPlaying = false;
+#else
+		Application.Quit();
+#endif
+	}
+
+	public void UpdateVictoryPanel()
+	{
+		PlayerInfoContainer.gameObject.SetActive(false);
+		TriggerPanelBehaviour(VictoryPanel);
+	}
+
 
 	public void SetMainMenuUI()
 	{
@@ -88,21 +125,21 @@ public class UIManager : Singelton<UIManager>
 
 	public void SetLevelUI()
 	{
-		if(CurrentPanel != null)
-			CurrentPanel.CloseBehaviour();
+		Time.timeScale = 1;
 
+		TriggerPanelCloseBehaviour();
 		BackgroundImage.sprite = BackgroundSprites[1];
 		TitleCharacters.SetActive(false);
 		TitleGameObject.SetActive(false);
 	}
 
-	private void OnQuit()
+	public void ClearPlayerInfoContainer()
 	{
-#if UNITY_EDITOR
-		EditorApplication.isPlaying = false;
-#else
-		Application.Quit();
-#endif
+		foreach (Transform playerInfo in PlayerInfoContainer)
+		{
+			if(playerInfo != null)
+			Destroy(playerInfo.gameObject);
+		}
 	}
 
 	#region UI_PANEL_BUTTONS
@@ -175,10 +212,7 @@ public class UIManager : Singelton<UIManager>
 
 	public void ContinueButton()
 	{
-		if(CurrentPanel != null)
-		{
-			CurrentPanel.CloseBehaviour();
-		}
+		TriggerPanelCloseBehaviour();
 	}
 
 	public void RestartGameButton()

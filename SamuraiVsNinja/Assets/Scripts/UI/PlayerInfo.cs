@@ -7,7 +7,6 @@ public class PlayerInfo : MonoBehaviour
 {
     #region VARIABLES
 
-    private Transform parentContainer;
     private Text playerNameText;
     private Outline playerNameTextOutline;
     private Text onigiriCountText;
@@ -45,7 +44,7 @@ public class PlayerInfo : MonoBehaviour
         playerNameText = transform.Find("PlayerName").GetComponent<Text>();
         playerNameTextOutline = playerNameText.GetComponent<Outline>();
         onigiriCountText = transform.Find("OnigiriIcon").GetComponentInChildren<Text>();
-        parentContainer = UIManager.Instance.transform.Find("PlayerInfoContainer");
+
         healthpointImages = transform.Find("HealthBar").GetComponentsInChildren<Image>();
         Array.Reverse(healthpointImages);
         rangeAttackCooldownImage = transform.Find("RangeAttackCooldown").transform.Find("CooldownImage").GetComponent<Image>();
@@ -58,9 +57,9 @@ public class PlayerInfo : MonoBehaviour
 
     private void SetValues()
     {
-        transform.SetParent(parentContainer);
+        transform.SetParent(UIManager.Instance.PlayerInfoContainer);
         transform.localPosition = Vector3.zero;
-        transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        transform.localScale = Vector3.one;
         playerNameText.text = Owner.name;
         playerNameText.color = Owner.PlayerData.PlayerColor;
         playerNameTextOutline.effectColor = Color.white;
