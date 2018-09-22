@@ -2,25 +2,25 @@
 
 public abstract class UIPanel : MonoBehaviour
 {
-    private bool isOpen = false;
     public UIButton PanelDefaultButton;
- 
+    public bool IsOpen { get; private set; }
+
     public virtual void OpenBehaviour()
     {
-        if (!isOpen)
+        if (!IsOpen)
         {   
             gameObject.SetActive(true);
-            isOpen = true;
+            IsOpen = true;
             InputManager.Instance.ChangeActiveSelectedObject(PanelDefaultButton.gameObject);
         }
     }
 
     public virtual void CloseBehaviour()
     {
-        if (isOpen)
+        if (IsOpen)
         {
             gameObject.SetActive(false);
-            isOpen = false;
+            IsOpen = false;
             InputManager.Instance.ChangeActiveSelectedObject(null);
         }
     }

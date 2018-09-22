@@ -4,9 +4,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+public enum GameState
+{
+    MainMenu,
+    LocalGame,
+    OnlineGame
+}
+
 public class GameMaster : SingeltonPersistant<GameMaster>
 {
     #region VARIABLES
+
+    public GameState CurrentGameState { get; private set; }
 
     public string CurrentSceneName { get; private set; }
 
@@ -55,16 +64,21 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
     private void CheckCurrentScene()
     {
+        print("CheckCurrentScene");
         CurrentSceneName = SceneManager.GetActiveScene().name;
 
         switch (CurrentSceneName)
         {
-            case "DevScene - Niko":
-                UIManager.Instance.SetLevelUI();
+            case "MainMenuScene":
+                ChangeGameState(GameState.MainMenu);
                 break;
 
-            case "MainMenuScene":
-                UIManager.Instance.SetMainMenuUI();
+            case "DevScene - Niko":
+                ChangeGameState(GameState.LocalGame);
+                break;
+
+            case "DevScene - Mathias":
+                ChangeGameState(GameState.OnlineGame);
                 break;
         }
     }
@@ -103,6 +117,30 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         }
 
         randomIndex = 0;
+    }
+
+    public void ChangeGameState(GameState newGameState)
+    {
+        CurrentGameState = newGameState;
+
+        switch (CurrentGameState)
+        {
+            case GameState.MainMenu:
+                UIManager.Instance.SetMainMenuUI();
+                break;
+
+            case GameState.LocalGame:
+                UIManager.Instance.SetLevelUI();
+                break;
+
+            case GameState.OnlineGame:
+                UIManager.Instance.SetOnlineUI();
+                break;
+
+            default:
+
+                break;
+        }
     }
 
     public void ExitGame(Action action)

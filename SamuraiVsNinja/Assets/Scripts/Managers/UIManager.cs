@@ -13,13 +13,14 @@ public class UIManager : Singelton<UIManager>
 	#region PROPERTIES
 
 	public Transform PlayerInfoContainer { get; private set; }
-	public UIPanel CurrentPanel { get; private set; }
 	public GameObject TitleCharacters { get; private set; }
 	public GameObject TitleGameObject { get; private set; }
 	public GameObject PanelsGameObject { get; private set; }
 	public Image PanelBackgroundImage { get; private set; }
 	public Image BackgroundImage { get; private set; }
+	public Animator Animator { get; private set; }
 
+	public UIPanel CurrentPanel { get; private set; }
 	public UIPanel MainMenuPanel { get; private set; }
 	public UIPanel CharacterSelectPanel { get; private set; }
 	public UIPanel OptionsPanel { get; private set; }
@@ -31,8 +32,6 @@ public class UIManager : Singelton<UIManager>
 	public UIPanel PausePanel { get; private set; }
 	public UIPanel VictoryPanel { get; private set; }
 	public UIPanel OnlineLobbyPanel { get; private set; }
-
-	public Animator UIManagerAnimator { get; private set; }
 
 	#endregion PROPERTIES
 
@@ -58,7 +57,7 @@ public class UIManager : Singelton<UIManager>
 		VictoryPanel = PanelsGameObject.transform.Find("VictoryPanel").GetComponent<UIPanel>();
 		OnlineLobbyPanel = PanelsGameObject.transform.Find("OnlineLobbyPanel").GetComponent<UIPanel>();
 
-		UIManagerAnimator = GetComponent<Animator>();
+		Animator = GetComponent<Animator>();
 	}
 
 	private void Awake()
@@ -66,16 +65,56 @@ public class UIManager : Singelton<UIManager>
 		Initialize();
 	}
 
+	private void Start()
+	{
+		BackgroundImage.gameObject.SetActive(true);
+	}
+
 	private void Update()
 	{
-		if(CurrentPanel != null)
-		InputManager.Instance.FocusMenuPanel();
+		ButtonRefocus();
+		OnStartButtonDown(GameMaster.Instance.CurrentGameState);
+	}
 
+	private void ButtonRefocus()
+	{
+		if (CurrentPanel != null)
+		{
+			InputManager.Instance.FocusMenuPanel();
+		}
+	}
+
+	private void OnStartButtonDown(GameState currentGameState)
+	{
 		if (InputManager.Instance.Start_ButtonDown(1))
 		{
-			if (GameMaster.Instance.CurrentSceneName != "MainMenu")
-				TriggerPanelBehaviour(PausePanel);
+			switch (currentGameState)
+			{
+				case GameState.MainMenu:
+					TriggerPanelBehaviour(MainMenuPanel);
+					break;
+				case GameState.LocalGame:
+					ManagePauseState();
+					break;
+				case GameState.OnlineGame:
+					ManagePauseState();
+					break;
+			}
 		}
+	}
+
+	private void ManagePauseState()
+	{
+		if (PausePanel.IsOpen)
+		{
+			TriggerPanelCloseBehaviour();
+			Time.timeScale = 1f;
+		}
+		else
+		{
+			TriggerPanelBehaviour(PausePanel);
+			Time.timeScale = 0f;
+		}	
 	}
 
 	private void TriggerPanelBehaviour(UIPanel panel)
@@ -114,9 +153,9 @@ public class UIManager : Singelton<UIManager>
 		TriggerPanelBehaviour(VictoryPanel);
 	}
 
-
 	public void SetMainMenuUI()
 	{
+		print("SetMainMenuUI");
 		TriggerPanelBehaviour(MainMenuPanel);
 		BackgroundImage.sprite = BackgroundSprites[0];
 		TitleCharacters.SetActive(true);
@@ -132,12 +171,19 @@ public class UIManager : Singelton<UIManager>
 		TitleGameObject.SetActive(false);
 	}
 
+	public void SetOnlineUI()
+	{
+
+	}
+
 	public void ClearPlayerInfoContainer()
 	{
 		foreach (Transform playerInfo in PlayerInfoContainer)
 		{
 			if(playerInfo != null)
-			Destroy(playerInfo.gameObject);
+			{
+				Destroy(playerInfo.gameObject);
+			}
 		}
 	}
 
@@ -197,7 +243,7 @@ public class UIManager : Singelton<UIManager>
 
 	public void BackToMainMenuButton()
 	{
-		TriggerPanelBehaviour(MainMenuPanel);
+		TriggerPanelBehaviour(GameMaster.Instance.CurrentGameState.Equals(GameState.MainMenu) ? MainMenuPanel : PausePanel);
 	}
 
 	public void QuitButton()

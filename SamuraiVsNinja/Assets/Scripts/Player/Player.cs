@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
 	private int onigiris;
 
 	private PlayerData playerData;
-	private Color flashColor = new Color(1, 1, 1, 0.5f);
 	private Color defaultColor;
 	private readonly float backgroundLightAlpha = 0.1f;
 
@@ -200,8 +199,10 @@ public class Player : MonoBehaviour
 				);
 	}
 
-	private void Die() {
-		if (onigiris > 0) {
+	private void Die()
+	{
+		if (onigiris > 0)
+		{
 			DropOnigiri();
 		}
 		Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position, Quaternion.identity);
