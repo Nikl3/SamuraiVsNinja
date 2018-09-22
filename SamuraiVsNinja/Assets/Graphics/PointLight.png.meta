@@ -1,12 +1,11 @@
 fileFormatVersion: 2
-guid: 0b644845aeeb54e48a758c3c49145230
+guid: 2cadded8c6b50a544bff9375f5ca2724
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Jump_0
-    21300002: Jump_1
-    21300004: Jump_2
-    21300006: Jump_3
-    21300008: Jump_4
+    21300000: PointLight_0
+    21300002: PointLight_1
+    21300004: PointLight_2
+    21300006: PointLight_3
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -50,7 +49,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 200
+  spritePixelsToUnits: 10
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
@@ -122,101 +121,81 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Jump_0
+      name: PointLight_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 2
-        width: 517
-        height: 798
+        x: 57
+        y: 151
+        width: 210
+        height: 249
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dae2002c939a7594ea795975ef251376
+      spriteID: 4f3ed2521197f3f42a4aa691c90c8b10
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_1
+      name: PointLight_1
       rect:
         serializedVersion: 2
-        x: 562
-        y: 0
-        width: 486
-        height: 868
+        x: 329
+        y: 236
+        width: 147
+        height: 137
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88ec4a897356daa46ad9338b0883727f
+      spriteID: 9175d521e87dc62468262a307557e5be
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_2
+      name: PointLight_2
       rect:
         serializedVersion: 2
-        x: 1050
-        y: 0
-        width: 495
-        height: 868
+        x: 472
+        y: 22
+        width: 126
+        height: 225
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f278e03c5f8019e48aab339aec46dd10
+      spriteID: 2972911ffc4f316448a48b940b2be6c5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_3
+      name: PointLight_3
       rect:
         serializedVersion: 2
-        x: 1546
-        y: 0
-        width: 502
-        height: 868
+        x: 27
+        y: 31
+        width: 303
+        height: 98
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 243f6835cc26643419b6b6cdd4c59cc3
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Jump_4
-      rect:
-        serializedVersion: 2
-        x: 2051
-        y: 0
-        width: 544
-        height: 865
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 07faca0babdbd86479c8bee9513d908e
+      spriteID: 30f2c43d08623474bbb7b4d06f23b581
       vertices: []
       indices: 
       edges: []
@@ -224,7 +203,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: df0811232759c6f4b99989fef6be3557
+    spriteID: 84425530e3f329f4588aa76cc2c9bf73
     vertices: []
     indices: 
     edges: []

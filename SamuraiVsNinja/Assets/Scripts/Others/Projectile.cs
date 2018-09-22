@@ -2,17 +2,16 @@
 
 public abstract class Projectile : MonoBehaviour
 {
-    protected float projectileSpeed = 60f;
+    protected float projectileSpeed;
     protected float selfDestroyTime = 1.8f;
     private GameObject hitEffect;
     private SpriteRenderer spriteRenderer;
     private int startDirection;
     private Vector2 knockbackForce = new Vector2(20, 10);
 
-    private void Awake()
+    protected virtual void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        gameObject.name = spriteRenderer.sprite.name;
         hitEffect = ResourceManager.Instance.GetPrefabByIndex(5, 2);
     }
 

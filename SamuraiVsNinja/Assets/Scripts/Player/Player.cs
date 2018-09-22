@@ -15,9 +15,9 @@ public class Player : MonoBehaviour
 	private int onigiris;
 
 	private PlayerData playerData;
-	[SerializeField]
-	private Color flashColor;
+	private Color flashColor = new Color(1, 1, 1, 0.5f);
 	private Color defaultColor;
+	private readonly float backgroundLightAlpha = 0.1f;
 
 	#endregion VARIABLES
 
@@ -79,12 +79,13 @@ public class Player : MonoBehaviour
 		get;
 		private set;
 	}
+	public SpriteRenderer BackgroundLightRenderer;
 
 	#endregion PROPERTIES
 
 	private void ResetValues()
 	{
-		gameObject.tag = "Player";
+		PlayerTriggerController.gameObject.tag = "Player";
 		healthPoints = 3;
 		onigiris = 0;
 		PlayerEngine.ResetVariables();
@@ -100,11 +101,16 @@ public class Player : MonoBehaviour
 		PlayerTriggerController = GetComponentInChildren<PlayerTriggerController>();
 		Sword = GetComponent<Sword>();
 		defaultColor = SpriteRenderer.color;
+		BackgroundLightRenderer = AnimatorController.transform.Find("BackgroundLight").GetComponent<SpriteRenderer>();
 	}
 
 	private void Start()
 	{
 		ResetValues();
+
+		var playerColor = PlayerData.PlayerColor;
+
+		BackgroundLightRenderer.color = new Color(playerColor.r, playerColor.g, playerColor.b, backgroundLightAlpha);
 	}
 
 	public void Initialize(PlayerData playerData, PlayerInfo playerInfo)

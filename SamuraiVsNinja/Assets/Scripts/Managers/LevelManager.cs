@@ -6,7 +6,8 @@ public class LevelManager : Singelton<LevelManager>
     private Transform spawnPoint;
     private Transform[] respawnSpawnPoints;
     private LayerMask characterLayer;
-    private readonly int mapHorizontalBorder = 50;
+    private readonly int mapHorizontalBorder = 80;
+    private readonly float roundDelay = 2f;
 
     public string WinnerName { get; private set; }
 
@@ -55,13 +56,15 @@ public class LevelManager : Singelton<LevelManager>
 
     private void Start()
     {
-        StartRound();
+        Time.timeScale = 1;
+        Fabric.EventManager.Instance.PostEvent("Music");
+
+        Invoke("StartRound", roundDelay);
     }
 
     private void StartRound()
     {
         PlayerDataManager.Instance.SpawnPlayers(players);
-        Fabric.EventManager.Instance.PostEvent("Music");
     }
 
     public Vector2 RandomSpawnPoint()

@@ -5,4 +5,10 @@
 		projectileSpeed = 60f;
 	}
 
+	protected override void Awake()
+	{
+		base.Awake();
+
+		gameObject.name = "Kunai";
+	}
 }

@@ -16,7 +16,7 @@ public class PlayerData
         }
     }
     public bool HasJoined { get; set; }
-    public Color PlayerColor { get; set; }
+    public Color PlayerColor { get; private set; }
 
     private readonly string playerName;
 
@@ -25,6 +25,8 @@ public class PlayerData
         ID = id;
        
         PlayerColor = playerColor;
+
+        DebugManager.Instance.DebugMessage(3,playerColor.ToString());
 
         playerName = "Player " + id;
     }

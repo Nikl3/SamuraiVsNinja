@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class DespawnParticleEffect : MonoBehaviour
+public class Effect : MonoBehaviour
 {
 	private new ParticleSystem particleSystem;
 	private Coroutine effectCoroutine;
@@ -10,9 +10,7 @@ public class DespawnParticleEffect : MonoBehaviour
 	private void Awake ()
 	{
 		particleSystem = GetComponent<ParticleSystem>();
-
 		effectDuration = particleSystem.main.duration;
-
 	}
 
 	private void OnEnable()

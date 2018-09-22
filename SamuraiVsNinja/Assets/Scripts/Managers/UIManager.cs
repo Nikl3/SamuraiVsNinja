@@ -125,9 +125,8 @@ public class UIManager : Singelton<UIManager>
 
 	public void SetLevelUI()
 	{
-		Time.timeScale = 1;
-
 		TriggerPanelCloseBehaviour();
+		PlayerInfoContainer.gameObject.SetActive(true);
 		BackgroundImage.sprite = BackgroundSprites[1];
 		TitleCharacters.SetActive(false);
 		TitleGameObject.SetActive(false);

@@ -283,7 +283,10 @@ public class PlayerEngine : MonoBehaviour
 
     public void OnJumpInputDown()
     {
-        Instantiate(jumpCloud, transform.position, transform.rotation);
+        if (player.Controller2D.Collisions.Below)
+        {
+            Instantiate(jumpCloud, transform.position, transform.rotation);
+        }
 
         if (wallSliding)
         {
@@ -302,6 +305,8 @@ public class PlayerEngine : MonoBehaviour
                 velocity.x = -wallDirectionX * wallLeap.x;
                 velocity.y = wallLeap.y;
             }
+
+            Instantiate(jumpCloud, transform.position, transform.rotation);
         }
 
         if (player.Controller2D.Collisions.Below)

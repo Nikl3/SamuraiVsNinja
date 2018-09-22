@@ -113,18 +113,24 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         {
             if (playerData.HasJoined)
             {
-                var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0),
-                    LevelManager.Instance.RandomSpawnPoint(),
-                    Quaternion.identity);
+                //var newPlayerGameObject = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0),
+                //    LevelManager.Instance.RandomSpawnPoint(),
+                //    Quaternion.identity);
 
-                newPlayer.transform.SetParent(parent);
+                var newPlayerGameObject = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(0, 0));
+                newPlayerGameObject.transform.SetPositionAndRotation(LevelManager.Instance.RandomSpawnPoint(), Quaternion.identity);
+                newPlayerGameObject.transform.SetParent(parent);
 
                 var newPlayerInfo = Instantiate(
                     ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
 
-                newPlayer.GetComponent<Player>().Initialize(playerData, newPlayerInfo);
+                var newPlayer = newPlayerGameObject.GetComponent<Player>();
+                newPlayer.Initialize(playerData, newPlayerInfo);
+                newPlayer.ChangePlayerState(PlayerState.INVINCIBILITY);
 
                 CameraEngine.Instance.AddTarget(newPlayer.transform);
+      
+                Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1), newPlayer.transform.position, Quaternion.identity);
             }
         }
     }
