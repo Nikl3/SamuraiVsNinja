@@ -81,6 +81,6 @@ public class LevelManager : Singelton<LevelManager>
     public void Victory(string winnerName)
     {
         WinnerName = winnerName;
-        UIManager.Instance.UpdateVictoryPanel();
+        UIManager.Instance.ChangePanelState(PANEL_STATE.VICTORY);
     }
 }

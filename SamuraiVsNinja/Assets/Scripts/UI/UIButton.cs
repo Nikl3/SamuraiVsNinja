@@ -13,6 +13,11 @@ public class UIButton : Button
         OnSelect(eventData);
     }
 
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        InputManager.Instance.ChangeActiveSelectedObject(null);
+    }
+
     public override void OnPointerDown(PointerEventData eventData)
     {
         base.OnPointerDown(eventData);
@@ -23,10 +28,11 @@ public class UIButton : Button
     {
         base.OnSelect(eventData);
         InputManager.Instance.ChangeActiveSelectedObject(gameObject);
-
     }
-    public override void OnDeselect(BaseEventData eventData)
+
+    public override void OnSubmit(BaseEventData eventData)
     {
-        base.OnDeselect(eventData);
+        base.OnSubmit(eventData);
+        InputManager.Instance.ChangeActiveSelectedObject(null);
     }
 }

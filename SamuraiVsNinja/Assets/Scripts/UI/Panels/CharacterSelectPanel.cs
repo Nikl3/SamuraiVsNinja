@@ -30,8 +30,10 @@ public class CharacterSelectPanel : UIPanel
         joinedPlayerText = transform.Find("JoinedPlayers").GetComponent<Text>();
     }
 
-    private void Update()
+    public override void Update()
     {
+        base.Update();
+
         if (CanJoin)
         {
             HandlePlayerJoinings();
@@ -135,5 +137,17 @@ public class CharacterSelectPanel : UIPanel
             ChangePlayerIcon(joinFields[id - 1], (PlayerDataManager.Instance.GetPlayerData(id - 1)));
             yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) != 0);
         }
+    }
+
+    public void StartButton()
+    {
+        GameMaster.Instance.LoadScene(1);
+    }
+
+    public override void BackButton()
+    {
+        base.BackButton();
+
+        UIManager.Instance.ChangePanelState(PANEL_STATE.MAIN_MENU);
     }
 }

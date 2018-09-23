@@ -31,11 +31,13 @@ public class InputManager : Singelton<InputManager>
 
     #region BUTTON_INPUTS
 
-    public bool Start_ButtonDown(int id) {
+    public bool Start_ButtonDown(int id)
+    {
         return Input.GetButtonDown("Action_J" + id);
     }
 
-    public bool Y_ButtonDown(int id) {
+    public bool Y_ButtonDown(int id)
+    {
         return Input.GetButtonDown("Cancel_J" + id);
     }
 
@@ -67,7 +69,7 @@ public class InputManager : Singelton<InputManager>
     #region VARIABLES
 
     [SerializeField]
-    private GameObject previousSelectedObject;
+    public GameObject PreviousSelectedObject;
 
     [Header("Connected joysticks")]
     [SerializeField]
@@ -79,20 +81,22 @@ public class InputManager : Singelton<InputManager>
     {
         eventSystem = EventSystem.current;
         joystickNames = Input.GetJoystickNames();
-        previousSelectedObject = eventSystem.firstSelectedGameObject;
     }
 
-    public void FocusMenuPanel()
+    public void FocusToButton(GameObject buttonObject)
     {
         if (GetVerticalAxisRaw(1) != 0 && eventSystem.currentSelectedGameObject == null)
         {
-            ChangeActiveSelectedObject(previousSelectedObject);
+            //if (PreviousSelectedObject != null)
+            //    buttonObject = PreviousSelectedObject;
+
+            ChangeActiveSelectedObject(buttonObject);
         }
     }
 
     public void ChangeActiveSelectedObject(GameObject newSelectedObject)
     {
-        previousSelectedObject = eventSystem.currentSelectedGameObject;
+        PreviousSelectedObject = eventSystem.currentSelectedGameObject;
 
         if (!eventSystem.alreadySelecting)
         {

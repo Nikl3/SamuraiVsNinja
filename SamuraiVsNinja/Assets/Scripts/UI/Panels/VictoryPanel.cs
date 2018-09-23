@@ -23,4 +23,11 @@ public class VictoryPanel : UIPanel
     {
         base.CloseBehaviour();
     }
+
+    public override void BackButton()
+    {
+        base.BackButton();
+
+        GameMaster.Instance.LoadScene(0);
+    }
 }

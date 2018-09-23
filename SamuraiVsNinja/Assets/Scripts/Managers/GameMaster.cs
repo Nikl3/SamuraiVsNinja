@@ -4,23 +4,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public enum GameState
+public enum CURRENT_GAME_STATE
 {
-    MainMenu,
-    LocalGame,
-    OnlineGame
+    MAIN_MENU,
+    LOCAL_GAME,
+    ONLINE_GAME
 }
 
 public class GameMaster : SingeltonPersistant<GameMaster>
 {
     #region VARIABLES
 
-    public GameState CurrentGameState { get; private set; }
-
-    public string CurrentSceneName { get; private set; }
+    public CURRENT_GAME_STATE CurrentGameState { get; private set; }
 
     private AsyncOperation asyncOperation;
-
     private readonly float flickeringSpeed = 1f;
     private readonly float fakeLoadTime = 1f;
     private bool isFading;
@@ -64,21 +61,20 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
     private void CheckCurrentScene()
     {
-        print("CheckCurrentScene");
-        CurrentSceneName = SceneManager.GetActiveScene().name;
+        var currentSceneName = SceneManager.GetActiveScene().name;
 
-        switch (CurrentSceneName)
+        switch (currentSceneName)
         {
             case "MainMenuScene":
-                ChangeGameState(GameState.MainMenu);
+                ChangeGameState(CURRENT_GAME_STATE.MAIN_MENU);
                 break;
 
             case "DevScene - Niko":
-                ChangeGameState(GameState.LocalGame);
+                ChangeGameState(CURRENT_GAME_STATE.LOCAL_GAME);
                 break;
 
             case "DevScene - Mathias":
-                ChangeGameState(GameState.OnlineGame);
+                ChangeGameState(CURRENT_GAME_STATE.ONLINE_GAME);
                 break;
         }
     }
@@ -119,21 +115,21 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         randomIndex = 0;
     }
 
-    public void ChangeGameState(GameState newGameState)
+    public void ChangeGameState(CURRENT_GAME_STATE newGameState)
     {
         CurrentGameState = newGameState;
 
         switch (CurrentGameState)
         {
-            case GameState.MainMenu:
+            case CURRENT_GAME_STATE.MAIN_MENU:
                 UIManager.Instance.SetMainMenuUI();
                 break;
 
-            case GameState.LocalGame:
+            case CURRENT_GAME_STATE.LOCAL_GAME:
                 UIManager.Instance.SetLevelUI();
                 break;
 
-            case GameState.OnlineGame:
+            case CURRENT_GAME_STATE.ONLINE_GAME:
                 UIManager.Instance.SetOnlineUI();
                 break;
 

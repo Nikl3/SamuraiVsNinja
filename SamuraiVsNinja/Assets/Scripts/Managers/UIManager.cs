@@ -2,8 +2,29 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum PANEL_STATE
+{
+	MAIN_MENU,
+	CHARACTER_SELECT,
+	OPTIONS,
+	CREDITS,
+	HOW_TO_PLAY,
+	AUDIO,
+	GRAPHICS, 
+	CONTROL, 
+	PAUSE ,
+	VICTORY ,
+	ONLINE_LOBBY
+}
+
 public class UIManager : Singelton<UIManager>
 {
+	public PANEL_STATE CurrentPanelState
+	{
+		get;
+		set;
+	}
+
 	#region VARIABLES
 
 	public Sprite[] BackgroundSprites;
@@ -72,49 +93,37 @@ public class UIManager : Singelton<UIManager>
 
 	private void Update()
 	{
-		ButtonRefocus();
 		OnStartButtonDown(GameMaster.Instance.CurrentGameState);
 	}
 
-	private void ButtonRefocus()
+	private void OnStartButtonDown(CURRENT_GAME_STATE currentGameState)
 	{
-		if (CurrentPanel != null)
-		{
-			InputManager.Instance.FocusMenuPanel();
-		}
-	}
-
-	private void OnStartButtonDown(GameState currentGameState)
-	{
-		if (InputManager.Instance.Start_ButtonDown(1))
+		if (InputManager.Instance.Y_ButtonDown(1))
 		{
 			switch (currentGameState)
 			{
-				case GameState.MainMenu:
-					TriggerPanelBehaviour(MainMenuPanel);
+				case CURRENT_GAME_STATE.MAIN_MENU:
+				
 					break;
-				case GameState.LocalGame:
-					ManagePauseState();
+
+				case CURRENT_GAME_STATE.LOCAL_GAME:
+
+					if(!PausePanel.IsOpen)
+					{
+						TriggerPanelBehaviour(PausePanel);
+					}
+					else
+					{
+						TriggerPanelCloseBehaviour();
+					}
+				
 					break;
-				case GameState.OnlineGame:
-					ManagePauseState();
+
+				case CURRENT_GAME_STATE.ONLINE_GAME:			
+
 					break;
 			}
 		}
-	}
-
-	private void ManagePauseState()
-	{
-		if (PausePanel.IsOpen)
-		{
-			TriggerPanelCloseBehaviour();
-			Time.timeScale = 1f;
-		}
-		else
-		{
-			TriggerPanelBehaviour(PausePanel);
-			Time.timeScale = 0f;
-		}	
 	}
 
 	private void TriggerPanelBehaviour(UIPanel panel)
@@ -128,7 +137,7 @@ public class UIManager : Singelton<UIManager>
 		PanelBackgroundImage.enabled = true;
 	}
 
-	private void TriggerPanelCloseBehaviour()
+	public void TriggerPanelCloseBehaviour()
 	{
 		if (CurrentPanel != null)
 		{
@@ -138,24 +147,60 @@ public class UIManager : Singelton<UIManager>
 		}		
 	}
 
-	private void OnQuit()
+	public void ChangePanelState(PANEL_STATE newPanelState)
 	{
-#if UNITY_EDITOR
-		EditorApplication.isPlaying = false;
-#else
-		Application.Quit();
-#endif
-	}
+		CurrentPanelState = newPanelState;
 
-	public void UpdateVictoryPanel()
-	{
-		PlayerInfoContainer.gameObject.SetActive(false);
-		TriggerPanelBehaviour(VictoryPanel);
+		switch (CurrentPanelState)
+		{
+			case PANEL_STATE.MAIN_MENU:
+				TriggerPanelBehaviour(MainMenuPanel);
+				break;
+
+			case PANEL_STATE.CHARACTER_SELECT:
+				TriggerPanelBehaviour(CharacterSelectPanel);
+				break;
+			case PANEL_STATE.OPTIONS:
+				TriggerPanelBehaviour(OptionsPanel);
+				break;
+
+			case PANEL_STATE.CREDITS:
+				TriggerPanelBehaviour(CreditsPanel);
+				break;
+
+			case PANEL_STATE.HOW_TO_PLAY:
+				TriggerPanelBehaviour(HowToPlayPanel);
+				break;
+
+			case PANEL_STATE.AUDIO:
+				TriggerPanelBehaviour(AudioPanel);
+				break;
+
+			case PANEL_STATE.GRAPHICS:
+				TriggerPanelBehaviour(GraphicsPanel);
+				break;
+
+			case PANEL_STATE.CONTROL:
+				TriggerPanelBehaviour(ControlsPanel);
+				break;
+
+			case PANEL_STATE.PAUSE:
+				TriggerPanelBehaviour(PausePanel);
+				break;
+
+			case PANEL_STATE.VICTORY:
+				PlayerInfoContainer.gameObject.SetActive(false);
+				TriggerPanelBehaviour(VictoryPanel);
+				break;
+
+			case PANEL_STATE.ONLINE_LOBBY:
+				TriggerPanelBehaviour(OnlineLobbyPanel);
+				break;
+		}
 	}
 
 	public void SetMainMenuUI()
 	{
-		print("SetMainMenuUI");
 		TriggerPanelBehaviour(MainMenuPanel);
 		BackgroundImage.sprite = BackgroundSprites[0];
 		TitleCharacters.SetActive(true);
@@ -186,97 +231,6 @@ public class UIManager : Singelton<UIManager>
 			}
 		}
 	}
-
-	#region UI_PANEL_BUTTONS
-
-	#region MAINMENU_BUTTONS
-
-	public void PlayButton()
-	{
-		TriggerPanelBehaviour(CharacterSelectPanel);
-	}
-
-	public void StartButton()
-	{
-		GameMaster.Instance.LoadScene(1);
-	}
-
-	public void OnlineButton()
-	{
-		GameMaster.Instance.LoadScene(2);
-	}
-
-	public void OptionsButton()
-	{
-		TriggerPanelBehaviour(OptionsPanel);
-	}
-
-	public void HowToPlayButton()
-	{
-		TriggerPanelBehaviour(HowToPlayPanel);
-	}
-
-	public void AudioButton()
-	{
-		TriggerPanelBehaviour(AudioPanel);
-	}
-
-	public void GraphicsButton()
-	{
-		TriggerPanelBehaviour(GraphicsPanel);
-	}
-
-	public void ControlsButton()
-	{
-		TriggerPanelBehaviour(ControlsPanel);
-	}
-
-	public void CreditsButton()
-	{
-		TriggerPanelBehaviour(CreditsPanel);
-	}
-
-	public void BackToOptionsButton()
-	{
-		TriggerPanelBehaviour(OptionsPanel);
-	}
-
-	public void BackToMainMenuButton()
-	{
-		TriggerPanelBehaviour(GameMaster.Instance.CurrentGameState.Equals(GameState.MainMenu) ? MainMenuPanel : PausePanel);
-	}
-
-	public void QuitButton()
-	{
-		GameMaster.Instance.ExitGame(() => OnQuit());
-	}
-
-	#endregion MAINMENU_BUTTONS
-
-	#region INGAME_SCENE_BUTTONS
-
-	public void ContinueButton()
-	{
-		TriggerPanelCloseBehaviour();
-	}
-
-	public void RestartGameButton()
-	{
-		GameMaster.Instance.LoadScene(1);
-	}
-
-	public void BackToMainMenuSceneButton()
-	{
-		GameMaster.Instance.LoadScene(0);
-	}
-
-	#endregion INGAME_SCENE_BUTTONS
-
-	#region ONLINE_SCENE_BUTTONS
-
-	#endregion ONLINE_SCENE_BUTTONS
-
-	#endregion UI_PANEL_BUTTONS	
 
 	/// <summary>
 	/// Temp stuff
