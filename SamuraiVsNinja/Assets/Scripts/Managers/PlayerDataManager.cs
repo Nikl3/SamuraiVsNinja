@@ -45,7 +45,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         {
             playerDatas[i] = new PlayerData(i + 1, CreatePlayerColor(i + 1))
             {
-               
+
             };
         }
     }
@@ -113,10 +113,6 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         {
             if (playerData.HasJoined)
             {
-                //var newPlayerGameObject = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0),
-                //    LevelManager.Instance.RandomSpawnPoint(),
-                //    Quaternion.identity);
-
                 var newPlayerGameObject = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0));
                 newPlayerGameObject.transform.SetPositionAndRotation(LevelManager.Instance.RandomSpawnPoint(), Quaternion.identity);
                 newPlayerGameObject.transform.SetParent(parent);

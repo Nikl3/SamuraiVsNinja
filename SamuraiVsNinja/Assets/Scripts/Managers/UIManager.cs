@@ -103,11 +103,10 @@ public class UIManager : Singelton<UIManager>
 			{
 				case CURRENT_GAME_STATE.MAIN_MENU:
 
-                    if (CreditsPanel.IsOpen)
-                    {
-                        // TriggerPanelCloseBehaviour();
-                        TriggerPanelBehaviour(MainMenuPanel);
-                    }
+					if (CreditsPanel.IsOpen)
+					{
+						TriggerPanelBehaviour(MainMenuPanel);
+					}
 
 					break;
 

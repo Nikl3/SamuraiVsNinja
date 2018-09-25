@@ -8,12 +8,12 @@ public class PlayerInfo : MonoBehaviour
     #region VARIABLES
 
     private Text playerNameText;
-    private Outline playerNameTextOutline;
     private Text onigiriCountText;
+    private Outline playerNameTextOutline;
     private Image[] healthpointImages;
-    private Image rangeAttackCooldownImage;
-    private Image dashAttackCooldownImage;
-    private Image playerRespawnCooldownImage;
+
+    private Image playerIcon, playerDashIcon, playerProjectileIcon;
+    private Image rangeAttackCooldownImage, dashAttackCooldownImage, playerRespawnCooldownImage;
 
     #endregion VARIABLES
 
@@ -35,7 +35,6 @@ public class PlayerInfo : MonoBehaviour
     private void Start()
     {
         SetValues();
-
         CreatePlayerIndicator();       
     }
 
@@ -45,6 +44,9 @@ public class PlayerInfo : MonoBehaviour
         playerNameTextOutline = playerNameText.GetComponent<Outline>();
         onigiriCountText = transform.Find("OnigiriIcon").GetComponentInChildren<Text>();
 
+        playerIcon = transform.Find("PlayerIcon").transform.Find("Icon").GetComponent<Image>();
+        playerDashIcon = transform.Find("DashCooldown").transform.Find("Icon").GetComponent<Image>();
+        playerProjectileIcon = transform.Find("RangeAttackCooldown").transform.Find("Icon").GetComponent<Image>();
         healthpointImages = transform.Find("HealthBar").GetComponentsInChildren<Image>();
         Array.Reverse(healthpointImages);
         rangeAttackCooldownImage = transform.Find("RangeAttackCooldown").transform.Find("CooldownImage").GetComponent<Image>();
@@ -64,6 +66,10 @@ public class PlayerInfo : MonoBehaviour
         playerNameText.color = Owner.PlayerData.PlayerColor;
         playerNameTextOutline.effectColor = Color.white;
         gameObject.name = playerNameText.text + " Info";
+
+        playerIcon.sprite = Owner.PlayerData.PlayerIconSprite;
+        playerDashIcon.sprite = Owner.PlayerData.DashIconSprite;
+        playerProjectileIcon.sprite = Owner.PlayerData.ProjectileIconSprite;
     }
 
     private void CreatePlayerIndicator()

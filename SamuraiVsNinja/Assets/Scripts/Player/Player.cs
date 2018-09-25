@@ -117,7 +117,6 @@ public class Player : MonoBehaviour
 		this.playerData = playerData;
 		PlayerInfo = playerInfo;
 		PlayerInfo.Owner = this;
-
 		gameObject.name = playerData.PlayerName;
 	}
 

@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class CharacterSelectPanel : UIPanel
 {
+    public Sprite NinjaIconSprite;
+    public Sprite SamuraiIconSprite;
+
     //private bool CanStart()
     //{
     //	return startButton.interactable = PlayerDataManager.Instance.CurrentlyJoinedPlayers == 4 || PlayerDataManager.Instance.CurrentlyJoinedPlayers == 2 ? true : false;
@@ -52,9 +55,9 @@ public class CharacterSelectPanel : UIPanel
     {
         base.CloseBehaviour();
 
-        UnSetAllJoinField();
+        //UnSetAllJoinField();
         CanJoin = false;
-        PlayerDataManager.Instance.ClearPlayerDataIndex();
+        //PlayerDataManager.Instance.ClearPlayerDataIndex();
     }
 
     public void SetJoinField(int playerID, Color joinColor)
@@ -125,8 +128,8 @@ public class CharacterSelectPanel : UIPanel
 
     private void ChangePlayerIcon(JoinField joinField, PlayerData playerData)
     {
-
-
+        var newIconSprite = playerData.PlayerIconSprite == NinjaIconSprite ? SamuraiIconSprite : NinjaIconSprite;
+        joinField.ChangeSprite(playerData, newIconSprite);
     }
 
     private IEnumerator IChangeCharacter(int id)

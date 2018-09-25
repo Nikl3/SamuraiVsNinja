@@ -3,23 +3,13 @@ using UnityEngine;
 
 public class ObjectPoolManager : Singelton<ObjectPoolManager>
 {
-    public List<GameObject> TestObjects = new List<GameObject>();
-    public GameObject TestObject;
-
     public List<Transform> ParentContainers = new List<Transform>();
 
     private Dictionary<string, Stack<GameObject>> poolDictionary = new Dictionary<string, Stack<GameObject>>();
 
     private void Start()
     {
-        PrecreateGameObjects(TestObject, 1);
-
-        //InvokeRepeating("TestSpawn", 0f, 0.1f);
-    }
-
-    private void TestSpawn()
-    {
-        SpawnObject(TestObject, new Vector2(Random.Range(-20, 20), 40));
+       
     }
 
     public GameObject SpawnObject(GameObject prefab, Vector2 position = new Vector2(), Quaternion rotaion = new Quaternion())

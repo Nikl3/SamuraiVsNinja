@@ -16,6 +16,9 @@ public class PlayerData
         }
     }
     public bool HasJoined { get; set; }
+    public Sprite PlayerIconSprite { get; set; }
+    public Sprite DashIconSprite { get; set; }
+    public Sprite ProjectileIconSprite { get; set; }
     public Color PlayerColor { get; private set; }
 
     private readonly string playerName;
@@ -23,11 +26,7 @@ public class PlayerData
     public PlayerData(int id, Color playerColor = default(Color))
     {
         ID = id;
-       
-        PlayerColor = playerColor;
-
-        DebugManager.Instance.DebugMessage(3,playerColor.ToString());
-
         playerName = "Player " + id;
+        PlayerColor = playerColor;
     }
 }

@@ -21,12 +21,12 @@ public class MainMenuPanel : UIPanel
 		GameMaster.Instance.LoadScene(2);
 	}
 
-    public void CreditsButton()
-    {
-        UIManager.Instance.ChangePanelState(PANEL_STATE.CREDITS);
-    }
+	public void CreditsButton()
+	{
+		UIManager.Instance.ChangePanelState(PANEL_STATE.CREDITS);
+	}
 
-    public override void BackButton()
+	public override void BackButton()
 	{
 		base.BackButton();
 		GameMaster.Instance.ExitGame(() => OnQuit());

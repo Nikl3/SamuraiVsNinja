@@ -16,23 +16,18 @@ public class JoinField : MonoBehaviour
 
     private readonly string defaultText = "JOIN";
 
-    public Sprite CurrentIcon
-    {
-        get;
-        private set;
-    }
-
     private void Awake()
     {
         joinedPlayerName = GetComponentInChildren<Text>();
         fieldImage = GetComponent<Image>();
         icon = fieldImage.transform.GetChild(1).GetComponent<Image>();
+        icon.gameObject.SetActive(false);
         defaultColor = fieldImage.color;
     }
 
-    public void ChangeSprite(Sprite newIconSprite)
-    {
-        CurrentIcon = icon.sprite = newIconSprite;
+    public void ChangeSprite(PlayerData playerData, Sprite newIconSprite)
+    {       
+        playerData.PlayerIconSprite = icon.sprite = newIconSprite;
     }
 
     public void ChangeJoinFieldVisuals(int playerID, Color fieldColor)
@@ -40,6 +35,7 @@ public class JoinField : MonoBehaviour
         joinedPlayerName.text = "PLAYER " + playerID;
         fieldImage.color = fieldColor;
         HasJoined = true;
+        icon.gameObject.SetActive(true);
     }
 
     public void UnChangeJoinFieldVisuals()
@@ -47,6 +43,6 @@ public class JoinField : MonoBehaviour
         joinedPlayerName.text = defaultText;
         fieldImage.color = defaultColor;
         HasJoined = false;
-        icon.color = defaultColor;
+        icon.gameObject.SetActive(false);
     }
 }
