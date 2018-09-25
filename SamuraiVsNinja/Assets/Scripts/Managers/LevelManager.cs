@@ -53,6 +53,10 @@ public class LevelManager : Singelton<LevelManager>
         var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), spawnPoint, Quaternion.identity);
         projectile.GetComponent<Kunai>().ProjectileInitialize((int)graphicParent.localScale.x);
     }
+    public void SpawnProjectileSamurai(Transform graphicParent, Vector2 spawnPoint) {
+        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 0), spawnPoint, Quaternion.identity);
+        projectile.GetComponent<Shuriken>().ProjectileInitialize((int)graphicParent.localScale.x);
+    }
 
     private void Start()
     {

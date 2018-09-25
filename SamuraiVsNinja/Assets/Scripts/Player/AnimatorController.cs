@@ -47,4 +47,8 @@ public class AnimatorController : MonoBehaviour
 	{
 		LevelManager.Instance.SpawnProjectile(PlayerGraphics, ProjectileSpawnPoint.position);
 	}
+
+    public void ThrowKeyEventSamurai() {
+        LevelManager.Instance.SpawnProjectileSamurai(PlayerGraphics, ProjectileSpawnPoint.position);
+    }
 }
