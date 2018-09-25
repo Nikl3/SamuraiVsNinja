@@ -14,13 +14,12 @@ public class ObjectPoolManager : Singelton<ObjectPoolManager>
     {
         PrecreateGameObjects(TestObject, 1);
 
-        InvokeRepeating("TestSpawn", 0f, 0.1f);
+        //InvokeRepeating("TestSpawn", 0f, 0.1f);
     }
 
     private void TestSpawn()
     {
         SpawnObject(TestObject, new Vector2(Random.Range(-20, 20), 40));
-        Debug.LogWarning(TestObjects.Count + " Test objects");
     }
 
     public GameObject SpawnObject(GameObject prefab, Vector2 position = new Vector2(), Quaternion rotaion = new Quaternion())

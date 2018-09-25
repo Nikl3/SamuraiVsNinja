@@ -30,11 +30,6 @@
         UIManager.Instance.ChangePanelState(PANEL_STATE.CONTROL);
     }
 
-    public void CreditsButton()
-    {
-        UIManager.Instance.ChangePanelState(PANEL_STATE.CREDITS);
-    }
-
     public override void BackButton()
     {
         base.BackButton();

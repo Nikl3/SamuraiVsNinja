@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public enum PANEL_STATE
@@ -22,7 +21,7 @@ public class UIManager : Singelton<UIManager>
 	public PANEL_STATE CurrentPanelState
 	{
 		get;
-		set;
+		private set;
 	}
 
 	#region VARIABLES
@@ -103,7 +102,13 @@ public class UIManager : Singelton<UIManager>
 			switch (currentGameState)
 			{
 				case CURRENT_GAME_STATE.MAIN_MENU:
-				
+
+                    if (CreditsPanel.IsOpen)
+                    {
+                        // TriggerPanelCloseBehaviour();
+                        TriggerPanelBehaviour(MainMenuPanel);
+                    }
+
 					break;
 
 				case CURRENT_GAME_STATE.LOCAL_GAME:
