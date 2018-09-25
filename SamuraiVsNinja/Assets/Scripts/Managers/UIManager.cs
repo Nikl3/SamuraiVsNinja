@@ -61,7 +61,7 @@ public class UIManager : Singelton<UIManager>
 		PlayerInfoContainer = transform.Find("PlayerInfoContainer");
 
 		TitleCharacters = transform.Find("TitleCharacters").gameObject;
-		TitleGameObject = transform.Find("Title").gameObject;
+		TitleGameObject = transform.Find("LogoIMG").gameObject;
 		PanelsGameObject = transform.Find("Panels").gameObject;
 		PanelBackgroundImage = PanelsGameObject.transform.GetComponent<Image>();
 		BackgroundImage = transform.Find("BackgroundImage").GetComponent<Image>();
