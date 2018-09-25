@@ -117,7 +117,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
                 //    LevelManager.Instance.RandomSpawnPoint(),
                 //    Quaternion.identity);
 
-                var newPlayerGameObject = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(0, 0));
+                var newPlayerGameObject = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0));
                 newPlayerGameObject.transform.SetPositionAndRotation(LevelManager.Instance.RandomSpawnPoint(), Quaternion.identity);
                 newPlayerGameObject.transform.SetParent(parent);
 

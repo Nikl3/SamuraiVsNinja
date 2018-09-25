@@ -4506,6 +4506,7 @@ MonoBehaviour:
   - {fileID: 1432145355386162, guid: d5b93853b1d84ed47ac703671563ffe9, type: 2}
   - {fileID: 1990616214520192, guid: 6df61a4660816004d92e71272337bad6, type: 2}
   - {fileID: 1604283043950878, guid: cc98e80eb2edaa649a8298ea49c1db35, type: 2}
+  - {fileID: 1396491660241416, guid: 16de85bf448401041929f3026e9c5368, type: 2}
   otherPrefabs:
   - {fileID: 0}
   - {fileID: 0}
@@ -8624,6 +8625,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ebb2e826e25fc40b5cd4ccd7795abf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TestObjects: []
+  TestObject: {fileID: 1668926771764326, guid: 2384c676acccf464fbe85a5f9859333b, type: 2}
+  ParentContainers: []
 --- !u!114 &114683565270836544
 MonoBehaviour:
   m_ObjectHideFlags: 1

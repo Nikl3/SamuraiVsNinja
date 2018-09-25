@@ -451,6 +451,8 @@ public class PlayerEngine : MonoBehaviour
 
     private IEnumerator IRespawn(Vector2 spawnPoint)
     {
+        Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 3), new Vector2(spawnPoint.x, spawnPoint.y - 4.6f), Quaternion.Euler(new Vector2(-90, 0)));
+
         player.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
         player.AnimatorController.AnimatorSetBool("HasDied", true);
 

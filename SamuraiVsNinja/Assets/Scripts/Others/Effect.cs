@@ -5,29 +5,27 @@ public class Effect : MonoBehaviour
 {
 	private new ParticleSystem particleSystem;
 	private Coroutine effectCoroutine;
-	private float effectDuration;
 
 	private void Awake ()
 	{
 		particleSystem = GetComponent<ParticleSystem>();
-		effectDuration = particleSystem.main.duration;
 	}
 
 	private void OnEnable()
 	{
 		effectCoroutine = null;
-		DespawnUntilOver(effectDuration);
+		DespawnUntilOver();
 	}
 
-	private void DespawnUntilOver(float effectDuration)
+	private void DespawnUntilOver()
 	{
 		if(effectCoroutine == null)
-			effectCoroutine = StartCoroutine(IDespawnUntilOver(effectDuration));
+			effectCoroutine = StartCoroutine(IDespawnUntilOver());
 	}
 
-	private IEnumerator IDespawnUntilOver(float effectDuration)
+	private IEnumerator IDespawnUntilOver()
 	{
-		yield return new WaitForSeconds(effectDuration);
+		yield return new WaitUntil(() => particleSystem.isStopped);
 
 		Destroy(gameObject);
 	}

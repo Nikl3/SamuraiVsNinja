@@ -115,6 +115,7 @@ public class UIManager : Singelton<UIManager>
 					else
 					{
 						TriggerPanelCloseBehaviour();
+						Time.timeScale = 1f;
 					}
 				
 					break;

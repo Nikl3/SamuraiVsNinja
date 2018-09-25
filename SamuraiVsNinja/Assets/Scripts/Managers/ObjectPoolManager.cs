@@ -1,30 +1,93 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class ObjectPoolManager : Singelton<ObjectPoolManager>
 {
-    private Dictionary<GameObject, Stack<GameObject>> poolDictionary = new Dictionary<GameObject, Stack<GameObject>>();
+    public List<GameObject> TestObjects = new List<GameObject>();
+    public GameObject TestObject;
 
-    public GameObject SpawnObject(GameObject prefabInstance)
+    public List<Transform> ParentContainers = new List<Transform>();
+
+    private Dictionary<string, Stack<GameObject>> poolDictionary = new Dictionary<string, Stack<GameObject>>();
+
+    private void Start()
+    {
+        PrecreateGameObjects(TestObject, 1);
+
+        InvokeRepeating("TestSpawn", 0f, 0.1f);
+    }
+
+    private void TestSpawn()
+    {
+        SpawnObject(TestObject, new Vector2(Random.Range(-20, 20), 40));
+        Debug.LogWarning(TestObjects.Count + " Test objects");
+    }
+
+    public GameObject SpawnObject(GameObject prefab, Vector2 position = new Vector2(), Quaternion rotaion = new Quaternion())
     {
         Stack<GameObject> prefabInstances = null;
 
-        poolDictionary.TryGetValue(prefabInstance, out prefabInstances);
-
-        if(prefabInstances != null && prefabInstances.Count > 0)
+        if (poolDictionary.TryGetValue(prefab.name, out prefabInstances))
         {
-            return prefabInstances.Pop();
+            if (prefabInstances.Count > 0)
+            {
+                var instance = prefabInstances.Pop();
+                instance.transform.SetPositionAndRotation(position, rotaion);
+                instance.SetActive(true);
+                return instance;
+            }
+            else
+            {
+                return CreateNewInstances(prefab, position, rotaion);
+            }
         }
         else
         {
-            return CreateNewPrefabInstance(prefabInstance);
+            poolDictionary.Add(prefab.name, new Stack<GameObject>());
+            return CreateNewInstances(prefab, position, rotaion);
         }
     }
 
-    private GameObject CreateNewPrefabInstance(GameObject prefabInstance)
+    public void DespawnObject(GameObject instance)
     {
-        return Instantiate(prefabInstance);
+        Stack<GameObject> prefabInstances;
+
+        if (poolDictionary.TryGetValue(instance.name, out prefabInstances))
+        {
+            prefabInstances.Push(instance);
+        }
+    }
+
+    private GameObject CreateNewInstances(GameObject prefab, Vector2 position, Quaternion rotation)
+    {
+        var newInstance = Instantiate(prefab, position, rotation);
+        newInstance.name = prefab.name;
+        newInstance.transform.SetParent(GetContainer(newInstance.name));
+        return newInstance;
+    }
+
+    private void PrecreateGameObjects(GameObject prefab, int amount = 1)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            var newInstance = SpawnObject(prefab);
+            newInstance.SetActive(false);
+        }
+    }
+
+    private Transform GetContainer(string containerName)
+    {
+        foreach (var container in ParentContainers)
+        {
+            if (container.name == containerName + "s")
+            {
+                return container;
+            }
+        }
+
+        var newContainer = new GameObject(containerName + "s");
+        ParentContainers.Add(newContainer.transform);
+        newContainer.transform.SetParent(transform);
+        return newContainer.transform;
     }
 }
