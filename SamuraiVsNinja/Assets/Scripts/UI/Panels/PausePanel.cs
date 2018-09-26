@@ -7,7 +7,6 @@ public class PausePanel : UIPanel
         Time.timeScale = 0f;
         base.OpenBehaviour();
     }
-
     public override void CloseBehaviour()
     {
         base.CloseBehaviour();
@@ -18,7 +17,6 @@ public class PausePanel : UIPanel
         UIManager.Instance.TriggerPanelCloseBehaviour();
         Time.timeScale = 1f;
     }
-
     public override void BackButton()
     {
         base.BackButton();

@@ -34,12 +34,6 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         }
     }
 
-    //public int CurrentlyJoinedPlayersIndex
-    //{
-    //    get;
-    //    private set;
-    //}
-
     #endregion PROPERTIES
 
     private void Awake()
@@ -60,7 +54,6 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
             };
         }
     }
-
     private Color CreatePlayerColor(int playerID)
     {
         switch (playerID)
@@ -81,76 +74,6 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
                 return Color.magenta;
         }
     }
-
-    public void PlayerJoin(int playerID)
-    {
-        if (!PlayerDatas[playerID - 1].HasJoined)
-        {
-            PlayerDatas[playerID - 1].HasJoined = true;
-            //CurrentlyJoinedPlayersIndex++;
-            return;
-        }
-    }
-
-    public void PlayerUnjoin(int playerID)
-    {
-        if (PlayerDatas[playerID - 1].HasJoined)
-        {
-            PlayerDatas[playerID - 1].HasJoined = false;
-            //CurrentlyJoinedPlayers.RemoveAt(playerID - 1);
-            //CurrentlyJoinedPlayersIndex--;
-            return;
-        }
-    } 
-
-    //public void ClearPlayerDataIndex()
-    //{
-    //    CurrentlyJoinedPlayersIndex = 0;
-    //    foreach (var data in PlayerDatas)
-    //    {
-    //        data.HasJoined = false;
-    //    }
-    //}
-
-    public PlayerData GetPlayerData(int id)
-    {
-        return PlayerDatas[id];
-    }
-
-    public void SpawnPlayers(Transform parent)
-    {
-        AddTestPlayers(TestPlayerAmount);
-
-        foreach (var playerData in PlayerDatas)
-        {
-            if (playerData.HasJoined)
-            {
-                var newPlayerGameObject = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0));
-                newPlayerGameObject.transform.SetPositionAndRotation(LevelManager.Instance.RandomSpawnPoint(), Quaternion.identity);
-                newPlayerGameObject.transform.SetParent(parent);
-
-                var newPlayerInfo = Instantiate(
-                    ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
-                
-                var newPlayerEG = Instantiate(EGPrefab);
-                newPlayerEG.transform.SetParent(EGPanel);
-                newPlayerEG.transform.localScale = Vector2.one;
-
-                newPlayerInfo.EGS = newPlayerEG.GetComponent<EndGameStats>();
-
-                var newPlayer = newPlayerGameObject.GetComponent<Player>();
-                CurrentlyJoinedPlayers.Add(newPlayer);
-
-                newPlayer.Initialize(playerData, newPlayerInfo);
-                newPlayer.ChangePlayerState(PlayerState.INVINCIBILITY);
-
-                CameraEngine.Instance.AddTarget(newPlayer.transform);
-      
-                Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1), newPlayer.transform.position, Quaternion.identity);
-            }
-        }
-    }
-
     private void AddTestPlayers(int testPlayerAmount)
     {
         testPlayerAmount = testPlayerAmount > MAX_PLAYER_NUMBER ? MAX_PLAYER_NUMBER : testPlayerAmount;
@@ -160,4 +83,61 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
             PlayerDatas[i].HasJoined = true;
         }
     }
+
+    public PlayerData GetPlayerData(int id)
+    {
+        return PlayerDatas[id];
+    }
+    public void ClearJoinedPlayers()
+    {
+        CurrentlyJoinedPlayers.Clear();
+    }
+    public void PlayerJoin(int playerID)
+    {
+        if (!PlayerDatas[playerID - 1].HasJoined)
+        {
+            PlayerDatas[playerID - 1].HasJoined = true;
+
+            return;
+        }
+    }
+    public void PlayerUnjoin(int playerID)
+    {
+        if (PlayerDatas[playerID - 1].HasJoined)
+        {
+            PlayerDatas[playerID - 1].HasJoined = false;          
+            return;
+        }
+    } 
+    public void SpawnPlayers()
+    {
+        AddTestPlayers(TestPlayerAmount);
+
+        foreach (var playerData in PlayerDatas)
+        {
+            if (playerData.HasJoined)
+            {
+                var newPlayerInfo = Instantiate(
+                    ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
+                
+                var newPlayerEG = Instantiate(EGPrefab);
+                newPlayerEG.transform.SetParent(EGPanel);
+                newPlayerEG.transform.localScale = Vector2.one;
+
+                newPlayerInfo.EGS = newPlayerEG.GetComponent<EndGameStats>();
+
+                var newPlayer = ObjectPoolManager.Instance.SpawnObject(
+                    ResourceManager.Instance.GetPrefabByIndex(0, 0),
+                    LevelManager.Instance.GetSpawnPoint(playerData.ID - 1)).GetComponent<Player>();
+
+                newPlayer.Initialize(playerData, newPlayerInfo);
+
+                CurrentlyJoinedPlayers.Add(newPlayer);
+
+                CameraEngine.Instance.AddTarget(transform);
+
+                newPlayer.ChangePlayerState(PlayerState.RESPAWN, true);
+            }
+        }
+    }  
 }

@@ -43,7 +43,6 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         screenFadeImage.fillAmount = 1f;
         howToPlayImage.fillAmount = 0f;       
     }
-
     private void Start()
     {
         CheckCurrentScene();
@@ -58,7 +57,6 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     {
         return UnityEngine.Random.Range(minValue, maxValue);
     }
-
     private void CheckCurrentScene()
     {
         var currentSceneName = SceneManager.GetActiveScene().name;
@@ -78,7 +76,15 @@ public class GameMaster : SingeltonPersistant<GameMaster>
                 break;
         }
     }
-
+    /// <summary>
+    /// Invoke methods: "ClearTargets", "ClearPlayerInfoContainer", "ClearJoinedPlayers"
+    /// </summary>
+    private void Clear()
+    {
+        CameraEngine.Instance.ClearTargets();
+        UIManager.Instance.ClearPlayerInfoContainer();
+        PlayerDataManager.Instance.ClearJoinedPlayers();
+    }
     private void RandomizeFillMethod()
     {
         var randomIndex = RandomizeNumbers(0, 4);
@@ -138,13 +144,11 @@ public class GameMaster : SingeltonPersistant<GameMaster>
                 break;
         }
     }
-
     public void ExitGame(Action action)
     {
         if(exitingGame == null)
            exitingGame = StartCoroutine(IExitingGame(action));
     }
-
     public void LoadScene(int sceneIndex)
     {
         if (loadSceneAsync == null)
@@ -152,14 +156,12 @@ public class GameMaster : SingeltonPersistant<GameMaster>
             loadSceneAsync = StartCoroutine(ILoadSceneAsync(sceneIndex));
         }        
     }
-
     public void FadeScreenImage(float targetFillAmount, float fadeSpeed = 1f)
     {
         RandomizeFillMethod();
         if (fadeScreenImage == null)
             fadeScreenImage = StartCoroutine(IFadeScreenImage(targetFillAmount, 1f));
     }
-
     public void AnimateText(Text textToAnimate, float flickeringSpeed)
     {
         if (animateText == null)
@@ -184,15 +186,13 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
         fadeScreenImage = null;
     }
-
     private IEnumerator ILoadSceneAsync(int sceneIndex)
     {
         FadeScreenImage(1);
 
         yield return new WaitUntil(() => !isFading);
 
-        CameraEngine.Instance.ClearTargets();
-        UIManager.Instance.ClearPlayerInfoContainer();
+        Clear();
 
         messageText.enabled = true;
         messageText.text = "LOADING...";
@@ -233,7 +233,6 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
         loadSceneAsync = null;
     }
-
     private IEnumerator IExitingGame(Action action)
     {
         FadeScreenImage(1);
@@ -244,7 +243,6 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
         exitingGame = null;
     }
-
     private IEnumerator IAnimateText(Text textToAnimate, float flickeringSpeed)
     {
         isAnimatingText = true;

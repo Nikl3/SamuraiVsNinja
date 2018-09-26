@@ -106,9 +106,7 @@ public class Player : MonoBehaviour
 	private void Start()
 	{
 		ResetValues();
-
 		var playerColor = PlayerData.PlayerColor;
-
 		BackgroundLightRenderer.color = new Color(playerColor.r, playerColor.g, playerColor.b, backgroundLightAlpha);
 	}
 
@@ -120,7 +118,7 @@ public class Player : MonoBehaviour
 		gameObject.name = playerData.PlayerName;
 	}
 
-	public void ChangePlayerState(PlayerState newPlayerState)
+	public void ChangePlayerState(PlayerState newPlayerState, bool firstSpawn = false)
 	{
 		CurrentState = newPlayerState;
 
@@ -138,10 +136,19 @@ public class Player : MonoBehaviour
 				break;
 
 			case PlayerState.RESPAWN:
-
-				ResetValues();
-				SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
-				PlayerEngine.Respawn(LevelManager.Instance.RandomSpawnPoint());
+					   
+				if (firstSpawn)
+				{
+					SpriteRenderer.color = new Color(1, 1, 1, 0f);
+					PlayerEngine.Respawn(LevelManager.Instance.GetSpawnPoint(PlayerData.ID - 1), 5f);
+					firstSpawn = false;
+				}
+				else
+				{
+					ResetValues();
+					SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
+					PlayerEngine.Respawn(LevelManager.Instance.RandomSpawnPoint(), 0.5f);
+				}
 
 				break;
 
@@ -156,7 +163,7 @@ public class Player : MonoBehaviour
 	public void AddOnigiri(int amount)
 	{
 		onigiris += amount;
-        PlayerInfo.OnigirisPicked++;
+		PlayerInfo.OnigirisPicked++;
 
 		if (onigiris >= 3)
 		{
@@ -192,9 +199,9 @@ public class Player : MonoBehaviour
 
 	private void DropOnigiri()
 	{
-        PlayerInfo.OnigirisLost++;
+		PlayerInfo.OnigirisLost++;
 
-        Instantiate(
+		Instantiate(
 				ResourceManager.Instance.GetPrefabByIndex(1, 0),
 				transform.position,
 				Quaternion.identity
@@ -203,14 +210,14 @@ public class Player : MonoBehaviour
 
 	private void Die(Player attacker)
 	{
-        if(this != attacker) 
-        {
-            attacker.PlayerInfo.Kills++;
-        }
+		if(this != attacker) 
+		{
+			attacker.PlayerInfo.Kills++;
+		}
 
-        PlayerInfo.Deaths++;
+		PlayerInfo.Deaths++;
 
-        if (onigiris > 0)
+		if (onigiris > 0)
 		{
 			DropOnigiri();
 		}
@@ -218,6 +225,5 @@ public class Player : MonoBehaviour
 		Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position, Quaternion.identity);
 		ChangePlayerState(PlayerState.RESPAWN);
 		Fabric.EventManager.Instance.PostEvent("Die");
-
-    }
+	}
 }

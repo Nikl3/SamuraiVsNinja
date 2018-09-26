@@ -27,7 +27,6 @@ public class CameraEngine : Singelton<CameraEngine>
     {
         mainCamera = Camera.main;
     }
-
     private void LateUpdate()
     {
         if (targets == null || targets.Count == 0)
@@ -44,7 +43,6 @@ public class CameraEngine : Singelton<CameraEngine>
 
         return EncapsulateTargetBounds().center;
     }
-
     private Bounds EncapsulateTargetBounds()
     {
         var bounds = new Bounds(targets[0].position, Vector2.zero);
@@ -56,19 +54,16 @@ public class CameraEngine : Singelton<CameraEngine>
 
         return bounds;
     }
-
     private float GetGreatestTargetDistance()
     {
         return EncapsulateTargetBounds().size.x;
     }
-
     private void CameraMovement()
     {
         Vector2 centerPoint = GetCenterPoint();
         Vector2 newPosition = centerPoint + offset;
         transform.position = Vector2.SmoothDamp(transform.position, newPosition, ref cameraVelocity, smoothTime);
     }
-
     private void CameraZoom()
     {
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestTargetDistance() / zoomLimiter);
@@ -79,7 +74,6 @@ public class CameraEngine : Singelton<CameraEngine>
     {
         targets.Add(newTarget);
     }
-
     public void ClearTargets()
     {
         if (targets != null && targets.Count > 0)

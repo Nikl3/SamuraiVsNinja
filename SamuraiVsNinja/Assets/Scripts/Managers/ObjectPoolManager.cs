@@ -7,12 +7,7 @@ public class ObjectPoolManager : Singelton<ObjectPoolManager>
 
     private Dictionary<string, Stack<GameObject>> poolDictionary = new Dictionary<string, Stack<GameObject>>();
 
-    private void Start()
-    {
-       
-    }
-
-    public GameObject SpawnObject(GameObject prefab, Vector2 position = new Vector2(), Quaternion rotaion = new Quaternion())
+    public GameObject SpawnObject(GameObject prefab, Vector2 position = new Vector2(), Quaternion rotaion = new Quaternion(), bool isActive = true)
     {
         Stack<GameObject> prefabInstances = null;
 

@@ -188,7 +188,6 @@ public class PlayerEngine : MonoBehaviour
     {
         player = GetComponent<Player>();
     }
-
     private void Start()
     {
         startSpeed = moveSpeed;
@@ -221,14 +220,12 @@ public class PlayerEngine : MonoBehaviour
             }
         }
     }
-
     private void CalculateVelocity()
     {
         float targetVelocityX = directionalInput.x * moveSpeed;
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (player.Controller2D.Collisions.Below) ? AccelerationTimeGrounded : accelerationTimeAirbourne);
         velocity.y += gravity * Time.deltaTime;
     }
-
     private void CheckifRunningAndLocalScale()
     {  
         if (directionalInput.x != 0 && !wallSliding)
@@ -241,7 +238,6 @@ public class PlayerEngine : MonoBehaviour
             player.AnimatorController.AnimatorSetBool("IsRunning", false);
         }
     }
-
     private void CheckTopAndBottomCollision()
     {
         if (player.Controller2D.Collisions.Above || player.Controller2D.Collisions.Below)
@@ -265,7 +261,6 @@ public class PlayerEngine : MonoBehaviour
         directionalInput = Vector2.zero;
         velocity = Vector2.zero;
     }
-
     public void CalculateMovement()
     {
         CalculateVelocity();
@@ -275,12 +270,10 @@ public class PlayerEngine : MonoBehaviour
         CheckifRunningAndLocalScale();
         CheckTopAndBottomCollision();
     }
-
     public void SetDirectionalInput(Vector2 input)
     {
         directionalInput = input;
     }
-
     public void OnJumpInputDown()
     {
         if (player.Controller2D.Collisions.Below)
@@ -314,7 +307,6 @@ public class PlayerEngine : MonoBehaviour
             velocity.y = maxJumpVelocity;
         }
     }
-
     public void OnJumpInputUp()
     {
         if (velocity.y > minJumpVelocity)
@@ -322,12 +314,10 @@ public class PlayerEngine : MonoBehaviour
             velocity.y = minJumpVelocity;
         }
     }
-
     public void HandleMeleeAttacks()
     {
         player.AnimatorController.AnimatorSetBool("IsAttacking", true);
     }
-
     public void OnRangedAttack()
     {
         if (rangeAttackCoroutine == null &&
@@ -338,7 +328,6 @@ public class PlayerEngine : MonoBehaviour
             rangeAttackCoroutine = StartCoroutine(IRangeAttack());         
         }
     }
-
     public void OnDash()
     {
         if (dashCoroutine == null &&
@@ -348,7 +337,6 @@ public class PlayerEngine : MonoBehaviour
             dashCoroutine = StartCoroutine(IDash());
         }
     }
-
     public void OnKnockback(Vector2 knockdownDirection, Vector2 knockbackForce)
     {
         if(knockbackCoroutine == null)
@@ -356,7 +344,6 @@ public class PlayerEngine : MonoBehaviour
             knockbackCoroutine = StartCoroutine(IKnockback(knockdownDirection, knockbackForce));
         }     
     }
-
     public void StartInvincibility(float invincibilityDuartion, float flashSpeed)
     {
         if(invincibilityCoroutine == null)
@@ -364,12 +351,11 @@ public class PlayerEngine : MonoBehaviour
             invincibilityCoroutine = StartCoroutine(IInvincibility(invincibilityDuartion, flashSpeed));
         }    
     }
-
-    public void Respawn(Vector2 spawnPoint)
+    public void Respawn(Vector2 spawnPoint, float respawnDelay = 0f)
     {
         if (respawnCoroutine == null)
         {
-            respawnCoroutine = StartCoroutine(IRespawn(spawnPoint));
+            respawnCoroutine = StartCoroutine(IRespawn(spawnPoint, respawnDelay));
         }
     }
 
@@ -385,7 +371,6 @@ public class PlayerEngine : MonoBehaviour
         isRangeAttacking = false;
         rangeAttackCoroutine = null;
     }
-
     private IEnumerator IDash()
     {
         isDashing = true;
@@ -408,7 +393,6 @@ public class PlayerEngine : MonoBehaviour
 
         dashCoroutine = null;
     }
-
     private IEnumerator IKnockback(Vector2 knockdownDirection, Vector2 knockbackForce)
     {
         velocity.x = (velocity.x) > 0 ?
@@ -421,7 +405,6 @@ public class PlayerEngine : MonoBehaviour
 
         knockbackCoroutine = null;
     }
-
     private IEnumerator IInvincibility(float invincibilityDuration, float flashSpeed)
     {
         float currentInvincibilityDuration = 0;
@@ -436,7 +419,6 @@ public class PlayerEngine : MonoBehaviour
         player.ChangePlayerState(PlayerState.NORMAL);
         invincibilityCoroutine = null;
     }
-
     private IEnumerator IFlashSpriteRenderer(float flashSpeed)
     {
         while (player.CurrentState.Equals(PlayerState.INVINCIBILITY))
@@ -448,10 +430,9 @@ public class PlayerEngine : MonoBehaviour
 
         player.SpriteRenderer.enabled = true;
     }
-
-    private IEnumerator IRespawn(Vector2 spawnPoint)
+    private IEnumerator IRespawn(Vector2 spawnPoint, float respawnDelay)
     {
-        Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 3), new Vector2(spawnPoint.x, spawnPoint.y - 4.6f), Quaternion.Euler(new Vector2(-90, 0)));
+        var respawnEffect = Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 3), new Vector2(spawnPoint.x, spawnPoint.y - 4f), Quaternion.Euler(new Vector2(-90, 0))).GetComponent<Effect>();
 
         player.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
         player.AnimatorController.AnimatorSetBool("HasDied", true);
@@ -494,6 +475,10 @@ public class PlayerEngine : MonoBehaviour
 
             #endregion LERP_METHOD_2
         }
+
+        yield return new WaitForSeconds(respawnDelay);
+
+        respawnEffect.ParticleSystem.Stop();
 
         Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1), transform.position, Quaternion.identity);
         player.AnimatorController.AnimatorSetBool("HasDied", false);

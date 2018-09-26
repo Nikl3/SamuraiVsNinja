@@ -55,6 +55,19 @@ public class UIManager : Singelton<UIManager>
 
 	#endregion PROPERTIES
 
+	private void Awake()
+	{
+		Initialize();
+	}
+	private void Start()
+	{
+		BackgroundImage.gameObject.SetActive(true);
+	}
+	private void Update()
+	{
+		OnStartButtonDown(GameMaster.Instance.CurrentGameState);
+	}
+
 	private void Initialize()
 	{
 		PlayerInfoContainer = transform.Find("PlayerInfoContainer");
@@ -79,22 +92,6 @@ public class UIManager : Singelton<UIManager>
 
 		Animator = GetComponent<Animator>();
 	}
-
-	private void Awake()
-	{
-		Initialize();
-	}
-
-	private void Start()
-	{
-		BackgroundImage.gameObject.SetActive(true);
-	}
-
-	private void Update()
-	{
-		OnStartButtonDown(GameMaster.Instance.CurrentGameState);
-	}
-
 	private void OnStartButtonDown(CURRENT_GAME_STATE currentGameState)
 	{
 		if (InputManager.Instance.Y_ButtonDown(1))
@@ -141,6 +138,20 @@ public class UIManager : Singelton<UIManager>
 
 		PanelBackgroundImage.enabled = true;
 	}
+	private void PreSetPanelsState(bool isActive)
+	{
+		MainMenuPanel.gameObject.SetActive(isActive);
+		CharacterSelectPanel.gameObject.SetActive(isActive);
+		OptionsPanel.gameObject.SetActive(isActive);
+		CreditsPanel.gameObject.SetActive(isActive);
+		HowToPlayPanel.gameObject.SetActive(isActive);
+		AudioPanel.gameObject.SetActive(isActive);
+		GraphicsPanel.gameObject.SetActive(isActive);
+		ControlsPanel.gameObject.SetActive(isActive);
+		PausePanel.gameObject.SetActive(isActive);
+		VictoryPanel.gameObject.SetActive(isActive);
+		OnlineLobbyPanel.gameObject.SetActive(isActive);
+	}
 
 	public void TriggerPanelCloseBehaviour()
 	{
@@ -151,7 +162,6 @@ public class UIManager : Singelton<UIManager>
 			CurrentPanel = null;
 		}		
 	}
-
 	public void ChangePanelState(PANEL_STATE newPanelState)
 	{
 		CurrentPanelState = newPanelState;
@@ -203,29 +213,30 @@ public class UIManager : Singelton<UIManager>
 				break;
 		}
 	}
-
 	public void SetMainMenuUI()
 	{
-		TriggerPanelBehaviour(MainMenuPanel);
 		BackgroundImage.sprite = BackgroundSprites[0];
 		TitleCharacters.SetActive(true);
 		TitleGameObject.SetActive(true);
-	}
 
+		PreSetPanelsState(false);
+
+		TriggerPanelBehaviour(MainMenuPanel);
+	}
 	public void SetLevelUI()
 	{
+		PreSetPanelsState(false);
+
 		TriggerPanelCloseBehaviour();
 		PlayerInfoContainer.gameObject.SetActive(true);
 		BackgroundImage.sprite = BackgroundSprites[1];
 		TitleCharacters.SetActive(false);
 		TitleGameObject.SetActive(false);
 	}
-
 	public void SetOnlineUI()
 	{
-
+		PreSetPanelsState(false);
 	}
-
 	public void ClearPlayerInfoContainer()
 	{
 		foreach (Transform playerInfo in PlayerInfoContainer)

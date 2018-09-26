@@ -13,18 +13,17 @@ public class CharacterSelectPanel : UIPanel
     //}
     private readonly Coroutine[] coroutines = new Coroutine[4];
     private JoinField[] joinFields;
-
-    public bool CanJoin
-    {
-        get;
-        private set;
-    }
-
     private Text joinedPlayerText;
 
     private JoinField[] GetJoinFields()
     {
         return GetComponentsInChildren<JoinField>(true);
+    }
+
+    public bool CanJoin
+    {
+        get;
+        private set;
     }
 
     private void Awake()
@@ -43,14 +42,12 @@ public class CharacterSelectPanel : UIPanel
             HandleCharacterChange();
         }
     }
-
     public override void OpenBehaviour()
     {
         base.OpenBehaviour();
 
         CanJoin = true;
     }
-
     public override void CloseBehaviour()
     {
         base.CloseBehaviour();
@@ -58,18 +55,6 @@ public class CharacterSelectPanel : UIPanel
         //UnSetAllJoinField();
         CanJoin = false;
         //PlayerDataManager.Instance.ClearPlayerDataIndex();
-    }
-
-    public void SetJoinField(int playerID, Color joinColor)
-    {
-        joinFields[playerID - 1].ChangeJoinFieldVisuals(playerID, joinColor);
-        joinedPlayerText.text = "PLAYERS " + PlayerDataManager.Instance.CurrentlyJoinedPlayers + " / " + 4;
-    }
-
-    public void UnSetJoinField(int playerID)
-    {
-        joinFields[playerID - 1].UnChangeJoinFieldVisuals();
-        joinedPlayerText.text = "PLAYERS " + PlayerDataManager.Instance.CurrentlyJoinedPlayers + " / " + 4;
     }
 
     private void HandlePlayerJoinings()
@@ -100,7 +85,6 @@ public class CharacterSelectPanel : UIPanel
             }
         }
     }
-
     private void HandleCharacterChange()
     {
         for (int i = 0; i < joinFields.Length; i++)
@@ -110,28 +94,38 @@ public class CharacterSelectPanel : UIPanel
         }
     }
 
-    public void UnSetAllJoinField()
+    public void SetJoinField(int playerID, Color joinColor)
     {
-        foreach (var coroutine in coroutines)
-        {
-            if (coroutine != null)
-                StopCoroutine(coroutine);
-        }
-
-        for (int i = 0; i < joinFields.Length; i++)
-        {
-            joinFields[i].UnChangeJoinFieldVisuals();
-        }
-
-        joinedPlayerText.text = "PLAYERS 0 / " + PlayerDataManager.Instance.MaxPlayerNumber;
+        joinFields[playerID - 1].ChangeJoinFieldVisuals(playerID, joinColor);
+        joinedPlayerText.text = "PLAYERS " + PlayerDataManager.Instance.CurrentlyJoinedPlayers.Count + " / " + 4;
     }
+    public void UnSetJoinField(int playerID)
+    {
+        joinFields[playerID - 1].UnChangeJoinFieldVisuals();
+        joinedPlayerText.text = "PLAYERS " + PlayerDataManager.Instance.CurrentlyJoinedPlayers.Count + " / " + 4;
+    }
+
+    //public void UnSetAllJoinField()
+    //{
+    //    foreach (var coroutine in coroutines)
+    //    {
+    //        if (coroutine != null)
+    //            StopCoroutine(coroutine);
+    //    }
+
+    //    for (int i = 0; i < joinFields.Length; i++)
+    //    {
+    //        joinFields[i].UnChangeJoinFieldVisuals();
+    //    }
+
+    //    joinedPlayerText.text = "PLAYERS 0 / " + PlayerDataManager.Instance.MaxPlayerNumber;
+    //}
 
     private void ChangePlayerIcon(JoinField joinField, PlayerData playerData)
     {
         var newIconSprite = playerData.PlayerIconSprite == NinjaIconSprite ? SamuraiIconSprite : NinjaIconSprite;
         joinField.ChangeSprite(playerData, newIconSprite);
     }
-
     private IEnumerator IChangeCharacter(int id)
     {
         while (true)
@@ -146,7 +140,6 @@ public class CharacterSelectPanel : UIPanel
     {
         GameMaster.Instance.LoadScene(1);
     }
-
     public override void BackButton()
     {
         base.BackButton();

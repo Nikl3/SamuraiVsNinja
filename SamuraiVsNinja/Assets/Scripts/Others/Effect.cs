@@ -3,12 +3,17 @@ using UnityEngine;
 
 public class Effect : MonoBehaviour
 {
-	private new ParticleSystem particleSystem;
+	public ParticleSystem ParticleSystem
+	{
+		get;
+		private set;
+	}
+
 	private Coroutine effectCoroutine;
 
 	private void Awake ()
 	{
-		particleSystem = GetComponent<ParticleSystem>();
+		ParticleSystem = GetComponent<ParticleSystem>();
 	}
 
 	private void OnEnable()
@@ -25,7 +30,7 @@ public class Effect : MonoBehaviour
 
 	private IEnumerator IDespawnUntilOver()
 	{
-		yield return new WaitUntil(() => particleSystem.isStopped);
+		yield return new WaitUntil(() => ParticleSystem.isStopped);
 
 		Destroy(gameObject);
 	}
