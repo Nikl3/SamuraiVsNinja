@@ -2,6 +2,7 @@
 
 public abstract class Projectile : MonoBehaviour
 {
+    protected Player player;
     protected float projectileSpeed;
     protected float selfDestroyTime = 1.8f;
     private GameObject hitEffect;
@@ -20,7 +21,7 @@ public abstract class Projectile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void ProjectileInitialize(int projectileDirection)
+    public void ProjectileInitialize(Player player, int projectileDirection)
     {
         startDirection = -projectileDirection;
         spriteRenderer.flipX = startDirection > 0 ? true : false;
@@ -39,7 +40,7 @@ public abstract class Projectile : MonoBehaviour
                 var hitDirection = collision.transform.position - transform.position;
                 hitDirection.x = -hitDirection.x;
                 hitDirection = hitDirection.normalized;
-                hittedPlayer.TakeDamage(hitDirection, knockbackForce, 1);
+                hittedPlayer.TakeDamage(player, hitDirection, knockbackForce, 1);
 
                 Instantiate(hitEffect, collision.transform.position, Quaternion.identity);
             }

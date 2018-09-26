@@ -156,8 +156,9 @@ public class Player : MonoBehaviour
 	public void AddOnigiri(int amount)
 	{
 		onigiris += amount;
+        PlayerInfo.OnigirisPicked++;
 
-		if (onigiris >= 1)
+		if (onigiris >= 3)
 		{
 			LevelManager.Instance.Victory(playerData.PlayerName);
 		}
@@ -165,7 +166,7 @@ public class Player : MonoBehaviour
 		PlayerInfo.UpdateOnigiris(onigiris);
 	}
 
-	public void TakeDamage(Vector2 direction, Vector2 knockbackForce, int damage)
+	public void TakeDamage(Player attacker, Vector2 direction, Vector2 knockbackForce, int damage)
 	{
 		if (CurrentState == PlayerState.NORMAL)
 		{
@@ -182,7 +183,7 @@ public class Player : MonoBehaviour
 			}
 			else
 			{
-				Die();
+				Die(attacker);
 			}
 
 			PlayerInfo.UpdateHealthPoints(healthPoints);
@@ -191,21 +192,32 @@ public class Player : MonoBehaviour
 
 	private void DropOnigiri()
 	{
-			Instantiate(
+        PlayerInfo.OnigirisLost++;
+
+        Instantiate(
 				ResourceManager.Instance.GetPrefabByIndex(1, 0),
 				transform.position,
 				Quaternion.identity
 				);
 	}
 
-	private void Die()
+	private void Die(Player attacker)
 	{
-		if (onigiris > 0)
+        if(this != attacker) 
+        {
+            attacker.PlayerInfo.Kills++;
+        }
+
+        PlayerInfo.Deaths++;
+
+        if (onigiris > 0)
 		{
 			DropOnigiri();
 		}
+
 		Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position, Quaternion.identity);
 		ChangePlayerState(PlayerState.RESPAWN);
 		Fabric.EventManager.Instance.PostEvent("Die");
-	}
+
+    }
 }

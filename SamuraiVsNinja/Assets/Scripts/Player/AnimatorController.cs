@@ -2,6 +2,7 @@
 
 public class AnimatorController : MonoBehaviour
 {
+    private Player player;
 	private Animator animator;
 	public Transform PlayerGraphics
 	{
@@ -12,6 +13,7 @@ public class AnimatorController : MonoBehaviour
 
 	private void Awake ()
 	{
+        player = GetComponentInParent<Player>();
 		animator = GetComponentInChildren<Animator>();
 		PlayerGraphics = transform;
 		transform.localScale = new Vector2(-1, 1);
@@ -45,10 +47,10 @@ public class AnimatorController : MonoBehaviour
 
 	public void ThrowKeyEvent()
 	{
-		LevelManager.Instance.SpawnProjectile(PlayerGraphics, ProjectileSpawnPoint.position);
+		LevelManager.Instance.SpawnProjectile(player, PlayerGraphics, ProjectileSpawnPoint.position);
 	}
 
     public void ThrowKeyEventSamurai() {
-        LevelManager.Instance.SpawnProjectileSamurai(PlayerGraphics, ProjectileSpawnPoint.position);
+        LevelManager.Instance.SpawnProjectileSamurai(player, PlayerGraphics, ProjectileSpawnPoint.position);
     }
 }

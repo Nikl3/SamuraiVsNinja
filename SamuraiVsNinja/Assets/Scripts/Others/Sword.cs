@@ -29,7 +29,7 @@ public class Sword : MonoBehaviour
 					var hitDirection = collision.transform.position - transform.position;
 					hitDirection.x = -hitDirection.x;
 					hitDirection = hitDirection.normalized;
-					hittedPlayer.TakeDamage(hitDirection, knockbackForce, 1);
+					hittedPlayer.TakeDamage(player, hitDirection, knockbackForce, 1);
 
 					Instantiate(hitEffect, collision.transform.position, Quaternion.identity);
 				}

@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public class PlayerInfo : MonoBehaviour
 {
+    public EndGameStats EGS;
+    public int OnigirisPicked;
+    public int OnigirisLost;
+    public int Kills;
+    public int Deaths;
+    public int Attacks;
+    public int HitPreC;
+
     #region VARIABLES
 
     private Text playerNameText;
@@ -87,6 +95,11 @@ public class PlayerInfo : MonoBehaviour
         {
             healthImage.gameObject.SetActive(true);
         }
+    }
+
+    public void UpdateEndPanelStats()
+    {
+        EGS.SetEGStats(Owner.name, OnigirisPicked, OnigirisLost, Kills, Deaths, Attacks, HitPreC);               
     }
 
     public void UpdateOnigiris(int currentOnigiris)

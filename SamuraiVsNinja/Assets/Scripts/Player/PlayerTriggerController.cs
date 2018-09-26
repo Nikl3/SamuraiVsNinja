@@ -33,11 +33,11 @@ public class PlayerTriggerController : MonoBehaviour
                     if (player.PlayerEngine.IsDashing)
                     {
                         var hittedPlayer = collision.gameObject.GetComponentInParent<Player>();
-                        hittedPlayer.TakeDamage(hitDirection, new Vector2(-40, 15), 0);
+                        hittedPlayer.TakeDamage(player, hitDirection, new Vector2(-40, 15), 0);
                     }
                     break;
                 case "Killzone":
-                    player.TakeDamage(hitDirection, Vector2.zero, 3);
+                    player.TakeDamage(player,hitDirection, Vector2.zero, 3);
                     break;
             }
         }
@@ -54,7 +54,7 @@ public class PlayerTriggerController : MonoBehaviour
             {
                 case "Spike":
 
-                    player.TakeDamage(hitDirection, knockbackForce, 1);
+                    player.TakeDamage(player, hitDirection, knockbackForce, 1);
                     break;
             }
         }

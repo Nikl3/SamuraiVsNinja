@@ -1,20 +1,30 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerDataManager : Singelton<PlayerDataManager>
 {
     public int TestPlayerAmount;
+    public GameObject EGPrefab;
+    public Transform EGPanel;
 
     #region VARIABLES
 
-    private GameObject playerPrefab;
-    private GameObject playerInfoPrefab;
-
     private const int MAX_PLAYER_NUMBER = 4;
-    private PlayerData[] playerDatas;
 
     #endregion VARIABLES
 
     #region PROPERTIES
+
+    public PlayerData[] PlayerDatas
+    {
+        get;
+        private set;
+    }
+    public List<Player> CurrentlyJoinedPlayers
+    {
+        get;
+        private set;
+    }
 
     public int MaxPlayerNumber
     {
@@ -24,11 +34,11 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         }
     }
 
-    public int CurrentlyJoinedPlayers
-    {
-        get;
-        private set;
-    }
+    //public int CurrentlyJoinedPlayersIndex
+    //{
+    //    get;
+    //    private set;
+    //}
 
     #endregion PROPERTIES
 
@@ -39,11 +49,12 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
     private void CreatePlayerDatas()
     {
-        playerDatas = new PlayerData[MAX_PLAYER_NUMBER];
+        CurrentlyJoinedPlayers = new List<Player>();
+        PlayerDatas = new PlayerData[MAX_PLAYER_NUMBER];
 
-        for (int i = 0; i < playerDatas.Length; i++)
+        for (int i = 0; i < PlayerDatas.Length; i++)
         {
-            playerDatas[i] = new PlayerData(i + 1, CreatePlayerColor(i + 1))
+            PlayerDatas[i] = new PlayerData(i + 1, CreatePlayerColor(i + 1))
             {
 
             };
@@ -73,43 +84,44 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
     public void PlayerJoin(int playerID)
     {
-        if (!playerDatas[playerID - 1].HasJoined)
+        if (!PlayerDatas[playerID - 1].HasJoined)
         {
-            playerDatas[playerID - 1].HasJoined = true;
-            CurrentlyJoinedPlayers++;
+            PlayerDatas[playerID - 1].HasJoined = true;
+            //CurrentlyJoinedPlayersIndex++;
             return;
         }
     }
 
     public void PlayerUnjoin(int playerID)
     {
-        if (playerDatas[playerID - 1].HasJoined)
+        if (PlayerDatas[playerID - 1].HasJoined)
         {
-            playerDatas[playerID - 1].HasJoined = false;
-            CurrentlyJoinedPlayers--;
+            PlayerDatas[playerID - 1].HasJoined = false;
+            //CurrentlyJoinedPlayers.RemoveAt(playerID - 1);
+            //CurrentlyJoinedPlayersIndex--;
             return;
         }
     } 
 
-    public void ClearPlayerDataIndex()
-    {
-        CurrentlyJoinedPlayers = 0;
-        foreach (var data in playerDatas)
-        {
-            data.HasJoined = false;
-        }
-    }
+    //public void ClearPlayerDataIndex()
+    //{
+    //    CurrentlyJoinedPlayersIndex = 0;
+    //    foreach (var data in PlayerDatas)
+    //    {
+    //        data.HasJoined = false;
+    //    }
+    //}
 
     public PlayerData GetPlayerData(int id)
     {
-        return playerDatas[id];
+        return PlayerDatas[id];
     }
 
     public void SpawnPlayers(Transform parent)
     {
         AddTestPlayers(TestPlayerAmount);
 
-        foreach (var playerData in playerDatas)
+        foreach (var playerData in PlayerDatas)
         {
             if (playerData.HasJoined)
             {
@@ -119,8 +131,16 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
                 var newPlayerInfo = Instantiate(
                     ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
+                
+                var newPlayerEG = Instantiate(EGPrefab);
+                newPlayerEG.transform.SetParent(EGPanel);
+                newPlayerEG.transform.localScale = Vector2.one;
+
+                newPlayerInfo.EGS = newPlayerEG.GetComponent<EndGameStats>();
 
                 var newPlayer = newPlayerGameObject.GetComponent<Player>();
+                CurrentlyJoinedPlayers.Add(newPlayer);
+
                 newPlayer.Initialize(playerData, newPlayerInfo);
                 newPlayer.ChangePlayerState(PlayerState.INVINCIBILITY);
 
@@ -137,7 +157,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
         for (int i = 0; i < testPlayerAmount; i++)
         {
-            playerDatas[i].HasJoined = true;
+            PlayerDatas[i].HasJoined = true;
         }
     }
 }
