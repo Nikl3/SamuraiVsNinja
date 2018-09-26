@@ -76,22 +76,25 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
     }
     private void AddTestPlayers(int testPlayerAmount)
     {
-        testPlayerAmount = testPlayerAmount > MAX_PLAYER_NUMBER ? MAX_PLAYER_NUMBER : testPlayerAmount;
-
-        for (int i = 0; i < testPlayerAmount; i++)
+        if (TestPlayerAmount > 0)
         {
-            PlayerDatas[i].HasJoined = true;
-        }
+            testPlayerAmount = testPlayerAmount > MAX_PLAYER_NUMBER ? MAX_PLAYER_NUMBER : testPlayerAmount;
+
+            for (int i = 0; i < testPlayerAmount; i++)
+            {
+                PlayerDatas[i].HasJoined = true;
+            }
+        }                   
     }
 
     public PlayerData GetPlayerData(int id)
     {
         return PlayerDatas[id];
     }
-    public void ClearJoinedPlayers()
-    {
-        CurrentlyJoinedPlayers.Clear();
-    }
+    //public void ClearJoinedPlayers()
+    //{
+    //    CurrentlyJoinedPlayers.Clear();
+    //}
     public void PlayerJoin(int playerID)
     {
         if (!PlayerDatas[playerID - 1].HasJoined)
@@ -117,6 +120,10 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         {
             if (playerData.HasJoined)
             {
+                print(playerData.PlayerName);
+
+                var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0), LevelManager.Instance.GetSpawnPoint(playerData.ID - 1), Quaternion.identity).GetComponent<Player>();
+                CurrentlyJoinedPlayers.Add(newPlayer);
                 var newPlayerInfo = Instantiate(
                     ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
                 
@@ -126,16 +133,11 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
                 newPlayerInfo.EGS = newPlayerEG.GetComponent<EndGameStats>();
 
-                var newPlayer = ObjectPoolManager.Instance.SpawnObject(
-                    ResourceManager.Instance.GetPrefabByIndex(0, 0),
-                    LevelManager.Instance.GetSpawnPoint(playerData.ID - 1)).GetComponent<Player>();
+                
+                // var newPlayer = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(0, 0), LevelManager.Instance.GetSpawnPoint(playerData.ID - 1)).GetComponent<Player>();
 
                 newPlayer.Initialize(playerData, newPlayerInfo);
-
-                CurrentlyJoinedPlayers.Add(newPlayer);
-
-                CameraEngine.Instance.AddTarget(transform);
-
+                CameraEngine.Instance.AddTarget(newPlayer.transform);
                 newPlayer.ChangePlayerState(PlayerState.RESPAWN, true);
             }
         }

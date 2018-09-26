@@ -298,7 +298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionMaskLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1536
 --- !u!114 &114106108584952654
 MonoBehaviour:
   m_ObjectHideFlags: 1

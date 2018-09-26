@@ -83,7 +83,6 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     {
         CameraEngine.Instance.ClearTargets();
         UIManager.Instance.ClearPlayerInfoContainer();
-        PlayerDataManager.Instance.ClearJoinedPlayers();
     }
     private void RandomizeFillMethod()
     {
@@ -153,6 +152,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     {
         if (loadSceneAsync == null)
         {
+            Clear();
             loadSceneAsync = StartCoroutine(ILoadSceneAsync(sceneIndex));
         }        
     }
@@ -191,8 +191,6 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         FadeScreenImage(1);
 
         yield return new WaitUntil(() => !isFading);
-
-        Clear();
 
         messageText.enabled = true;
         messageText.text = "LOADING...";

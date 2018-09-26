@@ -5966,7 +5966,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2743bd4157eb1bc459d89edb9f8c720c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cube: {fileID: 0}
 --- !u!114 &114263643152189942
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10167,7 +10166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af021f9fbbd548842b748e9e16cb7675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TestPlayerAmount: 2
+  TestPlayerAmount: 4
   EGPrefab: {fileID: 1260623820922962, guid: 800b29a44793cbb48b932f42d152b7e5, type: 2}
   EGPanel: {fileID: 224440332088255354}
 --- !u!114 &114782165387944002

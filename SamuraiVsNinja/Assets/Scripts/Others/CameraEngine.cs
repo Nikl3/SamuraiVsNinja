@@ -29,6 +29,7 @@ public class CameraEngine : Singelton<CameraEngine>
     }
     private void LateUpdate()
     {
+        Debug.LogWarning(targets.Count);
         if (targets == null || targets.Count == 0)
             return;
 
@@ -72,12 +73,14 @@ public class CameraEngine : Singelton<CameraEngine>
 
     public void AddTarget(Transform newTarget)
     {
+        print("Camera: add target " + newTarget.name);
         targets.Add(newTarget);
     }
     public void ClearTargets()
     {
         if (targets != null && targets.Count > 0)
         {
+            print("Clear");
             targets.Clear();
         }
     }
