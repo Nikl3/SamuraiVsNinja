@@ -201,11 +201,9 @@ public class Player : MonoBehaviour
 	{
 		PlayerInfo.OnigirisLost++;
 
-		Instantiate(
-				ResourceManager.Instance.GetPrefabByIndex(1, 0),
-				transform.position,
-				Quaternion.identity
-				);
+		var droppedOni = Instantiate(ResourceManager.Instance.GetPrefabByIndex(1, 0), transform.position, Quaternion.identity);
+        droppedOni.GetComponent<OnigiriFloater>().enabled = false;
+        droppedOni.GetComponent<Animator>().enabled = false;
 	}
 
 	private void Die(Player attacker)

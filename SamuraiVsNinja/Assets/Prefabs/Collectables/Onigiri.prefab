@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 58571536665342220}
   - component: {fileID: 114370600779153950}
   - component: {fileID: 95047447855619300}
+  - component: {fileID: 114928130552942686}
   m_Layer: 11
   m_Name: Onigiri
   m_TagString: Onigiri
@@ -116,6 +117,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa6dec46269998479e32269f9caff96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114928130552942686
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1485973191965736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf054eda1133035488592cdfabce3081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyTime: 8
 --- !u!212 &212798550775207542
 SpriteRenderer:
   m_ObjectHideFlags: 1

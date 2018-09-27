@@ -1561,7 +1561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1535072133509220
 GameObject:
   m_ObjectHideFlags: 1
@@ -7185,7 +7185,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300004, guid: 96b31729c8bd12e43896813627177883, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 14506a24d79d3fc4daf2a7b8f15560cb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7615,7 +7615,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300004, guid: 96b31729c8bd12e43896813627177883, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 14506a24d79d3fc4daf2a7b8f15560cb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10166,7 +10166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af021f9fbbd548842b748e9e16cb7675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TestPlayerAmount: 4
+  TestPlayerAmount: 3
   EGPrefab: {fileID: 1260623820922962, guid: 800b29a44793cbb48b932f42d152b7e5, type: 2}
   EGPanel: {fileID: 224440332088255354}
 --- !u!114 &114782165387944002
@@ -11880,7 +11880,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300004, guid: 96b31729c8bd12e43896813627177883, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 14506a24d79d3fc4daf2a7b8f15560cb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
