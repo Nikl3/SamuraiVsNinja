@@ -176,8 +176,10 @@ public class Player : MonoBehaviour
 	public void TakeDamage(Player attacker, Vector2 direction, Vector2 knockbackForce, int damage)
 	{
 		if (CurrentState == PlayerState.NORMAL)
-		{
-			healthPoints -= damage;
+		{//disable CalculateMovement() 0,5s ajaksi
+            PlayerInput.Stun(2);
+
+            healthPoints -= damage;
 
 			if (healthPoints >= 1)
 			{

@@ -8,6 +8,7 @@ public class PlayerEngine : MonoBehaviour
     #region VARIABLES
 
     private Player player;
+    private PlayerInput PInput;
 
     #region JUMP
     [Header("JUMP")]
@@ -187,6 +188,7 @@ public class PlayerEngine : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<Player>();
+        PInput = GetComponent<PlayerInput>();
     }
     private void Start()
     {
@@ -402,7 +404,6 @@ public class PlayerEngine : MonoBehaviour
         velocity.y = knockdownDirection.y + knockbackForce.y;
 
         yield return null;
-
         knockbackCoroutine = null;
     }
     private IEnumerator IInvincibility(float invincibilityDuration, float flashSpeed)
@@ -432,6 +433,7 @@ public class PlayerEngine : MonoBehaviour
     }
     private IEnumerator IRespawn(Vector2 spawnPoint, float respawnDelay)
     {
+        player.Controller2D.boxCollider2D.enabled = false;
         var respawnEffect = Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 3), new Vector2(spawnPoint.x, spawnPoint.y - 4f), Quaternion.Euler(new Vector2(-90, 0))).GetComponent<Effect>();
 
         player.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
@@ -475,11 +477,11 @@ public class PlayerEngine : MonoBehaviour
 
             #endregion LERP_METHOD_2
         }
+        player.Controller2D.boxCollider2D.enabled = true;
 
         yield return new WaitForSeconds(respawnDelay);
 
         respawnEffect.ParticleSystem.Stop();
-
         Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1), transform.position, Quaternion.identity);
         player.AnimatorController.AnimatorSetBool("HasDied", false);
         player.ChangePlayerState(PlayerState.INVINCIBILITY);
