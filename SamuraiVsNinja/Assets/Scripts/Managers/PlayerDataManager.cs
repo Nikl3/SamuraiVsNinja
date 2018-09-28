@@ -120,8 +120,6 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         {
             if (playerData.HasJoined)
             {
-                print(playerData.PlayerName);
-
                 var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0), LevelManager.Instance.GetSpawnPoint(playerData.ID - 1), Quaternion.identity).GetComponent<Player>();
                 CurrentlyJoinedPlayers.Add(newPlayer);
                 var newPlayerInfo = Instantiate(
@@ -132,8 +130,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
                 newPlayerEG.transform.localScale = Vector2.one;
 
                 newPlayerInfo.EGS = newPlayerEG.GetComponent<EndGameStats>();
-
-                
+            
                 // var newPlayer = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(0, 0), LevelManager.Instance.GetSpawnPoint(playerData.ID - 1)).GetComponent<Player>();
 
                 newPlayer.Initialize(playerData, newPlayerInfo);

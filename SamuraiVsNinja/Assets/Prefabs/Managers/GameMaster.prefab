@@ -4661,6 +4661,7 @@ MonoBehaviour:
   - {fileID: 1346348871256170, guid: 0128e416b02bf434d8cff089e0399832, type: 2}
   projectilePrefabs:
   - {fileID: 1585587054346328, guid: 7295f986127d38849a34e5a4e21b35b1, type: 2}
+  - {fileID: 1794785661519524, guid: a599d6f22dc81624886c79b60e2718d6, type: 2}
   uiPrefabs:
   - {fileID: 1225666205248384, guid: aa521976bcddcb94998d1f78bfb8e400, type: 2}
   - {fileID: 1933520091028282, guid: 88bf6bc2077bffb45aec5c4360ec765d, type: 2}
