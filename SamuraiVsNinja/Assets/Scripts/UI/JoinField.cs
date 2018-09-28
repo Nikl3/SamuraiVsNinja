@@ -25,9 +25,9 @@ public class JoinField : MonoBehaviour
         defaultColor = fieldImage.color;
     }
 
-    public void ChangeSprite(PlayerData playerData, Sprite newIconSprite)
+    public void ChangeSprite(Sprite newIconSprite)
     {       
-        playerData.PlayerIconSprite = icon.sprite = newIconSprite;
+        icon.sprite = newIconSprite;
     }
 
     public void ChangeJoinFieldVisuals(int playerID, Color fieldColor)

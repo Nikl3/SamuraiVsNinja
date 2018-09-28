@@ -123,8 +123,8 @@ public class CharacterSelectPanel : UIPanel
 
     private void ChangePlayerIcon(JoinField joinField, PlayerData playerData)
     {
-        var newIconSprite = playerData.PlayerIconSprite == NinjaIconSprite ? SamuraiIconSprite : NinjaIconSprite;
-        joinField.ChangeSprite(playerData, newIconSprite);
+        playerData.PlayerType = playerData.PlayerType == PLAYER_TYPE.NINJA ? PLAYER_TYPE.SAMURAI : PLAYER_TYPE.NINJA;
+        joinField.ChangeSprite(playerData.PlayerType == PLAYER_TYPE.NINJA ? SamuraiIconSprite : NinjaIconSprite);
     }
     private IEnumerator IChangeCharacter(int id)
     {
@@ -132,7 +132,7 @@ public class CharacterSelectPanel : UIPanel
         {
             yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) == 0);
             ChangePlayerIcon(joinFields[id - 1], (PlayerDataManager.Instance.GetPlayerData(id - 1)));
-            yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) != 0);
+            yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) >= 0.8f);
         }
     }
 

@@ -9848,6 +9848,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af021f9fbbd548842b748e9e16cb7675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RuntimeAnimatorControllers:
+  - {fileID: 9100000, guid: dab4a527bd5b25449a890622b01febc3, type: 2}
+  - {fileID: 9100000, guid: fe84784269c089b41bf08150008cb38c, type: 2}
+  PlayerIconSprite:
+  - {fileID: 21300000, guid: 440b0bad553b50143a6cc873de3542ab, type: 3}
+  - {fileID: 21300000, guid: 32962e3696126d245bed1d74c36688a1, type: 3}
+  DashIconSprite:
+  - {fileID: 21300000, guid: 784e3af5890815441b6917ac0fd76230, type: 3}
+  - {fileID: 21300000, guid: 92ae93de19322384991dcb55c08d2d9d, type: 3}
+  ProjectileIconSprite:
+  - {fileID: 21300000, guid: f8e14f9de09e8df438ca555bebee829b, type: 3}
+  - {fileID: 21300000, guid: ead5222cbf099b64bbddf7755a76c616, type: 3}
   TestPlayerAmount: 4
   EGPrefab: {fileID: 1260623820922962, guid: 800b29a44793cbb48b932f42d152b7e5, type: 2}
   EGPanel: {fileID: 224440332088255354}
@@ -15588,7 +15600,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -956.33435}
+  m_AnchoredPosition: {x: 250, y: -956}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224986297050326610
