@@ -8765,10 +8765,10 @@ MonoBehaviour:
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 3
+  m_FillMethod: 4
   m_FillAmount: 0
   m_FillClockwise: 0
-  m_FillOrigin: 2
+  m_FillOrigin: 0
 --- !u!114 &114665798225643162
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9848,7 +9848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af021f9fbbd548842b748e9e16cb7675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TestPlayerAmount: 0
+  TestPlayerAmount: 4
   EGPrefab: {fileID: 1260623820922962, guid: 800b29a44793cbb48b932f42d152b7e5, type: 2}
   EGPanel: {fileID: 224440332088255354}
 --- !u!114 &114783631393080388

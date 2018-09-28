@@ -9,9 +9,11 @@ public enum PlayerState
 
 public class Player : MonoBehaviour
 {
-	#region VARIABLES
+    #region VARIABLES
+    
+    public float RespawnDelay;
 
-	private int healthPoints;
+    private int healthPoints;
 	private int onigiris;
 
 	private PlayerData playerData;
@@ -140,7 +142,7 @@ public class Player : MonoBehaviour
 				if (firstSpawn)
 				{
 					SpriteRenderer.color = new Color(1, 1, 1, 0f);
-					PlayerEngine.Respawn(LevelManager.Instance.GetSpawnPoint(PlayerData.ID - 1), 5f);
+					PlayerEngine.Respawn(LevelManager.Instance.GetSpawnPoint(PlayerData.ID - 1), RespawnDelay);
 					firstSpawn = false;
 				}
 				else
