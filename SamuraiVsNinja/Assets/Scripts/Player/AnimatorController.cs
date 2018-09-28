@@ -45,12 +45,8 @@ public class AnimatorController : MonoBehaviour
 		Fabric.EventManager.Instance.PostEvent(soundName);
 	}
 
-	public void ThrowKeyEvent()
+	public void ThrowKeyEvent(int projectileTypeIndex)
 	{
-		LevelManager.Instance.SpawnProjectile(player, PlayerGraphics, ProjectileSpawnPoint.position);
+		LevelManager.Instance.SpawnProjectile(player, PlayerGraphics, ProjectileSpawnPoint.position, projectileTypeIndex);
 	}
-
-    public void ThrowKeyEventSamurai() {
-        LevelManager.Instance.SpawnProjectileSamurai(player, PlayerGraphics, ProjectileSpawnPoint.position);
-    }
 }
