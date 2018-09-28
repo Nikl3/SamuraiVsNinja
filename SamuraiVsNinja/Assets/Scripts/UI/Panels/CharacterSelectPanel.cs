@@ -25,13 +25,11 @@ public class CharacterSelectPanel : UIPanel
         get;
         private set;
     }
-
     private void Awake()
     {
         joinFields = GetJoinFields();
         joinedPlayerText = transform.Find("JoinedPlayers").GetComponent<Text>();
     }
-
     public override void Update()
     {
         base.Update();
@@ -42,6 +40,7 @@ public class CharacterSelectPanel : UIPanel
             HandleCharacterChange();
         }
     }
+
     public override void OpenBehaviour()
     {
         base.OpenBehaviour();
@@ -52,9 +51,9 @@ public class CharacterSelectPanel : UIPanel
     {
         base.CloseBehaviour();
 
-        //UnSetAllJoinField();
+        UnSetAllJoinField();
         CanJoin = false;
-        //PlayerDataManager.Instance.ClearPlayerDataIndex();
+        PlayerDataManager.Instance.ClearJoinedPlayers();
     }
 
     private void HandlePlayerJoinings()
@@ -105,21 +104,21 @@ public class CharacterSelectPanel : UIPanel
         joinedPlayerText.text = "PLAYERS " + PlayerDataManager.Instance.CurrentlyJoinedPlayers.Count + " / " + 4;
     }
 
-    //public void UnSetAllJoinField()
-    //{
-    //    foreach (var coroutine in coroutines)
-    //    {
-    //        if (coroutine != null)
-    //            StopCoroutine(coroutine);
-    //    }
+    public void UnSetAllJoinField()
+    {
+        foreach (var coroutine in coroutines)
+        {
+            if (coroutine != null)
+                StopCoroutine(coroutine);
+        }
 
-    //    for (int i = 0; i < joinFields.Length; i++)
-    //    {
-    //        joinFields[i].UnChangeJoinFieldVisuals();
-    //    }
+        for (int i = 0; i < joinFields.Length; i++)
+        {
+            joinFields[i].UnChangeJoinFieldVisuals();
+        }
 
-    //    joinedPlayerText.text = "PLAYERS 0 / " + PlayerDataManager.Instance.MaxPlayerNumber;
-    //}
+        joinedPlayerText.text = "PLAYERS 0 / " + PlayerDataManager.Instance.MaxPlayerNumber;
+    }
 
     private void ChangePlayerIcon(JoinField joinField, PlayerData playerData)
     {

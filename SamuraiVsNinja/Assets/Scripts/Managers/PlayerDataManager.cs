@@ -94,6 +94,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
             for (int i = 0; i < testPlayerAmount; i++)
             {
                 PlayerDatas[i].HasJoined = true;
+                PlayerDatas[i].PlayerType = PLAYER_TYPE.NINJA;
             }
         }                   
     }
@@ -102,10 +103,17 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
     {
         return PlayerDatas[id];
     }
-    //public void ClearJoinedPlayers()
-    //{
-    //    CurrentlyJoinedPlayers.Clear();
-    //}
+
+    public void ClearJoinedPlayers()
+    {
+        foreach (var playerData in PlayerDatas)
+        {
+            playerData.HasJoined = false;
+        }
+
+        CurrentlyJoinedPlayers.Clear();
+    }
+
     public void PlayerJoin(int playerID)
     {
         if (!PlayerDatas[playerID - 1].HasJoined)
