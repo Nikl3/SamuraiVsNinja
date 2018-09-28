@@ -83,14 +83,10 @@ public class LevelManager : Singelton<LevelManager>
             Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1), objectToTeleport.position, Quaternion.identity);
         }
     }
-    public void SpawnProjectile(Player player, Transform graphicParent, Vector2 spawnPoint)
+
+    public void SpawnProjectile(Player player, Transform graphicParent, Vector2 spawnPoint, int projectileTypeIndex)
     {
-        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 0), spawnPoint, Quaternion.identity);
-        projectile.GetComponent<Projectile>().ProjectileInitialize(player, (int)graphicParent.localScale.x);
-    }
-    public void SpawnProjectileSamurai(Player player, Transform graphicParent, Vector2 spawnPoint)
-    {
-        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, 1), spawnPoint, Quaternion.identity);
+        var projectile = Instantiate(ResourceManager.Instance.GetPrefabByIndex(3, projectileTypeIndex == 0 ? 0 : 1), spawnPoint, Quaternion.identity);
         projectile.GetComponent<Projectile>().ProjectileInitialize(player, (int)graphicParent.localScale.x);
     }
 }

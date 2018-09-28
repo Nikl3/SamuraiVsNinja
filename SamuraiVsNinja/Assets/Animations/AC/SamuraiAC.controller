@@ -1193,7 +1193,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Ninja_Jump
+  m_Name: Samurai_Jump
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1209,7 +1209,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 988d1e09043ee0d48919744085349fef, type: 2}
+  m_Motion: {fileID: 7400000, guid: 34b50936f961b074aaa6f306389005d3, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1271,7 +1271,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Ninja_Attack
+  m_Name: Samurai_Attack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1285,7 +1285,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 9c44a4492fa37454c84affa6e534325f, type: 2}
+  m_Motion: {fileID: 7400000, guid: 1de009471e367fa40ae3164fe5db4965, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1297,7 +1297,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Ninja_Drop
+  m_Name: Samurai_Drop
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1313,7 +1313,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 37ee54daebb2eb043bcdbe3088426318, type: 2}
+  m_Motion: {fileID: 7400000, guid: 14f8edd1f955c554694697be095524b9, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1325,7 +1325,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Ninja_JumpAttack
+  m_Name: Samurai_JumpAttack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1339,7 +1339,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 9405a6c9d86d0fe43baff98a1561c357, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3eed277f884275a478a5570b14637f49, type: 2}
   m_Tag: Attack
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1403,7 +1403,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Die
+  m_Name: Samurai_Die
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1481,7 +1481,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Ninja_JumpThrow
+  m_Name: Samurai_JumpThrow
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1507,7 +1507,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Ninja_Throw
+  m_Name: Samurai_Throw
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1521,7 +1521,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a3d77585521b80e4eb39885a65b471d2, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6f34dbddf9a70a1428d7d32d8a3b3c18, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
