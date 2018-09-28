@@ -75,9 +75,18 @@ public class PlayerInfo : MonoBehaviour
         playerNameTextOutline.effectColor = Color.white;
         gameObject.name = playerNameText.text + " Info";
 
-        playerIcon.sprite = Owner.PlayerData.PlayerIconSprite;
-        playerDashIcon.sprite = Owner.PlayerData.DashIconSprite;
-        playerProjectileIcon.sprite = Owner.PlayerData.ProjectileIconSprite;
+        if(Owner.PlayerData.PlayerType == PLAYER_TYPE.NINJA)
+        {
+            playerIcon.sprite = PlayerDataManager.Instance.PlayerIconSprite[0];
+            playerDashIcon.sprite = PlayerDataManager.Instance.DashIconSprite[0];
+            playerProjectileIcon.sprite = PlayerDataManager.Instance.ProjectileIconSprite[0];
+        }
+        else
+        {
+            playerIcon.sprite = PlayerDataManager.Instance.PlayerIconSprite[1];
+            playerDashIcon.sprite = PlayerDataManager.Instance.DashIconSprite[1];
+            playerProjectileIcon.sprite = PlayerDataManager.Instance.ProjectileIconSprite[1];
+        }       
     }
 
     private void CreatePlayerIndicator()

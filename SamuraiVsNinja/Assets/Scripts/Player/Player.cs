@@ -112,13 +112,16 @@ public class Player : MonoBehaviour
 		BackgroundLightRenderer.color = new Color(playerColor.r, playerColor.g, playerColor.b, backgroundLightAlpha);
 	}
 
-	public void Initialize(PlayerData playerData, PlayerInfo playerInfo)
+	public void Initialize(PlayerData playerData, PlayerInfo playerInfo, RuntimeAnimatorController runtimeAnimatorController)
 	{
 		this.playerData = playerData;
 		PlayerInfo = playerInfo;
 		PlayerInfo.Owner = this;
 		gameObject.name = playerData.PlayerName;
-	}
+
+        AnimatorController.SetAnimationController(runtimeAnimatorController);
+
+    }
 
 	public void ChangePlayerState(PlayerState newPlayerState, bool firstSpawn = false)
 	{

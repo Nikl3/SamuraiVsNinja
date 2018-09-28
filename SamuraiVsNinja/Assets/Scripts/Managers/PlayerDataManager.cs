@@ -1,8 +1,19 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public enum PLAYER_TYPE
+{
+    NINJA,
+    SAMURAI
+}
+
 public class PlayerDataManager : Singelton<PlayerDataManager>
 {
+    public RuntimeAnimatorController[] RuntimeAnimatorControllers;
+    public Sprite[] PlayerIconSprite;
+    public Sprite[] DashIconSprite;
+    public Sprite[] ProjectileIconSprite;
+
     public int TestPlayerAmount;
     public GameObject EGPrefab;
     public Transform EGPanel;
@@ -133,7 +144,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
             
                 // var newPlayer = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(0, 0), LevelManager.Instance.GetSpawnPoint(playerData.ID - 1)).GetComponent<Player>();
 
-                newPlayer.Initialize(playerData, newPlayerInfo);
+                newPlayer.Initialize(playerData, newPlayerInfo, playerData.PlayerType == PLAYER_TYPE.NINJA ? RuntimeAnimatorControllers[0] : RuntimeAnimatorControllers[1]);
                 CameraEngine.Instance.AddTarget(newPlayer.transform);
                 newPlayer.ChangePlayerState(PlayerState.RESPAWN, true);
             }

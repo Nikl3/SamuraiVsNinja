@@ -30,6 +30,11 @@ public class AnimatorController : MonoBehaviour
 		animator.SetBool(animationName, isActive);
 	}
 
+    public void SetAnimationController(RuntimeAnimatorController runtimeAnimatorController)
+    {
+        animator.runtimeAnimatorController = runtimeAnimatorController;
+    }
+
 	public void DeactivateParameter(string AnimationParameter)
 	{
 		animator.SetBool(AnimationParameter, false);

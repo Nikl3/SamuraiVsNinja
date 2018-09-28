@@ -3,6 +3,11 @@
 [System.Serializable]
 public class PlayerData
 {
+    public PLAYER_TYPE PlayerType
+    {
+        get;
+        set;
+    }
     public int ID
     {
         get;
@@ -16,9 +21,6 @@ public class PlayerData
         }
     }
     public bool HasJoined { get; set; }
-    public Sprite PlayerIconSprite { get; set; }
-    public Sprite DashIconSprite { get; set; }
-    public Sprite ProjectileIconSprite { get; set; }
     public Color PlayerColor { get; private set; }
 
     private readonly string playerName;
