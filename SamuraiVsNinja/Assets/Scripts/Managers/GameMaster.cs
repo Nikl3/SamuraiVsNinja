@@ -19,7 +19,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
     private AsyncOperation asyncOperation;
     private readonly float flickeringSpeed = 1f;
-    private readonly float fakeLoadTime = 1f;
+    private float fakeLoadTime = 1f;
     private bool isFading;
     private bool isAnimatingText;
     private Image screenFadeImage;
@@ -160,7 +160,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     {
         RandomizeFillMethod();
         if (fadeScreenImage == null)
-            fadeScreenImage = StartCoroutine(IFadeScreenImage(targetFillAmount, 1f));
+            fadeScreenImage = StartCoroutine(IFadeScreenImage(targetFillAmount, 0.5f));
     }
     public void AnimateText(Text textToAnimate, float flickeringSpeed)
     {
@@ -194,12 +194,13 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
         messageText.enabled = true;
         messageText.text = "LOADING...";
-        howToPlayImage.gameObject.SetActive(true);
+        howToPlayImage.gameObject.SetActive(sceneIndex != 0 ? true : false);
 
         asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
         asyncOperation.allowSceneActivation = false;
 
-        yield return new WaitForSecondsRealtime(fakeLoadTime);
+
+        yield return new WaitForSecondsRealtime(fakeLoadTime = howToPlayImage.gameObject.activeSelf ? fakeLoadTime : 0f);
 
         while (!asyncOperation.isDone)
         {
@@ -211,7 +212,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
                     messageText.text = "PRESS ANY KEY";
                 }
 
-                if (Input.anyKeyDown)
+                if (Input.anyKeyDown || !howToPlayImage.gameObject.activeSelf)
                 {
                     asyncOperation.allowSceneActivation = true;
                 }

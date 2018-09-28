@@ -299,6 +299,7 @@ MonoBehaviour:
   collisionMaskLayer:
     serializedVersion: 2
     m_Bits: 1536
+  boxCollider2D: {fileID: 0}
 --- !u!114 &114106108584952654
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -353,6 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e4b82e4e01459409f836c8c99de43e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RespawnDelay: 2
   BackgroundLightRenderer: {fileID: 0}
 --- !u!114 &114899871177343560
 MonoBehaviour:
