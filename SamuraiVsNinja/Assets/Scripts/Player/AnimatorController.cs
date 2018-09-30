@@ -2,7 +2,7 @@
 
 public class AnimatorController : MonoBehaviour
 {
-    private Player player;
+	private Player player;
 	private Animator animator;
 	public Transform PlayerGraphics
 	{
@@ -13,7 +13,7 @@ public class AnimatorController : MonoBehaviour
 
 	private void Awake ()
 	{
-        player = GetComponentInParent<Player>();
+		player = GetComponentInParent<Player>();
 		animator = GetComponentInChildren<Animator>();
 		PlayerGraphics = transform;
 		transform.localScale = new Vector2(-1, 1);
@@ -30,10 +30,10 @@ public class AnimatorController : MonoBehaviour
 		animator.SetBool(animationName, isActive);
 	}
 
-    public void SetAnimationController(RuntimeAnimatorController runtimeAnimatorController)
-    {
-        animator.runtimeAnimatorController = runtimeAnimatorController;
-    }
+	public void SetAnimationController(RuntimeAnimatorController runtimeAnimatorController)
+	{
+		animator.runtimeAnimatorController = runtimeAnimatorController;
+	}
 
 	public void DeactivateParameter(string AnimationParameter)
 	{
@@ -51,7 +51,8 @@ public class AnimatorController : MonoBehaviour
 	}
 
 	public void ThrowKeyEvent(int projectileTypeIndex)
-	{
-		LevelManager.Instance.SpawnProjectile(player, PlayerGraphics, ProjectileSpawnPoint.position, projectileTypeIndex);
+	{	   
+		var projectile = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(3, projectileTypeIndex == 0 ? 0 : 1), ProjectileSpawnPoint.position, Quaternion.identity);
+		projectile.GetComponent<Projectile>().ProjectileInitialize(player, (int)PlayerGraphics.localScale.x);       
 	}
 }

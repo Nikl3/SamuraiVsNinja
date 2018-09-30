@@ -17,7 +17,7 @@ public abstract class RaycastController : MonoBehaviour
     protected string oneWayCollisionTag;
 
     protected RaycastOrigins raycastOrigins;
-    public BoxCollider2D boxCollider2D;
+    protected BoxCollider2D boxCollider2D;
 
 
     protected virtual void Awake()

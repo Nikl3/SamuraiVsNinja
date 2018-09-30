@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 114088382490684480}
   - component: {fileID: 61407097594308322}
   - component: {fileID: 50341962408071728}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Kunai
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38,7 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4602472284179746}
   - component: {fileID: 212240112737472010}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: ProjectileGraphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}

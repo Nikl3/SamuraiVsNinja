@@ -10,8 +10,9 @@ public enum PlayerState
 public class Player : MonoBehaviour
 {
 	#region VARIABLES
-	
-	public float RespawnDelay;
+
+	private readonly float firstRespawnDelay = 4f;
+	private readonly float respawnDelay = 0.5f;
 
 	private int healthPoints;
 	private int onigiris;
@@ -80,18 +81,13 @@ public class Player : MonoBehaviour
 		get;
 		private set;
 	}
-	public SpriteRenderer BackgroundLightRenderer;
+	public SpriteRenderer BackgroundLightRenderer
+	{
+		get;
+		private set;
+	}
 
 	#endregion PROPERTIES
-
-	public void ResetValues()
-	{
-		PlayerTriggerController.gameObject.tag = "Player";
-		healthPoints = 3;
-		onigiris = 0;
-		PlayerEngine.ResetVariables();
-		PlayerInfo.UpdateHealthPoints(healthPoints);
-	}
 
 	private void Awake()
 	{
@@ -101,107 +97,15 @@ public class Player : MonoBehaviour
 		AnimatorController = GetComponentInChildren<AnimatorController>();
 		Controller2D = GetComponent<CharacterController2D>();
 		PlayerTriggerController = GetComponentInChildren<PlayerTriggerController>();
-		Sword = GetComponent<Sword>();
+		Sword = GetComponentInChildren<Sword>();
 		defaultColor = SpriteRenderer.color;
 		BackgroundLightRenderer = AnimatorController.transform.Find("BackgroundLight").GetComponent<SpriteRenderer>();
 	}
-
 	private void Start()
 	{
 		ResetValues();
 		var playerColor = PlayerData.PlayerColor;
 		BackgroundLightRenderer.color = new Color(playerColor.r, playerColor.g, playerColor.b, backgroundLightAlpha);
-	}
-
-	public void Initialize(PlayerData playerData, PlayerInfo playerInfo, RuntimeAnimatorController runtimeAnimatorController)
-	{
-		this.playerData = playerData;
-		PlayerInfo = playerInfo;
-		PlayerInfo.Owner = this;
-		gameObject.name = playerData.PlayerName;
-
-		AnimatorController.SetAnimationController(runtimeAnimatorController);
-	}
-
-	public void ChangePlayerState(PlayerState newPlayerState, bool firstSpawn = false)
-	{
-		CurrentState = newPlayerState;
-
-		switch (CurrentState)
-		{
-			case PlayerState.NORMAL:
-				PlayerTriggerController.gameObject.tag = "Player";
-				SpriteRenderer.color = defaultColor;
-				break;
-
-			case PlayerState.INVINCIBILITY:
-				PlayerTriggerController.gameObject.tag = "Untagged";
-				SpriteRenderer.color = defaultColor;
-				PlayerEngine.StartInvincibility(2f, 0.1f);
-				break;
-
-			case PlayerState.RESPAWN:
-					   
-				if (firstSpawn)
-				{
-					SpriteRenderer.color = new Color(1, 1, 1, 0f);
-					PlayerEngine.Respawn(LevelManager.Instance.GetSpawnPoint(PlayerData.ID - 1), RespawnDelay);
-					firstSpawn = false;
-				}
-				else
-				{
-					ResetValues();
-					SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
-					PlayerEngine.Respawn(LevelManager.Instance.RandomSpawnPosition(0), 0.5f);
-				}
-
-				break;
-
-			default:
-
-				CurrentState = PlayerState.NORMAL;
-
-				break;
-		}
-	}
-
-	public void AddOnigiri(int amount)
-	{
-		onigiris += amount;
-		PlayerInfo.OnigirisPicked++;
-
-		if (onigiris >= 3)
-		{
-			LevelManager.Instance.Victory(playerData.PlayerName);
-		}
-
-		PlayerInfo.UpdateOnigiris(onigiris);
-	}
-
-	public void TakeDamage(Player attacker, Vector2 direction, Vector2 knockbackForce, int damage, int stunDuration = 0)
-	{
-		if (CurrentState == PlayerState.NORMAL)
-		{
-			PlayerInput.Stun(stunDuration);
-
-			healthPoints -= damage;
-
-			if (healthPoints >= 1)
-			{
-				if (damage > 0)
-				{
-					ChangePlayerState(PlayerState.INVINCIBILITY);
-					PlayerInfo.UpdateHealthPoints(healthPoints);
-				}
-
-				PlayerEngine.OnKnockback(direction, knockbackForce);
-				Fabric.EventManager.Instance.PostEvent("HitContact");
-			}
-			else
-			{
-				Die(attacker);
-			}
-		}
 	}
 
 	private void DropOnigiri()
@@ -212,11 +116,10 @@ public class Player : MonoBehaviour
 		droppedOnigiri.GetComponent<Item>().enabled = false;
 		droppedOnigiri.GetComponent<Animator>().enabled = false;
 	}
-
 	private void Die(Player attacker)
 	{
-		Debug.LogError(attacker.name);
-		if(this != attacker) 
+		Debug.LogError("Attacker: " + attacker.name);
+		if (this != attacker)
 		{
 			attacker.PlayerInfo.Kills++;
 		}
@@ -231,5 +134,105 @@ public class Player : MonoBehaviour
 		ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position);
 		ChangePlayerState(PlayerState.RESPAWN);
 		Fabric.EventManager.Instance.PostEvent("Die");
+	}
+
+	public void Initialize(PlayerData playerData, PlayerInfo playerInfo, EndGameStats endGameStats, RuntimeAnimatorController runtimeAnimatorController)
+	{
+		this.playerData = playerData;
+		PlayerInfo = playerInfo;
+		PlayerInfo.Owner = this;
+		PlayerInfo.EndGameStats = endGameStats;
+
+		gameObject.name = playerData.PlayerName;
+
+		AnimatorController.SetAnimationController(runtimeAnimatorController);
+	}
+	public void ResetValues()
+	{
+		PlayerTriggerController.gameObject.tag = "Player";
+		healthPoints = 3;
+		onigiris = 0;
+		PlayerEngine.ResetVariables();
+		PlayerInfo.UpdateHealthPoints(healthPoints);
+	}
+	public void ChangePlayerState(PlayerState newPlayerState, bool firstSpawn = false)
+	{
+		CurrentState = newPlayerState;
+
+		switch (CurrentState)
+		{
+			case PlayerState.NORMAL:
+				//Debug.LogError(name + " NORMAL");
+				PlayerTriggerController.gameObject.tag = "Player";
+				SpriteRenderer.color = defaultColor;
+				break;
+
+			case PlayerState.INVINCIBILITY:
+				//Debug.LogError(name + " INVINCIBILITY");
+				PlayerTriggerController.gameObject.tag = "Untagged";
+				SpriteRenderer.color = defaultColor;
+				PlayerEngine.StartInvincibility(2f, 0.1f);
+				break;
+
+			case PlayerState.RESPAWN:
+				//Debug.LogError(name + " RESPAWN");
+				if (firstSpawn)
+				{
+					SpriteRenderer.color = new Color(1, 1, 1, 0f);
+					PlayerEngine.Respawn(LevelManager.Instance.GetSpawnPoint(PlayerData.ID - 1), firstRespawnDelay);
+					firstSpawn = false;
+				}
+				else
+				{
+					SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
+					PlayerEngine.Respawn(LevelManager.Instance.RandomSpawnPosition(0), respawnDelay);
+				}
+
+				break;
+
+			default:
+
+				CurrentState = PlayerState.NORMAL;
+
+				break;
+		}
+	}
+	public void AddOnigiri(int amount)
+	{
+		onigiris += amount;
+		PlayerInfo.OnigirisPicked++;
+
+		if (onigiris >= 3)
+		{
+			LevelManager.Instance.Victory(playerData.PlayerName);
+		}
+
+		PlayerInfo.UpdateOnigiris(onigiris);
+	}
+	public void TakeDamage(Player attacker, Vector2 direction, Vector2 knockbackForce, int damage, int stunDuration = 0)
+	{
+		if (CurrentState == PlayerState.NORMAL)
+		{
+			PlayerInput.Stun(stunDuration);
+
+			healthPoints -= damage;
+
+			if (healthPoints >= 1)
+			{
+				if (damage > 0)
+				{
+					ChangePlayerState(PlayerState.INVINCIBILITY);			
+				}
+
+				PlayerEngine.OnKnockback(direction, knockbackForce);
+				Fabric.EventManager.Instance.PostEvent("HitContact");
+			}
+			else
+			{
+				Die(attacker);
+			}
+
+			PlayerInfo.UpdateHealthPoints(healthPoints);
+		}
 	}
 }

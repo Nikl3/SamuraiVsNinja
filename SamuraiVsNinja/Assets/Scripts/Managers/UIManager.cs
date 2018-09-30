@@ -18,12 +18,6 @@ public enum PANEL_STATE
 
 public class UIManager : Singelton<UIManager>
 {
-	public PANEL_STATE CurrentPanelState
-	{
-		get;
-		private set;
-	}
-
 	#region VARIABLES
 
 	public Sprite[] BackgroundSprites;
@@ -32,7 +26,14 @@ public class UIManager : Singelton<UIManager>
 
 	#region PROPERTIES
 
+	public PANEL_STATE CurrentPanelState
+	{
+		get;
+		private set;
+	}
 	public Transform PlayerInfoContainer { get; private set; }
+	public CanvasGroup PlayerInfoContainerGroup { get; private set; }
+	public Transform PlayerEndPanel { get; private set; }
 	public GameObject TitleCharacters { get; private set; }
 	public GameObject TitleGameObject { get; private set; }
 	public GameObject PanelsGameObject { get; private set; }
@@ -60,7 +61,7 @@ public class UIManager : Singelton<UIManager>
 		Initialize();
 	}
 	private void Start()
-	{
+	{   
 		BackgroundImage.gameObject.SetActive(true);
 	}
 	private void Update()
@@ -71,9 +72,9 @@ public class UIManager : Singelton<UIManager>
 	private void Initialize()
 	{
 		PlayerInfoContainer = transform.Find("PlayerInfoContainer");
-
+		PlayerInfoContainerGroup = PlayerInfoContainer.GetComponent<CanvasGroup>();
 		TitleCharacters = transform.Find("TitleCharacters").gameObject;
-		TitleGameObject = transform.Find("LogoIMG").gameObject;
+		TitleGameObject = transform.Find("LogoImage").gameObject;
 		PanelsGameObject = transform.Find("Panels").gameObject;
 		PanelBackgroundImage = PanelsGameObject.transform.GetComponent<Image>();
 		BackgroundImage = transform.Find("BackgroundImage").GetComponent<Image>();
@@ -90,6 +91,7 @@ public class UIManager : Singelton<UIManager>
 		VictoryPanel = PanelsGameObject.transform.Find("VictoryPanel").GetComponent<UIPanel>();
 		OnlineLobbyPanel = PanelsGameObject.transform.Find("OnlineLobbyPanel").GetComponent<UIPanel>();
 
+		PlayerEndPanel = VictoryPanel.transform.Find("PlayerStatsPanel").transform.Find("PlayerEndPanel");
 		Animator = GetComponent<Animator>();
 	}
 	private void OnStartButtonDown(CURRENT_GAME_STATE currentGameState)
@@ -127,7 +129,6 @@ public class UIManager : Singelton<UIManager>
 			}
 		}
 	}
-
 	private void TriggerPanelBehaviour(UIPanel panel)
 	{
 		if (CurrentPanel != null)
@@ -247,7 +248,7 @@ public class UIManager : Singelton<UIManager>
 			}
 		}
 	}
-
+	
 	/// <summary>
 	/// Temp stuff
 	/// </summary>

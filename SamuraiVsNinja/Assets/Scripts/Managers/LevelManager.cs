@@ -3,18 +3,16 @@ using UnityEngine;
 
 public class LevelManager : Singelton<LevelManager>
 {
-    private bool gameIsRunning;
-
     [SerializeField]
     private Vector2[] playerSpawnPoints;
     [SerializeField]
     private Vector2[] onigiriSpawnPoints;
-
-    private Coroutine spawnOnigirisCoroutine;
-
     [SerializeField]
     private LayerMask collisionLayer;
+    private GameObject onigiriPrefab, sushiPrefab;
+    private bool gameIsRunning;
     private readonly int mapHorizontalBorder = 80;
+    private Coroutine spawnOnigirisCoroutine;
 
     public string WinnerName
     {
@@ -24,9 +22,53 @@ public class LevelManager : Singelton<LevelManager>
 
     private void Start()
     {
-        StartRound();
+        Time.timeScale = 1f;
+        onigiriPrefab = ResourceManager.Instance.GetPrefabByIndex(1, 0);
+        sushiPrefab = ResourceManager.Instance.GetPrefabByIndex(1, 1);
+        Invoke("StartRound", 1f);
+    }
+    private void OnDrawGizmos()
+    {
+        if (playerSpawnPoints != null && onigiriSpawnPoints != null)
+        {
+            // Draw player spawn points
+            Gizmos.color = Color.white;
+            float size = 1f;
+
+            for (int i = 0; i < playerSpawnPoints.Length; i++)
+            {
+                Gizmos.DrawLine(playerSpawnPoints[i] - Vector2.up * size, playerSpawnPoints[i] + Vector2.up * size);
+                Gizmos.DrawLine(playerSpawnPoints[i] - Vector2.left * size, playerSpawnPoints[i] + Vector2.left * size);
+            }
+
+            // Draw onigiri spawn points
+            Gizmos.color = Color.yellow;
+
+            for (int i = 0; i < onigiriSpawnPoints.Length; i++)
+            {
+                Gizmos.DrawLine(onigiriSpawnPoints[i] - Vector2.up * size, onigiriSpawnPoints[i] + Vector2.up * size);
+                Gizmos.DrawLine(onigiriSpawnPoints[i] - Vector2.left * size, onigiriSpawnPoints[i] + Vector2.left * size);
+            }
+        }
     }
 
+    private bool CanSpawnObjectAtPosition(Vector2 position, Vector2 checkArea, LayerMask collisionLayer, float angle = 0f)
+    {
+        if (!Physics2D.OverlapBox(position, checkArea, angle, collisionLayer))
+        {
+            return true;
+        }
+
+        return false;
+    }
+ 
+    private void StartSpawnItem(GameObject prefab)
+    {
+        if (spawnOnigirisCoroutine == null)
+        {
+            spawnOnigirisCoroutine = StartCoroutine(ISpawnItem(prefab));
+        }
+    }
     private void StartRound()
     {
         gameIsRunning = true;
@@ -34,8 +76,7 @@ public class LevelManager : Singelton<LevelManager>
         Time.timeScale = 1;
         Fabric.EventManager.Instance.PostEvent("Music");
         PlayerDataManager.Instance.SpawnPlayers();
-
-        //StartSpawnItem(ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 0)));
+        StartSpawnItem(onigiriPrefab);
     }
 
     /// <summary>
@@ -65,86 +106,31 @@ public class LevelManager : Singelton<LevelManager>
 
         WinnerName = winnerName;
         UIManager.Instance.ChangePanelState(PANEL_STATE.VICTORY);
-        foreach (var player in PlayerDataManager.Instance.CurrentlyJoinedPlayers)
-        {
-            player.PlayerInfo.UpdateEndPanelStats();
-        }
     }
     public void TeleportObject(Transform objectToTeleport)
     {
         if (objectToTeleport.position.x > mapHorizontalBorder)
         {
             objectToTeleport.position = new Vector2(-objectToTeleport.position.x, objectToTeleport.position.y);
-            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 1), transform.position);
+            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 1), objectToTeleport.position);
         }
         else if (objectToTeleport.position.x < -mapHorizontalBorder)
         {
             objectToTeleport.position = new Vector2(-objectToTeleport.position.x, objectToTeleport.position.y);
-            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 1), transform.position);
+            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 1), objectToTeleport.position);
         }        
-    }
-    public void SpawnProjectile(Player player, Transform graphicParent, Vector2 spawnPoint, int projectileTypeIndex)
-    {
-        var projectile = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(3, projectileTypeIndex == 0 ? 0 : 1), spawnPoint, Quaternion.identity);
-        projectile.GetComponent<Projectile>().ProjectileInitialize(player, (int)graphicParent.localScale.x);
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (playerSpawnPoints != null && onigiriSpawnPoints != null)
-        {
-            // Draw player spawn points
-            Gizmos.color = Color.white;
-            float size = 1f;
-
-            for (int i = 0; i < playerSpawnPoints.Length; i++)
-            {
-                Gizmos.DrawLine(playerSpawnPoints[i] - Vector2.up * size, playerSpawnPoints[i] + Vector2.up * size);
-                Gizmos.DrawLine(playerSpawnPoints[i] - Vector2.left * size, playerSpawnPoints[i] + Vector2.left * size);
-            }
-
-            // Draw onigiri spawn points
-            Gizmos.color = Color.yellow;
-
-            for (int i = 0; i < onigiriSpawnPoints.Length; i++)
-            {
-                Gizmos.DrawLine(onigiriSpawnPoints[i] - Vector2.up * size, onigiriSpawnPoints[i] + Vector2.up * size);
-                Gizmos.DrawLine(onigiriSpawnPoints[i] - Vector2.left * size, onigiriSpawnPoints[i] + Vector2.left * size);
-            }
-        }
-    }
-
-    private void StartSpawnItem(GameObject prefab)
-    {
-        if(spawnOnigirisCoroutine == null)
-        {
-            spawnOnigirisCoroutine = StartCoroutine(ISpawnItem(prefab));
-        }
-    }
-
-    private bool CanSpawnObjectAtPosition(Vector2 position, Vector2 checkArea, LayerMask collisionLayer, float angle = 0f)
-    {
-        if (!Physics2D.OverlapBox(position, checkArea, angle, collisionLayer))
-        {
-            return true;
-        }
-
-        return false;
     }
 
     private IEnumerator ISpawnItem(GameObject prefab)
     {
         while (gameIsRunning)
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(Random.Range(2f, 5f));
 
             var randomPosition = RandomSpawnPosition(1);
-
+            
             if(randomPosition != Vector2.zero)
-            {
-                print(randomPosition);
-                ObjectPoolManager.Instance.SpawnObject(prefab, randomPosition);
-            }
+            ObjectPoolManager.Instance.SpawnObject(prefab, randomPosition);         
 
             yield return null;
         }

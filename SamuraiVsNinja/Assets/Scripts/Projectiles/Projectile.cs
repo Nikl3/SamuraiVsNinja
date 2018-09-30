@@ -15,40 +15,23 @@ public abstract class Projectile : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
-    private void SelfDestroy()
+    private void Despawn()
     {
-        Destroy(gameObject);
+        ObjectPoolManager.Instance.DespawnObject(gameObject);
     }
 
-    public void ProjectileInitialize(Player player, int projectileDirection)
+    public void ProjectileInitialize(Player owner, int projectileDirection)
     {
         startDirection = -projectileDirection;
         spriteRenderer.flipX = startDirection > 0 ? true : false;
-        Invoke("SelfDestroy", selfDestroyTime);
+        Invoke("Despawn", selfDestroyTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var collisionGameObject = collision.gameObject;
-        if (collisionGameObject.CompareTag("Player"))
+        if (collision.gameObject.layer.Equals(9))
         {
-            var hittedPlayer = collision.GetComponentInParent<Player>();
-
-            if(hittedPlayer != null)
-            {
-                var hitDirection = collision.transform.position - transform.position;
-                hitDirection.x = -hitDirection.x;
-                hitDirection = hitDirection.normalized;
-                hittedPlayer.TakeDamage(player, hitDirection, knockbackForce, 1, 1);
-
-                ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 2), collision.transform.position);
-            }
-           
-            Destroy(gameObject);
-        }
-        if (collisionGameObject.layer == 9)
-        {
-            Destroy(gameObject);
+            ObjectPoolManager.Instance.DespawnObject(gameObject);
         }
     }
 

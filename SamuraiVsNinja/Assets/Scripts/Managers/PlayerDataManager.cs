@@ -15,8 +15,6 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
     public Sprite[] ProjectileIconSprite;
 
     public int TestPlayerAmount;
-    public GameObject EGPrefab;
-    public Transform EGPanel;
 
     #region VARIABLES
 
@@ -31,12 +29,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         get;
         private set;
     }
-    public List<Player> CurrentlyJoinedPlayers
-    {
-        get;
-        private set;
-    }
-
+    public Stack<Player> CurrentlyJoinedPlayers = new Stack<Player>();
     public int MaxPlayerNumber
     {
         get
@@ -52,19 +45,6 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         CreatePlayerDatas();        
     }
 
-    private void CreatePlayerDatas()
-    {
-        CurrentlyJoinedPlayers = new List<Player>();
-        PlayerDatas = new PlayerData[MAX_PLAYER_NUMBER];
-
-        for (int i = 0; i < PlayerDatas.Length; i++)
-        {
-            PlayerDatas[i] = new PlayerData(i + 1, CreatePlayerColor(i + 1))
-            {
-
-            };
-        }
-    }
     private Color CreatePlayerColor(int playerID)
     {
         switch (playerID)
@@ -85,16 +65,29 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
                 return Color.magenta;
         }
     }
+    private void CreatePlayerDatas()
+    {
+        PlayerDatas = new PlayerData[MAX_PLAYER_NUMBER];
+
+        for (int i = 0; i < PlayerDatas.Length; i++)
+        {
+            PlayerDatas[i] = new PlayerData(i + 1, CreatePlayerColor(i + 1))
+            {
+
+            };
+        }
+    }
     private void AddTestPlayers(int testPlayerAmount)
     {
         if (TestPlayerAmount > 0)
         {
             testPlayerAmount = testPlayerAmount > MAX_PLAYER_NUMBER ? MAX_PLAYER_NUMBER : testPlayerAmount;
-
+            var randomTypeIndex = 0;
             for (int i = 0; i < testPlayerAmount; i++)
             {
+                randomTypeIndex = Random.Range(0, 2);
                 PlayerDatas[i].HasJoined = true;
-                PlayerDatas[i].PlayerType = PLAYER_TYPE.NINJA;
+                PlayerDatas[i].PlayerType =  (randomTypeIndex == 0 ? PLAYER_TYPE.NINJA : PLAYER_TYPE.SAMURAI);
             }
         }                   
     }
@@ -103,17 +96,13 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
     {
         return PlayerDatas[id];
     }
-
     public void ClearJoinedPlayers()
     {
         foreach (var playerData in PlayerDatas)
         {
             playerData.HasJoined = false;
         }
-
-        CurrentlyJoinedPlayers.Clear();
     }
-
     public void PlayerJoin(int playerID)
     {
         if (!PlayerDatas[playerID - 1].HasJoined)
@@ -140,19 +129,14 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
             if (playerData.HasJoined)
             {
                 var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0), LevelManager.Instance.GetSpawnPoint(playerData.ID - 1), Quaternion.identity).GetComponent<Player>();
-                CurrentlyJoinedPlayers.Add(newPlayer);
+
                 var newPlayerInfo = Instantiate(
                     ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
-                
-                var newPlayerEG = Instantiate(EGPrefab);
-                newPlayerEG.transform.SetParent(EGPanel);
-                newPlayerEG.transform.localScale = Vector2.one;
 
-                newPlayerInfo.EGS = newPlayerEG.GetComponent<EndGameStats>();
-            
-                // var newPlayer = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(0, 0), LevelManager.Instance.GetSpawnPoint(playerData.ID - 1)).GetComponent<Player>();
+                var newPlayerEndGameStats = Instantiate(
+                    ResourceManager.Instance.GetPrefabByIndex(4, 3).GetComponent<EndGameStats>());
 
-                newPlayer.Initialize(playerData, newPlayerInfo, playerData.PlayerType == PLAYER_TYPE.NINJA ? RuntimeAnimatorControllers[0] : RuntimeAnimatorControllers[1]);
+                newPlayer.Initialize(playerData, newPlayerInfo, newPlayerEndGameStats, playerData.PlayerType == PLAYER_TYPE.NINJA ? RuntimeAnimatorControllers[0] : RuntimeAnimatorControllers[1]);
                 CameraEngine.Instance.AddTarget(newPlayer.transform);
                 newPlayer.ChangePlayerState(PlayerState.RESPAWN, true);
             }

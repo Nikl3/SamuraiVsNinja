@@ -299,7 +299,6 @@ MonoBehaviour:
   collisionMaskLayer:
     serializedVersion: 2
     m_Bits: 1536
-  boxCollider2D: {fileID: 0}
 --- !u!114 &114106108584952654
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -341,8 +340,7 @@ MonoBehaviour:
   wallJumpOff: {x: 8.5, y: 7}
   wallLeap: {x: 20, y: 18}
   dashSpeed: 40
-  jumpCloud: {fileID: 1674375301271430, guid: 06756cf8f7115944b976efb8f02a4bd4, type: 2}
-  dashEffect: {fileID: 1299724192643068, guid: ab98359113970a94cab5288ee22767eb, type: 2}
+  isThrowing: 0
 --- !u!114 &114841644404322898
 MonoBehaviour:
   m_ObjectHideFlags: 1

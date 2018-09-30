@@ -56,7 +56,7 @@ public class PlayerInput : MonoBehaviour
             }
 
             if (InputManager.Instance.GetRangeAttackAxisRaw(player.PlayerData.ID) <= -1) {
-                player.PlayerEngine.OnRangedAttack();
+                player.PlayerEngine.OnThrow();
             }
 
             if (InputManager.Instance.GetDashAxisRaw(player.PlayerData.ID) >= 1) {

@@ -2,14 +2,36 @@
 
 public class CharacterController2D : RaycastController
 {
-    public CollisionInfo Collisions;
+    private CollisionInfo collisions;
     private Vector2 playerInput;
     private Player player;
+
+    public CollisionInfo Collisions
+    {
+        get
+        {
+            return collisions;
+        }
+    }
+    public Collider2D Collider2D
+    {
+        get
+        {
+            return boxCollider2D;
+        }
+    }
+    public LayerMask CollisionLayer
+    {
+        get
+        {
+            return collisionMaskLayer;
+        }
+    }
 
     protected override void Awake()
     {
         oneWayCollisionTag = "OneWayObject";
-        Collisions.FaceDirection = 1;
+        collisions.FaceDirection = 1;
 
         base.Awake();
         player = GetComponent<Player>();
@@ -24,13 +46,13 @@ public class CharacterController2D : RaycastController
     {
         UpdateRaycastOrigins();
 
-        Collisions.Reset();
-        Collisions.MoveAmountOld = moveAmount;
+        collisions.Reset();
+        collisions.MoveAmountOld = moveAmount;
         playerInput = input;
 
         if (moveAmount.x != 0)
         {
-            Collisions.FaceDirection = (int)Mathf.Sign(moveAmount.x);
+            collisions.FaceDirection = (int)Mathf.Sign(moveAmount.x);
         }
 
         HorizontalCollisions(ref moveAmount);
@@ -44,13 +66,13 @@ public class CharacterController2D : RaycastController
 
         if (standingOnPlatform)
         {
-            Collisions.Below = true;
+            collisions.Below = true;
         }
     }
 
     private void HorizontalCollisions(ref Vector2 moveAmount)
     {
-        float directionX = Collisions.FaceDirection;
+        float directionX = collisions.FaceDirection;
         float rayLength = Mathf.Abs(moveAmount.x) + SKIN_WIDTH;
 
         if (Mathf.Abs(moveAmount.x) < SKIN_WIDTH)
@@ -75,13 +97,13 @@ public class CharacterController2D : RaycastController
                     continue;
                 }
 
-                moveAmount = Collisions.MoveAmountOld;
+                moveAmount = collisions.MoveAmountOld;
 
                 moveAmount.x = (hit.distance - SKIN_WIDTH) * directionX;
                 rayLength = hit.distance;
 
-                Collisions.Left = directionX == -1;
-                Collisions.Right = directionX == 1;
+                collisions.Left = directionX == -1;
+                collisions.Right = directionX == 1;
             }              
         }
     }
@@ -107,13 +129,13 @@ public class CharacterController2D : RaycastController
                     {
                         continue;
                     }
-                    if (Collisions.FallingThroughPlatform)
+                    if (collisions.FallingThroughPlatform)
                     {
                         continue;
                     }
                     if (playerInput.y == -1 && InputManager.Instance.A_ButtonDown(player.PlayerData.ID))
                     {
-                        Collisions.FallingThroughPlatform = true;
+                        collisions.FallingThroughPlatform = true;
                         Invoke("ResetFallingThroughPlatform", 0.2f);
                         continue;
                     }
@@ -122,15 +144,15 @@ public class CharacterController2D : RaycastController
                 moveAmount.y = (hit.distance - SKIN_WIDTH) * directionY;
                 rayLength = hit.distance;
 
-                Collisions.Below = directionY == -1;
-                Collisions.Above = directionY == 1;
+                collisions.Below = directionY == -1;
+                collisions.Above = directionY == 1;
             }
         }
     }
 
     private void ResetFallingThroughPlatform()
     {
-        Collisions.FallingThroughPlatform = false;
+        collisions.FallingThroughPlatform = false;
     }
 
     public struct CollisionInfo

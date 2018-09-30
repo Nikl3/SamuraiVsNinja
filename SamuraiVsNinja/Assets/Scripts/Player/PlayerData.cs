@@ -3,6 +3,8 @@
 [System.Serializable]
 public class PlayerData
 {
+    private readonly string playerName;
+
     public PLAYER_TYPE PlayerType
     {
         get;
@@ -22,8 +24,6 @@ public class PlayerData
     }
     public bool HasJoined { get; set; }
     public Color PlayerColor { get; private set; }
-
-    private readonly string playerName;
 
     public PlayerData(int id, Color playerColor = default(Color))
     {

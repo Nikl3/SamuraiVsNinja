@@ -13,7 +13,6 @@ public class CharacterSelectPanel : UIPanel
     //}
     private readonly Coroutine[] coroutines = new Coroutine[4];
     private JoinField[] joinFields;
-    private Text joinedPlayerText;
 
     private JoinField[] GetJoinFields()
     {
@@ -28,7 +27,6 @@ public class CharacterSelectPanel : UIPanel
     private void Awake()
     {
         joinFields = GetJoinFields();
-        joinedPlayerText = transform.Find("JoinedPlayers").GetComponent<Text>();
     }
     public override void Update()
     {
@@ -53,7 +51,6 @@ public class CharacterSelectPanel : UIPanel
 
         UnSetAllJoinField();
         CanJoin = false;
-        PlayerDataManager.Instance.ClearJoinedPlayers();
     }
 
     private void HandlePlayerJoinings()
@@ -96,12 +93,10 @@ public class CharacterSelectPanel : UIPanel
     public void SetJoinField(int playerID, Color joinColor)
     {
         joinFields[playerID - 1].ChangeJoinFieldVisuals(playerID, joinColor);
-        joinedPlayerText.text = "PLAYERS " + PlayerDataManager.Instance.CurrentlyJoinedPlayers.Count + " / " + 4;
     }
     public void UnSetJoinField(int playerID)
     {
         joinFields[playerID - 1].UnChangeJoinFieldVisuals();
-        joinedPlayerText.text = "PLAYERS " + PlayerDataManager.Instance.CurrentlyJoinedPlayers.Count + " / " + 4;
     }
 
     public void UnSetAllJoinField()
@@ -116,8 +111,6 @@ public class CharacterSelectPanel : UIPanel
         {
             joinFields[i].UnChangeJoinFieldVisuals();
         }
-
-        joinedPlayerText.text = "PLAYERS 0 / " + PlayerDataManager.Instance.MaxPlayerNumber;
     }
 
     private void ChangePlayerIcon(JoinField joinField, PlayerData playerData)
@@ -142,7 +135,6 @@ public class CharacterSelectPanel : UIPanel
     public override void BackButton()
     {
         base.BackButton();
-
         UIManager.Instance.ChangePanelState(PANEL_STATE.MAIN_MENU);
     }
 }

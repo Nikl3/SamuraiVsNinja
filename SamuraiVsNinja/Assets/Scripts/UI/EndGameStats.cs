@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class EndGameStats : MonoBehaviour {
-
+public class EndGameStats : MonoBehaviour
+{
+    [SerializeField]
+    private Image PlayerIcon;
     [SerializeField]
     private Text PlayerName;
     [SerializeField]
@@ -18,8 +20,15 @@ public class EndGameStats : MonoBehaviour {
     [SerializeField]
     private Text HitPerc;
 
-    public void SetEGStats(string playerName, int onigirispicked, int onigirislost, int kills, int deaths, int attacks, int hitperc) 
+    private void OnEnable()
     {
+        transform.SetParent(UIManager.Instance.PlayerEndPanel);
+        transform.localScale = Vector2.one;
+    }
+
+    public void SetEndGameStats(Sprite playerIconSprite, string playerName, int onigirispicked, int onigirislost, int kills, int deaths, int attacks, int hitperc) 
+    {
+        PlayerIcon.sprite = playerIconSprite;
         PlayerName.text = playerName;
         OnigirisPicked.text = "Onigiris picked: " + onigirispicked;
         OnigirisLost.text = "Onigiris lost: " + onigirislost;
@@ -27,6 +36,5 @@ public class EndGameStats : MonoBehaviour {
         Deaths.text = "Deaths: " + deaths;
         Attacks.text = "Attacks: " + attacks;
         HitPerc.text = "Hit % " + hitperc;
-
     }
 }

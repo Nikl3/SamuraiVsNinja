@@ -5,13 +5,16 @@ using UnityEngine.UI;
 
 public class PlayerInfo : MonoBehaviour
 {
-    public EndGameStats EGS;
+    public EndGameStats EndGameStats;
     public int OnigirisPicked;
     public int OnigirisLost;
     public int Kills;
     public int Deaths;
     public int Attacks;
     public int HitPreC;
+
+    private Color defaultColor = new Color(1, 1, 1, 1);
+    private Color emptyColor = new Color(1, 1, 1, 0.2f);
 
     #region VARIABLES
 
@@ -64,7 +67,6 @@ public class PlayerInfo : MonoBehaviour
         playerRespawnCooldownImage = transform.Find("PlayerIcon").transform.Find("CooldownImage").GetComponent<Image>();
         playerRespawnCooldownImage.gameObject.SetActive(false);
     }
-
     private void SetValues()
     {
         transform.SetParent(UIManager.Instance.PlayerInfoContainer);
@@ -88,7 +90,6 @@ public class PlayerInfo : MonoBehaviour
             playerProjectileIcon.sprite = PlayerDataManager.Instance.ProjectileIconSprite[1];
         }       
     }
-
     private void CreatePlayerIndicator()
     {
         var playerIndicator = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 2));
@@ -97,46 +98,40 @@ public class PlayerInfo : MonoBehaviour
         playerIndicator.transform.localPosition = new Vector2(0, 4);
         playerIndicator.name = "Player " + Owner.PlayerData.ID + " Indicator";
     }
-
-    private void ResetHealthPointImages()
+    private void ResetHealthPointIcons()
     {
-        foreach (var healthImage in healthpointImages)
+        foreach (var healthpointImage in healthpointImages)
         {
-            healthImage.gameObject.SetActive(true);
+            healthpointImage.color = defaultColor;
         }
     }
 
     public void UpdateEndPanelStats()
     {
-        EGS.SetEGStats(Owner.name, OnigirisPicked, OnigirisLost, Kills, Deaths, Attacks, HitPreC);               
+        EndGameStats.SetEndGameStats(playerIcon.sprite, Owner.name, OnigirisPicked, OnigirisLost, Kills, Deaths, Attacks, HitPreC);               
     }
-
     public void UpdateOnigiris(int currentOnigiris)
     {
         onigiriCountText.text = currentOnigiris.ToString();
     }
-
     public void UpdateHealthPoints(int currentHealthPoints)
     {
-        if (currentHealthPoints == 3)
+        if(currentHealthPoints == 3)
         {
-            ResetHealthPointImages();
+            ResetHealthPointIcons();
             return;
-        }        
+        }
 
-        healthpointImages[currentHealthPoints - 1].gameObject.SetActive(false);
+        healthpointImages[currentHealthPoints].color = emptyColor;
     }
-
-    public void StartRangeCooldown(bool IsCooldown,  float rangeAttackCooldown)
+    public void StartThrowCooldown(bool IsCooldown,  float rangeAttackCooldown)
     {
         StartCoroutine(ICooldown(rangeAttackCooldownImage, 0, rangeAttackCooldown));
     }
-
     public void StartDashCooldown(float dashCooldown)
     {
         StartCoroutine(ICooldown(dashAttackCooldownImage, 0, dashCooldown));
     }
-
     public void StartRespawnCooldown( float respawnCooldown)
     {
         StartCoroutine(ICooldown(playerRespawnCooldownImage, 0, respawnCooldown));

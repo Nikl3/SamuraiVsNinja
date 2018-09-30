@@ -8,7 +8,6 @@ public class PlayerEngine : MonoBehaviour
     #region VARIABLES
 
     private Player player;
-    private PlayerInput PInput;
 
     #region JUMP
     [Header("JUMP")]
@@ -68,19 +67,19 @@ public class PlayerEngine : MonoBehaviour
 
     #endregion DASH
 
-    #region RANGE_ATTACK
+    #region THROW
 
-    [Header("RANGE ATTACK")]
-
-    private bool isRangeAttacking = false;
+    [Header("THROW")]
     [SerializeField]
-    private readonly float rangeAttackCooldown = 2f;
+    private bool isThrowing = false;
+    [SerializeField]
+    private readonly float throwAttackCooldown = 2f;
 
-    #endregion RANGE_ATTACK
+    #endregion THROW
 
     private readonly float respawnCooldown = 2f;
-    
-    private Coroutine rangeAttackCoroutine;
+
+    private Coroutine throwAttackCoroutine;
     private Coroutine dashCoroutine;
     private Coroutine knockbackCoroutine;
     private Coroutine invincibilityCoroutine;
@@ -95,7 +94,6 @@ public class PlayerEngine : MonoBehaviour
         get;
         set;
     }
-
     public bool IsDashing
     {
         get
@@ -103,7 +101,6 @@ public class PlayerEngine : MonoBehaviour
             return isDashing;
         }
     }
-
     public float DashSpeed
     {
         get
@@ -116,7 +113,6 @@ public class PlayerEngine : MonoBehaviour
             dashSpeed = value;
         }
     }
-
     public float DashCooldown
     {
         get
@@ -124,15 +120,13 @@ public class PlayerEngine : MonoBehaviour
             return dashCooldown;
         }
     }
-
-    public float RangeAttackCooldown
+    public float ThrowAttackCooldown
     {
         get
         {
-            return rangeAttackCooldown;
+            return throwAttackCooldown;
         }
     }
-
     public float RespawnCooldown
     {
         get
@@ -140,7 +134,6 @@ public class PlayerEngine : MonoBehaviour
             return respawnCooldown;
         }
     }
-
     public float MinJumpHeight
     {
         get
@@ -153,7 +146,6 @@ public class PlayerEngine : MonoBehaviour
             minJumpHeight = value;
         }
     }
-
     public float MaxJumpHeight
     {
         get
@@ -166,7 +158,6 @@ public class PlayerEngine : MonoBehaviour
             maxJumpHeight = value;
         }
     }
-
     public float AccelerationTimeGrounded
     {
         get
@@ -185,14 +176,13 @@ public class PlayerEngine : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<Player>();
-        PInput = GetComponent<PlayerInput>();
     }
     private void Start()
     {
         startSpeed = moveSpeed;
         gravity = dashGravity = -(2 * MaxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity * timeToJumpApex);
-        minJumpVelocity = Mathf.Sqrt(2* Mathf.Abs(gravity) * MinJumpHeight);
+        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * MinJumpHeight);
     }
 
     private void HandleWallSliding()
@@ -209,7 +199,7 @@ public class PlayerEngine : MonoBehaviour
             wallSliding = true;
 
             if (!InputManager.Instance.X_ButtonUp(player.PlayerData.ID))
-            {       
+            {
                 return;
             }
 
@@ -226,11 +216,11 @@ public class PlayerEngine : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
     }
     private void CheckifRunningAndLocalScale()
-    {  
+    {
         if (directionalInput.x != 0 && !wallSliding)
         {
             player.AnimatorController.PlayerGraphics.localScale = new Vector2(player.Controller2D.Collisions.FaceDirection > 0 ? -1 : 1, 1);
-            player.AnimatorController.AnimatorSetBool("IsRunning", player.Controller2D.Collisions.Below ? true : false );
+            player.AnimatorController.AnimatorSetBool("IsRunning", player.Controller2D.Collisions.Below ? true : false);
         }
         else
         {
@@ -251,7 +241,7 @@ public class PlayerEngine : MonoBehaviour
             {
                 player.AnimatorController.AnimatorSetBool("IsJumping", velocity.y > 0 ? true : false);
                 player.AnimatorController.AnimatorSetBool("IsDropping", velocity.y < 0 ? true : false);
-            }        
+            }
         }
     }
 
@@ -293,7 +283,7 @@ public class PlayerEngine : MonoBehaviour
                 velocity.y = wallJumpOff.y;
             }
             else
-            {            
+            {
                 velocity.x = -wallDirectionX * wallLeap.x;
                 velocity.y = wallLeap.y;
             }
@@ -317,20 +307,20 @@ public class PlayerEngine : MonoBehaviour
     {
         player.AnimatorController.AnimatorSetBool("IsAttacking", true);
     }
-    public void OnRangedAttack()
+    public void OnThrow()
     {
-        if (rangeAttackCoroutine == null &&
-            !isRangeAttacking && 
-            !wallSliding && 
+        if (throwAttackCoroutine == null &&
+            !isThrowing &&
+            !wallSliding &&
             !IsDashing)
         {
-            rangeAttackCoroutine = StartCoroutine(IRangeAttack());         
+            throwAttackCoroutine = StartCoroutine(IThrow());
         }
     }
     public void OnDash()
     {
         if (dashCoroutine == null &&
-            !isDashing && 
+            !isDashing &&
             !wallSliding)
         {
             dashCoroutine = StartCoroutine(IDash());
@@ -338,17 +328,17 @@ public class PlayerEngine : MonoBehaviour
     }
     public void OnKnockback(Vector2 knockdownDirection, Vector2 knockbackForce)
     {
-        if(knockbackCoroutine == null)
+        if (knockbackCoroutine == null)
         {
             knockbackCoroutine = StartCoroutine(IKnockback(knockdownDirection, knockbackForce));
-        }     
+        }
     }
     public void StartInvincibility(float invincibilityDuartion, float flashSpeed)
     {
-        if(invincibilityCoroutine == null)
+        if (invincibilityCoroutine == null)
         {
             invincibilityCoroutine = StartCoroutine(IInvincibility(invincibilityDuartion, flashSpeed));
-        }    
+        }
     }
     public void Respawn(Vector2 spawnPoint, float respawnDelay = 0f)
     {
@@ -360,15 +350,15 @@ public class PlayerEngine : MonoBehaviour
 
     #region COROUTINES
 
-    private IEnumerator IRangeAttack()
+    private IEnumerator IThrow()
     {
-        isRangeAttacking = true;
+        isThrowing = true;
         player.AnimatorController.AnimatorSetBool("IsThrowing", true);
-        player.PlayerInfo.StartRangeCooldown(isRangeAttacking, RangeAttackCooldown);
+        player.PlayerInfo.StartThrowCooldown(isThrowing, ThrowAttackCooldown);
 
-        yield return new WaitForSeconds(RangeAttackCooldown);
-        isRangeAttacking = false;
-        rangeAttackCoroutine = null;
+        yield return new WaitForSeconds(ThrowAttackCooldown);
+        isThrowing = false;
+        throwAttackCoroutine = null;
     }
     private IEnumerator IDash()
     {
@@ -379,7 +369,7 @@ public class PlayerEngine : MonoBehaviour
         Fabric.EventManager.Instance.PostEvent("Dash");
 
         gravity = 0;
-        moveSpeed =+ DashSpeed;
+        moveSpeed = +DashSpeed;
 
         yield return new WaitForSeconds(dashTime);
 
@@ -408,7 +398,7 @@ public class PlayerEngine : MonoBehaviour
         float currentInvincibilityDuration = 0;
         StartCoroutine(IFlashSpriteRenderer(flashSpeed));
 
-        while(currentInvincibilityDuration <= invincibilityDuration)
+        while (currentInvincibilityDuration <= invincibilityDuration)
         {
             currentInvincibilityDuration += Time.deltaTime;
             yield return null;
@@ -430,7 +420,7 @@ public class PlayerEngine : MonoBehaviour
     }
     private IEnumerator IRespawn(Vector2 spawnPoint, float respawnDelay)
     {
-        player.Controller2D.boxCollider2D.enabled = false;
+        player.Controller2D.Collider2D.enabled = false;
         var respawnEffect = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 3), new Vector2(spawnPoint.x, spawnPoint.y - 4f), Quaternion.Euler(new Vector2(-90, 0))).GetComponent<Effect>();
 
         player.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
@@ -475,7 +465,7 @@ public class PlayerEngine : MonoBehaviour
             #endregion LERP_METHOD_2
         }
 
-        player.Controller2D.boxCollider2D.enabled = true;
+        player.Controller2D.Collider2D.enabled = true;
         player.ResetValues();
 
         yield return new WaitForSeconds(respawnDelay);

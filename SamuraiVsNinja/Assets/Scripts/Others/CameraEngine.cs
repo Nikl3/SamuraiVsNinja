@@ -9,13 +9,13 @@ public class CameraEngine : Singelton<CameraEngine>
     private List<Transform> targets;
 
     [SerializeField]
-    private readonly float smoothTime = 0.5f;
+    private float smoothTime = 0.5f;
     [SerializeField]
-    private readonly float maxZoom = 20f;
+    private float maxZoom = 20f;
     [SerializeField]
-    private readonly float minZoom = 30f;
+    private float minZoom = 30f;
     [SerializeField]
-    private readonly float zoomLimiter = 50f;
+    private float zoomLimiter = 100f;
 
     private Vector2 offset = Vector2.zero;
     private Vector2 cameraVelocity;

@@ -2,27 +2,36 @@
 
 public class PlayerTriggerController : MonoBehaviour
 {
-    private Player player;
+    private Player owner;
     private Vector2 knockbackForce = new Vector2(10, 20);
 
     private void Awake()
     {
-        player = GetComponentInParent<Player>();
+        owner = GetComponentInParent<Player>();
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (player.CurrentState == PlayerState.NORMAL)
+        if (owner.CurrentState == PlayerState.NORMAL)
         {
             var hitDirection = collision.transform.position - transform.position;
             hitDirection = hitDirection.normalized;
 
             switch (collision.tag)
             {
+                case "Projectile":
+                    var collisionGameObject = collision.gameObject;
+                    print(owner.name);
+                    owner.TakeDamage(owner, hitDirection, knockbackForce, 1, 1);
+
+                    ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 2), collision.transform.position);
+                    ObjectPoolManager.Instance.DespawnObject(collisionGameObject);                 
+                    break;
+
                 case "Onigiri":
                     Fabric.EventManager.Instance.PostEvent("Pickup");
-                    player.AddOnigiri(1);
-
+                    owner.AddOnigiri(1);
+                    ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 6), collision.transform.position);
                     ObjectPoolManager.Instance.DespawnObject(collision.gameObject);
                     break;
 
@@ -33,15 +42,17 @@ public class PlayerTriggerController : MonoBehaviour
 
                     ObjectPoolManager.Instance.DespawnObject(collision.gameObject);
                     break;
+
                 case "Player":
-                    if (player.PlayerEngine.IsDashing)
+                    if (owner.PlayerEngine.IsDashing)
                     {
                         var hittedPlayer = collision.gameObject.GetComponentInParent<Player>();
-                        hittedPlayer.TakeDamage(player, hitDirection, new Vector2(-40, 15), 0);
+                        hittedPlayer.TakeDamage(owner, hitDirection, new Vector2(-40, 15), 0);
                     }
                     break;
+
                 case "Killzone":
-                    player.TakeDamage(player,hitDirection, Vector2.zero, 3);
+                    owner.TakeDamage(owner,hitDirection, Vector2.zero, 3);
                     break;
             }
         }
@@ -49,16 +60,16 @@ public class PlayerTriggerController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (player.CurrentState == PlayerState.NORMAL)
+        if (owner.CurrentState == PlayerState.NORMAL)
         {
-            var hitDirection = collision.transform.position - transform.position;
-            hitDirection = hitDirection.normalized;
-
             switch (collision.tag)
-            {
+            {            
                 case "Spike":
 
-                    player.TakeDamage(player, hitDirection, knockbackForce, 1);
+                    var hitDirection = collision.transform.position - transform.position;
+                    hitDirection = hitDirection.normalized;
+                    owner.TakeDamage(owner, hitDirection, knockbackForce, 1);
+
                     break;
             }
         }
