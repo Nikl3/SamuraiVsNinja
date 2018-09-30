@@ -10,6 +10,7 @@ TagManager:
   - Onigiri
   - Spike
   - Killzone
+  - Sushi
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - PostProcessing
   - Obstacle
   - Character
-  - Collectable
+  - Item
   - 
   - 
   - 

@@ -2680,7 +2680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1898267191496850
 GameObject:
   m_ObjectHideFlags: 1
@@ -4719,6 +4719,8 @@ MonoBehaviour:
   - {fileID: 1990616214520192, guid: 6df61a4660816004d92e71272337bad6, type: 2}
   - {fileID: 1604283043950878, guid: cc98e80eb2edaa649a8298ea49c1db35, type: 2}
   - {fileID: 1396491660241416, guid: 16de85bf448401041929f3026e9c5368, type: 2}
+  - {fileID: 1674375301271430, guid: 06756cf8f7115944b976efb8f02a4bd4, type: 2}
+  - {fileID: 1299724192643068, guid: ab98359113970a94cab5288ee22767eb, type: 2}
   otherPrefabs:
   - {fileID: 0}
   - {fileID: 0}
@@ -9908,7 +9910,7 @@ MonoBehaviour:
   ProjectileIconSprite:
   - {fileID: 21300000, guid: f8e14f9de09e8df438ca555bebee829b, type: 3}
   - {fileID: 21300000, guid: ead5222cbf099b64bbddf7755a76c616, type: 3}
-  TestPlayerAmount: 0
+  TestPlayerAmount: 2
   EGPrefab: {fileID: 1260623820922962, guid: 800b29a44793cbb48b932f42d152b7e5, type: 2}
   EGPanel: {fileID: 224440332088255354}
 --- !u!114 &114783631393080388

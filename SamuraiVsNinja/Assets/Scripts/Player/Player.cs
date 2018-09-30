@@ -9,11 +9,11 @@ public enum PlayerState
 
 public class Player : MonoBehaviour
 {
-    #region VARIABLES
-    
-    public float RespawnDelay;
+	#region VARIABLES
+	
+	public float RespawnDelay;
 
-    private int healthPoints;
+	private int healthPoints;
 	private int onigiris;
 
 	private PlayerData playerData;
@@ -84,12 +84,13 @@ public class Player : MonoBehaviour
 
 	#endregion PROPERTIES
 
-	private void ResetValues()
+	public void ResetValues()
 	{
 		PlayerTriggerController.gameObject.tag = "Player";
 		healthPoints = 3;
 		onigiris = 0;
 		PlayerEngine.ResetVariables();
+		PlayerInfo.UpdateHealthPoints(healthPoints);
 	}
 
 	private void Awake()
@@ -119,9 +120,8 @@ public class Player : MonoBehaviour
 		PlayerInfo.Owner = this;
 		gameObject.name = playerData.PlayerName;
 
-        AnimatorController.SetAnimationController(runtimeAnimatorController);
-
-    }
+		AnimatorController.SetAnimationController(runtimeAnimatorController);
+	}
 
 	public void ChangePlayerState(PlayerState newPlayerState, bool firstSpawn = false)
 	{
@@ -152,7 +152,7 @@ public class Player : MonoBehaviour
 				{
 					ResetValues();
 					SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
-					PlayerEngine.Respawn(LevelManager.Instance.RandomSpawnPoint(), 0.5f);
+					PlayerEngine.Respawn(LevelManager.Instance.RandomSpawnPosition(0), 0.5f);
 				}
 
 				break;
@@ -178,20 +178,22 @@ public class Player : MonoBehaviour
 		PlayerInfo.UpdateOnigiris(onigiris);
 	}
 
-	public void TakeDamage(Player attacker, Vector2 direction, Vector2 knockbackForce, int damage)
+	public void TakeDamage(Player attacker, Vector2 direction, Vector2 knockbackForce, int damage, int stunDuration = 0)
 	{
 		if (CurrentState == PlayerState.NORMAL)
-		{//disable CalculateMovement() 0,5s ajaksi
-            PlayerInput.Stun(2);
+		{
+			PlayerInput.Stun(stunDuration);
 
-            healthPoints -= damage;
+			healthPoints -= damage;
 
 			if (healthPoints >= 1)
 			{
 				if (damage > 0)
 				{
 					ChangePlayerState(PlayerState.INVINCIBILITY);
+					PlayerInfo.UpdateHealthPoints(healthPoints);
 				}
+
 				PlayerEngine.OnKnockback(direction, knockbackForce);
 				Fabric.EventManager.Instance.PostEvent("HitContact");
 			}
@@ -199,8 +201,6 @@ public class Player : MonoBehaviour
 			{
 				Die(attacker);
 			}
-
-			PlayerInfo.UpdateHealthPoints(healthPoints);
 		}
 	}
 
@@ -208,13 +208,14 @@ public class Player : MonoBehaviour
 	{
 		PlayerInfo.OnigirisLost++;
 
-		var droppedOni = Instantiate(ResourceManager.Instance.GetPrefabByIndex(1, 0), transform.position, Quaternion.identity);
-        droppedOni.GetComponent<OnigiriFloater>().enabled = false;
-        droppedOni.GetComponent<Animator>().enabled = false;
+		var droppedOnigiri = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 0), transform.position);
+		droppedOnigiri.GetComponent<Item>().enabled = false;
+		droppedOnigiri.GetComponent<Animator>().enabled = false;
 	}
 
 	private void Die(Player attacker)
 	{
+		Debug.LogError(attacker.name);
 		if(this != attacker) 
 		{
 			attacker.PlayerInfo.Kills++;
@@ -227,7 +228,7 @@ public class Player : MonoBehaviour
 			DropOnigiri();
 		}
 
-		Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position, Quaternion.identity);
+		ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position);
 		ChangePlayerState(PlayerState.RESPAWN);
 		Fabric.EventManager.Instance.PostEvent("Die");
 	}

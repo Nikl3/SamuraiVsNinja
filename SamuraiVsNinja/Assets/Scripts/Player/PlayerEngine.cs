@@ -182,9 +182,6 @@ public class PlayerEngine : MonoBehaviour
 
     #endregion PROPERTIES
 
-    public GameObject jumpCloud;
-    public GameObject dashEffect;
-
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -280,7 +277,7 @@ public class PlayerEngine : MonoBehaviour
     {
         if (player.Controller2D.Collisions.Below)
         {
-            Instantiate(jumpCloud, transform.position, transform.rotation);
+            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 4), transform.position);
         }
 
         if (wallSliding)
@@ -301,7 +298,7 @@ public class PlayerEngine : MonoBehaviour
                 velocity.y = wallLeap.y;
             }
 
-            Instantiate(jumpCloud, transform.position, transform.rotation);
+            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 4), transform.position);
         }
 
         if (player.Controller2D.Collisions.Below)
@@ -376,9 +373,9 @@ public class PlayerEngine : MonoBehaviour
     private IEnumerator IDash()
     {
         isDashing = true;
-        Instantiate(dashEffect, transform.position, transform.rotation);
         player.PlayerInfo.StartDashCooldown(DashCooldown);
         player.AnimatorController.AnimatorSetBool("IsDashing", true);
+        ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 5), transform.position);
         Fabric.EventManager.Instance.PostEvent("Dash");
 
         gravity = 0;
@@ -434,7 +431,7 @@ public class PlayerEngine : MonoBehaviour
     private IEnumerator IRespawn(Vector2 spawnPoint, float respawnDelay)
     {
         player.Controller2D.boxCollider2D.enabled = false;
-        var respawnEffect = Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 3), new Vector2(spawnPoint.x, spawnPoint.y - 4f), Quaternion.Euler(new Vector2(-90, 0))).GetComponent<Effect>();
+        var respawnEffect = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 3), new Vector2(spawnPoint.x, spawnPoint.y - 4f), Quaternion.Euler(new Vector2(-90, 0))).GetComponent<Effect>();
 
         player.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
         player.AnimatorController.AnimatorSetBool("HasDied", true);
@@ -477,12 +474,16 @@ public class PlayerEngine : MonoBehaviour
 
             #endregion LERP_METHOD_2
         }
+
         player.Controller2D.boxCollider2D.enabled = true;
+        player.ResetValues();
 
         yield return new WaitForSeconds(respawnDelay);
 
         respawnEffect.ParticleSystem.Stop();
-        Instantiate(ResourceManager.Instance.GetPrefabByIndex(5, 1), transform.position, Quaternion.identity);
+
+        ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 1), transform.position);
+
         player.AnimatorController.AnimatorSetBool("HasDied", false);
         player.ChangePlayerState(PlayerState.INVINCIBILITY);
         respawnCoroutine = null;

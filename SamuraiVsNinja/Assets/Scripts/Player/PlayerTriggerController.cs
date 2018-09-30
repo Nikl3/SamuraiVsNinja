@@ -22,13 +22,17 @@ public class PlayerTriggerController : MonoBehaviour
                 case "Onigiri":
                     Fabric.EventManager.Instance.PostEvent("Pickup");
                     player.AddOnigiri(1);
-                    Destroy(collision.gameObject);
+
+                    ObjectPoolManager.Instance.DespawnObject(collision.gameObject);
                     break;
-                //case "Pickup":
 
-                //    player.TakeDamage(hitDirection, knockbackForce, 1);
-                //    break;
+                case "Sushi":
+                    Fabric.EventManager.Instance.PostEvent("Pickup");
 
+                    print("+1 Health");
+
+                    ObjectPoolManager.Instance.DespawnObject(collision.gameObject);
+                    break;
                 case "Player":
                     if (player.PlayerEngine.IsDashing)
                     {
