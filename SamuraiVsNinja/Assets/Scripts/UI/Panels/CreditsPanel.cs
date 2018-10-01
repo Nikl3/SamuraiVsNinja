@@ -15,7 +15,6 @@ public class CreditsPanel : UIPanel
             UIManager.Instance.Animator.SetTrigger(creditsAnimationTag);
         }
     }
-
     public override void CloseBehaviour()
     {
         if (isCreditsRunning)
@@ -23,12 +22,17 @@ public class CreditsPanel : UIPanel
             StopAnimation(UIManager.Instance.Animator);
         }
 
-        base.CloseBehaviour();      
+        base.CloseBehaviour();
     }
 
     private void StopAnimation(Animator animator)
     {      
         animator.Play("Credits", 0, 0.98f);
         isCreditsRunning = false;       
+    }
+
+    public override void BackButton()
+    {
+        base.BackButton();
     }
 }

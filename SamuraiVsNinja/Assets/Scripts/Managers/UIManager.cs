@@ -37,6 +37,8 @@ public class UIManager : Singelton<UIManager>
 	public GameObject TitleCharacters { get; private set; }
 	public GameObject TitleGameObject { get; private set; }
 	public GameObject PanelsGameObject { get; private set; }
+	public GameObject Fireflies { get; private set; }
+	public Image GameTitleImage { get; private set; }
 	public Image PanelBackgroundImage { get; private set; }
 	public Image BackgroundImage { get; private set; }
 	public Animator Animator { get; private set; }
@@ -71,6 +73,7 @@ public class UIManager : Singelton<UIManager>
 
 	private void Initialize()
 	{
+		Fireflies = transform.Find("Fireflies").gameObject;
 		PlayerInfoContainer = transform.Find("PlayerInfoContainer");
 		PlayerInfoContainerGroup = PlayerInfoContainer.GetComponent<CanvasGroup>();
 		TitleCharacters = transform.Find("TitleCharacters").gameObject;
@@ -216,24 +219,28 @@ public class UIManager : Singelton<UIManager>
 	}
 	public void SetMainMenuUI()
 	{
-		BackgroundImage.sprite = BackgroundSprites[0];
+		Fireflies.SetActive(true);
 		TitleCharacters.SetActive(true);
-
+		TitleGameObject.SetActive(true);
 		PreSetPanelsState(false);
+		BackgroundImage.sprite = BackgroundSprites[0];
 
 		TriggerPanelBehaviour(MainMenuPanel);
 	}
 	public void SetLevelUI()
 	{
+		Fireflies.SetActive(false);
 		PreSetPanelsState(false);
-
-		TriggerPanelCloseBehaviour();
-		PlayerInfoContainer.gameObject.SetActive(true);
-		BackgroundImage.sprite = BackgroundSprites[1];
 		TitleCharacters.SetActive(false);
+		TitleGameObject.SetActive(false);
+		PlayerInfoContainer.gameObject.SetActive(true);
+
+		BackgroundImage.sprite = BackgroundSprites[1];
+		TriggerPanelCloseBehaviour();
 	}
 	public void SetOnlineUI()
 	{
+		Fireflies.SetActive(false);
 		PreSetPanelsState(false);
 	}
 	public void ClearPlayerInfoContainer()

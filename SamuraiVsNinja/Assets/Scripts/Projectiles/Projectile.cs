@@ -30,6 +30,7 @@ public abstract class Projectile : MonoBehaviour
     {
         if (collision.gameObject.layer.Equals(9))
         {
+            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 2), transform.position);
             ObjectPoolManager.Instance.DespawnObject(gameObject);
         }
     }

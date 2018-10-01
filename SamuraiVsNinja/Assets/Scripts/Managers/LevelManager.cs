@@ -75,7 +75,7 @@ public class LevelManager : Singelton<LevelManager>
         Fabric.EventManager.Instance.PostEvent("Music");
         PlayerDataManager.Instance.SpawnPlayers();
         StartSpawnOnigiris();
-        StartSpawnSushi();
+        //StartSpawnSushi();
     }
     private void StartSpawnOnigiris()
     {
