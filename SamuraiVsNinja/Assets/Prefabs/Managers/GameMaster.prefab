@@ -4710,13 +4710,8 @@ MonoBehaviour:
   - {fileID: 1604283043950878, guid: cc98e80eb2edaa649a8298ea49c1db35, type: 2}
   - {fileID: 1396491660241416, guid: 16de85bf448401041929f3026e9c5368, type: 2}
   - {fileID: 1674375301271430, guid: 06756cf8f7115944b976efb8f02a4bd4, type: 2}
-  - {fileID: 1299724192643068, guid: ab98359113970a94cab5288ee22767eb, type: 2}
   - {fileID: 1088679161462092, guid: 9e74f57a8adff8e4da6e04f86baae113, type: 2}
-  otherPrefabs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  otherPrefabs: []
 --- !u!114 &114153374455791074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9901,7 +9896,7 @@ MonoBehaviour:
   ProjectileIconSprite:
   - {fileID: 21300000, guid: f8e14f9de09e8df438ca555bebee829b, type: 3}
   - {fileID: 21300000, guid: ead5222cbf099b64bbddf7755a76c616, type: 3}
-  TestPlayerAmount: 4
+  TestPlayerAmount: 0
 --- !u!114 &114783631393080388
 MonoBehaviour:
   m_ObjectHideFlags: 1

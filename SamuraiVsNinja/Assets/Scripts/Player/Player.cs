@@ -108,17 +108,16 @@ public class Player : MonoBehaviour
 		BackgroundLightRenderer.color = new Color(playerColor.r, playerColor.g, playerColor.b, backgroundLightAlpha);
 	}
 
-	private void DropOnigiri()
+	private void LoseOnigiri()
 	{
 		PlayerInfo.OnigirisLost++;
 
-		var droppedOnigiri = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 0), transform.position);
-		droppedOnigiri.GetComponent<Item>().enabled = false;
-		droppedOnigiri.GetComponent<Animator>().enabled = false;
+		//var droppedOnigiri = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 0), transform.position);
+		//droppedOnigiri.GetComponent<Item>().enabled = false;
+		//droppedOnigiri.GetComponent<Animator>().enabled = false;
 	}
 	private void Die(Player attacker)
 	{
-		Debug.LogError("Attacker: " + attacker.name);
 		if (this != attacker)
 		{
 			attacker.PlayerInfo.Kills++;
@@ -128,7 +127,7 @@ public class Player : MonoBehaviour
 
 		if (onigiris > 0)
 		{
-			DropOnigiri();
+			LoseOnigiri();
 		}
 
 		ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position);
@@ -139,6 +138,7 @@ public class Player : MonoBehaviour
 	public void Initialize(PlayerData playerData, PlayerInfo playerInfo, EndGameStats endGameStats, RuntimeAnimatorController runtimeAnimatorController)
 	{
 		this.playerData = playerData;
+		playerData.SpawnedPlayer = this;
 		PlayerInfo = playerInfo;
 		PlayerInfo.Owner = this;
 		PlayerInfo.EndGameStats = endGameStats;
@@ -204,7 +204,7 @@ public class Player : MonoBehaviour
 
 		if (onigiris >= 3)
 		{
-			LevelManager.Instance.Victory(playerData.PlayerName);
+			LevelManager.Instance.EndGame(playerData.PlayerName);
 		}
 
 		PlayerInfo.UpdateOnigiris(onigiris);

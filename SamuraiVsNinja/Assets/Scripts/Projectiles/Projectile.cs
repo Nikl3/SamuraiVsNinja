@@ -8,7 +8,6 @@ public abstract class Projectile : MonoBehaviour
     protected int startDirection;
 
     private SpriteRenderer spriteRenderer;
-    private Vector2 knockbackForce = new Vector2(20, 10);
 
     protected virtual void Awake()
     {

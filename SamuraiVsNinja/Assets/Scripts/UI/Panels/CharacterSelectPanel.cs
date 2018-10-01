@@ -124,7 +124,7 @@ public class CharacterSelectPanel : UIPanel
         {
             yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) == 0);
             ChangePlayerIcon(joinFields[id - 1], (PlayerDataManager.Instance.GetPlayerData(id - 1)));
-            yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) >= 0.8f);
+            yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) >= 0.8f || InputManager.Instance.GetHorizontalAxisRaw(id) <= -0.8f);
         }
     }
 

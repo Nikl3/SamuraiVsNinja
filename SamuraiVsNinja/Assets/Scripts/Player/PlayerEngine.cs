@@ -182,7 +182,7 @@ public class PlayerEngine : MonoBehaviour
         startSpeed = moveSpeed;
         gravity = dashGravity = -(2 * MaxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity * timeToJumpApex);
-        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * MinJumpHeight);
+        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * MinJumpHeight);       
     }
 
     private void HandleWallSliding()

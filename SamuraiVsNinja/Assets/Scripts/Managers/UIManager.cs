@@ -218,7 +218,6 @@ public class UIManager : Singelton<UIManager>
 	{
 		BackgroundImage.sprite = BackgroundSprites[0];
 		TitleCharacters.SetActive(true);
-		TitleGameObject.SetActive(true);
 
 		PreSetPanelsState(false);
 
@@ -232,7 +231,6 @@ public class UIManager : Singelton<UIManager>
 		PlayerInfoContainer.gameObject.SetActive(true);
 		BackgroundImage.sprite = BackgroundSprites[1];
 		TitleCharacters.SetActive(false);
-		TitleGameObject.SetActive(false);
 	}
 	public void SetOnlineUI()
 	{
@@ -245,6 +243,14 @@ public class UIManager : Singelton<UIManager>
 			if(playerInfo != null)
 			{
 				Destroy(playerInfo.gameObject);
+			}
+		}
+
+		foreach (Transform endStats in PlayerEndPanel)
+		{
+			if (endStats != null)
+			{
+				Destroy(endStats.gameObject);
 			}
 		}
 	}

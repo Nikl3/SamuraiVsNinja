@@ -21,7 +21,6 @@ public class PlayerTriggerController : MonoBehaviour
             {
                 case "Projectile":
                     var collisionGameObject = collision.gameObject;
-                    print(owner.name);
                     owner.TakeDamage(owner, hitDirection, knockbackForce, 1, 1);
 
                     ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 2), collision.transform.position);
@@ -31,7 +30,7 @@ public class PlayerTriggerController : MonoBehaviour
                 case "Onigiri":
                     Fabric.EventManager.Instance.PostEvent("Pickup");
                     owner.AddOnigiri(1);
-                    ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 6), collision.transform.position);
+                    ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 5), collision.transform.position);
                     ObjectPoolManager.Instance.DespawnObject(collision.gameObject);
                     break;
 

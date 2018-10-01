@@ -10,6 +10,11 @@ public class PlayerData
         get;
         set;
     }
+    public Player SpawnedPlayer
+    {
+        get;
+        set;
+    }
     public int ID
     {
         get;
