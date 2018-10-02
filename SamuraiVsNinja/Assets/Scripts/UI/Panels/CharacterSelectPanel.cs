@@ -13,7 +13,6 @@ public class CharacterSelectPanel : UIPanel
     //}
     private readonly Coroutine[] coroutines = new Coroutine[4];
     private JoinField[] joinFields;
-
     private JoinField[] GetJoinFields()
     {
         return GetComponentsInChildren<JoinField>(true);
@@ -42,7 +41,6 @@ public class CharacterSelectPanel : UIPanel
     public override void OpenBehaviour()
     {
         base.OpenBehaviour();
-
         CanJoin = true;
     }
     public override void CloseBehaviour()
@@ -89,6 +87,11 @@ public class CharacterSelectPanel : UIPanel
                 InputManager.Instance.GetHorizontalAxisRaw(i + 1);
         }
     }
+    private void ChangePlayerIcon(JoinField joinField, PlayerData playerData)
+    {
+        playerData.PlayerType = playerData.PlayerType == PLAYER_TYPE.NINJA ? PLAYER_TYPE.SAMURAI : PLAYER_TYPE.NINJA;
+        joinField.ChangeSprite(playerData.PlayerType == PLAYER_TYPE.NINJA ? SamuraiIconSprite : NinjaIconSprite);
+    }
 
     public void SetJoinField(int playerID, Color joinColor)
     {
@@ -98,7 +101,6 @@ public class CharacterSelectPanel : UIPanel
     {
         joinFields[playerID - 1].UnChangeJoinFieldVisuals();
     }
-
     public void UnSetAllJoinField()
     {
         foreach (var coroutine in coroutines)
@@ -113,18 +115,13 @@ public class CharacterSelectPanel : UIPanel
         }
     }
 
-    private void ChangePlayerIcon(JoinField joinField, PlayerData playerData)
-    {
-        playerData.PlayerType = playerData.PlayerType == PLAYER_TYPE.NINJA ? PLAYER_TYPE.SAMURAI : PLAYER_TYPE.NINJA;
-        joinField.ChangeSprite(playerData.PlayerType == PLAYER_TYPE.NINJA ? SamuraiIconSprite : NinjaIconSprite);
-    }
     private IEnumerator IChangeCharacter(int id)
     {
         while (true)
         {
             yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) == 0);
             ChangePlayerIcon(joinFields[id - 1], (PlayerDataManager.Instance.GetPlayerData(id - 1)));
-            yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) >= 0.8f);
+            yield return new WaitUntil(() => InputManager.Instance.GetHorizontalAxisRaw(id) >= 0.8f || InputManager.Instance.GetHorizontalAxisRaw(id) <= -0.8f);
         }
     }
 

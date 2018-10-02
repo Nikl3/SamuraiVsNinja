@@ -8,7 +8,6 @@ public abstract class Projectile : MonoBehaviour
     protected int startDirection;
 
     private SpriteRenderer spriteRenderer;
-    private Vector2 knockbackForce = new Vector2(20, 10);
 
     protected virtual void Awake()
     {
@@ -31,6 +30,7 @@ public abstract class Projectile : MonoBehaviour
     {
         if (collision.gameObject.layer.Equals(9))
         {
+            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 2), transform.position);
             ObjectPoolManager.Instance.DespawnObject(gameObject);
         }
     }

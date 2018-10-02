@@ -18,6 +18,7 @@ public class VictoryPanel : UIPanel
         var winnerName = LevelManager.Instance.WinnerName;
         wienerText.text = winnerName + "\nYou are THE winner!\n some game & player statistic shown here";
 
+        PlayerDataManager.Instance.UpdateEndGameStats();
     }
 
     public override void CloseBehaviour()

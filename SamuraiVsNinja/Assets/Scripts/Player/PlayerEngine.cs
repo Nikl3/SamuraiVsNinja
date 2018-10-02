@@ -182,7 +182,7 @@ public class PlayerEngine : MonoBehaviour
         startSpeed = moveSpeed;
         gravity = dashGravity = -(2 * MaxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity * timeToJumpApex);
-        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * MinJumpHeight);
+        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * MinJumpHeight);       
     }
 
     private void HandleWallSliding()
@@ -365,7 +365,9 @@ public class PlayerEngine : MonoBehaviour
         isDashing = true;
         player.PlayerInfo.StartDashCooldown(DashCooldown);
         player.AnimatorController.AnimatorSetBool("IsDashing", true);
-        ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 5), transform.position);
+
+        //ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 5), transform.position);
+
         Fabric.EventManager.Instance.PostEvent("Dash");
 
         gravity = 0;

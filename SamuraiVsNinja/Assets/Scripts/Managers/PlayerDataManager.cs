@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum PLAYER_TYPE
 {
@@ -29,7 +28,6 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         get;
         private set;
     }
-    public Stack<Player> CurrentlyJoinedPlayers = new Stack<Player>();
     public int MaxPlayerNumber
     {
         get
@@ -44,7 +42,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
     {
         CreatePlayerDatas();        
     }
-
+   
     private Color CreatePlayerColor(int playerID)
     {
         switch (playerID)
@@ -128,13 +126,15 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         {
             if (playerData.HasJoined)
             {
-                var newPlayer = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0), LevelManager.Instance.GetSpawnPoint(playerData.ID - 1), Quaternion.identity).GetComponent<Player>();
+                var newPlayer = ObjectPoolManager.Instance.SpawnObject(
+                    ResourceManager.Instance.GetPrefabByIndex(0, 0), 
+                    LevelManager.Instance.GetSpawnPoint(playerData.ID - 1)).GetComponent<Player>();
 
-                var newPlayerInfo = Instantiate(
-                    ResourceManager.Instance.GetPrefabByIndex(4, 1).GetComponent<PlayerInfo>());
+                var newPlayerInfo = ObjectPoolManager.Instance.SpawnObject(
+                    ResourceManager.Instance.GetPrefabByIndex(4, 1)).GetComponent<PlayerInfo>();
 
-                var newPlayerEndGameStats = Instantiate(
-                    ResourceManager.Instance.GetPrefabByIndex(4, 3).GetComponent<EndGameStats>());
+                var newPlayerEndGameStats = ObjectPoolManager.Instance.SpawnObject(
+                    ResourceManager.Instance.GetPrefabByIndex(4, 3)).GetComponent<EndGameStats>();
 
                 newPlayer.Initialize(playerData, newPlayerInfo, newPlayerEndGameStats, playerData.PlayerType == PLAYER_TYPE.NINJA ? RuntimeAnimatorControllers[0] : RuntimeAnimatorControllers[1]);
                 CameraEngine.Instance.AddTarget(newPlayer.transform);
@@ -142,4 +142,16 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
             }
         }
     }  
+    public void UpdateEndGameStats()
+    {
+        foreach (var playerData in PlayerDatas)
+        {
+            var spawnedPlayer = playerData.SpawnedPlayer;
+
+            if(spawnedPlayer != null)
+            {
+                spawnedPlayer.PlayerInfo.UpdateEndPanelStats();
+            }
+        }
+    }
 }

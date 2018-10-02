@@ -11,8 +11,13 @@ public class LevelManager : Singelton<LevelManager>
     private LayerMask collisionLayer;
     private GameObject onigiriPrefab, sushiPrefab;
     private bool gameIsRunning;
+    private bool sushiDrop = false;
     private readonly int mapHorizontalBorder = 80;
+    private float sushiDropTime = 10;
+    private int sushiDropTimeInterval;
     private Coroutine spawnOnigirisCoroutine;
+    private Coroutine spawnSushiCoroutine;
+
 
     public string WinnerName
     {
@@ -62,13 +67,6 @@ public class LevelManager : Singelton<LevelManager>
         return false;
     }
  
-    private void StartSpawnItem(GameObject prefab)
-    {
-        if (spawnOnigirisCoroutine == null)
-        {
-            spawnOnigirisCoroutine = StartCoroutine(ISpawnItem(prefab));
-        }
-    }
     private void StartRound()
     {
         gameIsRunning = true;
@@ -76,7 +74,23 @@ public class LevelManager : Singelton<LevelManager>
         Time.timeScale = 1;
         Fabric.EventManager.Instance.PostEvent("Music");
         PlayerDataManager.Instance.SpawnPlayers();
-        StartSpawnItem(onigiriPrefab);
+        StartSpawnOnigiris();
+        //StartSpawnSushi();
+    }
+    private void StartSpawnOnigiris()
+    {
+        if (spawnOnigirisCoroutine == null)
+        {
+            spawnOnigirisCoroutine = StartCoroutine(ISpawnOnigiris());
+        }
+    }
+    private void StartSpawnSushi()
+    {
+        if (spawnSushiCoroutine == null)
+        {
+            sushiDrop = true;
+            spawnSushiCoroutine = StartCoroutine(ISpawnSushi());
+        }
     }
 
     /// <summary>
@@ -100,11 +114,12 @@ public class LevelManager : Singelton<LevelManager>
     {
         return playerSpawnPoints[index];
     }
-    public void Victory(string winnerName)
+    public void EndGame(string winnerName)
     {
         gameIsRunning = false;
 
         WinnerName = winnerName;
+
         UIManager.Instance.ChangePanelState(PANEL_STATE.VICTORY);
     }
     public void TeleportObject(Transform objectToTeleport)
@@ -121,7 +136,7 @@ public class LevelManager : Singelton<LevelManager>
         }        
     }
 
-    private IEnumerator ISpawnItem(GameObject prefab)
+    private IEnumerator ISpawnOnigiris()
     {
         while (gameIsRunning)
         {
@@ -130,11 +145,30 @@ public class LevelManager : Singelton<LevelManager>
             var randomPosition = RandomSpawnPosition(1);
             
             if(randomPosition != Vector2.zero)
-            ObjectPoolManager.Instance.SpawnObject(prefab, randomPosition);         
+            ObjectPoolManager.Instance.SpawnObject(onigiriPrefab, randomPosition);         
 
             yield return null;
         }
 
         spawnOnigirisCoroutine = null;
+    }
+    private IEnumerator ISpawnSushi()
+    {
+        while (sushiDrop)
+        {
+            sushiDropTime -= Time.deltaTime;
+
+            if(sushiDropTime <= 0)
+            {
+                break;
+            }   
+
+            ObjectPoolManager.Instance.SpawnObject(sushiPrefab, new Vector2(Random.Range(-60, 70), 60));
+
+            yield return null;
+        }
+
+        sushiDrop = false;
+        spawnSushiCoroutine = null;
     }
 }
