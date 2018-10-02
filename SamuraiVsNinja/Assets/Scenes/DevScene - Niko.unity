@@ -126,7 +126,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4360978668061816, guid: 4fa3f134841d26b428c9a69737631442, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.25
       objectReference: {fileID: 0}
     - target: {fileID: 4360978668061816, guid: 4fa3f134841d26b428c9a69737631442, type: 2}
       propertyPath: m_LocalPosition.z
@@ -156,6 +156,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95850094115325978, guid: 4fa3f134841d26b428c9a69737631442,
+        type: 2}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: fe84784269c089b41bf08150008cb38c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fa3f134841d26b428c9a69737631442, type: 2}
   m_IsPrefabAsset: 0
@@ -304,6 +309,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4788216343600060, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
       propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114780481855403434, guid: a91df342f1865594eba8c65a7efe3594,
+        type: 2}
+      propertyPath: TestPlayerAmount
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
