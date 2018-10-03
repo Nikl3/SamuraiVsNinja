@@ -22,6 +22,7 @@ public class UIScrollbar : Scrollbar
     {
         base.OnSelect(eventData);
         InputManager.Instance.ChangeActiveSelectedObject(gameObject);
+        Fabric.EventManager.Instance.PostEvent("UI_Hover");
     }
 
     public override void OnDeselect(BaseEventData eventData)

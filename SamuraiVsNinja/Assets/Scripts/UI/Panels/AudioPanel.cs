@@ -1,4 +1,6 @@
-﻿public class AudioPanel : UIPanel
+﻿using System.Collections.Generic;
+
+public class AudioPanel : UIPanel
 {
     public UIScrollbar[] VolumeScrollbars
     {
@@ -7,7 +9,7 @@
     }
 
     private void Awake()
-    {
+    {       
         VolumeScrollbars = transform.GetComponentsInChildren<UIScrollbar>();
     }
 
@@ -16,7 +18,7 @@
         foreach (var volumeScrollbar in VolumeScrollbars)
         {
             volumeScrollbar.value = GameMaster.Instance.LoadVolume(volumeScrollbar.name);
-        } 
+        }
     }
 
     public override void BackButton()

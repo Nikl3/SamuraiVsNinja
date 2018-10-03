@@ -19,7 +19,7 @@ public abstract class UIPanel : MonoBehaviour
         {   
             gameObject.SetActive(true);
             IsOpen = true;
-            InputManager.Instance.ChangeActiveSelectedObject(lastSelectedObject ?? defaultSelectedObject);
+            InputManager.Instance.ChangeActiveSelectedObject(lastSelectedObject ?? defaultSelectedObject);           
         }
     }
 
@@ -35,6 +35,7 @@ public abstract class UIPanel : MonoBehaviour
             gameObject.SetActive(false);
             IsOpen = false;
             lastSelectedObject = InputManager.Instance.CurrentSelectedObject;
+            Fabric.EventManager.Instance.PostEvent("UI_PanelOpen");
         }
     }
 
@@ -50,6 +51,6 @@ public abstract class UIPanel : MonoBehaviour
 
     public virtual void BackButton()
     {
-        // Sound?!
+        
     }
 }

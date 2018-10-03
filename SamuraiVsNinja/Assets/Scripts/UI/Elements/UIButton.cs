@@ -17,11 +17,19 @@ public class UIButton : Button
 	{
 		base.OnSelect(eventData);
 		InputManager.Instance.ChangeActiveSelectedObject(gameObject);
+	
 	}
 
 	public override void OnDeselect(BaseEventData eventData)
 	{
 		base.OnDeselect(eventData);
 		InputManager.Instance.ChangeActiveSelectedObject(null);
+		Fabric.EventManager.Instance.PostEvent("UI_Hover");
+	}
+
+	public override void OnSubmit(BaseEventData eventData)
+	{
+		base.OnSubmit(eventData);
+		Fabric.EventManager.Instance.PostEvent("UI_Press");
 	}
 }
