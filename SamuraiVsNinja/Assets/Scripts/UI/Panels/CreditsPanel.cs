@@ -2,7 +2,6 @@
 
 public class CreditsPanel : UIPanel
 {
-    private readonly string creditsAnimationTag = "Credits";
     private bool isCreditsRunning = false;
 
     public override void OpenBehaviour()
@@ -11,28 +10,28 @@ public class CreditsPanel : UIPanel
 
         if (!isCreditsRunning)
         {
-            isCreditsRunning = true;
-            UIManager.Instance.Animator.SetTrigger(creditsAnimationTag);
+            ManageCreditsAnimation(UIManager.Instance.Animator, true);
         }
     }
     public override void CloseBehaviour()
     {
         if (isCreditsRunning)
         {
-            StopAnimation(UIManager.Instance.Animator);
+            ManageCreditsAnimation(UIManager.Instance.Animator, false);
         }
 
         base.CloseBehaviour();
     }
 
-    private void StopAnimation(Animator animator)
-    {      
-        animator.Play("Credits", 0, 0.98f);
-        isCreditsRunning = false;       
+    private void ManageCreditsAnimation(Animator animator, bool isPlaying)
+    {
+        animator.SetBool("IsCreditsPlaying", isPlaying);
+        isCreditsRunning = isPlaying;       
     }
 
     public override void BackButton()
     {
         base.BackButton();
+        UIManager.Instance.ChangePanelState(PANEL_STATE.MAIN_MENU);
     }
 }

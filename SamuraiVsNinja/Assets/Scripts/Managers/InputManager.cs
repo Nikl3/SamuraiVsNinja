@@ -3,6 +3,14 @@ using UnityEngine.EventSystems;
 
 public class InputManager : Singelton<InputManager>
 {
+    public GameObject CurrentSelectedObject
+    {
+        get
+        {
+            return eventSystem.currentSelectedGameObject;
+        }
+    }
+
     private EventSystem eventSystem;
 
     #region AXIS_INPUTS
@@ -68,9 +76,6 @@ public class InputManager : Singelton<InputManager>
 
     #region VARIABLES
 
-    [SerializeField]
-    public GameObject PreviousSelectedObject;
-
     [Header("Connected joysticks")]
     [SerializeField]
     private string[] joystickNames;
@@ -83,21 +88,16 @@ public class InputManager : Singelton<InputManager>
         joystickNames = Input.GetJoystickNames();
     }
 
-    public void FocusToButton(GameObject buttonObject)
+    public void FocusToButton(GameObject focusObject)
     {
         if (GetVerticalAxisRaw(1) != 0 && eventSystem.currentSelectedGameObject == null)
         {
-            //if (PreviousSelectedObject != null)
-            //    buttonObject = PreviousSelectedObject;
-
-            ChangeActiveSelectedObject(buttonObject);
+            ChangeActiveSelectedObject(focusObject);
         }
     }
 
     public void ChangeActiveSelectedObject(GameObject newSelectedObject)
     {
-        PreviousSelectedObject = eventSystem.currentSelectedGameObject;
-
         if (!eventSystem.alreadySelecting)
         {
             eventSystem.SetSelectedGameObject(newSelectedObject);

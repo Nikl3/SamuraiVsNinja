@@ -168,6 +168,11 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         animateText = StartCoroutine(IAnimateText(textToAnimate, flickeringSpeed));
     }
 
+    public float LoadVolume(string loadedValue)
+    {
+        return PlayerPrefs.GetFloat(loadedValue);
+    }
+
     #region COROUTINES
 
     private IEnumerator IFadeScreenImage(float targetFillAmount, float fadeSpeed)

@@ -18,12 +18,6 @@ public enum PANEL_STATE
 
 public class UIManager : Singelton<UIManager>
 {
-	#region VARIABLES
-
-	public Sprite[] BackgroundSprites;
-
-	#endregion VARIABLES
-
 	#region PROPERTIES
 
 	public PANEL_STATE CurrentPanelState
@@ -38,9 +32,11 @@ public class UIManager : Singelton<UIManager>
 	public GameObject TitleGameObject { get; private set; }
 	public GameObject PanelsGameObject { get; private set; }
 	public GameObject Fireflies { get; private set; }
+
+	public GameObject MainMenuBackgroundImageGameObject { get; private set; }
 	public Image GameTitleImage { get; private set; }
 	public Image PanelBackgroundImage { get; private set; }
-	public Image BackgroundImage { get; private set; }
+
 	public Animator Animator { get; private set; }
 
 	public UIPanel CurrentPanel { get; private set; }
@@ -64,7 +60,7 @@ public class UIManager : Singelton<UIManager>
 	}
 	private void Start()
 	{   
-		BackgroundImage.gameObject.SetActive(true);
+		MainMenuBackgroundImageGameObject.gameObject.SetActive(true);
 	}
 	private void Update()
 	{
@@ -79,8 +75,9 @@ public class UIManager : Singelton<UIManager>
 		TitleCharacters = transform.Find("TitleCharacters").gameObject;
 		TitleGameObject = transform.Find("LogoImage").gameObject;
 		PanelsGameObject = transform.Find("Panels").gameObject;
+		MainMenuBackgroundImageGameObject = transform.Find("MenuBackgroundImage").gameObject;
+
 		PanelBackgroundImage = PanelsGameObject.transform.GetComponent<Image>();
-		BackgroundImage = transform.Find("BackgroundImage").GetComponent<Image>();
 
 		MainMenuPanel = PanelsGameObject.transform.Find("MainMenuPanel").GetComponent<UIPanel>();
 		CharacterSelectPanel = PanelsGameObject.transform.Find("CharacterSelectPanel").GetComponent<UIPanel>();
@@ -223,7 +220,9 @@ public class UIManager : Singelton<UIManager>
 		TitleCharacters.SetActive(true);
 		TitleGameObject.SetActive(true);
 		PreSetPanelsState(false);
-		BackgroundImage.sprite = BackgroundSprites[0];
+
+		MainMenuBackgroundImageGameObject.SetActive(true);
+		CameraEngine.Instance.ManageLevelBackground(false);
 
 		TriggerPanelBehaviour(MainMenuPanel);
 	}
@@ -235,7 +234,9 @@ public class UIManager : Singelton<UIManager>
 		TitleGameObject.SetActive(false);
 		PlayerInfoContainer.gameObject.SetActive(true);
 
-		BackgroundImage.sprite = BackgroundSprites[1];
+		MainMenuBackgroundImageGameObject.SetActive(false);
+		CameraEngine.Instance.ManageLevelBackground(true);
+
 		TriggerPanelCloseBehaviour();
 	}
 	public void SetOnlineUI()

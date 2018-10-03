@@ -8,24 +8,23 @@ public class CameraEngine : Singelton<CameraEngine>
     [SerializeField]
     private List<Transform> targets;
 
-    [SerializeField]
-    private float smoothTime = 0.5f;
-    [SerializeField]
-    private float maxZoom = 20f;
-    [SerializeField]
-    private float minZoom = 30f;
-    [SerializeField]
-    private float zoomLimiter = 100f;
+    private readonly float smoothTime = 0.5f;
+    private readonly float maxZoom = 20f;
+    private readonly float minZoom = 30f;
+    private readonly float zoomLimiter = 100f;
 
     private Vector2 offset = Vector2.zero;
     private Vector2 cameraVelocity;
     private Camera mainCamera;
+
+    private GameObject levelBackgroundImageGameObject;
 
     #endregion VARIABLES
 
     private void Awake()
     {
         mainCamera = Camera.main;
+        levelBackgroundImageGameObject = transform.Find("LevelBackgroundImageGameObject").gameObject;
     }
     private void LateUpdate()
     {
@@ -80,5 +79,9 @@ public class CameraEngine : Singelton<CameraEngine>
         {
             targets.Clear();
         }
+    }
+    public void ManageLevelBackground(bool setActive)
+    {
+        levelBackgroundImageGameObject.SetActive(setActive);
     }
 }

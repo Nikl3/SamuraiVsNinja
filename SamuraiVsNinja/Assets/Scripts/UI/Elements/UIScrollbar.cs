@@ -1,7 +1,7 @@
 ﻿using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIButton : Button
+public class UIScrollbar : Scrollbar
 {
     protected override void Awake()
     {
@@ -15,13 +15,7 @@ public class UIButton : Button
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        InputManager.Instance.ChangeActiveSelectedObject(null);
-    }
-
-    public override void OnPointerDown(PointerEventData eventData)
-    {
-        base.OnPointerDown(eventData);
-        OnSubmit(eventData);
+        OnDeselect(eventData);
     }
 
     public override void OnSelect(BaseEventData eventData)
@@ -30,9 +24,9 @@ public class UIButton : Button
         InputManager.Instance.ChangeActiveSelectedObject(gameObject);
     }
 
-    public override void OnSubmit(BaseEventData eventData)
+    public override void OnDeselect(BaseEventData eventData)
     {
-        base.OnSubmit(eventData);
+        base.OnDeselect(eventData);
         InputManager.Instance.ChangeActiveSelectedObject(null);
     }
 }

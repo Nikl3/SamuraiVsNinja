@@ -2,9 +2,16 @@
 
 public abstract class UIPanel : MonoBehaviour
 {
-    public GameObject DefaultSelectedObject;
-    public GameObject LastSelectedObject;
-    public bool IsOpen { get; private set; }
+    [SerializeField]
+    protected GameObject defaultSelectedObject;
+    [SerializeField]
+    protected GameObject lastSelectedObject;
+
+    public bool IsOpen
+    {
+        get;
+        private set;
+    }
 
     public virtual void OpenBehaviour()
     {
@@ -12,14 +19,13 @@ public abstract class UIPanel : MonoBehaviour
         {   
             gameObject.SetActive(true);
             IsOpen = true;
-            if (LastSelectedObject == null)
-                LastSelectedObject = DefaultSelectedObject;
+            InputManager.Instance.ChangeActiveSelectedObject(lastSelectedObject ?? defaultSelectedObject);
         }
     }
 
     public virtual void Update()
     {
-        InputManager.Instance.FocusToButton(LastSelectedObject);
+        InputManager.Instance.FocusToButton(lastSelectedObject);
     }
 
     public virtual void CloseBehaviour()
@@ -28,8 +34,7 @@ public abstract class UIPanel : MonoBehaviour
         {
             gameObject.SetActive(false);
             IsOpen = false;
-    
-            LastSelectedObject = InputManager.Instance.PreviousSelectedObject;
+            lastSelectedObject = InputManager.Instance.CurrentSelectedObject;
         }
     }
 
@@ -45,6 +50,6 @@ public abstract class UIPanel : MonoBehaviour
 
     public virtual void BackButton()
     {
-        
+        // Sound?!
     }
 }

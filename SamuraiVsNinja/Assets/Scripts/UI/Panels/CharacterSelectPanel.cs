@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CharacterSelectPanel : UIPanel
 {
@@ -9,7 +8,7 @@ public class CharacterSelectPanel : UIPanel
 
     //private bool CanStart()
     //{
-    //	return startButton.interactable = PlayerDataManager.Instance.CurrentlyJoinedPlayers == 4 || PlayerDataManager.Instance.CurrentlyJoinedPlayers == 2 ? true : false;
+    //    return defaultSelectedObject.interactable = PlayerDataManager.Instance. == 4 || PlayerDataManager.Instance.CurrentlyJoinedPlayers == 2 ? true : false;
     //}
     private readonly Coroutine[] coroutines = new Coroutine[4];
     private JoinField[] joinFields;
