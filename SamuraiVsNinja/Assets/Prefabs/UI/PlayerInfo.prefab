@@ -693,7 +693,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2506955f2547c84fb80e09d1be466d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EGS: {fileID: 0}
+  EndGameStats: {fileID: 114543304752805380, guid: e4b0fad83a7b2c64db1e966db4571477,
+    type: 2}
   OnigirisPicked: 0
   OnigirisLost: 0
   Kills: 0

@@ -35,6 +35,6 @@ public class EndGameStats : MonoBehaviour
         Kills.text = "Players killed: " + kills;
         Deaths.text = "Deaths: " + deaths;
         Attacks.text = "Attacks: " + attacks;
-        HitPerc.text = "Hit % " + hitperc;
+        HitPerc.text = "Hit %: " + hitperc;
     }
 }
