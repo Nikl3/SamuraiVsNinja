@@ -14,7 +14,7 @@ public class JoinField : MonoBehaviour
         private set;
     }
 
-    private readonly string defaultText = "JOIN";
+    private readonly string defaultText = "Press START to join";
 
     private void Awake()
     {
