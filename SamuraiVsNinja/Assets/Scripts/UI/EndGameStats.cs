@@ -16,9 +16,7 @@ public class EndGameStats : MonoBehaviour
     [SerializeField]
     private Text Deaths;
     [SerializeField]
-    private Text Attacks;
-    [SerializeField]
-    private Text HitPerc;
+    private Text HitPercent;
 
     private void OnEnable()
     {
@@ -26,7 +24,7 @@ public class EndGameStats : MonoBehaviour
         transform.localScale = Vector2.one;
     }
 
-    public void SetEndGameStats(Sprite playerIconSprite, string playerName, int onigirispicked, int onigirislost, int kills, int deaths, int attacks, int hitperc) 
+    public void SetEndGameStats(Sprite playerIconSprite, string playerName, int onigirispicked, int onigirislost, int kills, int deaths, float hitPercent) 
     {
         PlayerIcon.sprite = playerIconSprite;
         PlayerName.text = playerName;
@@ -34,7 +32,6 @@ public class EndGameStats : MonoBehaviour
         OnigirisLost.text = "Onigiris lost: " + onigirislost;
         Kills.text = "Players killed: " + kills;
         Deaths.text = "Deaths: " + deaths;
-        Attacks.text = "Attacks: " + attacks;
-        HitPerc.text = "Hit %: " + hitperc;
+        HitPercent.text = "Hit %: " + hitPercent;
     }
 }

@@ -213,8 +213,9 @@ public class Player : MonoBehaviour
 	{
 		if (CurrentState == PlayerState.NORMAL)
 		{
-			PlayerInput.Stun(stunDuration);
+			attacker.PlayerInfo.TotalHits++;
 
+			PlayerInput.Stun(stunDuration);
 			healthPoints -= damage;
 
 			if (healthPoints >= 1)

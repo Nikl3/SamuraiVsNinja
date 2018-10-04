@@ -5,18 +5,10 @@ using UnityEngine.UI;
 
 public class PlayerInfo : MonoBehaviour
 {
-    public EndGameStats EndGameStats;
-    public int OnigirisPicked;
-    public int OnigirisLost;
-    public int Kills;
-    public int Deaths;
-    public int Attacks;
-    public int HitPreC;
+    #region VARIABLES
 
     private Color defaultColor = new Color(1, 1, 1, 1);
     private Color emptyColor = new Color(1, 1, 1, 0.2f);
-
-    #region VARIABLES
 
     private Text playerNameText;
     private Text onigiriCountText;
@@ -35,6 +27,14 @@ public class PlayerInfo : MonoBehaviour
         get;
         set;
     }
+    public EndGameStats EndGameStats { get; set; }
+    public int OnigirisPicked { get; set; }
+    public int OnigirisLost { get; set; }
+    public int Kills { get; set; }
+    public int Deaths { get; set; }
+    public int Attacks { get; set; }
+    public int TotalHits { get; set; }
+    public float HitPercent { get; set; }
 
     #endregion PROPERTIES
 
@@ -108,7 +108,12 @@ public class PlayerInfo : MonoBehaviour
 
     public void UpdateEndPanelStats()
     {
-        EndGameStats.SetEndGameStats(playerIcon.sprite, Owner.name, OnigirisPicked, OnigirisLost, Kills, Deaths, Attacks, HitPreC);               
+        if(Attacks != 0)
+        {
+            HitPercent = (TotalHits / (float)Attacks) * 100f;
+        }
+
+        EndGameStats.SetEndGameStats(playerIcon.sprite, Owner.name, OnigirisPicked, OnigirisLost, Kills, Deaths, HitPercent);               
     }
     public void UpdateOnigiris(int currentOnigiris)
     {

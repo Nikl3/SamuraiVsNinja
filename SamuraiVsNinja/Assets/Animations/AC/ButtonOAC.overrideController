@@ -7,4 +7,20 @@ AnimatorOverrideController:
   m_PrefabInternal: {fileID: 0}
   m_Name: ButtonOAC
   m_Controller: {fileID: 9100000, guid: a48c00b0b1ac2784a9ec08da1ccddb04, type: 2}
-  m_Clips: []
+  m_Clips:
+  - m_OriginalClip: {fileID: 74343772833920468, guid: a48c00b0b1ac2784a9ec08da1ccddb04,
+      type: 2}
+    m_OverrideClip: {fileID: 74343772833920468, guid: a48c00b0b1ac2784a9ec08da1ccddb04,
+      type: 2}
+  - m_OriginalClip: {fileID: 74083576098329476, guid: a48c00b0b1ac2784a9ec08da1ccddb04,
+      type: 2}
+    m_OverrideClip: {fileID: 74083576098329476, guid: a48c00b0b1ac2784a9ec08da1ccddb04,
+      type: 2}
+  - m_OriginalClip: {fileID: 74896775384983910, guid: a48c00b0b1ac2784a9ec08da1ccddb04,
+      type: 2}
+    m_OverrideClip: {fileID: 74896775384983910, guid: a48c00b0b1ac2784a9ec08da1ccddb04,
+      type: 2}
+  - m_OriginalClip: {fileID: 74191536330689836, guid: a48c00b0b1ac2784a9ec08da1ccddb04,
+      type: 2}
+    m_OverrideClip: {fileID: 74191536330689836, guid: a48c00b0b1ac2784a9ec08da1ccddb04,
+      type: 2}
