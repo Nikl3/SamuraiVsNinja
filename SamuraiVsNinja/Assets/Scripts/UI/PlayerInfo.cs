@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fabric;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -153,7 +154,7 @@ public class PlayerInfo : MonoBehaviour
             yield return null;
         }
         cooldownImage.gameObject.SetActive(false);
-        Fabric.EventManager.Instance.PostEvent("Cooldown");
+        EventManager.Instance.PostEvent("Cooldown");
 
         cooldownImage.fillAmount = 1;
     }

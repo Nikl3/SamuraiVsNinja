@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Fabric;
+using UnityEngine;
 
 public abstract class UIPanel : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public abstract class UIPanel : MonoBehaviour
             gameObject.SetActive(false);
             IsOpen = false;
             lastSelectedObject = InputManager.Instance.CurrentSelectedObject;
-            Fabric.EventManager.Instance.PostEvent("UI_PanelOpen");
+            EventManager.Instance.PostEvent("UI_PanelOpen");
         }
     }
 

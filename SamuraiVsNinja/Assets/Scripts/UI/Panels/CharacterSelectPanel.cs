@@ -6,10 +6,10 @@ public class CharacterSelectPanel : UIPanel
     public Sprite NinjaIconSprite;
     public Sprite SamuraiIconSprite;
 
-    //private bool CanStart()
-    //{
-    //    return defaultSelectedObject.interactable = PlayerDataManager.Instance. == 4 || PlayerDataManager.Instance.CurrentlyJoinedPlayers == 2 ? true : false;
-    //}
+    private UIButton startButton;
+
+    private int joinedPlayers = 0;
+
     private readonly Coroutine[] coroutines = new Coroutine[4];
     private JoinField[] joinFields;
     private JoinField[] GetJoinFields()
@@ -25,7 +25,9 @@ public class CharacterSelectPanel : UIPanel
     private void Awake()
     {
         joinFields = GetJoinFields();
+        startButton = defaultSelectedObject.GetComponent<UIButton>();
     }
+    
     public override void Update()
     {
         base.Update();
@@ -41,6 +43,7 @@ public class CharacterSelectPanel : UIPanel
     {
         base.OpenBehaviour();
         CanJoin = true;
+        IsEnoughJoinedPlayers();
     }
     public override void CloseBehaviour()
     {
@@ -50,6 +53,10 @@ public class CharacterSelectPanel : UIPanel
         CanJoin = false;
     }
 
+    private void IsEnoughJoinedPlayers()
+    {
+        startButton.interactable = joinedPlayers > 1 ? true : false;
+    }
     private void HandlePlayerJoinings()
     {
         for (int i = 0; i < joinFields.Length; i++)
@@ -95,10 +102,14 @@ public class CharacterSelectPanel : UIPanel
     public void SetJoinField(int playerID, Color joinColor)
     {
         joinFields[playerID - 1].ChangeJoinFieldVisuals(playerID, joinColor);
+        joinedPlayers++;
+        IsEnoughJoinedPlayers();
     }
     public void UnSetJoinField(int playerID)
     {
         joinFields[playerID - 1].UnChangeJoinFieldVisuals();
+        joinedPlayers--;
+        IsEnoughJoinedPlayers();
     }
     public void UnSetAllJoinField()
     {
@@ -112,6 +123,8 @@ public class CharacterSelectPanel : UIPanel
         {
             joinFields[i].UnChangeJoinFieldVisuals();
         }
+
+        joinedPlayers = 0;
     }
 
     private IEnumerator IChangeCharacter(int id)

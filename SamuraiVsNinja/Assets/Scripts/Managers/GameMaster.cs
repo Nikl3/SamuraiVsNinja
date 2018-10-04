@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -31,6 +32,8 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     private Coroutine exitingGame;
     private Coroutine animateText;
 
+    public AudioMixer AudioMixer;
+
     #endregion VARIABLES
 
     protected override void Awake()
@@ -51,6 +54,8 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         messageText.enabled = false;
 
         FadeScreenImage(0);
+
+        SetVolumeChannels();
     }
 
     private int RandomizeNumbers(int minValue, int maxValue)
@@ -168,9 +173,26 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         animateText = StartCoroutine(IAnimateText(textToAnimate, flickeringSpeed));
     }
 
-    public float LoadVolume(string loadedValue)
+    public void SetVolumeChannels()
     {
-        return PlayerPrefs.GetFloat(loadedValue);
+        AudioMixer.SetFloat("Master", PlayerPrefs.GetFloat("Master"));
+        AudioMixer.SetFloat("Music", PlayerPrefs.GetFloat("Music"));
+        AudioMixer.SetFloat("Sfx", PlayerPrefs.GetFloat("Sfx"));
+    }
+
+    public void SaveChannelValues()
+    {
+        float masterVolume = 0f;
+        float musicVolume = 0f;
+        float sfxVolume = 0f;
+
+        AudioMixer.GetFloat("Master", out masterVolume);
+        AudioMixer.GetFloat("Music", out musicVolume);
+        AudioMixer.GetFloat("Sfx", out sfxVolume);
+
+        PlayerPrefs.SetFloat("Master", masterVolume);
+        PlayerPrefs.SetFloat("Music", musicVolume);
+        PlayerPrefs.SetFloat("Sfx", sfxVolume);
     }
 
     #region COROUTINES

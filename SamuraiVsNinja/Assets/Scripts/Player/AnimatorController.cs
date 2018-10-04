@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Fabric;
+using UnityEngine;
 
 public class AnimatorController : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class AnimatorController : MonoBehaviour
 
 	public void PlaySoundInAnimation(string soundName)
 	{
-		Fabric.EventManager.Instance.PostEvent(soundName);
+		EventManager.Instance.PostEvent(soundName);
 	}
 
 	public void ThrowKeyEvent(int projectileTypeIndex)

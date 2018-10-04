@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Fabric;
+using UnityEngine;
 
 public class PlayerTriggerController : MonoBehaviour
 {
@@ -28,14 +29,14 @@ public class PlayerTriggerController : MonoBehaviour
                     break;
 
                 case "Onigiri":
-                    Fabric.EventManager.Instance.PostEvent("Pickup");
+                    EventManager.Instance.PostEvent("Pickup");
                     owner.AddOnigiri(1);
                     ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 5), collision.transform.position);
                     ObjectPoolManager.Instance.DespawnObject(collision.gameObject);
                     break;
 
                 case "Sushi":
-                    Fabric.EventManager.Instance.PostEvent("Pickup");
+                    EventManager.Instance.PostEvent("Pickup");
 
                     print("+1 Health");
 

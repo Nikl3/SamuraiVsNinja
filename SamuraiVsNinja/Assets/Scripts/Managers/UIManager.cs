@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Fabric;
 
 public enum PANEL_STATE
 {
@@ -225,6 +226,9 @@ public class UIManager : Singelton<UIManager>
 		CameraEngine.Instance.ManageLevelBackground(false);
 
 		TriggerPanelBehaviour(MainMenuPanel);
+
+		EventManager.Instance.PostEvent("LevelTheme", EventAction.StopSound);
+		EventManager.Instance.PostEvent("MenuTheme");
 	}
 	public void SetLevelUI()
 	{
@@ -238,6 +242,9 @@ public class UIManager : Singelton<UIManager>
 		CameraEngine.Instance.ManageLevelBackground(true);
 
 		TriggerPanelCloseBehaviour();
+
+		EventManager.Instance.PostEvent("MenuTheme", EventAction.StopSound);
+		EventManager.Instance.PostEvent("LevelTheme");
 	}
 	public void SetOnlineUI()
 	{

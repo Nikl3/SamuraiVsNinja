@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Fabric;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,35 +24,32 @@ public class AudioTrigger : MonoBehaviour {
 
 		if(Input.GetKeyDown(KeyCode.I))
 		{
-			Fabric.EventManager.Instance.PostEvent(swiPlay);
+			EventManager.Instance.PostEvent(swiPlay);
 		}
 		if(Input.GetKeyDown(KeyCode.O))
 		{
-			Fabric.EventManager.Instance.PostEvent(swiAdvance1);
+			EventManager.Instance.PostEvent(swiAdvance1);
 		}
 		if(Input.GetKeyDown(KeyCode.P))
 		{
-			Fabric.EventManager.Instance.PostEvent(swiAdvance2);
+			EventManager.Instance.PostEvent(swiAdvance2);
 		}
 		if(Input.GetKeyDown(KeyCode.L))
 		{
-			Fabric.EventManager.Instance.PostEvent(swiStop);
+			EventManager.Instance.PostEvent(swiStop);
 		}
-
-
-
 
 		if(Input.GetKeyDown(KeyCode.T))
 		{
-			Fabric.EventManager.Instance.PostEvent(seqPlay);
+			EventManager.Instance.PostEvent(seqPlay);
 		}
 		if(Input.GetKeyDown(KeyCode.Y))
 		{
-			Fabric.EventManager.Instance.PostEvent(seqStop);
+			EventManager.Instance.PostEvent(seqStop);
 		}
 		if(Input.GetKeyDown(KeyCode.U))
 		{
-			Fabric.EventManager.Instance.PostEvent(seqAdvance);
+			EventManager.Instance.PostEvent(seqAdvance);
 		}
 
 
@@ -62,21 +60,20 @@ public class AudioTrigger : MonoBehaviour {
 
 		if(Input.GetKeyDown(KeyCode.E))
 		{
-			Fabric.EventManager.Instance.PostEvent(iloPlay);
+			EventManager.Instance.PostEvent(iloPlay);
 		}
 		if(Input.GetKeyDown(KeyCode.R))
 		{
-			Fabric.EventManager.Instance.PostEvent(iloStop);
+			EventManager.Instance.PostEvent(iloStop);
 		}
-
 
 		if(Input.GetKeyDown(KeyCode.Q))
 		{
-			Fabric.EventManager.Instance.PostEvent(audioComp, go);
+			EventManager.Instance.PostEvent(audioComp, go);
 		}
 		if(Input.GetKeyDown(KeyCode.W))
 		{
-			Fabric.EventManager.Instance.PostEvent(randomComp);
+			EventManager.Instance.PostEvent(randomComp);
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine.EventSystems;
+﻿using Fabric;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIButton : Button
@@ -24,12 +25,12 @@ public class UIButton : Button
 	{
 		base.OnDeselect(eventData);
 		InputManager.Instance.ChangeActiveSelectedObject(null);
-		Fabric.EventManager.Instance.PostEvent("UI_Hover");
+		EventManager.Instance.PostEvent("UI_Hover");
 	}
 
 	public override void OnSubmit(BaseEventData eventData)
 	{
 		base.OnSubmit(eventData);
-		Fabric.EventManager.Instance.PostEvent("UI_Press");
+		EventManager.Instance.PostEvent("UI_Press");
 	}
 }

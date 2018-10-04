@@ -14,10 +14,8 @@ public class LevelManager : Singelton<LevelManager>
     private bool sushiDrop = false;
     private readonly int mapHorizontalBorder = 80;
     private float sushiDropTime = 10;
-    private int sushiDropTimeInterval;
     private Coroutine spawnOnigirisCoroutine;
     private Coroutine spawnSushiCoroutine;
-
 
     public string WinnerName
     {
@@ -72,7 +70,6 @@ public class LevelManager : Singelton<LevelManager>
         gameIsRunning = true;
 
         Time.timeScale = 1;
-        Fabric.EventManager.Instance.PostEvent("Music");
         PlayerDataManager.Instance.SpawnPlayers();
         StartSpawnOnigiris();
         //StartSpawnSushi();

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Fabric;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerEngine : MonoBehaviour
@@ -370,7 +371,7 @@ public class PlayerEngine : MonoBehaviour
 
         //ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 5), transform.position);
 
-        Fabric.EventManager.Instance.PostEvent("Dash");
+        EventManager.Instance.PostEvent("Dash");
 
         gravity = 0;
         moveSpeed = +DashSpeed;

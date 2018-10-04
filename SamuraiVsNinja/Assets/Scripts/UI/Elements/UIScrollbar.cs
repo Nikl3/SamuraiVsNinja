@@ -1,4 +1,5 @@
-﻿using UnityEngine.EventSystems;
+﻿using Fabric;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIScrollbar : Scrollbar
@@ -22,7 +23,7 @@ public class UIScrollbar : Scrollbar
     {
         base.OnSelect(eventData);
         InputManager.Instance.ChangeActiveSelectedObject(gameObject);
-        Fabric.EventManager.Instance.PostEvent("UI_Hover");
+        EventManager.Instance.PostEvent("UI_Hover");
     }
 
     public override void OnDeselect(BaseEventData eventData)
