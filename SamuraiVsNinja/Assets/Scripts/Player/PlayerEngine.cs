@@ -305,6 +305,7 @@ public class PlayerEngine : MonoBehaviour
     }
     public void HandleMeleeAttacks()
     {
+        player.PlayerInfo.Attacks++;
         player.AnimatorController.AnimatorSetBool("IsAttacking", true);
     }
     public void OnThrow()
@@ -352,6 +353,7 @@ public class PlayerEngine : MonoBehaviour
 
     private IEnumerator IThrow()
     {
+        player.PlayerInfo.Attacks++;
         isThrowing = true;
         player.AnimatorController.AnimatorSetBool("IsThrowing", true);
         player.PlayerInfo.StartThrowCooldown(isThrowing, ThrowAttackCooldown);
