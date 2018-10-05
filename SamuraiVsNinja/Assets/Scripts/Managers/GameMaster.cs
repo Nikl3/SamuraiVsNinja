@@ -44,7 +44,9 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         howToPlayImage = UIManager.Instance.transform.Find("HowToPlayImage").GetComponent<Image>();
         messageText = howToPlayImage.transform.GetComponentInChildren<Text>();
         screenFadeImage.fillAmount = 1f;
-        howToPlayImage.fillAmount = 0f;       
+        howToPlayImage.fillAmount = 0f;
+
+        AudioMixer.updateMode = AudioMixerUpdateMode.UnscaledTime;
     }
     private void Start()
     {
