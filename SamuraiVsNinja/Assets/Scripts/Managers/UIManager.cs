@@ -115,14 +115,17 @@ public class UIManager : Singelton<UIManager>
 					if(!PausePanel.IsOpen)
 					{
 						TriggerPanelBehaviour(PausePanel);
+                        PlayerInfoContainer.gameObject.SetActive(false);
 					}
 					else
 					{
 						TriggerPanelCloseBehaviour();
 						Time.timeScale = 1f;
-					}
-				
-					break;
+                        PlayerInfoContainer.gameObject.SetActive(true);
+
+                    }
+
+                    break;
 
 				case CURRENT_GAME_STATE.ONLINE_GAME:			
 
