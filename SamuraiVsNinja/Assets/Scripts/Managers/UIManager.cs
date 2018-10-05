@@ -188,6 +188,7 @@ public class UIManager : Singelton<UIManager>
 
 			case PANEL_STATE.HOW_TO_PLAY:
 				TriggerPanelBehaviour(HowToPlayPanel);
+                PanelBackgroundImage.enabled = false;
 				break;
 
 			case PANEL_STATE.AUDIO:
@@ -200,7 +201,8 @@ public class UIManager : Singelton<UIManager>
 
 			case PANEL_STATE.CONTROL:
 				TriggerPanelBehaviour(ControlsPanel);
-				break;
+                PanelBackgroundImage.enabled = false;
+                break;
 
 			case PANEL_STATE.PAUSE:
 				TriggerPanelBehaviour(PausePanel);
