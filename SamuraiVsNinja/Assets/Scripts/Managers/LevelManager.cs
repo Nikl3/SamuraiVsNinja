@@ -115,7 +115,7 @@ public class LevelManager : Singelton<LevelManager>
     {
         gameIsRunning = false;
 
-        WinnerName = winnerName;
+        WinnerName = winnerName;    
 
         UIManager.Instance.ChangePanelState(PANEL_STATE.VICTORY);
     }

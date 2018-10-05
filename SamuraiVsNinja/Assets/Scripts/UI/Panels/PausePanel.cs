@@ -20,7 +20,6 @@ public class PausePanel : UIPanel
     public override void BackButton()
     {
         base.BackButton();
-
         GameMaster.Instance.LoadScene(0);
     }
 }

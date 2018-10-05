@@ -30,7 +30,6 @@ public class Player : MonoBehaviour
 		get;
 		private set;
 	}
-
 	public Sword Sword
 	{
 		get;
@@ -86,6 +85,11 @@ public class Player : MonoBehaviour
 		get;
 		private set;
 	}
+	public PlayerIndicator PlayerIndicator
+	{
+		get;
+		private set;
+	}
 
 	#endregion PROPERTIES
 
@@ -104,8 +108,15 @@ public class Player : MonoBehaviour
 	private void Start()
 	{
 		ResetValues();
-		var playerColor = PlayerData.PlayerColor;
-		BackgroundLightRenderer.color = new Color(playerColor.r, playerColor.g, playerColor.b, backgroundLightAlpha);
+	}
+
+	private void CreatePlayerIndicator()
+	{
+		PlayerIndicator = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(4, 2)).GetComponent<PlayerIndicator>();
+		PlayerIndicator.ChangeTextVisuals("P" + PlayerData.ID, PlayerData.PlayerColor);
+		PlayerIndicator.transform.SetParent(transform);
+		PlayerIndicator.transform.localPosition = new Vector2(0, 4);
+		PlayerIndicator.name = "Player " + PlayerData.ID + " Indicator";
 	}
 
 	private void LoseOnigiri()
@@ -146,6 +157,11 @@ public class Player : MonoBehaviour
 		gameObject.name = playerData.PlayerName;
 
 		AnimatorController.SetAnimationController(runtimeAnimatorController);
+
+		CreatePlayerIndicator();
+
+		var playerColor = playerData.PlayerColor;
+		BackgroundLightRenderer.color = new Color(playerColor.r, playerColor.g, playerColor.b, backgroundLightAlpha);
 	}
 	public void ResetValues()
 	{

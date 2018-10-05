@@ -5,11 +5,13 @@ public class Item : MonoBehaviour
     private Animator animator;
     private bool isFloating;
     private string itemTag;
+    private Transform graphics;
 
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
         itemTag = tag;
+        graphics = transform.Find("Graphics");
     }
 
     private void OnEnable()
@@ -20,7 +22,9 @@ public class Item : MonoBehaviour
 
     private void OnDisable()
     {       
-        tag = itemTag;
+        tag = itemTag; 
+        transform.position = Vector2.one;
+        graphics.position = Vector2.one;
     }
 
     private void Update()

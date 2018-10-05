@@ -47,7 +47,6 @@ public class PlayerInfo : MonoBehaviour
     private void Start()
     {
         SetValues();
-        CreatePlayerIndicator();       
     }
 
     private void Initialize()
@@ -91,14 +90,7 @@ public class PlayerInfo : MonoBehaviour
             playerProjectileIcon.sprite = PlayerDataManager.Instance.ProjectileIconSprite[1];
         }       
     }
-    private void CreatePlayerIndicator()
-    {
-        var playerIndicator = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 2));
-        playerIndicator.GetComponent<PlayerIndicator>().ChangeTextVisuals("P" + Owner.PlayerData.ID, Owner.PlayerData.PlayerColor);
-        playerIndicator.transform.SetParent(Owner.transform);
-        playerIndicator.transform.localPosition = new Vector2(0, 4);
-        playerIndicator.name = "Player " + Owner.PlayerData.ID + " Indicator";
-    }
+   
     private void ResetHealthPointIcons()
     {
         foreach (var healthpointImage in healthpointImages)

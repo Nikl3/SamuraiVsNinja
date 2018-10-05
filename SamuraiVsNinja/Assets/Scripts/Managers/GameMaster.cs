@@ -46,7 +46,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         screenFadeImage.fillAmount = 1f;
         howToPlayImage.fillAmount = 0f;
 
-        AudioMixer.updateMode = AudioMixerUpdateMode.UnscaledTime;
+       
     }
     private void Start()
     {
@@ -56,6 +56,8 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         messageText.enabled = false;
 
         FadeScreenImage(0);
+
+        AudioMixer.updateMode = AudioMixerUpdateMode.UnscaledTime;
 
         SetVolumeChannels();
     }
@@ -89,7 +91,14 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     private void Clear()
     {
         CameraEngine.Instance.ClearTargets();
-        UIManager.Instance.ClearPlayerInfoContainer();
+
+        foreach (var playerData in PlayerDataManager.Instance.PlayerDatas)
+        {
+            if (playerData.SpawnedPlayer != null)
+            {
+                playerData.SpawnedPlayer.DespawnPlayer();
+            }
+        }
     }
     private void RandomizeFillMethod()
     {

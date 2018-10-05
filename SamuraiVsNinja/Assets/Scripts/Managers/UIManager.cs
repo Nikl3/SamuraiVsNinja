@@ -115,17 +115,17 @@ public class UIManager : Singelton<UIManager>
 					if(!PausePanel.IsOpen)
 					{
 						TriggerPanelBehaviour(PausePanel);
-                        PlayerInfoContainer.gameObject.SetActive(false);
+						PlayerInfoContainer.gameObject.SetActive(false);
 					}
 					else
 					{
 						TriggerPanelCloseBehaviour();
 						Time.timeScale = 1f;
-                        PlayerInfoContainer.gameObject.SetActive(true);
+						PlayerInfoContainer.gameObject.SetActive(true);
 
-                    }
+					}
 
-                    break;
+					break;
 
 				case CURRENT_GAME_STATE.ONLINE_GAME:			
 
@@ -140,9 +140,9 @@ public class UIManager : Singelton<UIManager>
 
 		CurrentPanel = panel;
 		CurrentPanel.OpenBehaviour();
-        if (CurrentPanel.name != "VictoryPanel") {
-            PanelBackgroundImage.enabled = true;
-        }
+		if (CurrentPanel.name != "VictoryPanel") {
+			PanelBackgroundImage.enabled = true;
+		}
 	}
 	private void PreSetPanelsState(bool isActive)
 	{
@@ -191,7 +191,7 @@ public class UIManager : Singelton<UIManager>
 
 			case PANEL_STATE.HOW_TO_PLAY:
 				TriggerPanelBehaviour(HowToPlayPanel);
-                PanelBackgroundImage.enabled = false;
+				PanelBackgroundImage.enabled = false;
 				break;
 
 			case PANEL_STATE.AUDIO:
@@ -204,8 +204,8 @@ public class UIManager : Singelton<UIManager>
 
 			case PANEL_STATE.CONTROL:
 				TriggerPanelBehaviour(ControlsPanel);
-                PanelBackgroundImage.enabled = false;
-                break;
+				PanelBackgroundImage.enabled = false;
+				break;
 
 			case PANEL_STATE.PAUSE:
 				TriggerPanelBehaviour(PausePanel);
@@ -257,25 +257,6 @@ public class UIManager : Singelton<UIManager>
 		Fireflies.SetActive(false);
 		PreSetPanelsState(false);
 	}
-	public void ClearPlayerInfoContainer()
-	{
-		foreach (Transform playerInfo in PlayerInfoContainer)
-		{
-			if(playerInfo != null)
-			{
-				Destroy(playerInfo.gameObject);
-			}
-		}
-
-		foreach (Transform endStats in PlayerEndPanel)
-		{
-			if (endStats != null)
-			{
-				Destroy(endStats.gameObject);
-			}
-		}
-	}
-	
 	/// <summary>
 	/// Temp stuff
 	/// </summary>
