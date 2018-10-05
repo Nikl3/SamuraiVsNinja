@@ -32,6 +32,6 @@ public class EndGameStats : MonoBehaviour
         OnigirisLost.text = "Onigiris lost: " + onigirislost;
         Kills.text = "Players killed: " + kills;
         Deaths.text = "Deaths: " + deaths;
-        HitPercent.text = "Hit %: " + hitPercent;
+        HitPercent.text = "Hit %: " + hitPercent.ToString("F1") +"%";
     }
 }

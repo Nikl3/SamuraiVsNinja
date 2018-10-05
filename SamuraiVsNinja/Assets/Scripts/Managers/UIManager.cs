@@ -137,8 +137,9 @@ public class UIManager : Singelton<UIManager>
 
 		CurrentPanel = panel;
 		CurrentPanel.OpenBehaviour();
-
-		PanelBackgroundImage.enabled = true;
+        if (CurrentPanel.name != "VictoryPanel") {
+            PanelBackgroundImage.enabled = true;
+        }
 	}
 	private void PreSetPanelsState(bool isActive)
 	{
