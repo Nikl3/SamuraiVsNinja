@@ -31,6 +31,7 @@ public class LevelManager : Singelton<LevelManager>
     private void RunGame()
     {
         GameIsRunning = true;
+        StartSpawnOnigiris();
     }
 
     private void Start()
@@ -80,7 +81,6 @@ public class LevelManager : Singelton<LevelManager>
     {
         Time.timeScale = 1;
         PlayerDataManager.Instance.SpawnPlayers();
-        StartSpawnOnigiris();
         //StartSpawnSushi();
     }
     private void StartSpawnOnigiris()

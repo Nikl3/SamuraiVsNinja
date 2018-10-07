@@ -89,7 +89,6 @@ public class GameMaster : SingeltonPersistant<GameMaster>
    
     private void Clear()
     {
-        StopAllCoroutines();
         CameraEngine.Instance.ClearTargets();
         foreach (var playerData in PlayerDataManager.Instance.PlayerDatas)
         {

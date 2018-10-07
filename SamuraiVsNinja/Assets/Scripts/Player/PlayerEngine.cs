@@ -185,6 +185,17 @@ public class PlayerEngine : MonoBehaviour
         maxJumpVelocity = Mathf.Abs(gravity * timeToJumpApex);
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * MinJumpHeight);       
     }
+    private void OnDisable()
+    {
+        throwAttackCoroutine = null;
+        dashCoroutine = null;
+        knockbackCoroutine = null;
+        invincibilityCoroutine = null;
+        respawnCoroutine = null;
+        IsAttacking = false;
+        isDashing = false;
+        isThrowing = false;
+    }
 
     private void HandleWallSliding()
     {
