@@ -173,24 +173,29 @@ public class Player : MonoBehaviour
 		{
 			case PlayerState.NORMAL:
 				PlayerTriggerController.gameObject.tag = "Player";
+				SpriteRenderer.enabled = true;
 				SpriteRenderer.color = defaultColor;
 				break;
 
 			case PlayerState.INVINCIBILITY:
 				PlayerTriggerController.gameObject.tag = "Untagged";
+				SpriteRenderer.enabled = true;
 				SpriteRenderer.color = defaultColor;
 				PlayerEngine.StartInvincibility(2f, 0.1f);
 				break;
 
 			case PlayerState.RESPAWN:
+
 				if (firstSpawn)
 				{
+					SpriteRenderer.enabled = true;
 					SpriteRenderer.color = new Color(1, 1, 1, 0f);
 					PlayerEngine.Respawn(LevelManager.Instance.GetSpawnPoint(PlayerData.ID - 1), firstRespawnDelay);
 					firstSpawn = false;
 				}
 				else
 				{
+					SpriteRenderer.enabled = true;
 					SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
 					PlayerEngine.Respawn(LevelManager.Instance.RandomSpawnPosition(0), respawnDelay);
 				}

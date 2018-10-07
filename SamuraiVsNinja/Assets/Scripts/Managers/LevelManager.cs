@@ -10,7 +10,6 @@ public class LevelManager : Singelton<LevelManager>
     [SerializeField]
     private LayerMask collisionLayer;
     private GameObject onigiriPrefab, sushiPrefab;
-    private bool gameIsRunning;
     private bool sushiDrop = false;
     private readonly int mapHorizontalBorder = 80;
     private float sushiDropTime = 10;
@@ -23,12 +22,24 @@ public class LevelManager : Singelton<LevelManager>
         private set;
     }
 
+    public bool GameIsRunning
+    {
+        get;
+        private set;
+    }
+
+    private void RunGame()
+    {
+        GameIsRunning = true;
+    }
+
     private void Start()
     {
         Time.timeScale = 1f;
         onigiriPrefab = ResourceManager.Instance.GetPrefabByIndex(1, 0);
         sushiPrefab = ResourceManager.Instance.GetPrefabByIndex(1, 1);
-        Invoke("StartRound", 1f);
+        StartRound();
+        Invoke("RunGame", 4f);
     }
     private void OnDrawGizmos()
     {
@@ -67,8 +78,6 @@ public class LevelManager : Singelton<LevelManager>
  
     private void StartRound()
     {
-        gameIsRunning = true;
-
         Time.timeScale = 1;
         PlayerDataManager.Instance.SpawnPlayers();
         StartSpawnOnigiris();
@@ -113,7 +122,7 @@ public class LevelManager : Singelton<LevelManager>
     }
     public void EndGame(string winnerName)
     {
-        gameIsRunning = false;
+        GameIsRunning = false;
 
         WinnerName = winnerName;    
 
@@ -135,7 +144,7 @@ public class LevelManager : Singelton<LevelManager>
 
     private IEnumerator ISpawnOnigiris()
     {
-        while (gameIsRunning)
+        while (GameIsRunning)
         {
             yield return new WaitForSeconds(Random.Range(2f, 5f));
 

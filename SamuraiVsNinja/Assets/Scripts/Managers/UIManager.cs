@@ -110,10 +110,14 @@ public class UIManager : Singelton<UIManager>
 
 				case CURRENT_GAME_STATE.LOCAL_GAME:
 
+					if (!LevelManager.Instance.GameIsRunning)
+						return;
+
 					if(!PausePanel.IsOpen)
 					{
+						Time.timeScale = 0f;
 						TriggerPanelBehaviour(PausePanel);
-						PlayerInfoContainerGroup.alpha = 0f;
+						PlayerInfoContainerGroup.alpha = 0f;         
 					}
 					else
 					{
@@ -210,7 +214,7 @@ public class UIManager : Singelton<UIManager>
 				break;
 
 			case PANEL_STATE.VICTORY:
-				PlayerInfoContainer.gameObject.SetActive(false);
+				PlayerInfoContainerGroup.alpha = 0f;
 				TriggerPanelBehaviour(VictoryPanel);
 				break;
 
@@ -239,6 +243,7 @@ public class UIManager : Singelton<UIManager>
 		TitleCharacters.SetActive(false);
 		TitleGameObject.SetActive(false);
 		PlayerInfoContainer.gameObject.SetActive(true);
+		PlayerInfoContainerGroup.alpha = 1f;
 
 		MainMenuBackgroundImageGameObject.SetActive(false);
 		CameraEngine.Instance.ManageLevelBackground(true);

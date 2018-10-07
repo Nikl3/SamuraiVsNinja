@@ -89,7 +89,12 @@ public class GameMaster : SingeltonPersistant<GameMaster>
    
     private void Clear()
     {
+        StopAllCoroutines();
         CameraEngine.Instance.ClearTargets();
+        foreach (var playerData in PlayerDataManager.Instance.PlayerDatas)
+        {
+            playerData.Player.gameObject.SetActive(false);
+        }
     }
     private void RandomizeFillMethod()
     {
@@ -159,7 +164,11 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     {
         if (loadSceneAsync == null)
         {
-            Clear();
+            if(CurrentGameState != CURRENT_GAME_STATE.MAIN_MENU)
+            {
+                Clear();
+            }
+
             loadSceneAsync = StartCoroutine(ILoadSceneAsync(sceneIndex));
         }        
     }
@@ -246,6 +255,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
                 if (Input.anyKeyDown || !howToPlayImage.gameObject.activeSelf)
                 {
                     asyncOperation.allowSceneActivation = true;
+                    IsLoadingScene = false;
                 }
             }
 
@@ -253,8 +263,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         }
 
         isAnimatingText = false;
-        howToPlayImage.gameObject.SetActive(false);
-        IsLoadingScene = false;
+        howToPlayImage.gameObject.SetActive(false);    
 
         yield return new WaitForSecondsRealtime(fakeLoadTime);
 

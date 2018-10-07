@@ -96,7 +96,7 @@ public class CharacterSelectPanel : UIPanel
     private void ChangePlayerIcon(JoinField joinField, PlayerData playerData)
     {
         playerData.PlayerType = playerData.PlayerType == PLAYER_TYPE.NINJA ? PLAYER_TYPE.SAMURAI : PLAYER_TYPE.NINJA;
-        joinField.ChangeSprite(playerData.PlayerType == PLAYER_TYPE.NINJA ? SamuraiIconSprite : NinjaIconSprite);
+        joinField.ChangeSprite(playerData.PlayerType == PLAYER_TYPE.NINJA ? NinjaIconSprite : SamuraiIconSprite);
     }
 
     public void SetJoinField(int playerID, Color joinColor)
@@ -139,6 +139,7 @@ public class CharacterSelectPanel : UIPanel
 
     public void StartButton()
     {
+        CloseBehaviour();
         GameMaster.Instance.LoadScene(1);
     }
     public override void BackButton()
