@@ -32,7 +32,6 @@ public class UIManager : Singelton<UIManager>
 	public GameObject TitleCharacters { get; private set; }
 	public GameObject TitleGameObject { get; private set; }
 	public GameObject PanelsGameObject { get; private set; }
-	public GameObject Fireflies { get; private set; }
 
 	public GameObject MainMenuBackgroundImageGameObject { get; private set; }
 	public Image GameTitleImage { get; private set; }
@@ -70,7 +69,6 @@ public class UIManager : Singelton<UIManager>
 
 	private void Initialize()
 	{
-		Fireflies = transform.Find("Fireflies").gameObject;
 		PlayerInfoContainer = transform.Find("PlayerInfoContainer");
 		PlayerInfoContainerGroup = PlayerInfoContainer.GetComponent<CanvasGroup>();
 		TitleCharacters = transform.Find("TitleCharacters").gameObject;
@@ -223,7 +221,6 @@ public class UIManager : Singelton<UIManager>
 	}
 	public void SetMainMenuUI()
 	{
-		Fireflies.SetActive(true);
 		TitleCharacters.SetActive(true);
 		TitleGameObject.SetActive(true);
 		PreSetPanelsState(false);
@@ -238,7 +235,6 @@ public class UIManager : Singelton<UIManager>
 	}
 	public void SetLevelUI()
 	{
-		Fireflies.SetActive(false);
 		PreSetPanelsState(false);
 		TitleCharacters.SetActive(false);
 		TitleGameObject.SetActive(false);
@@ -254,7 +250,6 @@ public class UIManager : Singelton<UIManager>
 	}
 	public void SetOnlineUI()
 	{
-		Fireflies.SetActive(false);
 		PreSetPanelsState(false);
 	}
 	/// <summary>

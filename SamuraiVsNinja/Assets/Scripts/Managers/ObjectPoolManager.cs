@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ObjectPoolManager : Singelton<ObjectPoolManager>
 {
-    [SerializeField]
     private List<Transform> ParentContainers = new List<Transform>();
     private Dictionary<string, Stack<GameObject>> poolDictionary = new Dictionary<string, Stack<GameObject>>();
 

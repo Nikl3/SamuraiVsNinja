@@ -4,7 +4,6 @@ using UnityEngine;
 public class CameraEngine : Singelton<CameraEngine>
 {
     #region VARIABLES
-
     [SerializeField]
     private List<Transform> targets;
 
@@ -13,7 +12,6 @@ public class CameraEngine : Singelton<CameraEngine>
     private readonly float minZoom = 50f;
     private readonly float zoomLimiter = 100f;
 
-    [SerializeField]
     private Vector2 offset = Vector2.zero;
     private Vector2 cameraVelocity;
     private Camera mainCamera;

@@ -85,20 +85,10 @@ public class GameMaster : SingeltonPersistant<GameMaster>
                 break;
         }
     }
-    /// <summary>
-    /// Invoke methods: "ClearTargets", "ClearPlayerInfoContainer", "ClearJoinedPlayers"
-    /// </summary>
+   
     private void Clear()
     {
         CameraEngine.Instance.ClearTargets();
-
-        foreach (var playerData in PlayerDataManager.Instance.PlayerDatas)
-        {
-            if (playerData.Player != null)
-            {
-                //playerData.SpawnedPlayer.DespawnPlayer();
-            }
-        }
     }
     private void RandomizeFillMethod()
     {

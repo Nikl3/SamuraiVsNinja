@@ -101,6 +101,21 @@ public class Player : MonoBehaviour
 		ResetValues();
 	}
 
+	public void Initialize(PlayerData playerData, RuntimeAnimatorController runtimeAnimatorController)
+	{
+		PlayerData = playerData;
+
+		gameObject.name = playerData.PlayerName;
+		AnimatorController.SetAnimationController(runtimeAnimatorController);
+
+		SetPlayerIndicator();
+		SetBackgroundLight();
+
+		transform.position = LevelManager.Instance.GetSpawnPoint(playerData.ID - 1);
+		CameraEngine.Instance.AddTarget(transform);
+		ChangePlayerState(PlayerState.RESPAWN, true);
+	}
+
 	private void SetPlayerIndicator()
 	{
 		PlayerIndicator.ChangeTextVisuals("P" + PlayerData.ID, PlayerData.PlayerColor);
@@ -132,21 +147,6 @@ public class Player : MonoBehaviour
 		ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position);
 		ChangePlayerState(PlayerState.RESPAWN);
 		Fabric.EventManager.Instance.PostEvent("Die");
-	}
-
-	public void Initialize(PlayerData playerData, RuntimeAnimatorController runtimeAnimatorController)
-	{
-		PlayerData = playerData;
-
-		gameObject.name = playerData.PlayerName;
-		AnimatorController.SetAnimationController(runtimeAnimatorController);
-
-		SetPlayerIndicator();
-		SetBackgroundLight();
-	   
-		transform.position = LevelManager.Instance.GetSpawnPoint(playerData.ID - 1);
-		CameraEngine.Instance.AddTarget(transform);
-		ChangePlayerState(PlayerState.RESPAWN, true);
 	}
 
 	private void SetBackgroundLight()
