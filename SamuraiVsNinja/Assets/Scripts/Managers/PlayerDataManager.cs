@@ -8,6 +8,8 @@ public enum PLAYER_TYPE
 
 public class PlayerDataManager : Singelton<PlayerDataManager>
 {
+    public Color player1Color, player2Color, player3Color, player4Color;
+
     public RuntimeAnimatorController[] RuntimeAnimatorControllers;
     public Sprite[] PlayerIconSprite;
     public Sprite[] DashIconSprite;
@@ -38,26 +40,26 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
     #endregion PROPERTIES
 
-    private void Awake()
+    private void Start()
     {
         CreatePlayerDatas();        
     }
    
-    private Color CreatePlayerColor(int playerID)
+    private Color SetPlayerColor(int playerID)
     {
         switch (playerID)
         {
             case 1:
-                return Color.blue;
+                return player1Color;
 
             case 2:
-                return Color.red;
+                return player2Color;
 
             case 3:
-                return Color.green;
+                return player3Color;
 
             case 4:
-                return Color.yellow;
+                return player4Color;
 
             default:
                 return Color.magenta;
@@ -69,10 +71,11 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
         for (int i = 0; i < PlayerDatas.Length; i++)
         {
-            PlayerDatas[i] = new PlayerData(i + 1, CreatePlayerColor(i + 1))
-            {
+            var newPlayer = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(0, 0)).GetComponent<Player>();
+            var newPlayerInfo = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(4, 1)).GetComponent<PlayerInfo>();
+            var newPlayerEndGameStats = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(4, 2)).GetComponent<EndGameStats>();
 
-            };
+            PlayerDatas[i] = new PlayerData(i + 1, newPlayer, newPlayerInfo, newPlayerEndGameStats, SetPlayerColor(i + 1));
         }
     }
     private void AddTestPlayers(int testPlayerAmount)
@@ -126,19 +129,10 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         {
             if (playerData.HasJoined)
             {
-                var newPlayer = ObjectPoolManager.Instance.SpawnObject(
-                    ResourceManager.Instance.GetPrefabByIndex(0, 0), 
-                    LevelManager.Instance.GetSpawnPoint(playerData.ID - 1)).GetComponent<Player>();
-
-                var newPlayerInfo = ObjectPoolManager.Instance.SpawnObject(
-                    ResourceManager.Instance.GetPrefabByIndex(4, 1)).GetComponent<PlayerInfo>();
-
-                var newPlayerEndGameStats = ObjectPoolManager.Instance.SpawnObject(
-                    ResourceManager.Instance.GetPrefabByIndex(4, 3)).GetComponent<EndGameStats>();
-
-                newPlayer.Initialize(playerData, newPlayerInfo, newPlayerEndGameStats, playerData.PlayerType == PLAYER_TYPE.NINJA ? RuntimeAnimatorControllers[0] : RuntimeAnimatorControllers[1]);
-                CameraEngine.Instance.AddTarget(newPlayer.transform);
-                newPlayer.ChangePlayerState(PlayerState.RESPAWN, true);
+                playerData.Player.gameObject.SetActive(true);
+                playerData.PlayerInfo.gameObject.SetActive(true);
+                playerData.EndGameStats.gameObject.SetActive(true);
+                playerData.Player.Initialize(playerData, playerData.PlayerType == PLAYER_TYPE.NINJA ? RuntimeAnimatorControllers[0] : RuntimeAnimatorControllers[1]);              
             }
         }
     }  
@@ -146,11 +140,9 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
     {
         foreach (var playerData in PlayerDatas)
         {
-            var spawnedPlayer = playerData.SpawnedPlayer;
-
-            if(spawnedPlayer != null)
+            if(playerData.HasJoined)
             {
-                spawnedPlayer.PlayerInfo.UpdateEndPanelStats();
+                playerData.PlayerInfo.UpdateEndPanelStats();
             }
         }
     }

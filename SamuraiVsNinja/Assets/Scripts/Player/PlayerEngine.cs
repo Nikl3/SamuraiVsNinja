@@ -8,7 +8,7 @@ public class PlayerEngine : MonoBehaviour
 
     #region VARIABLES
 
-    private Player player;
+    private Player owner;
 
     #region JUMP
     [Header("JUMP")]
@@ -176,7 +176,7 @@ public class PlayerEngine : MonoBehaviour
 
     private void Awake()
     {
-        player = GetComponent<Player>();
+        owner = GetComponent<Player>();
     }
     private void Start()
     {
@@ -188,18 +188,18 @@ public class PlayerEngine : MonoBehaviour
 
     private void HandleWallSliding()
     {
-        wallDirectionX = (player.Controller2D.Collisions.Left) ? -1 : 1;
+        wallDirectionX = (owner.Controller2D.Collisions.Left) ? -1 : 1;
 
         wallSliding = false;
-        player.AnimatorController.AnimatorSetBool("IsWallsliding", false);
+        owner.AnimatorController.AnimatorSetBool("IsWallsliding", false);
 
-        if ((player.Controller2D.Collisions.Left || player.Controller2D.Collisions.Right) && !player.Controller2D.Collisions.Below && velocity.y < 0)
+        if ((owner.Controller2D.Collisions.Left || owner.Controller2D.Collisions.Right) && !owner.Controller2D.Collisions.Below && velocity.y < 0)
         {
-            player.AnimatorController.AnimatorSetBool("IsWallsliding", true);
-            player.AnimatorController.AnimatorSetBool("IsAttacking", false);
+            owner.AnimatorController.AnimatorSetBool("IsWallsliding", true);
+            owner.AnimatorController.AnimatorSetBool("IsAttacking", false);
             wallSliding = true;
 
-            if (!InputManager.Instance.X_ButtonUp(player.PlayerData.ID))
+            if (!InputManager.Instance.X_ButtonUp(owner.PlayerData.ID))
             {
                 return;
             }
@@ -213,35 +213,35 @@ public class PlayerEngine : MonoBehaviour
     private void CalculateVelocity()
     {
         float targetVelocityX = directionalInput.x * moveSpeed;
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (player.Controller2D.Collisions.Below) ? AccelerationTimeGrounded : accelerationTimeAirbourne);
+        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (owner.Controller2D.Collisions.Below) ? AccelerationTimeGrounded : accelerationTimeAirbourne);
         velocity.y += gravity * Time.deltaTime;
     }
     private void CheckifRunningAndLocalScale()
     {
         if (directionalInput.x != 0 && !wallSliding)
         {
-            player.AnimatorController.PlayerGraphics.localScale = new Vector2(player.Controller2D.Collisions.FaceDirection > 0 ? -1 : 1, 1);
-            player.AnimatorController.AnimatorSetBool("IsRunning", player.Controller2D.Collisions.Below ? true : false);
+            owner.AnimatorController.PlayerGraphics.localScale = new Vector2(owner.Controller2D.Collisions.FaceDirection > 0 ? -1 : 1, 1);
+            owner.AnimatorController.AnimatorSetBool("IsRunning", owner.Controller2D.Collisions.Below ? true : false);
         }
         else
         {
-            player.AnimatorController.AnimatorSetBool("IsRunning", false);
+            owner.AnimatorController.AnimatorSetBool("IsRunning", false);
         }
     }
     private void CheckTopAndBottomCollision()
     {
-        if (player.Controller2D.Collisions.Above || player.Controller2D.Collisions.Below)
+        if (owner.Controller2D.Collisions.Above || owner.Controller2D.Collisions.Below)
         {
             velocity.y = 0;
-            player.AnimatorController.AnimatorSetBool("IsJumping", false);
-            player.AnimatorController.AnimatorSetBool("IsDropping", false);
+            owner.AnimatorController.AnimatorSetBool("IsJumping", false);
+            owner.AnimatorController.AnimatorSetBool("IsDropping", false);
         }
         else
         {
-            if (!player.AnimatorController.GetAnimaionState("Attack"))
+            if (!owner.AnimatorController.GetAnimaionState("Attack"))
             {
-                player.AnimatorController.AnimatorSetBool("IsJumping", velocity.y > 0 ? true : false);
-                player.AnimatorController.AnimatorSetBool("IsDropping", velocity.y < 0 ? true : false);
+                owner.AnimatorController.AnimatorSetBool("IsJumping", velocity.y > 0 ? true : false);
+                owner.AnimatorController.AnimatorSetBool("IsDropping", velocity.y < 0 ? true : false);
             }
         }
     }
@@ -255,7 +255,7 @@ public class PlayerEngine : MonoBehaviour
     {
         CalculateVelocity();
         HandleWallSliding();
-        player.Controller2D.Move(velocity * Time.deltaTime, directionalInput);
+        owner.Controller2D.Move(velocity * Time.deltaTime, directionalInput);
 
         CheckifRunningAndLocalScale();
         CheckTopAndBottomCollision();
@@ -266,7 +266,7 @@ public class PlayerEngine : MonoBehaviour
     }
     public void OnJumpInputDown()
     {
-        if (player.Controller2D.Collisions.Below)
+        if (owner.Controller2D.Collisions.Below)
         {
             ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 4), transform.position);
         }
@@ -292,7 +292,7 @@ public class PlayerEngine : MonoBehaviour
             ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 4), transform.position);
         }
 
-        if (player.Controller2D.Collisions.Below)
+        if (owner.Controller2D.Collisions.Below)
         {
             velocity.y = maxJumpVelocity;
         }
@@ -306,8 +306,8 @@ public class PlayerEngine : MonoBehaviour
     }
     public void HandleMeleeAttacks()
     {
-        player.PlayerInfo.Attacks++;
-        player.AnimatorController.AnimatorSetBool("IsAttacking", true);
+        owner.PlayerData.PlayerInfo.Attacks++;
+        owner.AnimatorController.AnimatorSetBool("IsAttacking", true);
     }
     public void OnThrow()
     {
@@ -354,10 +354,10 @@ public class PlayerEngine : MonoBehaviour
 
     private IEnumerator IThrow()
     {
-        player.PlayerInfo.Attacks++;
+        owner.PlayerData.PlayerInfo.Attacks++;
         isThrowing = true;
-        player.AnimatorController.AnimatorSetBool("IsThrowing", true);
-        player.PlayerInfo.StartThrowCooldown(isThrowing, ThrowAttackCooldown);
+        owner.AnimatorController.AnimatorSetBool("IsThrowing", true);
+        owner.PlayerData.PlayerInfo.StartThrowCooldown(isThrowing, ThrowAttackCooldown);
 
         yield return new WaitForSeconds(ThrowAttackCooldown);
         isThrowing = false;
@@ -366,8 +366,8 @@ public class PlayerEngine : MonoBehaviour
     private IEnumerator IDash()
     {
         isDashing = true;
-        player.PlayerInfo.StartDashCooldown(DashCooldown);
-        player.AnimatorController.AnimatorSetBool("IsDashing", true);
+        owner.PlayerData.PlayerInfo.StartDashCooldown(DashCooldown);
+        owner.AnimatorController.AnimatorSetBool("IsDashing", true);
 
         //ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 5), transform.position);
 
@@ -380,7 +380,7 @@ public class PlayerEngine : MonoBehaviour
 
         gravity = dashGravity;
         moveSpeed = startSpeed;
-        player.AnimatorController.AnimatorSetBool("IsDashing", false);
+        owner.AnimatorController.AnimatorSetBool("IsDashing", false);
 
         isDashing = false;
         yield return new WaitForSeconds(DashCooldown);
@@ -409,27 +409,27 @@ public class PlayerEngine : MonoBehaviour
             yield return null;
         }
 
-        player.ChangePlayerState(PlayerState.NORMAL);
+        owner.ChangePlayerState(PlayerState.NORMAL);
         invincibilityCoroutine = null;
     }
     private IEnumerator IFlashSpriteRenderer(float flashSpeed)
     {
-        while (player.CurrentState.Equals(PlayerState.INVINCIBILITY))
+        while (owner.CurrentState.Equals(PlayerState.INVINCIBILITY))
         {
-            player.SpriteRenderer.enabled = !player.SpriteRenderer.enabled;
+            owner.SpriteRenderer.enabled = !owner.SpriteRenderer.enabled;
 
             yield return new WaitForSeconds(flashSpeed);
         }
 
-        player.SpriteRenderer.enabled = true;
+        owner.SpriteRenderer.enabled = true;
     }
     private IEnumerator IRespawn(Vector2 spawnPoint, float respawnDelay)
     {
-        player.Controller2D.Collider2D.enabled = false;
+        owner.Controller2D.Collider2D.enabled = false;
         var respawnEffect = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 3), new Vector2(spawnPoint.x, spawnPoint.y - 4f), Quaternion.Euler(new Vector2(-90, 0))).GetComponent<Effect>();
 
-        player.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
-        player.AnimatorController.AnimatorSetBool("HasDied", true);
+        owner.PlayerData.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
+        owner.AnimatorController.AnimatorSetBool("HasDied", true);
 
         Vector2 startPosition = transform.position;
         Vector2 endPosition = spawnPoint;
@@ -470,8 +470,8 @@ public class PlayerEngine : MonoBehaviour
             #endregion LERP_METHOD_2
         }
 
-        player.Controller2D.Collider2D.enabled = true;
-        player.ResetValues();
+        owner.Controller2D.Collider2D.enabled = true;
+        owner.ResetValues();
 
         yield return new WaitForSeconds(respawnDelay);
 
@@ -479,8 +479,8 @@ public class PlayerEngine : MonoBehaviour
 
         ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 1), transform.position);
 
-        player.AnimatorController.AnimatorSetBool("HasDied", false);
-        player.ChangePlayerState(PlayerState.INVINCIBILITY);
+        owner.AnimatorController.AnimatorSetBool("HasDied", false);
+        owner.ChangePlayerState(PlayerState.INVINCIBILITY);
         respawnCoroutine = null;
     }
 

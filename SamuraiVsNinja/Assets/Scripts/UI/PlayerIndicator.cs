@@ -16,6 +16,6 @@ public class PlayerIndicator : MonoBehaviour
 	{
 		playerIdText.text = newText;
 		playerIdText.color = textColor;
-		playerTextOutline.effectColor = Color.white;
+		playerTextOutline.effectColor = Color.black;
 	}
 }

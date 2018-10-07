@@ -94,9 +94,9 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
         foreach (var playerData in PlayerDataManager.Instance.PlayerDatas)
         {
-            if (playerData.SpawnedPlayer != null)
+            if (playerData.Player != null)
             {
-                playerData.SpawnedPlayer.DespawnPlayer();
+                //playerData.SpawnedPlayer.DespawnPlayer();
             }
         }
     }

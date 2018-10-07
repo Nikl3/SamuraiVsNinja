@@ -28,7 +28,6 @@ public class PlayerInfo : MonoBehaviour
         get;
         set;
     }
-    public EndGameStats EndGameStats { get; set; }
     public int OnigirisPicked { get; set; }
     public int OnigirisLost { get; set; }
     public int Kills { get; set; }
@@ -74,7 +73,7 @@ public class PlayerInfo : MonoBehaviour
         transform.localScale = Vector3.one;
         playerNameText.text = Owner.name;
         playerNameText.color = Owner.PlayerData.PlayerColor;
-        playerNameTextOutline.effectColor = Color.white;
+        playerNameTextOutline.effectColor = Color.black;
         gameObject.name = playerNameText.text + " Info";
 
         if(Owner.PlayerData.PlayerType == PLAYER_TYPE.NINJA)
@@ -106,7 +105,7 @@ public class PlayerInfo : MonoBehaviour
             HitPercent = (TotalHits / (float)Attacks) * 100f;
         }
 
-        EndGameStats.SetEndGameStats(playerIcon.sprite, Owner.name, OnigirisPicked, OnigirisLost, Kills, Deaths, HitPercent);               
+        Owner.PlayerData.EndGameStats.SetEndGameStats(playerIcon.sprite, Owner.name, OnigirisPicked, OnigirisLost, Kills, Deaths, HitPercent);               
     }
     public void UpdateOnigiris(int currentOnigiris)
     {

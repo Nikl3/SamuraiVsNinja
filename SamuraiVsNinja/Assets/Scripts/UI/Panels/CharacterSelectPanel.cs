@@ -55,7 +55,7 @@ public class CharacterSelectPanel : UIPanel
 
     private void IsEnoughJoinedPlayers()
     {
-        startButton.interactable = joinedPlayers > 1 ? true : false;
+        startButton.interactable = joinedPlayers > 0 ? true : false;
     }
     private void HandlePlayerJoinings()
     {
