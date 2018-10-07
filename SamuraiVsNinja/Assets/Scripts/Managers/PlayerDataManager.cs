@@ -8,8 +8,6 @@ public enum PLAYER_TYPE
 
 public class PlayerDataManager : Singelton<PlayerDataManager>
 {
-    public Color player1Color, player2Color, player3Color, player4Color;
-
     public RuntimeAnimatorController[] RuntimeAnimatorControllers;
     public Sprite[] PlayerIconSprite;
     public Sprite[] DashIconSprite;
@@ -50,16 +48,16 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         switch (playerID)
         {
             case 1:
-                return player1Color;
+                return Color.blue;
 
             case 2:
-                return player2Color;
+                return Color.red;
 
             case 3:
-                return player3Color;
+                return Color.green;
 
             case 4:
-                return player4Color;
+                return Color.yellow;
 
             default:
                 return Color.magenta;

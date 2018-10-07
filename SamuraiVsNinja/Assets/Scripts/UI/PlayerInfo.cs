@@ -17,7 +17,7 @@ public class PlayerInfo : MonoBehaviour
     private Image[] healthpointImages;
 
     private Image playerIcon, playerDashIcon, playerProjectileIcon;
-    private Image rangeAttackCooldownImage, dashAttackCooldownImage, playerRespawnCooldownImage;
+    private Image throwAttackCooldownImage, dashAttackCooldownImage, playerRespawnCooldownImage;
 
     #endregion VARIABLES
 
@@ -59,12 +59,10 @@ public class PlayerInfo : MonoBehaviour
         playerProjectileIcon = transform.Find("RangeAttackCooldown").transform.Find("Icon").GetComponent<Image>();
         healthpointImages = transform.Find("HealthBar").GetComponentsInChildren<Image>();
         Array.Reverse(healthpointImages);
-        rangeAttackCooldownImage = transform.Find("RangeAttackCooldown").transform.Find("CooldownImage").GetComponent<Image>();
-        rangeAttackCooldownImage.gameObject.SetActive(false);
+        throwAttackCooldownImage = transform.Find("RangeAttackCooldown").transform.Find("CooldownImage").GetComponent<Image>();
         dashAttackCooldownImage = transform.Find("DashCooldown").transform.Find("CooldownImage").GetComponent<Image>();
-        dashAttackCooldownImage.gameObject.SetActive(false);
         playerRespawnCooldownImage = transform.Find("PlayerIcon").transform.Find("CooldownImage").GetComponent<Image>();
-        playerRespawnCooldownImage.gameObject.SetActive(false);
+ 
     }
     private void SetValues()
     {
@@ -75,8 +73,19 @@ public class PlayerInfo : MonoBehaviour
         playerNameText.color = Owner.PlayerData.PlayerColor;
         playerNameTextOutline.effectColor = Color.black;
         gameObject.name = playerNameText.text + " Info";
+    }
+   
+    private void ResetHealthPointIcons()
+    {
+        foreach (var healthpointImage in healthpointImages)
+        {
+            healthpointImage.color = defaultColor;
+        }
+    }
 
-        if(Owner.PlayerData.PlayerType == PLAYER_TYPE.NINJA)
+    public void SetPlayerInfoIcons()
+    {
+        if (Owner.PlayerData.PlayerType == PLAYER_TYPE.NINJA)
         {
             playerIcon.sprite = PlayerDataManager.Instance.PlayerIconSprite[0];
             playerDashIcon.sprite = PlayerDataManager.Instance.DashIconSprite[0];
@@ -87,15 +96,11 @@ public class PlayerInfo : MonoBehaviour
             playerIcon.sprite = PlayerDataManager.Instance.PlayerIconSprite[1];
             playerDashIcon.sprite = PlayerDataManager.Instance.DashIconSprite[1];
             playerProjectileIcon.sprite = PlayerDataManager.Instance.ProjectileIconSprite[1];
-        }       
-    }
-   
-    private void ResetHealthPointIcons()
-    {
-        foreach (var healthpointImage in healthpointImages)
-        {
-            healthpointImage.color = defaultColor;
         }
+
+        throwAttackCooldownImage.gameObject.SetActive(false);
+        dashAttackCooldownImage.gameObject.SetActive(false);
+        playerRespawnCooldownImage.gameObject.SetActive(false);
     }
 
     public void UpdateEndPanelStats()
@@ -123,16 +128,16 @@ public class PlayerInfo : MonoBehaviour
     }
     public void StartThrowCooldown(bool IsCooldown,  float rangeAttackCooldown)
     {
-        StartCoroutine(ICooldown(rangeAttackCooldownImage, 0, rangeAttackCooldown));
+        StartCoroutine(ICooldown(throwAttackCooldownImage, 0, rangeAttackCooldown));
     }
     public void StartDashCooldown(float dashCooldown)
     {
         StartCoroutine(ICooldown(dashAttackCooldownImage, 0, dashCooldown));
     }
-    public void StartRespawnCooldown( float respawnCooldown)
-    {
-        StartCoroutine(ICooldown(playerRespawnCooldownImage, 0, respawnCooldown));
-    }
+    //public void StartRespawnCooldown( float respawnCooldown)
+    //{
+    //    StartCoroutine(ICooldown(playerRespawnCooldownImage, 0, respawnCooldown));
+    //}
 
     #region COROUTINES
 
@@ -141,9 +146,11 @@ public class PlayerInfo : MonoBehaviour
         cooldownImage.gameObject.SetActive(true);
         while (cooldownImage.fillAmount != targetFillAmount)
         {
+            print("ICooldown");
             cooldownImage.fillAmount += cooldownImage.fillAmount < targetFillAmount ? (1f / cooldownTime) * Time.deltaTime : -(1f / cooldownTime) * Time.deltaTime;
             yield return null;
         }
+
         cooldownImage.gameObject.SetActive(false);
         EventManager.Instance.PostEvent("Cooldown");
 

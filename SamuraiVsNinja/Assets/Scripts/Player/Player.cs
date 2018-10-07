@@ -111,6 +111,8 @@ public class Player : MonoBehaviour
 		SetPlayerIndicator();
 		SetBackgroundLight();
 
+		PlayerData.PlayerInfo.SetPlayerInfoIcons();
+
 		transform.position = LevelManager.Instance.GetSpawnPoint(playerData.ID - 1);
 		CameraEngine.Instance.AddTarget(transform);
 		ChangePlayerState(PlayerState.RESPAWN, true);

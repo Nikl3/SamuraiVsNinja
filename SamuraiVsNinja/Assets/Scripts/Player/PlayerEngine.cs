@@ -374,7 +374,7 @@ public class PlayerEngine : MonoBehaviour
         EventManager.Instance.PostEvent("Dash");
 
         gravity = 0;
-        moveSpeed = +DashSpeed;
+        moveSpeed += DashSpeed;
 
         yield return new WaitForSeconds(dashTime);
 
@@ -428,7 +428,7 @@ public class PlayerEngine : MonoBehaviour
         owner.Controller2D.Collider2D.enabled = false;
         var respawnEffect = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 3), new Vector2(spawnPoint.x, spawnPoint.y - 4f), Quaternion.Euler(new Vector2(-90, 0))).GetComponent<Effect>();
 
-        owner.PlayerData.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
+        //owner.PlayerData.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
         owner.AnimatorController.AnimatorSetBool("HasDied", true);
 
         Vector2 startPosition = transform.position;

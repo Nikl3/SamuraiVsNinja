@@ -120,7 +120,6 @@ public class UIManager : Singelton<UIManager>
 						TriggerPanelCloseBehaviour();
 						Time.timeScale = 1f;
 						PlayerInfoContainer.gameObject.SetActive(true);
-
 					}
 
 					break;

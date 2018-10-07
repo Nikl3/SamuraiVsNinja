@@ -12311,10 +12311,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af021f9fbbd548842b748e9e16cb7675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1Color: {r: 0.25943398, g: 0.45921466, b: 1, a: 1}
-  player2Color: {r: 1, g: 0, b: 0, a: 1}
-  player3Color: {r: 0.13965881, g: 1, b: 0, a: 1}
-  player4Color: {r: 0.9037957, g: 1, b: 0, a: 1}
   RuntimeAnimatorControllers:
   - {fileID: 9100000, guid: dab4a527bd5b25449a890622b01febc3, type: 2}
   - {fileID: 9100000, guid: fe84784269c089b41bf08150008cb38c, type: 2}
@@ -12327,7 +12323,7 @@ MonoBehaviour:
   ProjectileIconSprite:
   - {fileID: 21300000, guid: f8e14f9de09e8df438ca555bebee829b, type: 3}
   - {fileID: 21300000, guid: ead5222cbf099b64bbddf7755a76c616, type: 3}
-  TestPlayerAmount: 4
+  TestPlayerAmount: 40
 --- !u!114 &114783631393080388
 MonoBehaviour:
   m_ObjectHideFlags: 1

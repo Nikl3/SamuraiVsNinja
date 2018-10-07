@@ -16,6 +16,7 @@ public class PausePanel : UIPanel
     {
         UIManager.Instance.TriggerPanelCloseBehaviour();
         Time.timeScale = 1f;
+        UIManager.Instance.PlayerInfoContainer.gameObject.SetActive(true);
     }
     public override void BackButton()
     {
