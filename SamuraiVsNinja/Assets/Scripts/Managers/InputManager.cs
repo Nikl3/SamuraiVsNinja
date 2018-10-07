@@ -64,11 +64,13 @@ public class InputManager : Singelton<InputManager>
         return Input.GetButtonUp("Jump_J" + id);
     }
 
-    public bool X_ButtonDown(int id) {
+    public bool X_ButtonDown(int id)
+    {
         return Input.GetButtonDown("RangeAttack_J" + id);
     }
 
-    public bool X_ButtonUp(int id) {
+    public bool X_ButtonUp(int id)
+    {
         return Input.GetButton("RangeAttack_J" + id);
     }
 

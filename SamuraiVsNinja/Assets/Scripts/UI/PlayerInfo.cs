@@ -146,9 +146,8 @@ public class PlayerInfo : MonoBehaviour
         cooldownImage.gameObject.SetActive(true);
         while (cooldownImage.fillAmount != targetFillAmount)
         {
-            print("ICooldown");
             cooldownImage.fillAmount += cooldownImage.fillAmount < targetFillAmount ? (1f / cooldownTime) * Time.deltaTime : -(1f / cooldownTime) * Time.deltaTime;
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
 
         cooldownImage.gameObject.SetActive(false);

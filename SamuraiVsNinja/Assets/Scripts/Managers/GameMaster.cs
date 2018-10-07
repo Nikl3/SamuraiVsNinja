@@ -36,6 +36,8 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
     #endregion VARIABLES
 
+    public bool IsLoadingScene { get; private set; }
+   
     protected override void Awake()
     {
         base.Awake();
@@ -44,9 +46,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         howToPlayImage = UIManager.Instance.transform.Find("HowToPlayImage").GetComponent<Image>();
         messageText = howToPlayImage.transform.GetComponentInChildren<Text>();
         screenFadeImage.fillAmount = 1f;
-        howToPlayImage.fillAmount = 0f;
-
-       
+        howToPlayImage.fillAmount = 0f;     
     }
     private void Start()
     {
@@ -57,6 +57,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
         FadeScreenImage(0);
 
+        AudioMixer.updateMode = AudioMixerUpdateMode.Normal;
         AudioMixer.updateMode = AudioMixerUpdateMode.UnscaledTime;
 
         SetVolumeChannels();
@@ -216,6 +217,8 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     }
     private IEnumerator ILoadSceneAsync(int sceneIndex)
     {
+        IsLoadingScene = true;
+
         FadeScreenImage(1);
 
         yield return new WaitUntil(() => !isFading);
@@ -251,6 +254,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
         isAnimatingText = false;
         howToPlayImage.gameObject.SetActive(false);
+        IsLoadingScene = false;
 
         yield return new WaitForSecondsRealtime(fakeLoadTime);
 

@@ -5,6 +5,7 @@ public class PausePanel : UIPanel
     public override void OpenBehaviour()
     {
         Time.timeScale = 0f;
+        UIManager.Instance.PlayerInfoContainerGroup.alpha = 0f;
         base.OpenBehaviour();
     }
     public override void CloseBehaviour()
@@ -16,7 +17,7 @@ public class PausePanel : UIPanel
     {
         UIManager.Instance.TriggerPanelCloseBehaviour();
         Time.timeScale = 1f;
-        UIManager.Instance.PlayerInfoContainer.gameObject.SetActive(true);
+        UIManager.Instance.PlayerInfoContainerGroup.alpha = 1f;
     }
     public override void BackButton()
     {

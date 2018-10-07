@@ -113,13 +113,13 @@ public class UIManager : Singelton<UIManager>
 					if(!PausePanel.IsOpen)
 					{
 						TriggerPanelBehaviour(PausePanel);
-						PlayerInfoContainer.gameObject.SetActive(false);
+						PlayerInfoContainerGroup.alpha = 0f;
 					}
 					else
 					{
 						TriggerPanelCloseBehaviour();
 						Time.timeScale = 1f;
-						PlayerInfoContainer.gameObject.SetActive(true);
+						PlayerInfoContainerGroup.alpha = 1f;
 					}
 
 					break;
@@ -137,7 +137,8 @@ public class UIManager : Singelton<UIManager>
 
 		CurrentPanel = panel;
 		CurrentPanel.OpenBehaviour();
-		if (CurrentPanel.name != "VictoryPanel") {
+		if (CurrentPanelState != PANEL_STATE.VICTORY)
+		{
 			PanelBackgroundImage.enabled = true;
 		}
 	}

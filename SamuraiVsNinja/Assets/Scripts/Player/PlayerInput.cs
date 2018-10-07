@@ -60,7 +60,8 @@ public class PlayerInput : MonoBehaviour
             }
 
             if (InputManager.Instance.GetDashAxisRaw(player.PlayerData.ID) >= 1) {
-                if (directionalInput != Vector2.zero) {
+                if (directionalInput != Vector2.zero)
+                {
                     player.PlayerEngine.OnDash();
                 }
             }

@@ -12323,7 +12323,7 @@ MonoBehaviour:
   ProjectileIconSprite:
   - {fileID: 21300000, guid: f8e14f9de09e8df438ca555bebee829b, type: 3}
   - {fileID: 21300000, guid: ead5222cbf099b64bbddf7755a76c616, type: 3}
-  TestPlayerAmount: 40
+  TestPlayerAmount: 0
 --- !u!114 &114783631393080388
 MonoBehaviour:
   m_ObjectHideFlags: 1
