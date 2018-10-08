@@ -16,6 +16,7 @@ public class PlayerInfo : MonoBehaviour
     private Outline playerNameTextOutline;
     private Image[] healthpointImages;
 
+    private Sprite endGameSpriteIcon;
     private Image playerIcon, playerDashIcon, playerProjectileIcon;
     private Image throwAttackCooldownImage, dashAttackCooldownImage, playerRespawnCooldownImage;
 
@@ -54,6 +55,7 @@ public class PlayerInfo : MonoBehaviour
         playerNameTextOutline = playerNameText.GetComponent<Outline>();
         onigiriCountText = transform.Find("OnigiriIcon").GetComponentInChildren<Text>();
 
+        
         playerIcon = transform.Find("PlayerIcon").transform.Find("Icon").GetComponent<Image>();
         playerDashIcon = transform.Find("DashCooldown").transform.Find("Icon").GetComponent<Image>();
         playerProjectileIcon = transform.Find("RangeAttackCooldown").transform.Find("Icon").GetComponent<Image>();
@@ -110,7 +112,22 @@ public class PlayerInfo : MonoBehaviour
             HitPercent = (TotalHits / (float)Attacks) * 100f;
         }
 
-        Owner.PlayerData.EndGameStats.SetEndGameStats(playerIcon.sprite, Owner.name, OnigirisPicked, OnigirisLost, Kills, Deaths, HitPercent);               
+        if (Owner.PlayerData.PlayerName == LevelManager.Instance.WinnerName) {
+                if (Owner.PlayerData.PlayerType == PLAYER_TYPE.NINJA) {
+                    endGameSpriteIcon = PlayerDataManager.Instance.EndgameSprite[0];
+                } else {
+                    endGameSpriteIcon = PlayerDataManager.Instance.EndgameSprite[1];
+                }
+        } else {
+                if (Owner.PlayerData.PlayerType == PLAYER_TYPE.NINJA) {
+                    endGameSpriteIcon = PlayerDataManager.Instance.EndgameSprite[2];
+                } else {
+                    endGameSpriteIcon = PlayerDataManager.Instance.EndgameSprite[3];
+                }
+        }
+
+
+        Owner.PlayerData.EndGameStats.SetEndGameStats(endGameSpriteIcon, Owner.name, OnigirisPicked, OnigirisLost, Kills, Deaths, HitPercent);               
     }
     public void UpdateOnigiris(int currentOnigiris)
     {

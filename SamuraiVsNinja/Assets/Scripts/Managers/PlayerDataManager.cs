@@ -12,6 +12,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
     public Sprite[] PlayerIconSprite;
     public Sprite[] DashIconSprite;
     public Sprite[] ProjectileIconSprite;
+    public Sprite[] EndgameSprite;
 
     public int TestPlayerAmount;
 
