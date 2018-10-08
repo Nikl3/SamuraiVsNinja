@@ -105,6 +105,8 @@ public class Player : MonoBehaviour
 	{
 		PlayerData = playerData;
 
+		PlayerData.PlayerInfo.Owner = PlayerData.Player;
+
 		gameObject.name = playerData.PlayerName;
 		AnimatorController.SetAnimationController(runtimeAnimatorController);
 

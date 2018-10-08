@@ -90,9 +90,14 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     private void Clear()
     {
         CameraEngine.Instance.ClearTargets();
+     
         foreach (var playerData in PlayerDataManager.Instance.PlayerDatas)
         {
-            playerData.Player.gameObject.SetActive(false);
+            if (playerData.HasJoined)
+            {
+                Destroy(playerData.PlayerInfo.gameObject);
+                Destroy(playerData.EndGameStats.gameObject);
+            }
         }
     }
     private void RandomizeFillMethod()

@@ -210,6 +210,7 @@ public class UIManager : Singelton<UIManager>
 				break;
 
 			case PANEL_STATE.PAUSE:
+				PanelBackgroundImage.enabled = true;
 				TriggerPanelBehaviour(PausePanel);
 				break;
 

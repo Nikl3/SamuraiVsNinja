@@ -7,6 +7,7 @@ public class JoinField : MonoBehaviour
     private Image fieldImage;
     private Image icon;
     private Color defaultColor;
+    private GameObject AddPlayerText;
 
     public bool HasJoined
     {
@@ -14,11 +15,10 @@ public class JoinField : MonoBehaviour
         private set;
     }
 
-    private readonly string defaultText = "Press START to join";
-
     private void Awake()
     {
         joinedPlayerName = GetComponentInChildren<Text>();
+        AddPlayerText = transform.Find("AddPlayerText").gameObject;
         fieldImage = GetComponent<Image>();
         icon = fieldImage.transform.GetChild(1).GetComponent<Image>();
         icon.gameObject.SetActive(false);
@@ -32,17 +32,20 @@ public class JoinField : MonoBehaviour
 
     public void ChangeJoinFieldVisuals(int playerID, Color fieldColor)
     {
+        joinedPlayerName.gameObject.SetActive(true);
         joinedPlayerName.text = "PLAYER " + playerID;
         fieldImage.color = fieldColor;
         HasJoined = true;
         icon.gameObject.SetActive(true);
+        AddPlayerText.SetActive(false);
     }
 
     public void UnChangeJoinFieldVisuals()
     {
-        joinedPlayerName.text = defaultText;
+        joinedPlayerName.gameObject.SetActive(false);
         fieldImage.color = defaultColor;
         HasJoined = false;
         icon.gameObject.SetActive(false);
+        AddPlayerText.SetActive(true);
     }
 }

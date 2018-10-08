@@ -30,7 +30,7 @@ public class Effect : MonoBehaviour
 
 	private IEnumerator IDespawnUntilOver()
 	{
-		yield return new WaitUntil(() => ParticleSystem.isStopped && !GameMaster.Instance.IsLoadingScene);
+		yield return new WaitUntil(() => ParticleSystem.isStopped || GameMaster.Instance.IsLoadingScene);
 		ObjectPoolManager.Instance.DespawnObject(gameObject);
 	}
 }

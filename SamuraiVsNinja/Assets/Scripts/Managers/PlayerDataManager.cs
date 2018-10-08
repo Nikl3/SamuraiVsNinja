@@ -69,11 +69,11 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
         for (int i = 0; i < PlayerDatas.Length; i++)
         {
-            var newPlayer = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(0, 0)).GetComponent<Player>();
-            var newPlayerInfo = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(4, 1)).GetComponent<PlayerInfo>();
-            var newPlayerEndGameStats = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(4, 2)).GetComponent<EndGameStats>();
-
-            PlayerDatas[i] = new PlayerData(i + 1, newPlayer, newPlayerInfo, newPlayerEndGameStats, SetPlayerColor(i + 1));
+           
+            PlayerDatas[i] = new PlayerData(i + 1, SetPlayerColor(i + 1))
+            {
+                
+            };
         }
     }
     private void AddTestPlayers(int testPlayerAmount)
@@ -126,10 +126,10 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
         foreach (var playerData in PlayerDatas)
         {
             if (playerData.HasJoined)
-            {
-                playerData.Player.gameObject.SetActive(true);
-                playerData.PlayerInfo.gameObject.SetActive(true);
-                playerData.EndGameStats.gameObject.SetActive(true);
+            {                 
+                playerData.Player = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0)).GetComponent<Player>();
+                playerData.PlayerInfo = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 1)).GetComponent<PlayerInfo>();
+                playerData.EndGameStats = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 2)).GetComponent<EndGameStats>();
                 playerData.Player.Initialize(playerData, playerData.PlayerType == PLAYER_TYPE.NINJA ? RuntimeAnimatorControllers[0] : RuntimeAnimatorControllers[1]);              
             }
         }

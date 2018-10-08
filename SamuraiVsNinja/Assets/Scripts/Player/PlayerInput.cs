@@ -17,10 +17,10 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        if (player.CurrentState != PlayerState.RESPAWN)
+        if (player.CurrentState != PlayerState.RESPAWN && UIManager.Instance.CurrentPanel == null)
         {
             LevelManager.Instance.TeleportObject(transform);
-            UpdateLocalInputs();
+            UpdateLocalInputs();         
         }
     }
 
@@ -28,14 +28,16 @@ public class PlayerInput : MonoBehaviour
         isStunned = false;
     }
 
-    public void Stun(float stunDuration) {
+    public void Stun(float stunDuration)
+    {
         isStunned = true;
         Invoke("StunReset", stunDuration);
     }
 
     public void UpdateLocalInputs()
     {
-        if (!isStunned) {
+        if (!isStunned)
+        {
             Vector2 directionalInput = new Vector2(
             InputManager.Instance.GetHorizontalAxisRaw(player.PlayerData.ID),
             InputManager.Instance.GetVerticalAxisRaw(player.PlayerData.ID)
@@ -66,7 +68,6 @@ public class PlayerInput : MonoBehaviour
                 }
             }
         }
-            player.PlayerEngine.CalculateMovement();
-        
+            player.PlayerEngine.CalculateMovement();     
     }
 }

@@ -39,7 +39,7 @@ public class LevelManager : Singelton<LevelManager>
         Time.timeScale = 1f;
         onigiriPrefab = ResourceManager.Instance.GetPrefabByIndex(1, 0);
         sushiPrefab = ResourceManager.Instance.GetPrefabByIndex(1, 1);
-        StartRound();
+        Invoke("StartRound",2);
         Invoke("RunGame", 4f);
     }
     private void OnDrawGizmos()

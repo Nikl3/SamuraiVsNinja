@@ -13,17 +13,17 @@ public class PlayerData
     public Player Player
     {
         get;
-        private set;
+        set;
     }
     public PlayerInfo PlayerInfo
     {
         get;
-        private set;
+        set;
     }
     public EndGameStats EndGameStats
     {
         get;
-        private set;
+        set;
     }
     public int ID
     {
@@ -40,19 +40,10 @@ public class PlayerData
     public bool HasJoined { get; set; }
     public Color PlayerColor { get; private set; }
 
-    public PlayerData(int id, Player player, PlayerInfo playerInfo, EndGameStats endGameStats, Color playerColor)
+    public PlayerData(int id,  Color playerColor)
     {
         ID = id;
-        Player = player;
-        PlayerInfo = playerInfo;
-        EndGameStats = endGameStats;
         playerName = "Player " + id;
         PlayerColor = playerColor;
-
-        PlayerInfo.Owner = Player;
-
-        Player.gameObject.SetActive(false);
-        PlayerInfo.gameObject.SetActive(false);
-        EndGameStats.gameObject.SetActive(false);
     }
 }

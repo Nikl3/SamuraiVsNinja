@@ -29,6 +29,12 @@ public class Item : MonoBehaviour
 
     private void Update()
     {
+        if (GameMaster.Instance.IsLoadingScene)
+        {
+            ObjectPoolManager.Instance.DespawnObject(gameObject);
+            return;
+        }
+
         if (!isFloating)
         {
             if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Spawning"))
