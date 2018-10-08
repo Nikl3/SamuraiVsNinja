@@ -37,6 +37,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     #endregion VARIABLES
 
     public bool IsLoadingScene { get; private set; }
+    public Animator RunloadAnimator;
    
     protected override void Awake()
     {
@@ -46,7 +47,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         howToPlayImage = UIManager.Instance.transform.Find("HowToPlayImage").GetComponent<Image>();
         messageText = howToPlayImage.transform.GetComponentInChildren<Text>();
         screenFadeImage.fillAmount = 1f;
-        howToPlayImage.fillAmount = 0f;     
+        //howToPlayImage.fillAmount = 0f;     
     }
     private void Start()
     {
@@ -235,20 +236,20 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         FadeScreenImage(1);
 
         yield return new WaitUntil(() => !isFading);
-
+        
         messageText.enabled = true;
         messageText.text = "LOADING...";
-        howToPlayImage.gameObject.SetActive(sceneIndex != 0 ? true : false);
+        howToPlayImage.gameObject.SetActive(CurrentGameState == CURRENT_GAME_STATE.MAIN_MENU ? true : false);
 
         asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
         asyncOperation.allowSceneActivation = false;
-
-
-        yield return new WaitForSecondsRealtime(fakeLoadTime = howToPlayImage.gameObject.activeSelf ? fakeLoadTime : 0f);
+        howToPlayImage.gameObject.SetActive(true);
+        RunloadAnimator.SetTrigger("FOO");
+        //yield return new WaitForSecondsRealtime(fakeLoadTime = howToPlayImage.gameObject.activeSelf ? fakeLoadTime : 0f);
 
         while (!asyncOperation.isDone)
         {
-            if (asyncOperation.progress == 0.9f)
+            if (asyncOperation.progress == 0.9f && !RunloadAnimator.GetCurrentAnimatorStateInfo(0).IsTag("loadTime"))
             {
                 if (!isAnimatingText)
                 {

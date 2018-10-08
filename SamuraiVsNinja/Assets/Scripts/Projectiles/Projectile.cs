@@ -35,7 +35,7 @@ public abstract class Projectile : MonoBehaviour
 
         if (collision.CompareTag("Player")) {
             var hittedPlayer = collision.GetComponentInParent<Player>();
-            hittedPlayer.TakeDamage(owner, hitDirection, knockbackForce, 1, 1);
+            hittedPlayer.TakeDamage(owner, -hitDirection, knockbackForce, 1, 1);
             ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 2), collision.transform.position);
         }
         if (collision.gameObject.layer.Equals(9))

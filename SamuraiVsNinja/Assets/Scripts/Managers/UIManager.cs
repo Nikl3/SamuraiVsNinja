@@ -95,7 +95,7 @@ public class UIManager : Singelton<UIManager>
 	}
 	private void OnStartButtonDown(CURRENT_GAME_STATE currentGameState)
 	{
-		if (InputManager.Instance.Y_ButtonDown(1))
+		if (InputManager.Instance.Start_ButtonDown(1))
 		{
 			switch (currentGameState)
 			{

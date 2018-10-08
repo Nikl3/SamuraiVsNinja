@@ -68,7 +68,7 @@ public class PlayerInfo : MonoBehaviour
     {
         transform.SetParent(UIManager.Instance.PlayerInfoContainer);
         transform.localPosition = Vector3.zero;
-        transform.localScale = Vector3.one;
+        transform.localScale = new Vector2(0.8f, 0.8f);
         playerNameText.text = Owner.name;
         playerNameText.color = Owner.PlayerData.PlayerColor;
         playerNameTextOutline.effectColor = Color.black;
