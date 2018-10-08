@@ -163,7 +163,7 @@ public class Player : MonoBehaviour
 	{
 		PlayerTriggerController.gameObject.tag = "Player";
 		healthPoints = 3;
-		onigiris = 0;
+		//onigiris = 0;
 		PlayerEngine.ResetVariables();
 		PlayerData.PlayerInfo.UpdateHealthPoints(healthPoints);
 	}
@@ -216,7 +216,7 @@ public class Player : MonoBehaviour
 		onigiris += amount;
 		PlayerData.PlayerInfo.OnigirisPicked++;
 
-		if (onigiris >= 10)
+		if (onigiris >= 1)
 		{
 			LevelManager.Instance.EndGame(PlayerData.PlayerName);
 		}

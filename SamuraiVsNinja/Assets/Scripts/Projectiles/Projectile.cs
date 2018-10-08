@@ -2,10 +2,12 @@
 
 public abstract class Projectile : MonoBehaviour
 {
-    protected Player player;
+    private Player owner;
     protected float projectileSpeed;
     protected float selfDestroyTime = 1.8f;
     protected int startDirection;
+    private Vector2 knockbackForce = new Vector2(10, 20);
+
 
     private SpriteRenderer spriteRenderer;
 
@@ -21,13 +23,21 @@ public abstract class Projectile : MonoBehaviour
 
     public void ProjectileInitialize(Player owner, int projectileDirection)
     {
+        this.owner = owner;
         startDirection = -projectileDirection;
         spriteRenderer.flipX = startDirection > 0 ? true : false;
         Invoke("Despawn", selfDestroyTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
+    private void OnTriggerEnter2D(Collider2D collision) {
+        var hitDirection = collision.transform.position - transform.position;
+        hitDirection = hitDirection.normalized;
+
+        if (collision.CompareTag("Player")) {
+            var hittedPlayer = collision.GetComponentInParent<Player>();
+            hittedPlayer.TakeDamage(owner, hitDirection, knockbackForce, 1, 1);
+            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 2), collision.transform.position);
+        }
         if (collision.gameObject.layer.Equals(9))
         {
             ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 2), transform.position);

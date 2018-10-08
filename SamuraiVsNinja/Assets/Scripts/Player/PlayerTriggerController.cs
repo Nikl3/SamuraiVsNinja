@@ -20,14 +20,6 @@ public class PlayerTriggerController : MonoBehaviour
 
             switch (collision.tag)
             {
-                case "Projectile":
-                    var collisionGameObject = collision.gameObject;
-                    owner.TakeDamage(owner, hitDirection, knockbackForce, 1, 1);
-
-                    ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 2), collision.transform.position);
-                    ObjectPoolManager.Instance.DespawnObject(collisionGameObject);                 
-                    break;
-
                 case "Onigiri":
                     EventManager.Instance.PostEvent("Pickup");
                     owner.AddOnigiri(1);
