@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Fabric;
 
 public class LevelManager : Singelton<LevelManager>
 {
@@ -123,7 +124,8 @@ public class LevelManager : Singelton<LevelManager>
     public void EndGame(string winnerName)
     {
         GameIsRunning = false;
-
+        EventManager.Instance.PostEvent("LevelTheme", EventAction.StopSound);
+        EventManager.Instance.PostEvent("Victory");
         WinnerName = winnerName;    
 
         UIManager.Instance.ChangePanelState(PANEL_STATE.VICTORY);

@@ -236,7 +236,9 @@ public class UIManager : Singelton<UIManager>
 		TriggerPanelBehaviour(MainMenuPanel);
 
 		EventManager.Instance.PostEvent("LevelTheme", EventAction.StopSound);
-		EventManager.Instance.PostEvent("MenuTheme");
+        EventManager.Instance.PostEvent("Victory", EventAction.StopSound);
+
+        EventManager.Instance.PostEvent("MenuTheme");
 	}
 	public void SetLevelUI()
 	{

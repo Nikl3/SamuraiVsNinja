@@ -14,10 +14,16 @@ public class Item : MonoBehaviour
         graphics = transform.Find("Graphics");
     }
 
+    void SelfDestroy() {
+        ObjectPoolManager.Instance.DespawnObject(gameObject);
+    }
+
     private void OnEnable()
     {
         isFloating = false;
         tag = "Untagged";
+
+        Invoke("SelfDestroy", 5f);
     }
 
     private void OnDisable()
