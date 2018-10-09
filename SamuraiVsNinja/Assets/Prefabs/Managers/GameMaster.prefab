@@ -13096,11 +13096,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 440b0bad553b50143a6cc873de3542ab, type: 3}
   - {fileID: 21300000, guid: 32962e3696126d245bed1d74c36688a1, type: 3}
   DashIconSprite:
-  - {fileID: 21300000, guid: 784e3af5890815441b6917ac0fd76230, type: 3}
-  - {fileID: 21300000, guid: 92ae93de19322384991dcb55c08d2d9d, type: 3}
+  - {fileID: 21300000, guid: b3492542e72ce36428e1e587509b13a2, type: 3}
+  - {fileID: 21300000, guid: b3492542e72ce36428e1e587509b13a2, type: 3}
   ProjectileIconSprite:
-  - {fileID: 21300000, guid: f8e14f9de09e8df438ca555bebee829b, type: 3}
-  - {fileID: 21300000, guid: ead5222cbf099b64bbddf7755a76c616, type: 3}
+  - {fileID: 21300000, guid: cb6cccb7cd4fca9489491e63271fb49a, type: 3}
+  - {fileID: 21300000, guid: 336c20a343ca4a948b5b9bd493a5654f, type: 3}
   EndgameSprite:
   - {fileID: 21300000, guid: 04022f75a06ffa4439855a19a6b85ef6, type: 3}
   - {fileID: 21300000, guid: 1bbd7fedc5492a84cb0ef5764860c5c8, type: 3}
@@ -13243,15 +13243,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 35
+    m_Left: 0
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 3
+  m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 400, y: 200}
-  m_Spacing: {x: -38.62, y: 0}
+  m_Spacing: {x: 15.8, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!114 &114788973357817834

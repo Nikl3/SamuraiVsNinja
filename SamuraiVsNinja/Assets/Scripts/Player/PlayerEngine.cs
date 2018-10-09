@@ -263,6 +263,7 @@ public class PlayerEngine : MonoBehaviour
     {
         if (owner.Controller2D.Collisions.Below)
         {
+            EventManager.Instance.PostEvent("Jump");
             ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 4), transform.position);
         }
 
@@ -443,7 +444,7 @@ public class PlayerEngine : MonoBehaviour
         owner.ResetValues();
 
         yield return new WaitForSeconds(respawnDelay);
-
+        EventManager.Instance.PostEvent("Respawn");
         respawnEffect.ParticleSystem.Stop();
 
         ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 1), transform.position);

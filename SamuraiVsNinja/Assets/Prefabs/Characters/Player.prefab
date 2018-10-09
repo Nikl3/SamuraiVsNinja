@@ -456,7 +456,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 378978b1c55743e4a954d0b29196a2f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UsingLerpMethod1: 1
   minJumpHeight: 1
   maxJumpHeight: 8
   moveSpeed: 15

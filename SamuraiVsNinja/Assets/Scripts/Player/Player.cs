@@ -204,9 +204,9 @@ public class Player : MonoBehaviour
 					SpriteRenderer.enabled = true;
 					SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
 					PlayerEngine.Respawn(LevelManager.Instance.RandomSpawnPosition(0), respawnDelay);
-				}
+                }
 
-				break;
+                break;
 
 			default:
 
