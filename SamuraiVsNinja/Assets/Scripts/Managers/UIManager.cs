@@ -233,7 +233,10 @@ public class UIManager : Singelton<UIManager>
 	}
 	public void SetMainMenuUI()
 	{
-		TitleCharacters.SetActive(true);
+        Time.timeScale = 1f;
+        PanelBackgroundImage.enabled = true;
+
+        TitleCharacters.SetActive(true);
 		TitleGameObject.SetActive(true);
 		PreSetPanelsState(false);
 
@@ -244,11 +247,12 @@ public class UIManager : Singelton<UIManager>
 
 		EventManager.Instance.PostEvent("LevelTheme", EventAction.StopSound);
 		EventManager.Instance.PostEvent("Victory", EventAction.StopSound);
-
 		EventManager.Instance.PostEvent("MenuTheme");
 	}
 	public void SetLevelUI()
 	{
+        Time.timeScale = 1f;
+
 		PreSetPanelsState(false);
 		TitleCharacters.SetActive(false);
 		TitleGameObject.SetActive(false);
@@ -260,7 +264,8 @@ public class UIManager : Singelton<UIManager>
 
 		TriggerPanelCloseBehaviour();
 
-		EventManager.Instance.PostEvent("MenuTheme", EventAction.StopSound);
+        EventManager.Instance.PostEvent("Victory", EventAction.StopSound);
+        EventManager.Instance.PostEvent("MenuTheme", EventAction.StopSound);
 		EventManager.Instance.PostEvent("LevelTheme");
 	}
 	public void SetOnlineUI()

@@ -28,7 +28,7 @@ public class Item : MonoBehaviour
         isFloating = false;
         tag = "Untagged";
 
-        Invoke("SelfDestroy", despawnTime);
+        //Invoke("SelfDestroy", despawnTime);
     }
 
     private void OnDisable()

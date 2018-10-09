@@ -563,7 +563,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1154734963489002
 GameObject:
   m_ObjectHideFlags: 1
@@ -1667,7 +1667,7 @@ GameObject:
   - component: {fileID: 114816234915096096}
   - component: {fileID: 114202019719462864}
   m_Layer: 0
-  m_Name: VictoryMusixx
+  m_Name: VictoryMusic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9605,10 +9605,10 @@ MonoBehaviour:
   _customCurvesType: 0
   _customCurvesName: 
   _overrideFadeProperties: 0
-  _fadeInTime: 4
+  _fadeInTime: 0.5
   _fadeInCurve: 0.636
-  _fadeOutTime: 22.2
-  _fadeOutCurve: 0.5
+  _fadeOutTime: 1
+  _fadeOutCurve: 1
   _reverbZoneMix: 1
   _overrideBypassProperties: 0
   _bypassEffects: 0

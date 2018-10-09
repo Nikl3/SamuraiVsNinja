@@ -37,7 +37,7 @@ public class LevelManager : Singelton<LevelManager>
     private void Start()
     {
         //StartRound();
-        Invoke("StartRound", 0f);
+        Invoke("StartRound", 1f);
         Invoke("RunGame", 4f);
     }
     private void OnDrawGizmos()
@@ -77,7 +77,6 @@ public class LevelManager : Singelton<LevelManager>
  
     private void StartRound()
     {
-        Time.timeScale = 1f;
         PlayerDataManager.Instance.SpawnPlayers();
         //StartSpawnSushi();
     }
