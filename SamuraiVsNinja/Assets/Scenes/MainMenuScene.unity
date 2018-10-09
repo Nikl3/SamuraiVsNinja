@@ -120,11 +120,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114992795991406286, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: _eventList.Array.size
-      value: 16
-      objectReference: {fileID: 0}
     - target: {fileID: 4788216343600060, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -157,115 +152,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224405784523073150, guid: a91df342f1865594eba8c65a7efe3594,
+    - target: {fileID: 114124447962983888, guid: a91df342f1865594eba8c65a7efe3594,
         type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -199.88202
-      objectReference: {fileID: 0}
-    - target: {fileID: 224329191920721928, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -359.88202
-      objectReference: {fileID: 0}
-    - target: {fileID: 224382754770725062, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -519.882
-      objectReference: {fileID: 0}
-    - target: {fileID: 224325608532749544, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -679.882
-      objectReference: {fileID: 0}
-    - target: {fileID: 224708643756829998, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -839.882
-      objectReference: {fileID: 0}
-    - target: {fileID: 1501301789316162, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
-      propertyPath: m_IsActive
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224025487623672180, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -114.88202
-      objectReference: {fileID: 0}
-    - target: {fileID: 224507399721766486, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -604.882
-      objectReference: {fileID: 0}
-    - target: {fileID: 224538244982741366, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -774.882
-      objectReference: {fileID: 0}
-    - target: {fileID: 224341674864248496, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -434.88202
-      objectReference: {fileID: 0}
-    - target: {fileID: 224746650712542628, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -264.88202
-      objectReference: {fileID: 0}
-    - target: {fileID: 224069718432460352, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -924.882
-      objectReference: {fileID: 0}
-    - target: {fileID: 114992795991406286, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: _eventList.Array.data[10]
-      value: Respawn
-      objectReference: {fileID: 0}
-    - target: {fileID: 114992795991406286, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: _eventList.Array.data[11]
-      value: Throw
-      objectReference: {fileID: 0}
-    - target: {fileID: 114992795991406286, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: _eventList.Array.data[12]
-      value: UI_Hover
-      objectReference: {fileID: 0}
-    - target: {fileID: 114992795991406286, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: _eventList.Array.data[13]
-      value: UI_PanelOpen
-      objectReference: {fileID: 0}
-    - target: {fileID: 114992795991406286, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: _eventList.Array.data[14]
-      value: UI_Press
-      objectReference: {fileID: 0}
-    - target: {fileID: 114992795991406286, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: _eventList.Array.data[15]
-      value: Victory
-      objectReference: {fileID: 0}
-    - target: {fileID: 1472475750943912, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 20715953241853902, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_BackGroundColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 20715953241853902, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 20715953241853902, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 82427111092124782, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
   m_IsPrefabAsset: 0

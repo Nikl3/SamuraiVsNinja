@@ -35,7 +35,6 @@ public class UIManager : Singelton<UIManager>
 
 	public GameObject MainMenuBackgroundImageGameObject { get; private set; }
 	public Image GameTitleImage { get; private set; }
-	public Image PanelBackgroundImage { get; private set; }
 
 	public Animator UIManagerAnimator { get; private set; }
 	public Animator RunloadAnimator;
@@ -85,8 +84,6 @@ public class UIManager : Singelton<UIManager>
 		PanelsGameObject = transform.Find("Panels").gameObject;
 		MainMenuBackgroundImageGameObject = transform.Find("MenuBackgroundImage").gameObject;
 
-		PanelBackgroundImage = PanelsGameObject.transform.GetComponent<Image>();
-
 		MainMenuPanel = PanelsGameObject.transform.Find("MainMenuPanel").GetComponent<UIPanel>();
 		CharacterSelectPanel = PanelsGameObject.transform.Find("CharacterSelectPanel").GetComponent<UIPanel>();
 		OptionsPanel = PanelsGameObject.transform.Find("OptionsPanel").GetComponent<UIPanel>();
@@ -110,11 +107,6 @@ public class UIManager : Singelton<UIManager>
 			switch (currentGameState)
 			{
 				case CURRENT_GAME_STATE.MAIN_MENU:
-
-					if (CreditsPanel.IsOpen)
-					{
-						TriggerPanelBehaviour(MainMenuPanel);
-					}
 
 					break;
 
@@ -150,11 +142,7 @@ public class UIManager : Singelton<UIManager>
 			CurrentPanel.CloseBehaviour();
 
 		CurrentPanel = panel;
-		CurrentPanel.OpenBehaviour();
-		if (CurrentPanelState != PANEL_STATE.VICTORY)
-		{
-			PanelBackgroundImage.enabled = true;
-		}
+		CurrentPanel.OpenBehaviour();	
 	}
 	private void PreSetPanelsState(bool isActive)
 	{
@@ -176,7 +164,6 @@ public class UIManager : Singelton<UIManager>
 		if (CurrentPanel != null)
 		{
 			CurrentPanel.CloseBehaviour();
-			PanelBackgroundImage.enabled = false;
 			CurrentPanel = null;
 		}		
 	}
@@ -233,10 +220,9 @@ public class UIManager : Singelton<UIManager>
 	}
 	public void SetMainMenuUI()
 	{
-        Time.timeScale = 1f;
-        PanelBackgroundImage.enabled = true;
+		Time.timeScale = 1f;
 
-        TitleCharacters.SetActive(true);
+		TitleCharacters.SetActive(true);
 		TitleGameObject.SetActive(true);
 		PreSetPanelsState(false);
 
@@ -251,7 +237,7 @@ public class UIManager : Singelton<UIManager>
 	}
 	public void SetLevelUI()
 	{
-        Time.timeScale = 1f;
+		Time.timeScale = 1f;
 
 		PreSetPanelsState(false);
 		TitleCharacters.SetActive(false);
@@ -264,8 +250,8 @@ public class UIManager : Singelton<UIManager>
 
 		TriggerPanelCloseBehaviour();
 
-        EventManager.Instance.PostEvent("Victory", EventAction.StopSound);
-        EventManager.Instance.PostEvent("MenuTheme", EventAction.StopSound);
+		EventManager.Instance.PostEvent("Victory", EventAction.StopSound);
+		EventManager.Instance.PostEvent("MenuTheme", EventAction.StopSound);
 		EventManager.Instance.PostEvent("LevelTheme");
 	}
 	public void SetOnlineUI()
