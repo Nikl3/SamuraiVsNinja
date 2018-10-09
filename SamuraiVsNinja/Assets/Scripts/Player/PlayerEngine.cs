@@ -235,12 +235,9 @@ public class PlayerEngine : MonoBehaviour
             owner.AnimatorController.AnimatorSetBool("IsDropping", false);
         }
         else
-        {
-            if (!owner.AnimatorController.GetAnimaionState("Attack"))
-            {
-                owner.AnimatorController.AnimatorSetBool("IsJumping", velocity.y > 0 ? true : false);
-                owner.AnimatorController.AnimatorSetBool("IsDropping", velocity.y < 0 ? true : false);
-            }
+        {       
+            owner.AnimatorController.AnimatorSetBool("IsJumping", velocity.y > 0 ? true : false);
+            owner.AnimatorController.AnimatorSetBool("IsDropping", velocity.y < 0 ? true : false);          
         }
     }
 
@@ -303,9 +300,10 @@ public class PlayerEngine : MonoBehaviour
         }
     }
     public void HandleMeleeAttacks()
-    {
+    {          
         owner.PlayerData.PlayerInfo.Attacks++;
         owner.AnimatorController.AnimatorSetBool("IsAttacking", true);
+        owner.AnimatorController.AnimatorSetBool("IsThrowing", false);
     }
     public void OnThrow()
     {
@@ -355,6 +353,7 @@ public class PlayerEngine : MonoBehaviour
         owner.PlayerData.PlayerInfo.Attacks++;
         isThrowing = true;
         owner.AnimatorController.AnimatorSetBool("IsThrowing", true);
+        owner.AnimatorController.AnimatorSetBool("IsAttacking", false);
         owner.PlayerData.PlayerInfo.StartThrowCooldown(isThrowing, ThrowAttackCooldown);
 
         yield return new WaitForSeconds(ThrowAttackCooldown);
