@@ -184,7 +184,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1501301789316162, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224025487623672180, guid: a91df342f1865594eba8c65a7efe3594,
         type: 2}
@@ -245,6 +245,10 @@ Prefab:
         type: 2}
       propertyPath: _eventList.Array.data[15]
       value: Victory
+      objectReference: {fileID: 0}
+    - target: {fileID: 1472475750943912, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 82427111092124782, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
