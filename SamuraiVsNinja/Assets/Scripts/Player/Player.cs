@@ -129,6 +129,8 @@ public class Player : MonoBehaviour
 
 	private void Die(Player attacker, float hitDirection)
 	{
+		CameraEngine.Instance.IsShaking = true;
+
 		if (this != attacker)
 		{
 			attacker.PlayerData.PlayerInfo.Kills++;
@@ -146,22 +148,22 @@ public class Player : MonoBehaviour
 		EventManager.Instance.PostEvent("Die");
 	}
 
-    private void LoseOnigiri(float hitDirection)
-    {
-        PlayerData.PlayerInfo.OnigirisLost++;
-        onigiris--;
-        PlayerData.PlayerInfo.UpdateOnigiris(onigiris);
+	private void LoseOnigiri(float hitDirection)
+	{
+		PlayerData.PlayerInfo.OnigirisLost++;
+		onigiris--;
+		PlayerData.PlayerInfo.UpdateOnigiris(onigiris);
 
-        DropOnigiri(hitDirection);
-    }
+		DropOnigiri(hitDirection);
+	}
 
-    private void DropOnigiri(float shootDirection)
-    {
-        var droppedOnigiri = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 0), transform.position).GetComponent<Onigiri>();
-        droppedOnigiri.ShootOnigiri(new Vector2(shootDirection, 40));
-    }
+	private void DropOnigiri(float shootDirection)
+	{
+		var droppedOnigiri = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 0), transform.position).GetComponent<Onigiri>();
+		droppedOnigiri.ShootOnigiri(new Vector2(shootDirection, 40));
+	}
 
-    private void SetBackgroundLight()
+	private void SetBackgroundLight()
 	{
 		var playerColor = PlayerData.PlayerColor;
 		BackgroundLightRenderer.color = new Color(playerColor.r, playerColor.g, playerColor.b, backgroundLightAlpha);
@@ -207,9 +209,9 @@ public class Player : MonoBehaviour
 					SpriteRenderer.enabled = true;
 					SpriteRenderer.color = new Color(1, 1, 1, 0.2f);
 					PlayerEngine.Respawn(LevelManager.Instance.RandomSpawnPosition(0), respawnDelay);
-                }
+				}
 
-                break;
+				break;
 
 			default:
 

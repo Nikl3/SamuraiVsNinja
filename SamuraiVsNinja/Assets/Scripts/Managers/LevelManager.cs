@@ -36,7 +36,7 @@ public class LevelManager : Singelton<LevelManager>
 
     private void Start()
     {
-
+        StartSpawnSushi();
         //StartRound();
         Invoke("StartRound", 1f);
         Invoke("RunGame", 4f);
@@ -166,7 +166,10 @@ public class LevelManager : Singelton<LevelManager>
                 break;
             }   
 
-            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 1), new Vector2(Random.Range(-80, 80), 60));
+            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 1),
+                new Vector2(Random.Range(0,
+                Screen.width), 
+                Screen.height));
 
             yield return null;
         }

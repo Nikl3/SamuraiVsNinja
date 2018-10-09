@@ -1,25 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraEngine : Singelton<CameraEngine>
 {
     #region VARIABLES
+    [Header("ZOOM VARIABLES")]
     [SerializeField]
-    private List<Transform> targets;
-
-    private readonly float smoothTime = 0.5f;
-    private readonly float maxZoom = 30f;
-    private readonly float minZoom = 50f;
-    private readonly float zoomLimiter = 100f;
+    private float smoothTime = 0.5f;
+    [SerializeField]
+    private float maxZoom = 20f;
+    [SerializeField]
+    private float minZoom = 80f;
+    [SerializeField]
+    private readonly float zoomLimiter = 50f;
     [SerializeField]
     private Vector2 offset = Vector2.zero;
+    [SerializeField]
     private Vector2 cameraVelocity;
     private Camera mainCamera;
 
+    [Header("SHAKE VARIABLES")]
+    [SerializeField]
+    private float power = 0.8f;
+    [SerializeField]
+    private float duration = 1f;
+    [SerializeField]
+    private float slowDownAmount = 1f;
+    
+    [SerializeField]
+    private List<Transform> targets;
     private GameObject levelBackgroundImageGameObject;
+    private Vector2 startPosition;
+    private float initialDuration;
+    private bool isShaking = false;
 
     #endregion VARIABLES
 
+    public bool IsShaking
+    {
+        get
+        {
+            return isShaking;
+        }
+        set
+        {
+            isShaking = value;
+        }
+    }
     public float OrthographicSize
     {
         get
@@ -27,11 +55,36 @@ public class CameraEngine : Singelton<CameraEngine>
             return mainCamera.orthographicSize;
         }
     }
+
     private void Awake()
     {
         mainCamera = Camera.main;
         levelBackgroundImageGameObject = transform.Find("LevelBackgroundImageGameObject").gameObject;
     }
+
+    private void Start()
+    {
+        startPosition = transform.localPosition;
+        initialDuration = duration;    
+    }
+
+    private void Update()
+    {
+        if (isShaking)
+        {
+            if (duration > 0)
+            {
+                transform.localPosition = (Vector2)transform.position + Random.insideUnitCircle * power;
+                duration -= Time.unscaledDeltaTime * slowDownAmount;
+            }
+            else
+            {
+                isShaking = false;
+                duration = initialDuration;
+            }
+        }
+    }
+
     private void LateUpdate()
     {
         if (targets == null || targets.Count == 0)

@@ -194,35 +194,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 224708643756829998, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -840
-      objectReference: {fileID: 0}
-    - target: {fileID: 224329191920721928, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -360
-      objectReference: {fileID: 0}
-    - target: {fileID: 224382754770725062, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -520
-      objectReference: {fileID: 0}
-    - target: {fileID: 224325608532749544, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -680
-      objectReference: {fileID: 0}
-    - target: {fileID: 224405784523073150, guid: a91df342f1865594eba8c65a7efe3594,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -200
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
   m_IsPrefabAsset: 0
---- !u!1001 &1361073460
+--- !u!1001 &2027422966
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2

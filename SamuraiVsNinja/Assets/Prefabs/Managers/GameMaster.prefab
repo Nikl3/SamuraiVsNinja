@@ -6086,8 +6086,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bff631115f2e814aafa26c6aa1c9f8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smoothTime: 0.5
+  maxZoom: 20
+  minZoom: 50
+  offset: {x: 0, y: 10}
+  cameraVelocity: {x: 0, y: 0}
+  power: 2
+  duration: 0.5
+  slowDownAmount: 2
   targets: []
-  offset: {x: 0, y: 0}
+  isShaking: 0
 --- !u!114 &114110575659821808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13268,7 +13276,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1bbd7fedc5492a84cb0ef5764860c5c8, type: 3}
   - {fileID: 21300000, guid: 7f25f452321821a479a4db916f7a999c, type: 3}
   - {fileID: 21300000, guid: 1086f2ddeec6c084489d267f78214237, type: 3}
-  TestPlayerAmount: 2
+  TestPlayerAmount: 4
 --- !u!114 &114783631393080388
 MonoBehaviour:
   m_ObjectHideFlags: 1
