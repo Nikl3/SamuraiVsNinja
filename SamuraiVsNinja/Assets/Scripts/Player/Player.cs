@@ -126,20 +126,7 @@ public class Player : MonoBehaviour
 		PlayerIndicator.name = "Player " + PlayerData.ID + " Indicator";
 	}
 
-	private void LoseOnigiri()
-	{
-		PlayerData.PlayerInfo.OnigirisLost++;
-
-		DropOnigiri();		
-	}
-
-	private void DropOnigiri()
-	{
-		var droppedOnigiri = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 0), transform.position).GetComponent<Onigiri>();
-		droppedOnigiri.Foo(new Vector2(0, 20));
-	}
-
-	private void Die(Player attacker)
+	private void Die(Player attacker, float hitDirection)
 	{
 		if (this != attacker)
 		{
@@ -150,7 +137,7 @@ public class Player : MonoBehaviour
 
 		if (onigiris > 0)
 		{
-			LoseOnigiri();
+			LoseOnigiri(hitDirection);
 		}
 
 		ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position);
@@ -158,7 +145,22 @@ public class Player : MonoBehaviour
 		Fabric.EventManager.Instance.PostEvent("Die");
 	}
 
-	private void SetBackgroundLight()
+    private void LoseOnigiri(float hitDirection)
+    {
+        PlayerData.PlayerInfo.OnigirisLost++;
+        onigiris--;
+        PlayerData.PlayerInfo.UpdateOnigiris(onigiris);
+
+        DropOnigiri(hitDirection);
+    }
+
+    private void DropOnigiri(float shootDirection)
+    {
+        var droppedOnigiri = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 0), transform.position).GetComponent<Onigiri>();
+        droppedOnigiri.ShootOnigiri(new Vector2(shootDirection, 40));
+    }
+
+    private void SetBackgroundLight()
 	{
 		var playerColor = PlayerData.PlayerColor;
 		BackgroundLightRenderer.color = new Color(playerColor.r, playerColor.g, playerColor.b, backgroundLightAlpha);
@@ -248,7 +250,7 @@ public class Player : MonoBehaviour
 			}
 			else
 			{
-				Die(attacker);
+				Die(attacker, direction.x);
 			}
 
 			PlayerData.PlayerInfo.UpdateHealthPoints(healthPoints);
