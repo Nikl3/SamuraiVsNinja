@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraEngine : Singelton<CameraEngine>
@@ -18,7 +17,6 @@ public class CameraEngine : Singelton<CameraEngine>
     private Vector2 offset = Vector2.zero;
     [SerializeField]
     private Vector2 cameraVelocity;
-    private Camera mainCamera;
 
     [Header("SHAKE VARIABLES")]
     [SerializeField]
@@ -31,7 +29,7 @@ public class CameraEngine : Singelton<CameraEngine>
     [SerializeField]
     private List<Transform> targets;
     private GameObject levelBackgroundImageGameObject;
-    private Vector2 startPosition;
+    private Vector2 startPosition = Vector2.zero;
     private float initialDuration;
     private bool isShaking = false;
 
@@ -52,13 +50,23 @@ public class CameraEngine : Singelton<CameraEngine>
     {
         get
         {
-            return mainCamera.orthographicSize;
+            return MainCamera.orthographicSize;
         }
+    }
+    public Camera MainCamera
+    {
+        get;
+        private set;
+    }
+
+    public Vector2 ScreenToWorldPoint(Vector2 position)
+    {
+        return MainCamera.ScreenToWorldPoint(position);
     }
 
     private void Awake()
     {
-        mainCamera = Camera.main;
+        MainCamera = GetComponent<Camera>();
         levelBackgroundImageGameObject = transform.Find("LevelBackgroundImageGameObject").gameObject;
     }
 
@@ -125,7 +133,7 @@ public class CameraEngine : Singelton<CameraEngine>
     private void CameraZoom()
     {
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestTargetDistance() / zoomLimiter);
-        mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, newZoom, Time.deltaTime);
+        MainCamera.orthographicSize = Mathf.Lerp(MainCamera.orthographicSize, newZoom, Time.deltaTime);
     }
 
     public void AddTarget(Transform newTarget)

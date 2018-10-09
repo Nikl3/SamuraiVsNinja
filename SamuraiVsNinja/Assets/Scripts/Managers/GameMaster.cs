@@ -194,6 +194,11 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         AudioMixer.SetFloat("Sfx", PlayerPrefs.GetFloat("Sfx"));
     }
 
+    public void SaveGraphicValues()
+    {
+
+    }
+
     public void SaveChannelValues()
     {
         float masterVolume = 0f;

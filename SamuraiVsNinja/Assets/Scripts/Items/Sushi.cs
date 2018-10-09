@@ -23,8 +23,10 @@ public class Sushi : Item
     {
         base.Update();
         transform.Translate(Vector2.down * dropSpeed * Time.unscaledDeltaTime);
-        dropSpeed += .5f;
-        if(transform.position.y <= -70)
+        dropSpeed += 0.5f;
+
+        var foo = CameraEngine.Instance.MainCamera.WorldToScreenPoint(transform.position);
+        if (foo.y >= 0)
         {
             ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 6), transform.position);
             ObjectPoolManager.Instance.DespawnObject(gameObject);

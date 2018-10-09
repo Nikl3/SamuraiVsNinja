@@ -36,7 +36,6 @@ public class LevelManager : Singelton<LevelManager>
 
     private void Start()
     {
-        StartSpawnSushi();
         //StartRound();
         Invoke("StartRound", 1f);
         Invoke("RunGame", 4f);
@@ -79,6 +78,7 @@ public class LevelManager : Singelton<LevelManager>
     private void StartRound()
     {
         PlayerDataManager.Instance.SpawnPlayers();
+        StartSpawnSushi();
     }
     private void StartSpawnOnigiris()
     {
@@ -160,20 +160,22 @@ public class LevelManager : Singelton<LevelManager>
     {
         while (sushiDrop)
         {
-            sushiDropTime -= Time.deltaTime;
+            var foo = Random.Range(0.5f, 1f);
+            sushiDropTime -= Time.unscaledDeltaTime + foo;
             if(sushiDropTime <= 0)
             {
                 break;
-            }   
-
-            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 1),
-                new Vector2(Random.Range(0,
-                Screen.width), 
-                Screen.height));
-
-            yield return null;
+            }
+            ObjectPoolManager.Instance.SpawnObject(/*ResourceManager.Instance.GetPrefabByIndex(1, 1)*/
+                ResourceManager.Instance.GetPrefabByIndex(5, 7),
+                CameraEngine.Instance.ScreenToWorldPoint(new Vector2(
+                    Random.Range(0, Screen.width), 
+                    Random.Range(0, Screen.height)
+                    )));
+            yield return new WaitForSecondsRealtime(foo);
         }
 
+        sushiDropTime = 10f;
         sushiDrop = false;
         spawnSushiCoroutine = null;
     }
