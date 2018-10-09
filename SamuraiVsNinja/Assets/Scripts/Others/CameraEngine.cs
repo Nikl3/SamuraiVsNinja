@@ -11,7 +11,7 @@ public class CameraEngine : Singelton<CameraEngine>
     private readonly float maxZoom = 30f;
     private readonly float minZoom = 50f;
     private readonly float zoomLimiter = 100f;
-
+    [SerializeField]
     private Vector2 offset = Vector2.zero;
     private Vector2 cameraVelocity;
     private Camera mainCamera;

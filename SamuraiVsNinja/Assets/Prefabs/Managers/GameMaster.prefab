@@ -6087,6 +6087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targets: []
+  offset: {x: 0, y: 0}
 --- !u!114 &114110575659821808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13267,7 +13268,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1bbd7fedc5492a84cb0ef5764860c5c8, type: 3}
   - {fileID: 21300000, guid: 7f25f452321821a479a4db916f7a999c, type: 3}
   - {fileID: 21300000, guid: 1086f2ddeec6c084489d267f78214237, type: 3}
-  TestPlayerAmount: 0
+  TestPlayerAmount: 2
 --- !u!114 &114783631393080388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -20650,7 +20651,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 700, y: -50.000244}
+  m_AnchoredPosition: {x: 700, y: -50}
   m_SizeDelta: {x: 1400, y: -100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224779884071987926
