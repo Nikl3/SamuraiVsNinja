@@ -130,10 +130,15 @@ public class Player : MonoBehaviour
 	{
 		PlayerData.PlayerInfo.OnigirisLost++;
 
-		//var droppedOnigiri = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 0), transform.position);
-		//droppedOnigiri.GetComponent<Item>().enabled = false;
-		//droppedOnigiri.GetComponent<Animator>().enabled = false;
+		DropOnigiri();		
 	}
+
+	private void DropOnigiri()
+	{
+		var droppedOnigiri = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 0), transform.position).GetComponent<Onigiri>();
+		droppedOnigiri.Foo(new Vector2(0, 20));
+	}
+
 	private void Die(Player attacker)
 	{
 		if (this != attacker)
@@ -163,7 +168,6 @@ public class Player : MonoBehaviour
 	{
 		PlayerTriggerController.gameObject.tag = "Player";
 		healthPoints = 3;
-		//onigiris = 0;
 		PlayerEngine.ResetVariables();
 		PlayerData.PlayerInfo.UpdateHealthPoints(healthPoints);
 	}

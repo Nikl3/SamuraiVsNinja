@@ -7,14 +7,19 @@ public class Item : MonoBehaviour
     private string itemTag;
     private Transform graphics;
 
+    protected Rigidbody2D rb2d;
+    protected float despawnTime = 5f;
+
     private void Awake()
     {
+        rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
         itemTag = tag;
         graphics = transform.Find("Graphics");
     }
 
-    void SelfDestroy() {
+    private void SelfDestroy()
+    {
         ObjectPoolManager.Instance.DespawnObject(gameObject);
     }
 
@@ -23,11 +28,14 @@ public class Item : MonoBehaviour
         isFloating = false;
         tag = "Untagged";
 
-        Invoke("SelfDestroy", 5f);
+        Invoke("SelfDestroy", despawnTime);
     }
 
     private void OnDisable()
-    {       
+    {
+        rb2d.bodyType = RigidbodyType2D.Kinematic;
+        rb2d.velocity = Vector2.zero;
+
         tag = itemTag; 
         transform.position = Vector2.one;
         graphics.position = Vector2.one;
