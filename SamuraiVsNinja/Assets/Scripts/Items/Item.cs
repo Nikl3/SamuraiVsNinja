@@ -8,7 +8,7 @@ public class Item : MonoBehaviour
     private Transform graphics;
 
     protected Rigidbody2D rb2d;
-    private float lifeTime = 5f;
+    private readonly float lifeTime = 5f;
     private float currentLifetime;
 
     private void Awake()
@@ -60,6 +60,7 @@ public class Item : MonoBehaviour
             }          
             else
             {
+                ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 6), transform.position);
                 ObjectPoolManager.Instance.DespawnObject(gameObject);
             }             
         }

@@ -6206,6 +6206,7 @@ MonoBehaviour:
   - {fileID: 1396491660241416, guid: 16de85bf448401041929f3026e9c5368, type: 2}
   - {fileID: 1674375301271430, guid: 06756cf8f7115944b976efb8f02a4bd4, type: 2}
   - {fileID: 1088679161462092, guid: 9e74f57a8adff8e4da6e04f86baae113, type: 2}
+  - {fileID: 1432145355386162, guid: 0e790eecf93f7774a98258f2c4bdbcdd, type: 2}
   otherPrefabs: []
 --- !u!114 &114153374455791074
 MonoBehaviour:
