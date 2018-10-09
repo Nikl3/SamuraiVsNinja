@@ -7520,7 +7520,7 @@ MonoBehaviour:
   Guid: 
   _componentHolder: {fileID: 114231777758991666}
   _onEventNotifyEventName: 
-  _audioClip: {fileID: 8300000, guid: c88bc1c980bc86243a4497ef41a7107a, type: 3}
+  _audioClip: {fileID: 8300000, guid: 1fca802a5e8a93741bcfc0d0b85e851e, type: 3}
   _audioClipHandle:
     _audioClipPath: 
     _useAudioClipPath: 1
@@ -9605,7 +9605,7 @@ MonoBehaviour:
   _customCurvesType: 0
   _customCurvesName: 
   _overrideFadeProperties: 0
-  _fadeInTime: 0.5
+  _fadeInTime: 0
   _fadeInCurve: 0.636
   _fadeOutTime: 1
   _fadeOutCurve: 1
@@ -10886,7 +10886,7 @@ MonoBehaviour:
   Guid: 
   _componentHolder: {fileID: 0}
   _onEventNotifyEventName: 
-  _audioClip: {fileID: 8300000, guid: 5ed9970e17bfee943a6dff056dc3a9d0, type: 3}
+  _audioClip: {fileID: 8300000, guid: 5a75959377287384b8497e78d9bad3cf, type: 3}
   _audioClipHandle:
     _audioClipPath: 
     _useAudioClipPath: 1
@@ -11002,7 +11002,7 @@ MonoBehaviour:
   Guid: 
   _componentHolder: {fileID: 114573534942047840}
   _onEventNotifyEventName: 
-  _audioClip: {fileID: 8300000, guid: 813159ac29242194f952557bb237e853, type: 3}
+  _audioClip: {fileID: 8300000, guid: dc0ba604b20234844a28ec370a487b8e, type: 3}
   _audioClipHandle:
     _audioClipPath: 
     _useAudioClipPath: 1
@@ -11947,7 +11947,7 @@ MonoBehaviour:
   Guid: 
   _componentHolder: {fileID: 114649611933791164}
   _onEventNotifyEventName: 
-  _audioClip: {fileID: 8300000, guid: 0ffa761a5a83744d3ab5e27ac9505eed, type: 3}
+  _audioClip: {fileID: 8300000, guid: 3e912ee631a12a24e8376efcbb5d7e4d, type: 3}
   _audioClipHandle:
     _audioClipPath: 
     _useAudioClipPath: 1
@@ -12672,10 +12672,10 @@ MonoBehaviour:
   _customCurvesType: 0
   _customCurvesName: 
   _overrideFadeProperties: 0
-  _fadeInTime: 0
-  _fadeInCurve: 0.5
-  _fadeOutTime: 0
-  _fadeOutCurve: 0.5
+  _fadeInTime: 1.5
+  _fadeInCurve: 0.27
+  _fadeOutTime: 1
+  _fadeOutCurve: 0.264
   _reverbZoneMix: 1
   _overrideBypassProperties: 0
   _bypassEffects: 0
@@ -12717,7 +12717,7 @@ MonoBehaviour:
   Guid: 
   _componentHolder: {fileID: 114752294167703578}
   _onEventNotifyEventName: 
-  _audioClip: {fileID: 8300000, guid: 07c38e0499aea4acd81b44991c0e4d07, type: 3}
+  _audioClip: {fileID: 8300000, guid: 1dcf1ad9e7d21664d89e05fc704f1536, type: 3}
   _audioClipHandle:
     _audioClipPath: 
     _useAudioClipPath: 1

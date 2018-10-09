@@ -152,13 +152,29 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1152380557056120, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 114752294167703578, guid: a91df342f1865594eba8c65a7efe3594,
+        type: 2}
+      propertyPath: _fadeInTime
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114468669559154226, guid: a91df342f1865594eba8c65a7efe3594,
         type: 2}
       propertyPath: _fadeInTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114468669559154226, guid: a91df342f1865594eba8c65a7efe3594,
+        type: 2}
+      propertyPath: _fadeOutCurve
+      value: 0.527
+      objectReference: {fileID: 0}
+    - target: {fileID: 114019388640078412, guid: a91df342f1865594eba8c65a7efe3594,
+        type: 2}
+      propertyPath: _fadeInTime
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114019388640078412, guid: a91df342f1865594eba8c65a7efe3594,
+        type: 2}
+      propertyPath: _fadeOutTime
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
