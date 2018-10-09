@@ -19,7 +19,7 @@ public class MainMenuPanel : UIPanel
 
 	public void OnlineButton()
 	{
-		GameMaster.Instance.LoadScene(2);
+		GameMaster.Instance.LoadScene(3);
 	}
 
 	public void CreditsButton()

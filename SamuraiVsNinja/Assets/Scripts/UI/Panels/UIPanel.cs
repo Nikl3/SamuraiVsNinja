@@ -47,7 +47,7 @@ public abstract class UIPanel : MonoBehaviour
 
     public void RestartGameButton()
     {
-        GameMaster.Instance.LoadScene(1);
+        GameMaster.Instance.LoadScene(2);
     }
 
     public virtual void BackButton()

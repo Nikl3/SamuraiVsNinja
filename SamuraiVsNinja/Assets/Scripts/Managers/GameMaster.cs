@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.Video;
 
 public enum CURRENT_GAME_STATE
 {
@@ -265,8 +264,6 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
         isAnimatingText = false;
         loadImageObject.gameObject.SetActive(false);    
-
-        //yield return new WaitForSecondsRealtime(fakeLoadTime);
 
         CheckCurrentScene();
 

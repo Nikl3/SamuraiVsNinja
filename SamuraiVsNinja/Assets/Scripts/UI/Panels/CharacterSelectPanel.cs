@@ -140,7 +140,7 @@ public class CharacterSelectPanel : UIPanel
     public void StartButton()
     {
         CloseBehaviour();
-        GameMaster.Instance.LoadScene(1);
+        GameMaster.Instance.LoadScene(2);
     }
     public override void BackButton()
     {

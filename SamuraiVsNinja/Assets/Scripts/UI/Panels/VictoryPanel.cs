@@ -30,6 +30,6 @@ public class VictoryPanel : UIPanel
     {
         base.BackButton();
 
-        GameMaster.Instance.LoadScene(0);
+        GameMaster.Instance.LoadScene(1);
     }
 }
