@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerEngine : MonoBehaviour
 {
-    public bool UsingLerpMethod1 = true;
-
     #region VARIABLES
 
     private Player owner;
@@ -184,17 +182,6 @@ public class PlayerEngine : MonoBehaviour
         gravity = dashGravity = -(2 * MaxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity * timeToJumpApex);
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * MinJumpHeight);       
-    }
-    private void OnDisable()
-    {
-        throwAttackCoroutine = null;
-        dashCoroutine = null;
-        knockbackCoroutine = null;
-        invincibilityCoroutine = null;
-        respawnCoroutine = null;
-        IsAttacking = false;
-        isDashing = false;
-        isThrowing = false;
     }
 
     private void HandleWallSliding()
@@ -380,8 +367,6 @@ public class PlayerEngine : MonoBehaviour
         owner.PlayerData.PlayerInfo.StartDashCooldown(DashCooldown);
         owner.AnimatorController.AnimatorSetBool("IsDashing", true);
 
-        //ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 5), transform.position);
-
         EventManager.Instance.PostEvent("Dash");
 
         gravity = 0;
@@ -439,46 +424,20 @@ public class PlayerEngine : MonoBehaviour
         owner.Controller2D.Collider2D.enabled = false;
         var respawnEffect = ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 3), new Vector2(spawnPoint.x, spawnPoint.y - 4f), Quaternion.Euler(new Vector2(-90, 0))).GetComponent<Effect>();
 
-        //owner.PlayerData.PlayerInfo.StartRespawnCooldown(RespawnCooldown);
         owner.AnimatorController.AnimatorSetBool("HasDied", true);
 
         Vector2 startPosition = transform.position;
         Vector2 endPosition = spawnPoint;
+      
+        float startTime = Time.time;
+        float totalDistanceToSpawnPoint = Vector2.Distance(transform.position, spawnPoint);
 
-        if (UsingLerpMethod1)
+        while ((Vector2)transform.position != spawnPoint)
         {
-            #region LERP_METHOD_1
-
-            float startTime = Time.time;
-            float totalDistanceToSpawnPoint = Vector2.Distance(transform.position, spawnPoint);
-
-            while ((Vector2)transform.position != spawnPoint)
-            {
-                float currentDuration = Time.time - startTime;
-                float journeyFraction = (currentDuration / totalDistanceToSpawnPoint) * 20;
-                transform.position = Vector2.Lerp(startPosition, endPosition, journeyFraction);
-                yield return null;
-            }
-
-            #endregion LERP_METHOD_1
-        }
-        else
-        {
-            #region LERP_METHOD_2
-
-            float lerpTime = 1f;
-            float startedLerpTime = Time.time;
-            float perC = 0f;
-
-            while (perC <= 1.0f)
-            {
-                float timeSinceStartedLerping = Time.time - startedLerpTime;
-                perC = timeSinceStartedLerping / lerpTime;
-                transform.position = Vector2.Lerp(startPosition, endPosition, perC);
-                yield return null;
-            }
-
-            #endregion LERP_METHOD_2
+            float currentDuration = Time.time - startTime;
+            float journeyFraction = (currentDuration / totalDistanceToSpawnPoint) * 20;
+            transform.position = Vector2.Lerp(startPosition, endPosition, journeyFraction);
+            yield return null;
         }
 
         owner.Controller2D.Collider2D.enabled = true;

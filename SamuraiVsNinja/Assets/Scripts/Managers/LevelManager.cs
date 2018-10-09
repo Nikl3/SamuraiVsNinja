@@ -10,7 +10,6 @@ public class LevelManager : Singelton<LevelManager>
     private Vector2[] onigiriSpawnPoints;
     [SerializeField]
     private LayerMask collisionLayer;
-    private GameObject onigiriPrefab, sushiPrefab;
     private bool sushiDrop = false;
     private readonly int mapHorizontalBorder = 80;
     private float sushiDropTime = 10;
@@ -37,10 +36,8 @@ public class LevelManager : Singelton<LevelManager>
 
     private void Start()
     {
-        Time.timeScale = 1f;
-        onigiriPrefab = ResourceManager.Instance.GetPrefabByIndex(1, 0);
-        sushiPrefab = ResourceManager.Instance.GetPrefabByIndex(1, 1);
-        Invoke("StartRound",2);
+        //StartRound();
+        Invoke("StartRound", 0f);
         Invoke("RunGame", 4f);
     }
     private void OnDrawGizmos()
@@ -80,7 +77,7 @@ public class LevelManager : Singelton<LevelManager>
  
     private void StartRound()
     {
-        Time.timeScale = 1;
+        Time.timeScale = 1f;
         PlayerDataManager.Instance.SpawnPlayers();
         //StartSpawnSushi();
     }
@@ -153,7 +150,7 @@ public class LevelManager : Singelton<LevelManager>
             var randomPosition = RandomSpawnPosition(1);
             
             if(randomPosition != Vector2.zero)
-            ObjectPoolManager.Instance.SpawnObject(onigiriPrefab, randomPosition);         
+            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 0), randomPosition);         
 
             yield return null;
         }
@@ -171,7 +168,7 @@ public class LevelManager : Singelton<LevelManager>
                 break;
             }   
 
-            ObjectPoolManager.Instance.SpawnObject(sushiPrefab, new Vector2(Random.Range(-60, 70), 60));
+            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 1), new Vector2(Random.Range(-60, 70), 60));
 
             yield return null;
         }

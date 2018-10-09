@@ -37,7 +37,8 @@ public class UIManager : Singelton<UIManager>
 	public Image GameTitleImage { get; private set; }
 	public Image PanelBackgroundImage { get; private set; }
 
-	public Animator Animator { get; private set; }
+	public Animator UIManagerAnimator { get; private set; }
+	public Animator RunloadAnimator;
 
 	public UIPanel CurrentPanel { get; private set; }
 	public UIPanel MainMenuPanel { get; private set; }
@@ -51,6 +52,14 @@ public class UIManager : Singelton<UIManager>
 	public UIPanel PausePanel { get; private set; }
 	public UIPanel VictoryPanel { get; private set; }
 	public UIPanel OnlineLobbyPanel { get; private set; }
+
+	public bool IsLoadImageAnimationRunning
+	{
+		get
+		{
+			return RunloadAnimator.gameObject.activeSelf ? RunloadAnimator.GetCurrentAnimatorStateInfo(0).IsTag("RunLoad") : false;
+		}
+	}
 
 	#endregion PROPERTIES
 
@@ -91,7 +100,8 @@ public class UIManager : Singelton<UIManager>
 		OnlineLobbyPanel = PanelsGameObject.transform.Find("OnlineLobbyPanel").GetComponent<UIPanel>();
 
 		PlayerEndPanel = VictoryPanel.transform.Find("PlayerStatsPanel").transform.Find("PlayerEndPanel");
-		Animator = GetComponent<Animator>();
+		UIManagerAnimator = GetComponent<Animator>();
+		RunloadAnimator = transform.Find("LoadImage").GetComponent<Animator>();
 	}
 	private void OnStartButtonDown(CURRENT_GAME_STATE currentGameState)
 	{
@@ -113,7 +123,7 @@ public class UIManager : Singelton<UIManager>
 					if (!LevelManager.Instance.GameIsRunning)
 						return;
 
-					if(!PausePanel.IsOpen)
+					if (!PausePanel.IsOpen)
 					{
 						Time.timeScale = 0f;
 						TriggerPanelBehaviour(PausePanel);
@@ -193,7 +203,6 @@ public class UIManager : Singelton<UIManager>
 
 			case PANEL_STATE.HOW_TO_PLAY:
 				TriggerPanelBehaviour(HowToPlayPanel);
-				PanelBackgroundImage.enabled = false;
 				break;
 
 			case PANEL_STATE.AUDIO:
@@ -206,11 +215,9 @@ public class UIManager : Singelton<UIManager>
 
 			case PANEL_STATE.CONTROL:
 				TriggerPanelBehaviour(ControlsPanel);
-				PanelBackgroundImage.enabled = false;
 				break;
 
 			case PANEL_STATE.PAUSE:
-				PanelBackgroundImage.enabled = true;
 				TriggerPanelBehaviour(PausePanel);
 				break;
 
@@ -236,9 +243,9 @@ public class UIManager : Singelton<UIManager>
 		TriggerPanelBehaviour(MainMenuPanel);
 
 		EventManager.Instance.PostEvent("LevelTheme", EventAction.StopSound);
-        EventManager.Instance.PostEvent("Victory", EventAction.StopSound);
+		EventManager.Instance.PostEvent("Victory", EventAction.StopSound);
 
-        EventManager.Instance.PostEvent("MenuTheme");
+		EventManager.Instance.PostEvent("MenuTheme");
 	}
 	public void SetLevelUI()
 	{

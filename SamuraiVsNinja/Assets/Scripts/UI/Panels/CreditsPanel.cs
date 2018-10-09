@@ -10,14 +10,14 @@ public class CreditsPanel : UIPanel
 
         if (!isCreditsRunning)
         {
-            ManageCreditsAnimation(UIManager.Instance.Animator, true);
+            ManageCreditsAnimation(UIManager.Instance.UIManagerAnimator, true);
         }
     }
     public override void CloseBehaviour()
     {
         if (isCreditsRunning)
         {
-            ManageCreditsAnimation(UIManager.Instance.Animator, false);
+            ManageCreditsAnimation(UIManager.Instance.UIManagerAnimator, false);
         }
 
         base.CloseBehaviour();

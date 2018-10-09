@@ -20,40 +20,38 @@ public class GameMaster : SingeltonPersistant<GameMaster>
 
     private AsyncOperation asyncOperation;
     private readonly float flickeringSpeed = 1f;
-    private float fakeLoadTime = 1f;
+    private readonly float fakeLoadTime = 1f;
     private bool isFading;
     private bool isAnimatingText;
     private Image screenFadeImage;
-    private Image howToPlayImage;
+    private GameObject loadImageObject;
     private Text messageText;
 
     private Coroutine fadeScreenImage;
     private Coroutine loadSceneAsync;
     private Coroutine exitingGame;
-    private Coroutine animateText;
+    private Coroutine animateTextCoroutine;
 
     public AudioMixer AudioMixer;
 
     #endregion VARIABLES
 
     public bool IsLoadingScene { get; private set; }
-    public Animator RunloadAnimator;
    
     protected override void Awake()
     {
         base.Awake();
 
         screenFadeImage = UIManager.Instance.transform.Find("FadeImage").GetComponent<Image>();
-        howToPlayImage = UIManager.Instance.transform.Find("HowToPlayImage").GetComponent<Image>();
-        messageText = howToPlayImage.transform.GetComponentInChildren<Text>();
-        screenFadeImage.fillAmount = 1f;
-        //howToPlayImage.fillAmount = 0f;     
+        loadImageObject = UIManager.Instance.transform.Find("LoadImage").gameObject;
+        messageText = loadImageObject.transform.GetComponentInChildren<Text>();
+        screenFadeImage.fillAmount = 1f;   
     }
     private void Start()
     {
         CheckCurrentScene();
 
-        howToPlayImage.gameObject.SetActive(false);
+        loadImageObject.SetActive(false);
         messageText.enabled = false;
 
         FadeScreenImage(0);
@@ -185,8 +183,8 @@ public class GameMaster : SingeltonPersistant<GameMaster>
     }
     public void AnimateText(Text textToAnimate, float flickeringSpeed)
     {
-        if (animateText == null)
-        animateText = StartCoroutine(IAnimateText(textToAnimate, flickeringSpeed));
+        if (animateTextCoroutine == null)
+        animateTextCoroutine = StartCoroutine(IAnimateText(textToAnimate, flickeringSpeed));
     }
 
     public void SetVolumeChannels()
@@ -239,17 +237,14 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         
         messageText.enabled = true;
         messageText.text = "LOADING...";
-        howToPlayImage.gameObject.SetActive(CurrentGameState == CURRENT_GAME_STATE.MAIN_MENU ? true : false);
+        loadImageObject.SetActive(CurrentGameState == CURRENT_GAME_STATE.MAIN_MENU ? true : false);
 
         asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
         asyncOperation.allowSceneActivation = false;
-        howToPlayImage.gameObject.SetActive(true);
-        RunloadAnimator.SetTrigger("FOO");
-        //yield return new WaitForSecondsRealtime(fakeLoadTime = howToPlayImage.gameObject.activeSelf ? fakeLoadTime : 0f);
-
+      
         while (!asyncOperation.isDone)
         {
-            if (asyncOperation.progress == 0.9f && !RunloadAnimator.GetCurrentAnimatorStateInfo(0).IsTag("loadTime"))
+            if (asyncOperation.progress == 0.9f && !UIManager.Instance.IsLoadImageAnimationRunning)
             {
                 if (!isAnimatingText)
                 {
@@ -257,7 +252,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
                     messageText.text = "PRESS ANY KEY";
                 }
 
-                if (Input.anyKeyDown || !howToPlayImage.gameObject.activeSelf)
+                if (Input.anyKeyDown || !loadImageObject.activeSelf)
                 {
                     asyncOperation.allowSceneActivation = true;
                     IsLoadingScene = false;
@@ -268,9 +263,9 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         }
 
         isAnimatingText = false;
-        howToPlayImage.gameObject.SetActive(false);    
+        loadImageObject.gameObject.SetActive(false);    
 
-        yield return new WaitForSecondsRealtime(fakeLoadTime);
+        //yield return new WaitForSecondsRealtime(fakeLoadTime);
 
         CheckCurrentScene();
 
@@ -301,7 +296,7 @@ public class GameMaster : SingeltonPersistant<GameMaster>
             yield return new WaitForSecondsRealtime(flickeringSpeed);
         }
 
-        animateText = null;
+        animateTextCoroutine = null;
     }
 
     #endregion COROUTINES
