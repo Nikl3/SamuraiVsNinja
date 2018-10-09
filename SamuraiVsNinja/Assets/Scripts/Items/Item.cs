@@ -8,7 +8,8 @@ public class Item : MonoBehaviour
     private Transform graphics;
 
     protected Rigidbody2D rb2d;
-    protected float despawnTime = 5f;
+    private float lifeTime = 5f;
+    private float currentLifetime;
 
     private void Awake()
     {
@@ -18,17 +19,11 @@ public class Item : MonoBehaviour
         graphics = transform.Find("Graphics");
     }
 
-    private void SelfDestroy()
-    {
-        ObjectPoolManager.Instance.DespawnObject(gameObject);
-    }
-
     private void OnEnable()
     {
+        currentLifetime = lifeTime;
         isFloating = false;
         tag = "Untagged";
-
-        //Invoke("SelfDestroy", despawnTime);
     }
 
     private void OnDisable()
@@ -52,11 +47,22 @@ public class Item : MonoBehaviour
         if (!isFloating)
         {
             if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Spawning"))
-            {
+            {            
                 isFloating = true;
                 tag = itemTag;
             }
-        }  
+        }
+        else
+        {
+            if (currentLifetime > 0)
+            {
+                currentLifetime -= Time.deltaTime;
+            }          
+            else
+            {
+                ObjectPoolManager.Instance.DespawnObject(gameObject);
+            }             
+        }
     }
 
     #region OLD
