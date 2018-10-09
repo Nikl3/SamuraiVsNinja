@@ -113,6 +113,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &262863404 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114030552771827736, guid: a91df342f1865594eba8c65a7efe3594,
+    type: 2}
+  m_PrefabInternal: {fileID: 642706036}
+  m_Script: {fileID: 11500000, guid: 56a4b73275fae654e909902d804c6ffe, type: 3}
 --- !u!1001 &642706036
 Prefab:
   m_ObjectHideFlags: 0
@@ -191,9 +197,54 @@ Prefab:
       propertyPath: _eventList.Array.data[15]
       value: Victory
       objectReference: {fileID: 0}
+    - target: {fileID: 1472475750943912, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224325608532749544, guid: a91df342f1865594eba8c65a7efe3594,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -680.20593
+      objectReference: {fileID: 0}
+    - target: {fileID: 224405784523073150, guid: a91df342f1865594eba8c65a7efe3594,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -200.20593
+      objectReference: {fileID: 0}
+    - target: {fileID: 224382754770725062, guid: a91df342f1865594eba8c65a7efe3594,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -520.20593
+      objectReference: {fileID: 0}
+    - target: {fileID: 224329191920721928, guid: a91df342f1865594eba8c65a7efe3594,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -360.20593
+      objectReference: {fileID: 0}
+    - target: {fileID: 224708643756829998, guid: a91df342f1865594eba8c65a7efe3594,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -840.20593
+      objectReference: {fileID: 0}
+    - target: {fileID: 114155150813514394, guid: a91df342f1865594eba8c65a7efe3594,
+        type: 2}
+      propertyPath: m_Navigation.m_SelectOnDown
+      value: 
+      objectReference: {fileID: 262863404}
+    - target: {fileID: 114030552771827736, guid: a91df342f1865594eba8c65a7efe3594,
+        type: 2}
+      propertyPath: m_Navigation.m_SelectOnUp
+      value: 
+      objectReference: {fileID: 668009683}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a91df342f1865594eba8c65a7efe3594, type: 2}
   m_IsPrefabAsset: 0
+--- !u!114 &668009683 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114155150813514394, guid: a91df342f1865594eba8c65a7efe3594,
+    type: 2}
+  m_PrefabInternal: {fileID: 642706036}
+  m_Script: {fileID: 11500000, guid: 56a4b73275fae654e909902d804c6ffe, type: 3}
 --- !u!1 &1324466757
 GameObject:
   m_ObjectHideFlags: 0
