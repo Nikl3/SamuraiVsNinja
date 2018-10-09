@@ -20,6 +20,13 @@ public class CameraEngine : Singelton<CameraEngine>
 
     #endregion VARIABLES
 
+    public float OrthographicSize
+    {
+        get
+        {
+            return mainCamera.orthographicSize;
+        }
+    }
     private void Awake()
     {
         mainCamera = Camera.main;

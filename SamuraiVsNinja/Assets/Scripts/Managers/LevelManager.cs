@@ -36,6 +36,7 @@ public class LevelManager : Singelton<LevelManager>
 
     private void Start()
     {
+
         //StartRound();
         Invoke("StartRound", 1f);
         Invoke("RunGame", 4f);
@@ -78,7 +79,6 @@ public class LevelManager : Singelton<LevelManager>
     private void StartRound()
     {
         PlayerDataManager.Instance.SpawnPlayers();
-        //StartSpawnSushi();
     }
     private void StartSpawnOnigiris()
     {
@@ -122,8 +122,8 @@ public class LevelManager : Singelton<LevelManager>
         GameIsRunning = false;
         EventManager.Instance.PostEvent("LevelTheme", EventAction.StopSound);
         EventManager.Instance.PostEvent("Victory");
-        WinnerName = winnerName;    
-
+        WinnerName = winnerName;
+        StartSpawnSushi();
         UIManager.Instance.ChangePanelState(PANEL_STATE.VICTORY);
     }
     public void TeleportObject(Transform objectToTeleport)
@@ -161,13 +161,12 @@ public class LevelManager : Singelton<LevelManager>
         while (sushiDrop)
         {
             sushiDropTime -= Time.deltaTime;
-
             if(sushiDropTime <= 0)
             {
                 break;
             }   
 
-            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 1), new Vector2(Random.Range(-60, 70), 60));
+            ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(1, 1), new Vector2(Random.Range(-80, 80), 60));
 
             yield return null;
         }

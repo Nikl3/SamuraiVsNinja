@@ -27,14 +27,6 @@ public class PlayerTriggerController : MonoBehaviour
                     ObjectPoolManager.Instance.DespawnObject(collision.gameObject);
                     break;
 
-                case "Sushi":
-                    EventManager.Instance.PostEvent("Pickup");
-
-                    print("+1 Health");
-
-                    ObjectPoolManager.Instance.DespawnObject(collision.gameObject);
-                    break;
-
                 case "Player":
                     if (owner.PlayerEngine.IsDashing)
                     {

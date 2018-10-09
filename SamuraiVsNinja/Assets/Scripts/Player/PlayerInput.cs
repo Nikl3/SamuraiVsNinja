@@ -4,70 +4,79 @@ public class PlayerInput : MonoBehaviour
 {
     #region VARIABLES
 
-    private Player player;
-    private bool isStunned = false;
-   
+    private Player owner;
+    //private bool isStunned = false;   
 
     #endregion VARIABLES
 
     private void Awake()
     {
-        player = GetComponent<Player>();
+        owner = GetComponent<Player>();
     }
 
     private void Update()
     {
-        if (player.CurrentState != PlayerState.RESPAWN && UIManager.Instance.CurrentPanel == null)
+        if (owner.CurrentState != PlayerState.RESPAWN && UIManager.Instance.CurrentPanel == null)
         {
             LevelManager.Instance.TeleportObject(transform);
             UpdateLocalInputs();         
         }
     }
 
-    void StunReset() {
-        isStunned = false;
-    }
+    //private void StunReset()
+    //{
+    //    isStunned = false;
+    //}
 
-    public void Stun(float stunDuration)
-    {
-        isStunned = true;
-        Invoke("StunReset", stunDuration);
-    }
+    //public void Stun(float stunDuration)
+    //{
+    //    isStunned = true;
+    //    owner.PlayerEngine.ResetVariables();
+    //    Invoke("StunReset", stunDuration);
+    //}
 
     public void UpdateLocalInputs()
     {
-        if (!isStunned)
+        //if (isStunned)
+        //{
+        //    return;
+        //}
+        
+        Vector2 directionalInput = new Vector2(
+        InputManager.Instance.GetHorizontalAxisRaw(owner.PlayerData.ID),
+        InputManager.Instance.GetVerticalAxisRaw(owner.PlayerData.ID)
+        );
+
+        owner.PlayerEngine.SetDirectionalInput(directionalInput);
+
+        if (InputManager.Instance.A_ButtonDown(owner.PlayerData.ID) && directionalInput.y != -1)
         {
-            Vector2 directionalInput = new Vector2(
-            InputManager.Instance.GetHorizontalAxisRaw(player.PlayerData.ID),
-            InputManager.Instance.GetVerticalAxisRaw(player.PlayerData.ID)
-            );
-
-            player.PlayerEngine.SetDirectionalInput(directionalInput);
-
-            if (InputManager.Instance.A_ButtonDown(player.PlayerData.ID) && directionalInput.y != -1) {
-                player.PlayerEngine.OnJumpInputDown();
-            }
-
-            if (InputManager.Instance.A_ButtonUp(player.PlayerData.ID)) {
-                player.PlayerEngine.OnJumpInputUp();
-            }
-
-            if (InputManager.Instance.B_ButtonDown(player.PlayerData.ID)) {
-                player.PlayerEngine.HandleMeleeAttacks();
-            }
-
-            if (InputManager.Instance.GetRangeAttackAxisRaw(player.PlayerData.ID) <= -1) {
-                player.PlayerEngine.OnThrow();
-            }
-
-            if (InputManager.Instance.GetDashAxisRaw(player.PlayerData.ID) >= 1) {
-                if (directionalInput != Vector2.zero)
-                {
-                    player.PlayerEngine.OnDash();
-                }
-            }
+            owner.PlayerEngine.OnJumpInputDown();
         }
-            player.PlayerEngine.CalculateMovement();     
+
+        if (InputManager.Instance.A_ButtonUp(owner.PlayerData.ID))
+        {
+            owner.PlayerEngine.OnJumpInputUp();
+        }
+
+        if (InputManager.Instance.B_ButtonDown(owner.PlayerData.ID))
+        {
+            owner.PlayerEngine.HandleMeleeAttacks();
+        }
+
+        if (InputManager.Instance.GetRangeAttackAxisRaw(owner.PlayerData.ID) <= -1)
+        {
+            owner.PlayerEngine.OnThrow();
+        }
+
+        if (InputManager.Instance.GetDashAxisRaw(owner.PlayerData.ID) >= 1) 
+        {
+            if (directionalInput != Vector2.zero)
+            {
+                owner.PlayerEngine.OnDash();
+            }
+        }   
+         
+        owner.PlayerEngine.CalculateMovement();
     }
 }

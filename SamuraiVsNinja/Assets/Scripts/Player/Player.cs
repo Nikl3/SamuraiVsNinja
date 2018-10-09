@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Fabric;
+using UnityEngine;
 
 public enum PlayerState
 {
@@ -142,7 +143,7 @@ public class Player : MonoBehaviour
 
 		ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 0), transform.position);
 		ChangePlayerState(PlayerState.RESPAWN);
-		Fabric.EventManager.Instance.PostEvent("Die");
+		EventManager.Instance.PostEvent("Die");
 	}
 
     private void LoseOnigiri(float hitDirection)
@@ -235,7 +236,7 @@ public class Player : MonoBehaviour
 		{
 			attacker.PlayerData.PlayerInfo.TotalHits++;
 
-			PlayerInput.Stun(stunDuration);
+			//PlayerInput.Stun(stunDuration);
 			healthPoints -= damage;
 
 			if (healthPoints >= 1)
@@ -246,7 +247,7 @@ public class Player : MonoBehaviour
 				}
 
 				PlayerEngine.OnKnockback(direction, knockbackForce);
-				Fabric.EventManager.Instance.PostEvent("HitContact");
+				EventManager.Instance.PostEvent("HitContact");
 			}
 			else
 			{

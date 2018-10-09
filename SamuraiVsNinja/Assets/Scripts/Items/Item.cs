@@ -2,14 +2,14 @@
 
 public class Item : MonoBehaviour
 {
-    private Animator animator;
-    private bool isFloating;
-    private string itemTag;
-    private Transform graphics;
+    protected Animator animator;
+    protected bool isFloating;
+    protected string itemTag;
+    protected Transform graphics;
 
     protected Rigidbody2D rb2d;
-    private readonly float lifeTime = 5f;
-    private float currentLifetime;
+    protected readonly float lifeTime = 5f;
+    protected float currentLifetime;
 
     private void Awake()
     {
@@ -26,44 +26,13 @@ public class Item : MonoBehaviour
         tag = "Untagged";
     }
 
-    private void OnDisable()
-    {
-        rb2d.bodyType = RigidbodyType2D.Kinematic;
-        rb2d.velocity = Vector2.zero;
-
-        tag = itemTag; 
-        transform.position = Vector2.one;
-        graphics.position = Vector2.one;
-    }
-
-    private void Update()
+    protected virtual void Update()
     {
         if (GameMaster.Instance.IsLoadingScene)
         {
             ObjectPoolManager.Instance.DespawnObject(gameObject);
             return;
-        }
-
-        if (!isFloating)
-        {
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Spawning"))
-            {            
-                isFloating = true;
-                tag = itemTag;
-            }
-        }
-        else
-        {
-            if (currentLifetime > 0)
-            {
-                currentLifetime -= Time.deltaTime;
-            }          
-            else
-            {
-                ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 6), transform.position);
-                ObjectPoolManager.Instance.DespawnObject(gameObject);
-            }             
-        }
+        }   
     }
 
     #region OLD
