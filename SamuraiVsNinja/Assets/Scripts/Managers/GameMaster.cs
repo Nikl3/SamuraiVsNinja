@@ -194,11 +194,6 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         AudioMixer.SetFloat("Sfx", PlayerPrefs.GetFloat("Sfx"));
     }
 
-    public void SaveGraphicValues()
-    {
-
-    }
-
     public void SaveChannelValues()
     {
         float masterVolume = 0f;
@@ -213,6 +208,32 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         PlayerPrefs.SetFloat("Music", musicVolume);
         PlayerPrefs.SetFloat("Sfx", sfxVolume);
     }
+
+    #region PLAYER PREFS
+
+    public void SetValueToPlayerPrefs(string key, float value)
+    {
+        PlayerPrefs.SetFloat(key, value);
+    }
+    public void SetValueToPlayerPrefs(string key, string value)
+    {
+        PlayerPrefs.SetString(key, value);
+    }
+    public void SetValueToPlayerPrefs(string key, int value)
+    {
+        PlayerPrefs.SetInt(key, value);
+    }
+    public void SetValueToPlayerPrefs(string key, bool value)
+    {
+        PlayerPrefs.SetInt(key, Convert.ToInt32(value));
+    }
+
+    public bool GetBooleanFromPlayerPrefs(string key, bool defaultValue = true)
+    {
+        return Convert.ToBoolean(PlayerPrefs.GetInt(key, Convert.ToInt32(defaultValue)));
+    }
+
+    #endregion PLAYER PREFS
 
     #region COROUTINES
 

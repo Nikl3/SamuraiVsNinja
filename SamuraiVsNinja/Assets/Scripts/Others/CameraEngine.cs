@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraEngine : Singelton<CameraEngine>
@@ -82,7 +83,7 @@ public class CameraEngine : Singelton<CameraEngine>
         {
             if (duration > 0)
             {
-                transform.localPosition = (Vector2)transform.position + Random.insideUnitCircle * power;
+                transform.localPosition = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle * power;
                 duration -= Time.unscaledDeltaTime * slowDownAmount;
             }
             else

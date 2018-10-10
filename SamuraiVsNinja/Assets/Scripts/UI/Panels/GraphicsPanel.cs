@@ -44,7 +44,7 @@ public class GraphicsPanel : UIPanel
         ResolutionDropdown.RefreshShownValue();
     }
 
-    public void Fullscreen(bool isFullscreen)
+    public void SetFullScreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
     }
