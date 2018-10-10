@@ -78,7 +78,6 @@ public class LevelManager : Singelton<LevelManager>
     private void StartRound()
     {
         PlayerDataManager.Instance.SpawnPlayers();
-        StartSpawnSushi();
     }
     private void StartSpawnOnigiris()
     {

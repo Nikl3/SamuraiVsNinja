@@ -163,7 +163,17 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         if(exitingGame == null)
            exitingGame = StartCoroutine(IExitingGame(action));
     }
+
     public void LoadScene(int sceneIndex)
+    {
+        if (!IsLoadingScene)
+        {
+            SceneManager.LoadScene(sceneIndex);
+            Destroy(gameObject, 0.5f);
+        }    
+    }
+
+    public void LoadSceneAsync(int sceneIndex)
     {
         if (loadSceneAsync == null)
         {
@@ -263,7 +273,8 @@ public class GameMaster : SingeltonPersistant<GameMaster>
         
         messageText.enabled = true;
         messageText.text = "LOADING...";
-        loadImageObject.SetActive(CurrentGameState == CURRENT_GAME_STATE.MAIN_MENU ? true : false);
+        
+        loadImageObject.SetActive(CurrentGameState == CURRENT_GAME_STATE.MAIN_MENU || sceneIndex != 0 ? true : false);
 
         asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
         asyncOperation.allowSceneActivation = false;
