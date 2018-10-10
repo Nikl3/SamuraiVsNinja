@@ -3,6 +3,14 @@ using UnityEditor;
 
 public class MainMenuPanel : UIPanel
 {
+    public void Update()
+    {
+        if (InputManager.Instance.Start_ButtonDown(1))
+        {
+            GameMaster.Instance.LoadScene(0);                         
+        }
+    }
+
 	private void OnQuit()
 	{
 #if UNITY_EDITOR
@@ -19,7 +27,7 @@ public class MainMenuPanel : UIPanel
 
 	public void OnlineButton()
 	{
-		GameMaster.Instance.LoadScene(3);
+		GameMaster.Instance.LoadSceneAsync(3);
 	}
 
 	public void CreditsButton()

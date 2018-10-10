@@ -6,10 +6,15 @@ using UnityEngine.Video;
 public class SceneChange : MonoBehaviour
 {
 	private VideoPlayer videoPlayer;
+    private bool isLoadingScene = false;
 
 	private void SceneSwitch()
 	{
-		SceneManager.LoadScene(1);
+        if (!isLoadingScene)
+        {
+            isLoadingScene = true;
+            SceneManager.LoadScene(1);
+        }
 	}
 
 	private void Awake ()
@@ -23,7 +28,15 @@ public class SceneChange : MonoBehaviour
 		StartCoroutine(IPlayIntroScene());
 	}
 
-	public void SetGraphicValues()
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape) || Input.GetKeyUp(KeyCode.Space))
+        {
+            SceneSwitch();
+        }
+    }
+
+    public void SetGraphicValues()
 	{
 		Screen.SetResolution(1920, 1080, true);
 	}
