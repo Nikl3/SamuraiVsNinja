@@ -225,7 +225,7 @@ public class Player : MonoBehaviour
 		onigiris += amount;
 		PlayerData.PlayerInfo.OnigirisPicked++;
 
-		if (onigiris >= 3)
+		if (onigiris >= 10)
 		{
 			LevelManager.Instance.EndGame(PlayerData.PlayerName);
 		}

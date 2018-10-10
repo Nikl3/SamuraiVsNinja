@@ -14,6 +14,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
     public Sprite[] ProjectileIconSprite;
     public Sprite[] EndgameSprite;
 
+    [HideInInspector]
     public int TestPlayerAmount;
 
     #region VARIABLES
