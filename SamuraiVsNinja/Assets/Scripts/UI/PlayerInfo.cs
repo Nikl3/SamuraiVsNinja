@@ -1,5 +1,4 @@
-﻿using Fabric;
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,7 +23,7 @@ public class PlayerInfo : MonoBehaviour
 
     #region PROPERTIES
 
-    public Player Owner
+    public Character Owner
     {
         get;
         set;
@@ -68,7 +67,7 @@ public class PlayerInfo : MonoBehaviour
     }
     private void SetValues()
     {
-        transform.SetParent(UIManager.Instance.PlayerInfoContainer);
+        transform.SetParent(UIManager_Old.Instance.PlayerInfoContainer);
         transform.localPosition = Vector3.zero;
         transform.localScale = new Vector2(0.8f, 0.8f);
         playerNameText.text = Owner.name;
@@ -87,7 +86,7 @@ public class PlayerInfo : MonoBehaviour
 
     public void SetPlayerInfoIcons()
     {
-        if (Owner.PlayerData.PlayerType == PLAYER_TYPE.NINJA)
+        if (Owner.PlayerData.CharacterType == CHARACTER_TYPE.NINJA)
         {
             playerIcon.sprite = PlayerDataManager.Instance.PlayerIconSprite[0];
             playerDashIcon.sprite = PlayerDataManager.Instance.DashIconSprite[0];
@@ -113,13 +112,13 @@ public class PlayerInfo : MonoBehaviour
         }
 
         if (Owner.PlayerData.PlayerName == LevelManager.Instance.WinnerName) {
-                if (Owner.PlayerData.PlayerType == PLAYER_TYPE.NINJA) {
+                if (Owner.PlayerData.CharacterType == CHARACTER_TYPE.NINJA) {
                     endGameSpriteIcon = PlayerDataManager.Instance.EndgameSprite[0];
                 } else {
                     endGameSpriteIcon = PlayerDataManager.Instance.EndgameSprite[1];
                 }
         } else {
-                if (Owner.PlayerData.PlayerType == PLAYER_TYPE.NINJA) {
+                if (Owner.PlayerData.CharacterType == CHARACTER_TYPE.NINJA) {
                     endGameSpriteIcon = PlayerDataManager.Instance.EndgameSprite[2];
                 } else {
                     endGameSpriteIcon = PlayerDataManager.Instance.EndgameSprite[3];
@@ -168,7 +167,8 @@ public class PlayerInfo : MonoBehaviour
         }
 
         cooldownImage.gameObject.SetActive(false);
-        EventManager.Instance.PostEvent("Cooldown");
+        //EventManager.Instance.PostEvent("Cooldown");
+        Debug.LogError("Play Cooldown sound here!");
 
         cooldownImage.fillAmount = 1;
     }

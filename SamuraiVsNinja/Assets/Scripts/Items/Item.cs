@@ -28,7 +28,7 @@ public class Item : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (GameMaster.Instance.IsLoadingScene)
+        if (GameManager.Instance.IsLoadingScene)
         {
             ObjectPoolManager.Instance.DespawnObject(gameObject);
             return;

@@ -12,6 +12,8 @@ TagManager:
   - Killzone
   - Sushi
   - Projectile
+  - FxTemporaire
+  - Character
   layers:
   - Default
   - TransparentFX

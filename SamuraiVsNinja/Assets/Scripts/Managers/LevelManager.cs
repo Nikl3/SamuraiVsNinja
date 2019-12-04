@@ -1,15 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Fabric;
 
 public class LevelManager : Singelton<LevelManager>
 {
-    [SerializeField]
-    private Vector2[] playerSpawnPoints;
-    [SerializeField]
-    private Vector2[] onigiriSpawnPoints;
-    [SerializeField]
-    private LayerMask collisionLayer;
+    public Vector2[] PlayerSpawnPoints;
+    public Vector2[] OnigiriSpawnPoints;
+    public LayerMask CollisionLayer;
+
     private bool sushiDrop = false;
     private readonly int mapHorizontalBorder = 80;
     private float sushiDropTime = 10;
@@ -37,30 +34,30 @@ public class LevelManager : Singelton<LevelManager>
     private void Start()
     {
         //StartRound();
-        Invoke("StartRound", 1f);
-        Invoke("RunGame", 4f);
+        //Invoke("StartRound", 1f);
+        //Invoke("RunGame", 4f);
     }
     private void OnDrawGizmos()
     {
-        if (playerSpawnPoints != null && onigiriSpawnPoints != null)
+        if (PlayerSpawnPoints != null && OnigiriSpawnPoints != null)
         {
             // Draw player spawn points
             Gizmos.color = Color.white;
-            float size = 1f;
+            var size = 1f;
 
-            for (int i = 0; i < playerSpawnPoints.Length; i++)
+            for (int i = 0; i < PlayerSpawnPoints.Length; i++)
             {
-                Gizmos.DrawLine(playerSpawnPoints[i] - Vector2.up * size, playerSpawnPoints[i] + Vector2.up * size);
-                Gizmos.DrawLine(playerSpawnPoints[i] - Vector2.left * size, playerSpawnPoints[i] + Vector2.left * size);
+                Gizmos.DrawLine(PlayerSpawnPoints[i] - Vector2.up * size, PlayerSpawnPoints[i] + Vector2.up * size);
+                Gizmos.DrawLine(PlayerSpawnPoints[i] - Vector2.left * size, PlayerSpawnPoints[i] + Vector2.left * size);
             }
 
             // Draw onigiri spawn points
             Gizmos.color = Color.yellow;
 
-            for (int i = 0; i < onigiriSpawnPoints.Length; i++)
+            for (int i = 0; i < OnigiriSpawnPoints.Length; i++)
             {
-                Gizmos.DrawLine(onigiriSpawnPoints[i] - Vector2.up * size, onigiriSpawnPoints[i] + Vector2.up * size);
-                Gizmos.DrawLine(onigiriSpawnPoints[i] - Vector2.left * size, onigiriSpawnPoints[i] + Vector2.left * size);
+                Gizmos.DrawLine(OnigiriSpawnPoints[i] - Vector2.up * size, OnigiriSpawnPoints[i] + Vector2.up * size);
+                Gizmos.DrawLine(OnigiriSpawnPoints[i] - Vector2.left * size, OnigiriSpawnPoints[i] + Vector2.left * size);
             }
         }
     }
@@ -102,10 +99,10 @@ public class LevelManager : Singelton<LevelManager>
     /// <returns></returns>
     public Vector2 RandomSpawnPosition(int spawnPointType)
     {
-        var randomPositions = spawnPointType == 0 ? playerSpawnPoints : onigiriSpawnPoints;
+        var randomPositions = spawnPointType == 0 ? PlayerSpawnPoints : OnigiriSpawnPoints;
         Vector2 randomPosition = randomPositions[Random.Range(0, randomPositions.Length)];
 
-        if(CanSpawnObjectAtPosition(randomPosition, Vector2.one, collisionLayer))
+        if(CanSpawnObjectAtPosition(randomPosition, Vector2.one, CollisionLayer))
         {
             return randomPosition;
         }
@@ -114,16 +111,21 @@ public class LevelManager : Singelton<LevelManager>
     }
     public Vector2 GetSpawnPoint(int index)
     {
-        return playerSpawnPoints[index];
+        return PlayerSpawnPoints[index];
     }
     public void EndGame(string winnerName)
     {
         GameIsRunning = false;
-        EventManager.Instance.PostEvent("LevelTheme", EventAction.StopSound);
-        EventManager.Instance.PostEvent("Victory");
+
+        // FIX ME!
+        //EventManager.Instance.PostEvent("LevelTheme", EventAction.StopSound);
+        Debug.LogError("Level Theme should end here!");
+        //EventManager.Instance.PostEvent("Victory");
+        Debug.LogError("Play Victory sound here!");
+
         WinnerName = winnerName;
         StartSpawnSushi();
-        UIManager.Instance.ChangePanelState(PANEL_STATE.VICTORY);
+        UIManager_Old.Instance.ChangePanelState(PANEL_STATE.VICTORY);
     }
     public void TeleportObject(Transform objectToTeleport)
     {
@@ -159,8 +161,8 @@ public class LevelManager : Singelton<LevelManager>
     {
         while (sushiDrop)
         {
-            var foo = Random.Range(0.5f, 1f);
-            sushiDropTime -= Time.unscaledDeltaTime + foo;
+            var randomDropdelay = Random.Range(0.5f, 1f);
+            sushiDropTime -= Time.unscaledDeltaTime + randomDropdelay;
             if(sushiDropTime <= 0)
             {
                 break;
@@ -171,7 +173,7 @@ public class LevelManager : Singelton<LevelManager>
                     Random.Range(0, Screen.width), 
                     Random.Range(0, Screen.height)
                     )));
-            yield return new WaitForSecondsRealtime(foo);
+            yield return new WaitForSecondsRealtime(randomDropdelay);
         }
 
         sushiDropTime = 10f;

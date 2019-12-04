@@ -3,11 +3,10 @@
 [ExecuteInEditMode]
 public class ImageEffect : MonoBehaviour
 {
-    [SerializeField]
-    private Material effectMaterial;
+    public Material EffectMaterial;
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        Graphics.Blit(source, destination, effectMaterial);
+        Graphics.Blit(source, destination, EffectMaterial);
     }
 }

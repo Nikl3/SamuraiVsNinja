@@ -2,7 +2,7 @@
 
 public abstract class Projectile : MonoBehaviour
 {
-    private Player owner;
+    private Character owner;
     protected float projectileSpeed;
     protected float selfDestroyTime = 1.8f;
     protected int startDirection;
@@ -21,7 +21,7 @@ public abstract class Projectile : MonoBehaviour
         ObjectPoolManager.Instance.DespawnObject(gameObject);
     }
 
-    public void ProjectileInitialize(Player owner, int projectileDirection)
+    public void ProjectileInitialize(Character owner, int projectileDirection)
     {
         this.owner = owner;
         startDirection = -projectileDirection;
@@ -34,7 +34,7 @@ public abstract class Projectile : MonoBehaviour
         hitDirection = hitDirection.normalized;
 
         if (collision.CompareTag("Player")) {
-            var hittedPlayer = collision.GetComponentInParent<Player>();
+            var hittedPlayer = collision.GetComponentInParent<Character>();
             hittedPlayer.TakeDamage(owner, -hitDirection, knockbackForce, 1, 1);
             ObjectPoolManager.Instance.SpawnObject(ResourceManager.Instance.GetPrefabByIndex(5, 2), collision.transform.position);
         }

@@ -3,9 +3,8 @@
 public class Sushi : Item
 {
     private SpriteRenderer spriteRenderer;
-    [SerializeField]
-    private Sprite[] sushiSprites;
-    private float startSpeed = 20f;
+    public Sprite[] SushiSprites;
+    private readonly float startSpeed = 20f;
     private float dropSpeed;
 
     private void Awake()
@@ -15,7 +14,7 @@ public class Sushi : Item
 
     private void OnEnable()
     {
-        spriteRenderer.sprite = sushiSprites[Random.Range(0, sushiSprites.Length)];
+        spriteRenderer.sprite = SushiSprites[Random.Range(0, SushiSprites.Length)];
         dropSpeed = startSpeed;
     }
 

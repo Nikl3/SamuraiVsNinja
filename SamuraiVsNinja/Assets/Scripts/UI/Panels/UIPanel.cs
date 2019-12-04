@@ -1,5 +1,4 @@
-﻿using Fabric;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class UIPanel : MonoBehaviour
 {
@@ -36,18 +35,19 @@ public abstract class UIPanel : MonoBehaviour
             gameObject.SetActive(false);
             IsOpen = false;
             lastSelectedObject = InputManager.Instance.CurrentSelectedObject;
-            EventManager.Instance.PostEvent("UI_PanelOpen");
+            //EventManager.Instance.PostEvent("UI_PanelOpen");
+            Debug.LogError("Play UI_PanelOpen here!");
         }
     }
 
     public void OptionsButton()
     {
-        UIManager.Instance.ChangePanelState(PANEL_STATE.OPTIONS);
+        UIManager_Old.Instance.ChangePanelState(PANEL_STATE.OPTIONS);
     }
 
     public void RestartGameButton()
     {
-        GameMaster.Instance.LoadSceneAsync(2);
+        GameManager.Instance.LoadSceneAsync(2);
     }
 
     public virtual void BackButton()

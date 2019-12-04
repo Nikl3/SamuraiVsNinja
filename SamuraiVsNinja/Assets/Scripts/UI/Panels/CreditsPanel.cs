@@ -10,14 +10,14 @@ public class CreditsPanel : UIPanel
 
         if (!isCreditsRunning)
         {
-            ManageCreditsAnimation(UIManager.Instance.UIManagerAnimator, true);
+            ManageCreditsAnimation(UIManager_Old.Instance.UIManagerAnimator, true);
         }
     }
     public override void CloseBehaviour()
     {
         if (isCreditsRunning)
         {
-            ManageCreditsAnimation(UIManager.Instance.UIManagerAnimator, false);
+            ManageCreditsAnimation(UIManager_Old.Instance.UIManagerAnimator, false);
         }
 
         base.CloseBehaviour();
@@ -32,6 +32,6 @@ public class CreditsPanel : UIPanel
     public override void BackButton()
     {
         base.BackButton();
-        UIManager.Instance.ChangePanelState(PANEL_STATE.MAIN_MENU);
+        UIManager_Old.Instance.ChangePanelState(PANEL_STATE.MAIN_MENU);
     }
 }

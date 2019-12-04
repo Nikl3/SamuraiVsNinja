@@ -7,11 +7,33 @@ public class InputManager : Singelton<InputManager>
     {
         get
         {
-            return eventSystem.currentSelectedGameObject;
+            return EventSystem.currentSelectedGameObject;
         }
     }
 
     private EventSystem eventSystem;
+    public EventSystem EventSystem
+    {
+        get
+        {
+            if(eventSystem)
+            {
+                return eventSystem;
+            }
+
+            eventSystem = EventSystem.current;
+
+            return eventSystem;
+        }
+    }
+
+    public bool IsAnyKeyDown
+    {
+        get
+        {
+            return Input.anyKeyDown;
+        }
+    }
 
     #region AXIS_INPUTS
 
@@ -78,7 +100,8 @@ public class InputManager : Singelton<InputManager>
 
     #region VARIABLES
 
-    [Header("Connected joysticks")]
+    [Space]
+    [Header("Connected Joysticks")]
     [SerializeField]
     private string[] joystickNames;
 
@@ -87,22 +110,21 @@ public class InputManager : Singelton<InputManager>
     private void Awake()
     {
         joystickNames = Input.GetJoystickNames();
-        eventSystem = EventSystem.current;
     }
 
     public void FocusToButton(GameObject focusObject)
     {
-        if (GetVerticalAxisRaw(1) != 0 && eventSystem.currentSelectedGameObject == null)
+        if (GetVerticalAxisRaw(1) != 0 && EventSystem.currentSelectedGameObject == null)
         {
             ChangeActiveSelectedObject(focusObject);
         }
     }
 
     public void ChangeActiveSelectedObject(GameObject newSelectedObject)
-    {
-        if (!eventSystem.alreadySelecting)
+    {   
+        if (!EventSystem.alreadySelecting)
         {
-            eventSystem.SetSelectedGameObject(newSelectedObject);
+            EventSystem.SetSelectedGameObject(newSelectedObject);
         }
     }
 }

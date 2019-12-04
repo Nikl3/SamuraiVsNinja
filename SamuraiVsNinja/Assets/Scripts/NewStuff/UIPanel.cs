@@ -1,0 +1,28 @@
+﻿using UnityEngine;
+using UnityEngine.Events;
+
+namespace Sweet_And_Salty_Studios
+{
+    public class UIPanel : MonoBehaviour
+    {
+        #region VARIABLES
+
+        public UnityEvent OnOpen;
+        public UnityEvent OnClose;
+
+        #endregion VARIABLES
+
+        #region PROPERTIES
+
+        #endregion PROPERTIES
+
+        #region UNITY_FUNCTIONS
+
+        #endregion UNITY_FUNCTIONS
+
+        #region CUSTOM_FUNCTIONS
+
+        #endregion CUSTOM_FUNCTIONS
+    }
+}
+

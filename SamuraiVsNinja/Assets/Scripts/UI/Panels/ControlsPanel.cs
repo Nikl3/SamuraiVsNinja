@@ -4,6 +4,6 @@
     {
         base.BackButton();
 
-        UIManager.Instance.ChangePanelState(PANEL_STATE.OPTIONS);
+        UIManager_Old.Instance.ChangePanelState(PANEL_STATE.OPTIONS);
     }
 }

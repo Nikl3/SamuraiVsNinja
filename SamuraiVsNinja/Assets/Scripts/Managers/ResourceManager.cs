@@ -5,29 +5,29 @@ public class ResourceManager : Singelton<ResourceManager>
 {
 	private Dictionary<int, GameObject[]> prefabs;
 
+    [Space]
 	[Header("Characters")]
-	[SerializeField]
-	private GameObject[] characterPrefabs;
-	[Header("Collectables")]
-	[SerializeField]
-	private GameObject[] collectablePrefabs;
-	[Header("Network")]
-	[SerializeField]
-	private GameObject[] networkPrefabs;
-	[Header("Projectiles")]
-	[SerializeField]
-	private GameObject[] projectilePrefabs;
-	[Header("Ui")]
-	[SerializeField]
-	private GameObject[] uiPrefabs;
-	[Header("Effects")]
-	[SerializeField]
-	private GameObject[] effectPrefabs;
-	[Header("Others")]
-	[SerializeField]
-	private GameObject[] otherPrefabs;
+    public GameObject[] CharacterPrefabs;
+    [Space]
+    [Header("Collectables")]
+    public GameObject[] CollectablePrefabs;
+    [Space]
+    [Header("Projectiles")]
+	public GameObject[] ProjectilePrefabs;
+    [Space]
+    [Header("UI")]
+    public GameObject[] UIPrefabs;
+    [Space]
+    [Header("Effects")]
+    public GameObject[] EffectPrefabs;
+    [Space]
+    [Header("Others")]
+    public GameObject[] OtherPrefabs;
 
-	private void Awake ()
+    private GameObject[] networkPrefabs = new GameObject[0];
+
+
+    private void Awake ()
 	{
 		InitializePrefabDictionary();
 	}
@@ -36,26 +36,24 @@ public class ResourceManager : Singelton<ResourceManager>
 	{
 		prefabs = new Dictionary<int, GameObject[]>
 		{
-			{ 0, characterPrefabs },
-			{ 1, collectablePrefabs },
+			{ 0, CharacterPrefabs },
+			{ 1, CollectablePrefabs },
 			{ 2, networkPrefabs },
-			{ 3, projectilePrefabs },
-			{ 4, uiPrefabs },
-			{ 5, effectPrefabs },
-			{ 6, otherPrefabs },
+			{ 3, ProjectilePrefabs },
+			{ 4, UIPrefabs },
+			{ 5, EffectPrefabs },
+			{ 6, OtherPrefabs },
 		};
 	}
 
 	public GameObject GetPrefabByIndex(int prefabKey, int prefabArrayIndex)
 	{
-		GameObject[] gameObjectPrefabs;
+        if(prefabs.TryGetValue(prefabKey, out GameObject[] gameObjectPrefabs))
+        {
+            return gameObjectPrefabs[prefabArrayIndex];
+        }
 
-		if(prefabs.TryGetValue(prefabKey, out gameObjectPrefabs))
-		{
-			return gameObjectPrefabs[prefabArrayIndex];
-		}
-
-		DebugManager.Instance.DebugMessage(2, "There is not gameobject prefab: " + prefabKey + " !");
+        DebugManager.Instance.DebugMessage(2, "There is not gameobject prefab: " + prefabKey + " !");
 		return null;
 	}
 }

@@ -1,52 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraEngine : Singelton<CameraEngine>
 {
     #region VARIABLES
-    [Header("ZOOM VARIABLES")]
-    [SerializeField]
-    private float smoothTime = 0.5f;
-    [SerializeField]
-    private float maxZoom = 20f;
-    [SerializeField]
-    private float minZoom = 80f;
-    [SerializeField]
-    private readonly float zoomLimiter = 50f;
-    [SerializeField]
-    private Vector2 offset = Vector2.zero;
-    [SerializeField]
-    private Vector2 cameraVelocity;
 
+    [Space]
+    [Header("ZOOM VARIABLES")]
+    public float SmoothTime = 0.5f;
+    public float MaxZoom = 20f;
+    public float MinZoom = 80f;
+    private readonly float zoomLimiter = 50f;
+    public Vector2 Offset = Vector2.zero;
+    public Vector2 CameraVelocity;
+
+    [Space]
     [Header("SHAKE VARIABLES")]
-    [SerializeField]
-    private float power = 0.8f;
-    [SerializeField]
-    private float duration = 1f;
-    [SerializeField]
-    private float slowDownAmount = 1f;
+    public float power = 0.8f;
+    public float duration = 1f;
+    public float slowDownAmount = 1f;
     
-    [SerializeField]
-    private List<Transform> targets;
+    private List<Transform> targets = new List<Transform>();
     private GameObject levelBackgroundImageGameObject;
     private Vector2 startPosition = Vector2.zero;
     private float initialDuration;
-    private bool isShaking = false;
 
     #endregion VARIABLES
 
     public bool IsShaking
     {
-        get
-        {
-            return isShaking;
-        }
-        set
-        {
-            isShaking = value;
-        }
-    }
+        get;
+        set;
+    } = false;
     public float OrthographicSize
     {
         get
@@ -68,7 +53,12 @@ public class CameraEngine : Singelton<CameraEngine>
     private void Awake()
     {
         MainCamera = GetComponent<Camera>();
-        levelBackgroundImageGameObject = transform.Find("LevelBackgroundImageGameObject").gameObject;
+        var temp = transform.Find("LevelBackgroundImageGameObject");
+
+        if(temp)
+        {
+            levelBackgroundImageGameObject = temp.gameObject;
+        }
     }
 
     private void Start()
@@ -79,16 +69,16 @@ public class CameraEngine : Singelton<CameraEngine>
 
     private void Update()
     {
-        if (isShaking)
+        if (IsShaking)
         {
             if (duration > 0)
             {
-                transform.localPosition = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle * power;
+                transform.localPosition = (Vector2)transform.position + Random.insideUnitCircle * power;
                 duration -= Time.unscaledDeltaTime * slowDownAmount;
             }
             else
             {
-                isShaking = false;
+                IsShaking = false;
                 duration = initialDuration;
             }
         }
@@ -128,12 +118,12 @@ public class CameraEngine : Singelton<CameraEngine>
     private void CameraMovement()
     {
         Vector2 centerPoint = GetCenterPoint();
-        Vector2 newPosition = centerPoint + offset;
-        transform.position = Vector2.SmoothDamp(transform.position, newPosition, ref cameraVelocity, smoothTime);
+        Vector2 newPosition = centerPoint + Offset;
+        transform.position = Vector2.SmoothDamp(transform.position, newPosition, ref CameraVelocity, SmoothTime);
     }
     private void CameraZoom()
     {
-        float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestTargetDistance() / zoomLimiter);
+        float newZoom = Mathf.Lerp(MaxZoom, MinZoom, GetGreatestTargetDistance() / zoomLimiter);
         MainCamera.orthographicSize = Mathf.Lerp(MainCamera.orthographicSize, newZoom, Time.deltaTime);
     }
 
@@ -150,6 +140,12 @@ public class CameraEngine : Singelton<CameraEngine>
     }
     public void ManageLevelBackground(bool setActive)
     {
+        if(levelBackgroundImageGameObject == null)
+        {
+            Debug.LogError("No level background object...");
+            return;
+        }
+
         levelBackgroundImageGameObject.SetActive(setActive);
     }
 }

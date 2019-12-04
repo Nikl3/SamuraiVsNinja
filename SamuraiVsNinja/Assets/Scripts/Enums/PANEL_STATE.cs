@@ -1,0 +1,14 @@
+﻿public enum PANEL_STATE
+{
+    MAIN_MENU,
+    CHARACTER_SELECT,
+    OPTIONS,
+    CREDITS,
+    HOW_TO_PLAY,
+    AUDIO,
+    GRAPHICS,
+    CONTROL,
+    PAUSE,
+    VICTORY,
+    ONLINE_LOBBY
+}

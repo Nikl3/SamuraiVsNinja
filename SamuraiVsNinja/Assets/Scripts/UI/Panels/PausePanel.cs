@@ -13,13 +13,13 @@ public class PausePanel : UIPanel
 
     public void ContinueButton()
     {
-        UIManager.Instance.TriggerPanelCloseBehaviour();
+        UIManager_Old.Instance.TriggerPanelCloseBehaviour();
         Time.timeScale = 1f;
-        UIManager.Instance.PlayerInfoContainerGroup.alpha = 1f;
+        UIManager_Old.Instance.PlayerInfoContainerGroup.alpha = 1f;
     }
     public override void BackButton()
     {
         base.BackButton();
-        GameMaster.Instance.LoadSceneAsync(1);
+        GameManager.Instance.LoadSceneAsync(1);
     }
 }

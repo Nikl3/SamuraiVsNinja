@@ -2,11 +2,8 @@
 
 public class DebugManager : Singelton<DebugManager>
 {
-    [SerializeField]
-    private bool isDebugingMessages = false;
-
-    [SerializeField]
-    private bool isDebugingRaycasts = false;
+    public bool DebugMessages = false;
+    public bool DebugRaycasts = false;
 
     /// <summary>
     /// Message types: 1 = print, 2 = warning, 3 = error.
@@ -15,7 +12,7 @@ public class DebugManager : Singelton<DebugManager>
     /// <param name="debugMessage"></param>
     public void DebugMessage(int messageType, string debugMessage)
     {
-        if (isDebugingMessages)
+        if (DebugMessages)
         {
             switch (messageType)
             {
@@ -36,7 +33,7 @@ public class DebugManager : Singelton<DebugManager>
 
     public void DrawRay(Vector2 rayStartPoint, Vector2 rayDirection,float rayLenght, Color rayColor = new Color())
     {
-        if(isDebugingRaycasts)
+        if(DebugRaycasts)
         Debug.DrawRay(rayStartPoint, Vector2.right * rayLenght, Color.red);
     }
 }

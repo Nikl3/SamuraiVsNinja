@@ -3,24 +3,17 @@ using UnityEngine.UI;
 
 public class EndGameStats : MonoBehaviour
 {
-    [SerializeField]
-    private Image PlayerIcon;
-    [SerializeField]
-    private Text PlayerName;
-    [SerializeField]
-    private Text OnigirisPicked;
-    [SerializeField]
-    private Text OnigirisLost;
-    [SerializeField]
-    private Text Kills;
-    [SerializeField]
-    private Text Deaths;
-    [SerializeField]
-    private Text HitPercent;
+    public Image PlayerIcon;
+    public Text PlayerName;
+    public Text OnigirisPicked;
+    public Text OnigirisLost;
+    public Text Kills;
+    public Text Deaths;
+    public Text HitPercent;
 
     private void OnEnable()
     {
-        transform.SetParent(UIManager.Instance.PlayerEndPanel);
+        transform.SetParent(UIManager_Old.Instance.PlayerEndPanel);
         transform.localScale = Vector2.one;
     }
 

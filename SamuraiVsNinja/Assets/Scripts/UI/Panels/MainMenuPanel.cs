@@ -1,14 +1,15 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 
 public class MainMenuPanel : UIPanel
 {
-    public void Update()
+    public override void Update()
     {
         if (InputManager.Instance.Start_ButtonDown(1))
         {
-            GameMaster.Instance.LoadScene(0);                         
+            GameManager.Instance.LoadScene(0);                         
         }
+
+        base.Update();
     }
 
 	private void OnQuit()
@@ -22,22 +23,22 @@ public class MainMenuPanel : UIPanel
 
 	public void PlayButton()
 	{
-		UIManager.Instance.ChangePanelState(PANEL_STATE.CHARACTER_SELECT);
+		UIManager_Old.Instance.ChangePanelState(PANEL_STATE.CHARACTER_SELECT);
 	}
 
 	public void OnlineButton()
 	{
-		GameMaster.Instance.LoadSceneAsync(3);
+		GameManager.Instance.LoadSceneAsync(3);
 	}
 
 	public void CreditsButton()
 	{
-		UIManager.Instance.ChangePanelState(PANEL_STATE.CREDITS);
+		UIManager_Old.Instance.ChangePanelState(PANEL_STATE.CREDITS);
 	}
 
 	public override void BackButton()
 	{
 		base.BackButton();
-		GameMaster.Instance.ExitGame(() => OnQuit());
+		GameManager.Instance.ExitGame(() => OnQuit());
 	}
 }

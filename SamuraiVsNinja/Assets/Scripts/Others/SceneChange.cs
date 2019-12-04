@@ -7,6 +7,7 @@ public class SceneChange : MonoBehaviour
 {
 	private VideoPlayer videoPlayer;
     private bool isLoadingScene = false;
+    private float introStartDelay = 2f;
 
 	private void SceneSwitch()
 	{
@@ -24,8 +25,9 @@ public class SceneChange : MonoBehaviour
 
 	private void Start()
 	{
-		Screen.SetResolution(1920, 1080, true);
-		StartCoroutine(IPlayIntroScene());
+        Screen.SetResolution(1920, 1080, true);
+
+        StartCoroutine(IPlayIntroScene());
 	}
 
     private void Update()
@@ -36,13 +38,10 @@ public class SceneChange : MonoBehaviour
         }
     }
 
-    public void SetGraphicValues()
-	{
-		Screen.SetResolution(1920, 1080, true);
-	}
-
 	private IEnumerator IPlayIntroScene()
 	{
+        yield return new WaitForSecondsRealtime(introStartDelay);
+
 		videoPlayer.Play();
 
 		yield return new WaitUntil(() => !videoPlayer.isPlaying);

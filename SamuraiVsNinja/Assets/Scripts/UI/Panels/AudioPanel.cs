@@ -37,25 +37,25 @@ public class AudioPanel : UIPanel
 
     public void MasterScrollbar(float value)
     {
-        GameMaster.Instance.AudioMixer.SetFloat("Master", FloatToDesibel(value));
+        GameManager.Instance.AudioMixer.SetFloat("Master", FloatToDesibel(value));
     }
 
     public void MusicScrollbar(float value)
     {
-        GameMaster.Instance.AudioMixer.SetFloat("Music", FloatToDesibel(value));
+        GameManager.Instance.AudioMixer.SetFloat("Music", FloatToDesibel(value));
     }
 
     public void SfxScrollbar(float value)
     {
-        GameMaster.Instance.AudioMixer.SetFloat("Sfx", FloatToDesibel(value));
+        GameManager.Instance.AudioMixer.SetFloat("Sfx", FloatToDesibel(value));
     }
 
     public override void BackButton()
     {
         base.BackButton();
 
-        GameMaster.Instance.SaveChannelValues();
+        GameManager.Instance.SaveChannelValues();
 
-        UIManager.Instance.ChangePanelState(PANEL_STATE.OPTIONS);
+        UIManager_Old.Instance.ChangePanelState(PANEL_STATE.OPTIONS);
     }
 }

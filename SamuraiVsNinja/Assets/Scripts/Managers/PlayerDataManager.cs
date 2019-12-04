@@ -1,11 +1,5 @@
 ﻿using UnityEngine;
 
-public enum PLAYER_TYPE
-{
-    NINJA,
-    SAMURAI
-}
-
 public class PlayerDataManager : Singelton<PlayerDataManager>
 {
     public RuntimeAnimatorController[] RuntimeAnimatorControllers;
@@ -25,7 +19,7 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
 
     #region PROPERTIES
 
-    public PlayerData[] PlayerDatas
+    public PlayerData[] PlayerData
     {
         get;
         private set;
@@ -67,12 +61,12 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
     }
     private void CreatePlayerDatas()
     {
-        PlayerDatas = new PlayerData[MAX_PLAYER_NUMBER];
+        PlayerData = new PlayerData[MAX_PLAYER_NUMBER];
 
-        for (int i = 0; i < PlayerDatas.Length; i++)
+        for (int i = 0; i < PlayerData.Length; i++)
         {
            
-            PlayerDatas[i] = new PlayerData(i + 1, SetPlayerColor(i + 1))
+            PlayerData[i] = new PlayerData(i + 1, SetPlayerColor(i + 1))
             {
                 
             };
@@ -87,37 +81,37 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
             for (int i = 0; i < testPlayerAmount; i++)
             {
                 randomTypeIndex = Random.Range(0, 2);
-                PlayerDatas[i].HasJoined = true;
-                PlayerDatas[i].PlayerType =  (randomTypeIndex == 0 ? PLAYER_TYPE.NINJA : PLAYER_TYPE.SAMURAI);
+                PlayerData[i].HasJoined = true;
+                PlayerData[i].CharacterType =  (randomTypeIndex == 0 ? CHARACTER_TYPE.NINJA : CHARACTER_TYPE.SAMURAI);
             }
         }                   
     }
 
     public PlayerData GetPlayerData(int id)
     {
-        return PlayerDatas[id];
+        return PlayerData[id];
     }
     public void ClearJoinedPlayers()
     {
-        foreach (var playerData in PlayerDatas)
+        foreach (var playerData in PlayerData)
         {
             playerData.HasJoined = false;
         }
     }
     public void PlayerJoin(int playerID)
     {
-        if (!PlayerDatas[playerID - 1].HasJoined)
+        if (!PlayerData[playerID - 1].HasJoined)
         {
-            PlayerDatas[playerID - 1].HasJoined = true;
+            PlayerData[playerID - 1].HasJoined = true;
 
             return;
         }
     }
     public void PlayerUnjoin(int playerID)
     {
-        if (PlayerDatas[playerID - 1].HasJoined)
+        if (PlayerData[playerID - 1].HasJoined)
         {
-            PlayerDatas[playerID - 1].HasJoined = false;          
+            PlayerData[playerID - 1].HasJoined = false;          
             return;
         }
     } 
@@ -125,20 +119,26 @@ public class PlayerDataManager : Singelton<PlayerDataManager>
     {
         AddTestPlayers(TestPlayerAmount);
 
-        foreach (var playerData in PlayerDatas)
+        if(PlayerData == null || PlayerData.Length == 0)
         {
-            if (playerData.HasJoined)
+            Debug.LogError("No player data available!");
+            return;
+        }
+
+        foreach (var data in PlayerData)
+        {
+            if (data.HasJoined)
             {                 
-                playerData.Player = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0)).GetComponent<Player>();
-                playerData.PlayerInfo = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 1)).GetComponent<PlayerInfo>();
-                playerData.EndGameStats = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 2)).GetComponent<EndGameStats>();
-                playerData.Player.Initialize(playerData, playerData.PlayerType == PLAYER_TYPE.NINJA ? RuntimeAnimatorControllers[0] : RuntimeAnimatorControllers[1]);              
+                data.Character = Instantiate(ResourceManager.Instance.GetPrefabByIndex(0, 0)).GetComponent<Character>();
+                data.PlayerInfo = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 1)).GetComponent<PlayerInfo>();
+                data.EndGameStats = Instantiate(ResourceManager.Instance.GetPrefabByIndex(4, 2)).GetComponent<EndGameStats>();
+                data.Character.Initialize(data, data.CharacterType == CHARACTER_TYPE.NINJA ? RuntimeAnimatorControllers[0] : RuntimeAnimatorControllers[1]);              
             }
         }
     }  
     public void UpdateEndGameStats()
     {
-        foreach (var playerData in PlayerDatas)
+        foreach (var playerData in PlayerData)
         {
             if(playerData.HasJoined)
             {
