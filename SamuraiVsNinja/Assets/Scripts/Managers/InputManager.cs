@@ -1,130 +1,155 @@
-﻿using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+[Serializable]
+public class Connected_InputDevice
+{
+    public string Name;
+    public int ID;
+    [TextArea(0, 200)] public string Description = "There is no Description.";
+
+    public InputDevice InputDevice
+    {
+        get;
+        private set;
+    }
+
+    public Connected_InputDevice(InputDevice inputDevice)
+    {
+        InputDevice = inputDevice;
+
+        Name = inputDevice.displayName;
+        ID = inputDevice.deviceId;
+        Description = inputDevice.description.ToString();
+    }
+}
 
 public class InputManager : Singelton<InputManager>
 {
-    public GameObject CurrentSelectedObject
-    {
-        get
-        {
-            return EventSystem.currentSelectedGameObject;
-        }
-    }
-
-    private EventSystem eventSystem;
-    public EventSystem EventSystem
-    {
-        get
-        {
-            if(eventSystem)
-            {
-                return eventSystem;
-            }
-
-            eventSystem = EventSystem.current;
-
-            return eventSystem;
-        }
-    }
-
-    public bool IsAnyKeyDown
-    {
-        get
-        {
-            return Input.anyKeyDown;
-        }
-    }
-
-    #region AXIS_INPUTS
-
-    public float GetHorizontalAxisRaw(int id)
-    {
-        return Input.GetAxisRaw("Horizontal_J" + id);
-    }
-
-    public float GetVerticalAxisRaw(int id)
-    {
-        return Input.GetAxisRaw("Vertical_J" + id);
-    }
-
-    public float GetDashAxisRaw(int id)
-    {
-        return Input.GetAxisRaw("Dash_J" + id);
-    }
-
-    public float GetRangeAttackAxisRaw(int id)
-    {
-        return Input.GetAxisRaw("RangeAttack_J" + id);
-    }
-
-    #endregion AXIS_INPUTS
-
-    #region BUTTON_INPUTS
-
-    public bool Start_ButtonDown(int id)
-    {
-        return Input.GetButtonDown("Action_J" + id);
-    }
-
-    public bool Y_ButtonDown(int id)
-    {
-        return Input.GetButtonDown("Cancel_J" + id);
-    }
-
-    public bool B_ButtonDown(int id)
-    {
-        return Input.GetButtonDown("MeleeAttack_J" + id);
-    }
-
-    public bool A_ButtonDown(int id)
-    {
-        return Input.GetButtonDown("Jump_J" + id);
-    }
-
-    public bool A_ButtonUp(int id)
-    {
-        return Input.GetButtonUp("Jump_J" + id);
-    }
-
-    public bool X_ButtonDown(int id)
-    {
-        return Input.GetButtonDown("RangeAttack_J" + id);
-    }
-
-    public bool X_ButtonUp(int id)
-    {
-        return Input.GetButton("RangeAttack_J" + id);
-    }
-
-    #endregion BUTTON_INPUTS
-
     #region VARIABLES
 
     [Space]
-    [Header("Connected Joysticks")]
-    [SerializeField]
-    private string[] joystickNames;
+    [Header("Connected Input Devices")]
+    [SerializeField] List<Connected_InputDevice> connectedInputDevices = new List<Connected_InputDevice>();
+
+    public InputActions InputActions;
 
     #endregion VARIABLES
 
+    #region PROPERTIES
+
+    public Vector2 GetMovementInput
+    {
+        get
+        {
+            return InputActions.Player.Movement.ReadValue<Vector2>();
+        }
+    }
+    
+    #endregion PROPERTIES
+
+    #region UNITY_FUNCTIONS
+
     private void Awake()
     {
-        joystickNames = Input.GetJoystickNames();
+        Initialize();
     }
 
-    public void FocusToButton(GameObject focusObject)
+    private void OnEnable()
     {
-        if (GetVerticalAxisRaw(1) != 0 && EventSystem.currentSelectedGameObject == null)
+        InputSystem.onDeviceChange += OnDeviceChanged;
+
+        InputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        InputSystem.onDeviceChange -= OnDeviceChanged;
+
+        InputActions.Disable();
+    }
+
+    #endregion UNITY_FUNCTIONS
+
+    #region CUSTOM_FUNCTION
+
+    private void Initialize()
+    {
+        InputActions = new InputActions();
+
+        var devices = InputSystem.devices;
+
+        connectedInputDevices.Clear();
+
+        for(int i = 0; i < devices.Count; i++)
         {
-            ChangeActiveSelectedObject(focusObject);
+            connectedInputDevices.Add(new Connected_InputDevice(devices[i]));
         }
     }
 
-    public void ChangeActiveSelectedObject(GameObject newSelectedObject)
-    {   
-        if (!EventSystem.alreadySelecting)
+    private Connected_InputDevice GetConnectedDevice(InputDevice inputDevice)
+    {
+        for(int i = 0; i < connectedInputDevices.Count; i++)
         {
-            EventSystem.SetSelectedGameObject(newSelectedObject);
+            if(connectedInputDevices[i].InputDevice == inputDevice)
+            {
+                return connectedInputDevices[i];
+            }
+        }
+
+        return null;
+    }
+
+    private void OnDeviceChanged(InputDevice inputDevice, InputDeviceChange inputDeviceChange)
+    {
+        Debug.LogWarning($"{inputDevice.displayName}: {inputDeviceChange}");
+
+        switch(inputDeviceChange)
+        {
+            case InputDeviceChange.Added:
+
+                if(connectedInputDevices.Contains(GetConnectedDevice(inputDevice)))
+                {
+                    Debug.LogError($"{GetConnectedDevice(inputDevice).Name} same device already connected!");
+                    return;
+                }
+
+                connectedInputDevices.Add(new Connected_InputDevice(inputDevice));
+
+                break;
+            case InputDeviceChange.Removed:
+
+                connectedInputDevices.Remove(GetConnectedDevice(inputDevice));
+
+                break;
+            case InputDeviceChange.Disconnected:
+
+                break;
+            case InputDeviceChange.Reconnected:
+
+                break;
+            case InputDeviceChange.Enabled:
+
+                break;
+            case InputDeviceChange.Disabled:
+
+                break;
+            case InputDeviceChange.UsageChanged:
+
+                break;
+            case InputDeviceChange.ConfigurationChanged:
+
+                break;
+            case InputDeviceChange.Destroyed:
+
+                break;
+            default:
+
+                break;
         }
     }
+
+    #endregion CUSTOM_FUNCTIONS
 }

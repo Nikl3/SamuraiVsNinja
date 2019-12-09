@@ -19,7 +19,11 @@ public class CameraEngine : Singelton<CameraEngine>
     public float power = 0.8f;
     public float duration = 1f;
     public float slowDownAmount = 1f;
-    
+
+    [Space]
+    [Header("DEBUG VARIABLES")]
+    public bool ShowDebugGizmos;
+
     private List<Transform> targets = new List<Transform>();
     private GameObject levelBackgroundImageGameObject;
     private Vector2 startPosition = Vector2.zero;
@@ -93,6 +97,16 @@ public class CameraEngine : Singelton<CameraEngine>
         CameraZoom();
     }
 
+    private void OnDrawGizmos()
+    {
+        if(ShowDebugGizmos == false)
+        {
+            return;
+        }
+
+        Gizmos.DrawCube(debugBounds.center, debugBounds.extents * 2);
+    }
+
     private Vector2 GetCenterPoint()
     {
         if (targets.Count == 1)
@@ -100,6 +114,9 @@ public class CameraEngine : Singelton<CameraEngine>
 
         return EncapsulateTargetBounds().center;
     }
+
+    private Bounds debugBounds;
+
     private Bounds EncapsulateTargetBounds()
     {
         var bounds = new Bounds(targets[0].position, Vector2.zero);
@@ -113,7 +130,14 @@ public class CameraEngine : Singelton<CameraEngine>
     }
     private float GetGreatestTargetDistance()
     {
-        return EncapsulateTargetBounds().size.x;
+        var foo = EncapsulateTargetBounds();
+
+        if(ShowDebugGizmos)
+        {
+            debugBounds = foo;
+        }
+
+        return foo.size.x;
     }
     private void CameraMovement()
     {
@@ -123,7 +147,7 @@ public class CameraEngine : Singelton<CameraEngine>
     }
     private void CameraZoom()
     {
-        float newZoom = Mathf.Lerp(MaxZoom, MinZoom, GetGreatestTargetDistance() / zoomLimiter);
+        var newZoom = Mathf.Lerp(MaxZoom, MinZoom, GetGreatestTargetDistance() / zoomLimiter);
         MainCamera.orthographicSize = Mathf.Lerp(MainCamera.orthographicSize, newZoom, Time.deltaTime);
     }
 

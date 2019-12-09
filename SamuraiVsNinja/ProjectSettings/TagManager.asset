@@ -3,17 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - OneWayObject
-  - Obstacle
-  - JoinField
-  - Onigiri
-  - Spike
-  - Killzone
-  - Sushi
-  - Projectile
-  - FxTemporaire
-  - Character
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -25,9 +15,9 @@ TagManager:
   - 
   - PostProcessing
   - Obstacle
+  - OneWayObstacle
   - Character
   - Item
-  - 
   - 
   - 
   - 

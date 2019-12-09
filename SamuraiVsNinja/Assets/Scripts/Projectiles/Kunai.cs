@@ -1,14 +1,7 @@
-﻿public class Kunai : Projectile
-{ 
-	private Kunai()
-	{
-		projectileSpeed = 60f;
-	}
-
-	protected override void Awake()
-	{
-		base.Awake();
-
-		gameObject.name = "Kunai";
-	}
+﻿namespace Sweet_And_Salty_Studios
+{
+    public class Kunai : Projectile
+    {
+      
+    }
 }

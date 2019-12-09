@@ -1,6 +1,0 @@
-﻿public enum CHARACTER_STATE
-{
-    NORMAL,
-    INVINCIBILITY,
-    RESPAWN
-}

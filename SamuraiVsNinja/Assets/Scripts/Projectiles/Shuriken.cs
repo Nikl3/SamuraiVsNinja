@@ -1,22 +1,9 @@
 ﻿using UnityEngine;
 
-public class Shuriken : Projectile
+namespace Sweet_And_Salty_Studios
 {
-    private Shuriken()
+    public class Shuriken : Projectile
     {
-        projectileSpeed = 60f;
-    }
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        gameObject.name = "Shuriken";
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-        transform.Rotate(new Vector3(0, 0, -startDirection * 10)); 
+       
     }
 }

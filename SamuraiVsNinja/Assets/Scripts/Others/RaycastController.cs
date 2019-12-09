@@ -1,64 +1,73 @@
 ﻿using UnityEngine;
 
-public abstract class RaycastController : MonoBehaviour
+namespace Sweet_And_Salty_Studios
 {
-    protected const float DISTANCE_BETWEEN_RAYS = 0.25f;
-    protected const float SKIN_WIDTH = 0.015f;
-
-    protected int horizontalRayCount;
-    protected int verticalRayCount;
-    protected float horizontalRaySpacing;
-    protected float verticalRaySpacing;
-
-    [SerializeField]
-    protected LayerMask collisionMaskLayer;
-    protected string hitLayerName;
-    protected string collisionLayerName;
-    protected string oneWayCollisionTag;
-
-    protected RaycastOrigins raycastOrigins;
-    protected BoxCollider2D boxCollider2D;
-
-
-    protected virtual void Awake()
+    public abstract class RaycastController : MonoBehaviour
     {
-        boxCollider2D = GetComponentInChildren<BoxCollider2D>();
-    }
+        #region VARIABLES
 
-    private void Start()
-    {
-        CalculateRaySpacing();
-    }
+        private const float DISTANCE_BETWEEN_RAYS = 0.25f;
+        protected const float SKIN_WIDTH = 0.15f;
+        protected int HorizontalRayCount;
+        protected int VerticalRayCount;
+        protected float horizontalRaySpacing;
+        protected float verticalRaySpacing;
+        protected RaycastOrigins raycastOrigins;
 
-    protected void UpdateRaycastOrigins()
-    {
-        Bounds bounds = boxCollider2D.bounds;
-        bounds.Expand(SKIN_WIDTH * -2);
+        private BoxCollider2D hitCollider2D;
 
-        raycastOrigins.BottomLeft = new Vector2(bounds.min.x, bounds.min.y);
-        raycastOrigins.BottomRight = new Vector2(bounds.max.x, bounds.min.y);
-        raycastOrigins.TopLeft = new Vector2(bounds.min.x, bounds.max.y);
-        raycastOrigins.TopRight = new Vector2(bounds.max.x, bounds.max.y);
-    }
+        #endregion VARIABLES
 
-    private void CalculateRaySpacing()
-    {
-        Bounds bounds = boxCollider2D.bounds;
-        bounds.Expand(SKIN_WIDTH * -2);
+        #region UNITY_FUNCTIONS
 
-        float boundsWidth = bounds.size.x;
-        float boundsHeight = bounds.size.y;
+        protected virtual void Awake()
+        {
+            hitCollider2D = GetComponent<BoxCollider2D>();
+        }
 
-        horizontalRayCount = Mathf.RoundToInt(boundsHeight / DISTANCE_BETWEEN_RAYS);
-        verticalRayCount = Mathf.RoundToInt(boundsWidth / DISTANCE_BETWEEN_RAYS);
+        protected virtual void Start()
+        {
+            CalculateRaySpacing();
+        }
 
-        horizontalRaySpacing = bounds.size.y / (horizontalRayCount - 1);
-        verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
-    }
+        #endregion UNITY_FUNCTIONS
 
-    protected struct RaycastOrigins
-    {
-        public Vector2 TopLeft, TopRight;
-        public Vector2 BottomLeft, BottomRight;
+        #region CUSTOM_FUNCTIONS
+
+        protected struct RaycastOrigins
+        {
+            public Vector2 TopLeft;
+            public Vector2 TopRight;
+            public Vector2 BottomLeft;
+            public Vector2 BottomRight;
+        }
+
+        protected void UpdateRaycastOrigins()
+        {
+            var bounds = hitCollider2D.bounds;
+            bounds.Expand(SKIN_WIDTH * -2);
+
+            raycastOrigins.BottomLeft = new Vector2(bounds.min.x, bounds.min.y);
+            raycastOrigins.BottomRight = new Vector2(bounds.max.x, bounds.min.y);
+            raycastOrigins.TopLeft = new Vector2(bounds.min.x, bounds.max.y);
+            raycastOrigins.TopRight = new Vector2(bounds.max.x, bounds.max.y);
+        }
+
+        private void CalculateRaySpacing()
+        {
+            var bounds = hitCollider2D.bounds;
+            bounds.Expand(SKIN_WIDTH * -2);
+
+            var boundsWidth = bounds.size.x;
+            var boundsHeight = bounds.size.y;
+
+            HorizontalRayCount = Mathf.RoundToInt(boundsHeight / DISTANCE_BETWEEN_RAYS);
+            VerticalRayCount = Mathf.RoundToInt(boundsWidth / DISTANCE_BETWEEN_RAYS);
+
+            horizontalRaySpacing = bounds.size.y / (HorizontalRayCount - 1);
+            verticalRaySpacing = bounds.size.x / (VerticalRayCount - 1);
+        }
+
+        #endregion CUSTOM_FUNCTIONS
     }
 }

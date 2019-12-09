@@ -1,88 +1,117 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPoolManager : Singelton<ObjectPoolManager>
+namespace Sweet_And_Salty_Studios
 {
-    private List<Transform> ParentContainers = new List<Transform>();
-    private Dictionary<string, Stack<GameObject>> poolDictionary = new Dictionary<string, Stack<GameObject>>();
+    public class ObjectPoolManager : Singelton<ObjectPoolManager>
+    {
+        #region VARIABLES
+        
+        private Type typeKey;
 
-    private GameObject CreateNewInstances(GameObject prefab, Vector2 position, Quaternion rotation)
-    {
-        DebugManager.Instance.DebugMessage(2, prefab.name + " created!");
-        var newInstance = Instantiate(prefab, position, rotation);
-        newInstance.name = prefab.name;
-        newInstance.transform.SetParent(GetContainer(newInstance.name));
-        return newInstance;
-    }
-    private void PrecreateGameObjects(GameObject prefab, int amount = 1)
-    {
-        for (int i = 0; i < amount; i++)
+        private Dictionary<Type, MonoBehaviour> gameAssetsDictionary = new Dictionary<Type, MonoBehaviour>();
+        private Dictionary<Type, Stack<MonoBehaviour>> poolDictionary = new Dictionary<Type, Stack<MonoBehaviour>>();
+
+        private readonly string assetsPath = string.Empty;
+
+        #endregion VARIABLES
+
+        #region PROPERTIES
+
+        public List<Type> Primitives
         {
-            var newInstance = SpawnObject(prefab);
-            newInstance.SetActive(false);
+            get;
+            private set;
+        } = new List<Type>();
+
+        #endregion PROPERTIES
+
+        #region UNITY_FUNCTIONS
+
+        private void Awake()
+        {
+            Initialize();
         }
-    }
-    private Transform GetContainer(string containerName)
-    {
-        foreach (var container in ParentContainers)
+
+        #endregion UNITY_FUNCTIONS
+
+        #region CUSTOM_FUNCTIONS
+
+        private void Initialize()
         {
-            if (container.name == containerName + "s")
+            var assets = Resources.LoadAll<MonoBehaviour>(assetsPath);
+
+            Type type;
+
+            for(int i = 0; i < assets.Length; i++)
             {
-                return container;
+                type = assets[i].GetType();
+                if(gameAssetsDictionary.ContainsKey(type))
+                {
+                    continue;
+                }
+
+                gameAssetsDictionary.Add(type, assets[i]);
+                poolDictionary.Add(assets[i].GetType(), new Stack<MonoBehaviour>());
             }
         }
 
-        var newContainer = new GameObject(containerName + "s");
-        ParentContainers.Add(newContainer.transform);
-        newContainer.transform.SetParent(transform);
-        return newContainer.transform;
-    }
-
-    public GameObject SpawnObject(GameObject prefab, Vector2 position = new Vector2(), Quaternion rotation = new Quaternion(), bool isActive = true)
-    {
-        Stack<GameObject> prefabInstances = null;
-
-        if (poolDictionary.TryGetValue(prefab.name, out prefabInstances))
+        private T CreateInstance<T>(Vector3 position, Quaternion rotation) where T : MonoBehaviour
         {
-            if (prefabInstances.Count > 0)
+            typeKey = typeof(T);
+            
+            if(gameAssetsDictionary.ContainsKey(typeKey))
             {
-                var instance = prefabInstances.Pop();
+                var newInstance = Instantiate(gameAssetsDictionary[typeKey]) as T;
+                newInstance.transform.SetPositionAndRotation(position, rotation);
+                newInstance.name = typeKey.Name;
+                return newInstance;
+            }
 
-                DebugManager.Instance.DebugMessage(1, "Re-used instance: " + instance.name);
+            return null;
+        }
 
-                instance.transform.SetPositionAndRotation(position, rotation);
-                instance.SetActive(true);
-                return instance;
+        public T Spawn<T>(Vector3 position, Quaternion rotation) where T : MonoBehaviour
+        {
+            typeKey = typeof(T);
+
+            if(poolDictionary.ContainsKey(typeKey))
+            {
+                if(poolDictionary[typeKey].Count == 0)
+                {
+                    return CreateInstance<T>(position, rotation);
+                }
+                else
+                {
+                    var instnace = poolDictionary[typeKey].Pop();
+                    instnace.transform.SetPositionAndRotation(position, rotation);
+                    instnace.gameObject.SetActive(true);
+                    return instnace as T;
+                }
             }
             else
             {
-                return CreateNewInstances(prefab, position, rotation);
+                return CreateInstance<T>(position, rotation);
             }
         }
-        else
-        {
-            DebugManager.Instance.DebugMessage(2,"Created a new empty stack and instance");
-            poolDictionary.Add(prefab.name, new Stack<GameObject>());
-            return CreateNewInstances(prefab, position, rotation);
-        }
-    }
-    public void DespawnObject(GameObject instance)
-    {
-        instance.SetActive(false);
 
-        Stack<GameObject> prefabInstances;
+        public void Despawn(MonoBehaviour instnace)
+        {
+            typeKey = instnace.GetType();
 
-        if (poolDictionary.TryGetValue(instance.name, out prefabInstances))
-        {
-            DebugManager.Instance.DebugMessage(1, instance.name + " pushed to correct stack: " + instance.name);
-            prefabInstances.Push(instance);
+            if(poolDictionary.ContainsKey(typeKey))
+            {
+                if(poolDictionary[typeKey] == null)
+                {
+                    poolDictionary.Add(typeKey, new Stack<MonoBehaviour>());
+                }
+
+                instnace.gameObject.SetActive(false);
+                poolDictionary[typeKey].Push(instnace);
+            }
         }
-        else
-        {
-            DebugManager.Instance.DebugMessage(2, "Created a new empty stack: " + instance.name);
-            poolDictionary.Add(instance.name, new Stack<GameObject>());
-            prefabInstances = poolDictionary[instance.name];
-            prefabInstances.Push(instance);
-        }
+
+        #endregion CUSTOM_FUNCTIONS
     }
 }
