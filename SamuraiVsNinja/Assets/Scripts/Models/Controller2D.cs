@@ -14,7 +14,7 @@ namespace Sweet_And_Salty_Studios
 
         public CollisionInfo Collisions;
 
-        private Character character;
+        private CharacterEngine character;
         private Vector2 playerInput;
 
         #endregion VARIABLES
@@ -29,7 +29,7 @@ namespace Sweet_And_Salty_Studios
         {
             base.Awake();
 
-            character = GetComponent<Character>();    
+            character = GetComponent<CharacterEngine>();    
         }
 
         protected override void Start()
@@ -49,13 +49,8 @@ namespace Sweet_And_Salty_Studios
             public bool IsBelow;
             public bool IsLeft;
             public bool IsRight;
-            public bool IsClimbingSlope;
-            public bool IsDescendingSlope;
-            public bool IsSlidingDownMaxSlope;
-            public float SlopeAngle;
-            public float SlopeAngle_Previous;
+
             public Vector2 deltaMove_Previous;
-            public Vector2 SlopeNormal;
             public int FaceDirection;
 
             public void Reset()
@@ -64,12 +59,6 @@ namespace Sweet_And_Salty_Studios
                 IsBelow = false;
                 IsLeft = false;
                 IsRight = false;
-                IsClimbingSlope = false;
-                IsDescendingSlope = false;
-                IsSlidingDownMaxSlope = false;
-                SlopeAngle_Previous = SlopeAngle;
-                SlopeNormal = Vector2.zero;
-                SlopeAngle = 0;
             }
         }
 
@@ -88,11 +77,7 @@ namespace Sweet_And_Salty_Studios
 
             playerInput = input;
 
-            if(deltaMove.y < 0)
-            {
-                DescendSlope(ref deltaMove);
-            }
-
+           
             if(deltaMove.x != 0)
             {
                 Collisions.FaceDirection = (int)Mathf.Sign(deltaMove.x);
@@ -134,7 +119,7 @@ namespace Sweet_And_Salty_Studios
 
                 var hit = Physics2D.Raycast(rayOrigin, Vector2.right * direction_X, rayLenght, CollisionMask);
 
-                Debug.DrawRay(rayOrigin, Vector2.right * direction_X, Color.red);
+                DebugManager.Instance.DrawRay(rayOrigin, Vector2.right * direction_X);
 
                 if(hit)
                 {
@@ -142,39 +127,12 @@ namespace Sweet_And_Salty_Studios
                     {
                         continue;
                     }
+         
+                    deltaMove.x = (hit.distance - SKIN_WIDTH) * direction_X;
+                    rayLenght = hit.distance;
 
-                    var slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
-                    if(i == 0 && slopeAngle <= MAX_SLOPE_ANGLE)
-                    {
-                        if(Collisions.IsDescendingSlope)
-                        {
-                            Collisions.IsDescendingSlope = false;
-                            deltaMove = Collisions.deltaMove_Previous;
-                        }
-
-                        var distanceToSlopeStart = 0f;
-                        if(slopeAngle != Collisions.SlopeAngle_Previous)
-                        {
-                            distanceToSlopeStart = hit.distance - SKIN_WIDTH;
-                            deltaMove.x -= distanceToSlopeStart * direction_X;
-                        }
-                        ClimbSlope(ref deltaMove, slopeAngle, hit.normal);
-                        deltaMove.x += distanceToSlopeStart * direction_X;
-                    }
-
-                    if(Collisions.IsClimbingSlope == false || slopeAngle > MAX_SLOPE_ANGLE)
-                    {
-                        deltaMove.x = (hit.distance - SKIN_WIDTH) * direction_X;
-                        rayLenght = hit.distance;
-
-                        if(Collisions.IsClimbingSlope)
-                        {
-                            deltaMove.y = Mathf.Tan(Collisions.SlopeAngle * Mathf.Deg2Rad) * Mathf.Abs(deltaMove.x);
-                        }
-
-                        Collisions.IsLeft = direction_X == -1;
-                        Collisions.IsRight = direction_X == 1;
-                    }                  
+                    Collisions.IsLeft = direction_X == -1;
+                    Collisions.IsRight = direction_X == 1;                                  
                 }
             }
         }
@@ -195,7 +153,7 @@ namespace Sweet_And_Salty_Studios
 
                 var hit = Physics2D.Raycast(rayOrigin, Vector2.up * direction_Y, rayLenght, CollisionMask);
 
-                Debug.DrawRay(rayOrigin, Vector2.up * direction_Y, Color.red);
+                DebugManager.Instance.DrawRay(rayOrigin, Vector2.up * direction_Y);
 
                 if(hit)
                 {
@@ -216,118 +174,8 @@ namespace Sweet_And_Salty_Studios
                     deltaMove.y = (hit.distance - SKIN_WIDTH) * direction_Y;
                     rayLenght = hit.distance;
 
-                    if(Collisions.IsClimbingSlope)
-                    {
-                        deltaMove.x = deltaMove.y / Mathf.Tan(Collisions.SlopeAngle * Mathf.Deg2Rad) * Mathf.Sign(deltaMove.x);
-                    }
-
                     Collisions.IsBelow = direction_Y == -1;
                     Collisions.IsAbove = direction_Y == 1;
-                }
-            }
-
-            if(Collisions.IsClimbingSlope)
-            {
-                var direction_X = Mathf.Sign(deltaMove.x);
-                rayLenght = Mathf.Abs(deltaMove.x) + SKIN_WIDTH;
-
-                var rayOrigin = 
-                    ((direction_X == -1) 
-                    ? raycastOrigins.BottomLeft 
-                    : raycastOrigins.BottomRight) * Vector2.up * deltaMove.y;
-
-                var hit = Physics2D.Raycast(
-                    rayOrigin, 
-                    Vector2.right * direction_X,
-                    rayLenght,
-                    CollisionMask);
-
-                if(hit)
-                {
-                    var slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
-                    if(slopeAngle != Collisions.SlopeAngle)
-                    {
-                        deltaMove.x = (hit.distance - SKIN_WIDTH) * direction_X;
-                        Collisions.SlopeAngle = slopeAngle;
-                        Collisions.SlopeNormal = hit.normal;
-                    }
-                }
-            }
-        }
-
-        private void ClimbSlope(ref Vector2 deltaMove, float slopeAngle, Vector2 slopeNormal)
-        {
-            var moveDistance = Mathf.Abs(deltaMove.x);
-            var climbMove_Y = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
-
-            if(deltaMove.y <= climbMove_Y)
-            {
-                deltaMove.y = climbMove_Y;
-                deltaMove.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(deltaMove.x);
-                Collisions.IsBelow = true;
-                Collisions.IsClimbingSlope = true;
-                Collisions.SlopeAngle = slopeAngle;
-                Collisions.SlopeNormal = slopeNormal;
-            }
-        }
-
-        private void DescendSlope(ref Vector2 deltaMove)
-        {
-            var maxSlopeHitLeft = Physics2D.Raycast(raycastOrigins.BottomLeft, Vector2.down, Mathf.Abs(deltaMove.y) + SKIN_WIDTH, CollisionMask);
-            var maxSlopeHitRight= Physics2D.Raycast(raycastOrigins.BottomRight, Vector2.down, Mathf.Abs(deltaMove.y) + SKIN_WIDTH, CollisionMask);
-
-            if(maxSlopeHitLeft ^ maxSlopeHitRight)
-            {
-                SlideDownMaxSlope(maxSlopeHitLeft, ref deltaMove);
-                SlideDownMaxSlope(maxSlopeHitRight, ref deltaMove);
-            }
-
-            if(Collisions.IsSlidingDownMaxSlope)
-            {
-                return;
-            }
-
-            var direction_X = Mathf.Sign(deltaMove.x);
-            var rayOrigin = (direction_X == -1) ? raycastOrigins.BottomRight : raycastOrigins.BottomLeft;
-            var hit = Physics2D.Raycast(rayOrigin, Vector2.down, Mathf.Infinity, CollisionMask);
-
-            if(hit)
-            {
-                var slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
-                if(slopeAngle != 0 && slopeAngle <= MAX_SLOPE_ANGLE)
-                {
-                    if(Mathf.Sign(hit.normal.x) == direction_X)
-                    {
-                        if(hit.distance - SKIN_WIDTH <= Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(deltaMove.x))
-                        {
-                            var moveDistance = Mathf.Abs(deltaMove.x);
-                            var descendMove_Y = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
-                            deltaMove.x = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(deltaMove.x);
-                            deltaMove.y -= descendMove_Y;
-
-                            Collisions.SlopeAngle = slopeAngle;
-                            Collisions.IsDescendingSlope = true;
-                            Collisions.IsBelow = true;
-                            Collisions.SlopeNormal = hit.normal;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void SlideDownMaxSlope(RaycastHit2D hit, ref Vector2 deltaMove)
-        {
-            if(hit)
-            {
-                var slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
-
-                if(slopeAngle > MAX_SLOPE_ANGLE)
-                {
-                    deltaMove.x = hit.normal.x * (Mathf.Abs(deltaMove.y) - hit.distance) / Mathf.Tan(slopeAngle * Mathf.Deg2Rad);
-
-                    Collisions.SlopeAngle = slopeAngle;
-                    Collisions.IsSlidingDownMaxSlope = true;
-                    Collisions.SlopeNormal = hit.normal;
                 }
             }
         }

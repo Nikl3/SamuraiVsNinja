@@ -3,12 +3,10 @@ using UnityEngine;
 
 namespace Sweet_And_Salty_Studios
 {
-    public class GameMaster : MonoBehaviour
+    public class GameMaster : Singelton<GameMaster>
     {
         #region VARIABLES
 
-        [Space]
-        [Header("DEBUG")]
         public bool ShowIntro;
 
         #endregion VARIABLES

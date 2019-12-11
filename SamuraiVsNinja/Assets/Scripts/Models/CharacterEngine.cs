@@ -2,7 +2,7 @@
 
 namespace Sweet_And_Salty_Studios
 {
-    public class Character : MonoBehaviour
+    public class CharacterEngine : MonoBehaviour
     {
         #region VARIABLES
 
@@ -79,14 +79,7 @@ namespace Sweet_And_Salty_Studios
 
             if(controller2D.Collisions.IsBelow || controller2D.Collisions.IsAbove)
             {
-                if(controller2D.Collisions.IsSlidingDownMaxSlope)
-                {
-                    velocity.y += controller2D.Collisions.SlopeNormal.y * -gravity * Time.deltaTime;
-                }
-                else
-                {
-                    velocity.y = 0;
-                }
+                velocity.y = 0;
             }
 
             if(velocity != Vector2.zero)

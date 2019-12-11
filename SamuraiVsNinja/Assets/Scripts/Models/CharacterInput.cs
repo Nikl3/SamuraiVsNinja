@@ -6,7 +6,7 @@ namespace Sweet_And_Salty_Studios
     {
         #region VARIABLES
 
-        private Character character;
+        private CharacterEngine character;
 
         #endregion VARIABLES
 
@@ -18,7 +18,7 @@ namespace Sweet_And_Salty_Studios
 
         private void Awake()
         {
-            character = GetComponent<Character>();
+            character = GetComponent<CharacterEngine>();
         }
 
         private void Start()
