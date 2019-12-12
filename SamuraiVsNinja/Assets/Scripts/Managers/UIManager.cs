@@ -8,6 +8,8 @@ namespace Sweet_And_Salty_Studios
         #region VARIABLES
 
         public UI_Panel StartingPanel;
+        public UI_Panel InGamePanel;
+        public UI_Panel VictoryPanel;
 
         private UI_Panel currentPanel;
 

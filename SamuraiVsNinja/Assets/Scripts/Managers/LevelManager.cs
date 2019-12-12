@@ -42,6 +42,26 @@ namespace Sweet_And_Salty_Studios
             StartCoroutine(IStartLevel());
         }
 
+        public Vector2 GetNearestSpawnPoint(Vector2 currentPosition)
+        {
+            var shortestDistance = Mathf.Infinity;
+            var currentResult = 0f;
+            var nearestSpawnPoint = Vector2.zero;
+
+            for(int i = 0; i < CharacterSpawnPositions.Length; i++)
+            {
+                currentResult = Vector2.Distance(currentPosition, CharacterSpawnPositions[i]);
+
+                if(currentResult < shortestDistance)
+                {
+                    shortestDistance = currentResult;
+                    nearestSpawnPoint = CharacterSpawnPositions[i];
+                }
+            }
+
+            return nearestSpawnPoint;
+        }
+
         private void CreatePlayers()
         {
             for(int i = 0; i < PlayerCount; i++)

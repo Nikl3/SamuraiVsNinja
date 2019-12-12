@@ -151,5 +151,18 @@ public class InputManager : Singelton<InputManager>
         }
     }
 
+    public void LockInputs(bool foo)
+    {
+        if(foo)
+        {
+            InputActions.Player.Enable();
+
+        }
+        else
+        {
+            InputActions.Player.Disable();
+        }
+    }
+
     #endregion CUSTOM_FUNCTIONS
 }

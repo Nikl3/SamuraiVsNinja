@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Sweet_And_Salty_Studios
 {
@@ -38,6 +39,8 @@ namespace Sweet_And_Salty_Studios
         private bool isWallSliding;
         private int wallDirection_X;
 
+        private CHARACTER_STATE currentCharacterState;
+
         #endregion VARIABLES
 
         #region PROPERTIES
@@ -67,10 +70,14 @@ namespace Sweet_And_Salty_Studios
             //print($"Gravity: {gravity} -- Jump velocity: {jumpVelocity}");
 
             CameraEngine.Instance.AddTarget(transform);
+
+            ChangeState(CHARACTER_STATE.RESPAWNING);
         }
 
         private void Update()
         {
+            directionalInput = InputManager.Instance.GetMovementInput;
+
             CalculateVelocity();
 
             HandleWallSliding();
@@ -92,9 +99,47 @@ namespace Sweet_And_Salty_Studios
 
         #region CUSTOM_FUNCTIONS
 
-        public void SetDirectionalInput(Vector2 input)
+        private Coroutine iRespawning;
+        private readonly float respawnMoveDuration = 2f;
+
+        private void ChangeState(CHARACTER_STATE newState)
         {
-            directionalInput = input;
+            currentCharacterState = newState;
+
+            switch(currentCharacterState)
+            {
+                case CHARACTER_STATE.RESPAWNING:
+
+                    if(iRespawning != null)
+                    {
+                        StopCoroutine(iRespawning);
+                        iRespawning = null;
+                    }
+
+                    iRespawning = StartCoroutine(IRespawn());
+
+                    break;
+                case CHARACTER_STATE.INDESTRUCTIBLE:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private IEnumerator IRespawn()
+        {
+            InputManager.Instance.LockInputs(false);
+
+            var moveID = LeanTween.move(
+                gameObject,
+                LevelManager.Instance.GetNearestSpawnPoint(transform.position) + Vector2.up * 4,
+                respawnMoveDuration).id;
+
+            yield return new WaitWhile(() => LeanTween.isTweening(moveID));
+
+            InputManager.Instance.LockInputs(true);
+
+            iRespawning = null;
         }
 
         public void OnJumpInputDown()

@@ -6,7 +6,7 @@ namespace Sweet_And_Salty_Studios
     {
         #region VARIABLES
 
-        private CharacterEngine character;
+        private CharacterEngine characterEngine;
 
         #endregion VARIABLES
 
@@ -18,21 +18,16 @@ namespace Sweet_And_Salty_Studios
 
         private void Awake()
         {
-            character = GetComponent<CharacterEngine>();
+            characterEngine = GetComponent<CharacterEngine>();
         }
 
         private void Start()
         {       
-            InputManager.Instance.InputActions.Player.Jump.performed += context => character.OnJumpInputDown();
+            InputManager.Instance.InputActions.Player.Jump.performed += context => characterEngine.OnJumpInputDown();
 
-            InputManager.Instance.InputActions.Player.Jump.canceled += context => character.OnJumpInputUp();
-        }
+            InputManager.Instance.InputActions.Player.Jump.canceled += context => characterEngine.OnJumpInputUp();
 
-        private void Update()
-        {
-            var directionalInput = InputManager.Instance.GetMovementInput;
-
-            character.SetDirectionalInput(directionalInput);
+            //InputManager.Instance.InputActions.Player.Movement.performed += context => characterEngine.OnMovementInputPressed();
         }
 
         #endregion UNITY_FUNCTIONS
