@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Sweet_And_Salty_Studios
@@ -27,6 +28,7 @@ namespace Sweet_And_Salty_Studios
         [Space]
         [Header("Wall Slide")]
         public float WallStickTime = 0.25f;
+
         public float WallSlideSpeedMax = 3;
         public Vector2 WallJumpClimb = new Vector2(7.5f, 26);
         public Vector2 WallJumpOff = new Vector2(8.5f, 7);
@@ -141,6 +143,21 @@ namespace Sweet_And_Salty_Studios
 
             iRespawning = null;
         }
+
+        public void OnAttackInputDown()
+        {
+            Debug.Log("Attacking");
+        }
+
+        public void OnThrowInputDown()
+        {
+            Debug.Log("Throwing");
+        }
+
+        public void OnDashInputDown()
+        {
+            Debug.Log("Dashing");
+        }     
 
         public void OnJumpInputDown()
         {

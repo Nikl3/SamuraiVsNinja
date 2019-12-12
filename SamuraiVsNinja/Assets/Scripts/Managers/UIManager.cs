@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Sweet_And_Salty_Studios
 {
@@ -13,6 +14,17 @@ namespace Sweet_And_Salty_Studios
 
         private UI_Panel currentPanel;
 
+        [Space]
+        [Header("Title Animation")]
+        public Image TitleImage;
+        public float StartPosition_Y;
+        public float TargetPosition_Y;
+
+        [Space]
+        [Header("Title Character Animation")]
+        public Sprite[] TitleCharacterAnimationSprites;
+        public Image TitleAnimationImage;
+
         #endregion VARIABLES
 
         #region PROPERTIES
@@ -20,6 +32,23 @@ namespace Sweet_And_Salty_Studios
         #endregion PROPERTIES
 
         #region UNITY_FUNCTIONS
+
+        private void OnEnable()
+        {
+            LeanTween.moveY(
+                TitleImage.GetComponent<RectTransform>(),
+                TargetPosition_Y, 
+                0.6f)
+                .setFrom(StartPosition_Y)
+                .setEaseOutBounce();
+
+            LeanTween.play(TitleAnimationImage.GetComponent<RectTransform>(), TitleCharacterAnimationSprites).setSpeed(10);
+        }
+
+        private void OnDisable()
+        {
+
+        }
 
         #endregion UNITY_FUNCTIONS
 

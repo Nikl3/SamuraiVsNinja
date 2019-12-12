@@ -27,6 +27,12 @@ namespace Sweet_And_Salty_Studios
 
             InputManager.Instance.InputActions.Player.Jump.canceled += context => characterEngine.OnJumpInputUp();
 
+            InputManager.Instance.InputActions.Player.Attack.performed += context => characterEngine.OnAttackInputDown();
+
+            InputManager.Instance.InputActions.Player.Throw.performed += context => characterEngine.OnThrowInputDown();
+
+            InputManager.Instance.InputActions.Player.Dash.performed += context => characterEngine.OnDashInputDown();
+
             //InputManager.Instance.InputActions.Player.Movement.performed += context => characterEngine.OnMovementInputPressed();
         }
 
