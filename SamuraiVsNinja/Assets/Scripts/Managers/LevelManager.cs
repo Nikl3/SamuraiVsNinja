@@ -28,11 +28,6 @@ namespace Sweet_And_Salty_Studios
 
         #region UNITY_FUNCTIONS
 
-        private void Start()
-        {
-            StartLevel();
-        }
-
         #endregion UNITY_FUNCTIONS
 
         #region CUSTOM_FUNCTIONS

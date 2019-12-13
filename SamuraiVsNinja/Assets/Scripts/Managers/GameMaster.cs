@@ -19,7 +19,7 @@ namespace Sweet_And_Salty_Studios
 
         private void Start()
         {
-            // StartCoroutine(IRunGame());
+            StartCoroutine(IRunGame());
         }
 
         #endregion UNITY_FUNCTIONS

@@ -10,6 +10,13 @@ namespace Sweet_And_Salty_Studios
         public UnityEvent OnOpen;
         public UnityEvent OnClose;
 
+        public Vector2 StartPosition;
+        public Vector2 TargetPosition;
+
+        private RectTransform rectTransform;
+
+        private CanvasGroup canvasGroup;
+
         #endregion VARIABLES
 
         #region PROPERTIES
@@ -18,6 +25,14 @@ namespace Sweet_And_Salty_Studios
 
         #region UNITY_FUNCTIONS
 
+        private void Awake()
+        {
+            rectTransform = GetComponent<RectTransform>();
+            canvasGroup = GetComponentInChildren<CanvasGroup>();
+
+            // rectTransform.position = StartPosition;
+        }
+
         #endregion UNITY_FUNCTIONS
 
         #region CUSTOM_FUNCTIONS
@@ -25,10 +40,27 @@ namespace Sweet_And_Salty_Studios
         public void Open()
         {
             gameObject.SetActive(true);
+
+            //canvasGroup.blocksRaycasts = false;
+
+            //LeanTween.move(rectTransform, TargetPosition, 0.1f)
+            //.setEaseInBounce()
+            //.setFrom(StartPosition).setOnComplete(() =>
+            //{
+            //    canvasGroup.blocksRaycasts = true;
+            //});               
         }
 
         public void Close()
         {
+            //LeanTween.move(rectTransform, TargetPosition, 0.1f)
+            //.setFrom(StartPosition)
+            //.setEaseOutBounce()
+            //.setOnComplete(() =>
+            //{
+            //    gameObject.SetActive(false);
+            //});
+
             gameObject.SetActive(false);
         }
 

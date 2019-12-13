@@ -16,7 +16,12 @@ namespace Sweet_And_Salty_Studios
 
         #region UNITY_FUNCTIONS
 
-      
+        protected override void Awake()
+        {
+            base.Awake();
+
+            targetGraphic = GetComponentInChildren<Image>(true);
+        }
 
         #endregion UNITY_FUNCTIONS
 
@@ -28,7 +33,7 @@ namespace Sweet_And_Salty_Studios
 
             OnSelect(eventData);
 
-            LeanTween.scale(targetGraphic.gameObject, Vector2.one * 1.1f, 0.25f);
+            LeanTween.scale(targetGraphic.gameObject, Vector2.one * 1.1f, 0.1f);
         }
 
         public override void OnPointerDown(PointerEventData eventData)
@@ -52,7 +57,7 @@ namespace Sweet_And_Salty_Studios
 
             OnDeselect(eventData);
 
-            LeanTween.scale(targetGraphic.gameObject, Vector2.one, 0.25f);
+            LeanTween.scale(targetGraphic.gameObject, Vector2.one, 0.1f);
         }
 
         #endregion CUSTOM_FUNCTIONS

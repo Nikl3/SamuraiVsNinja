@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,26 +34,23 @@ namespace Sweet_And_Salty_Studios
 
         #region UNITY_FUNCTIONS
 
-        private void OnEnable()
+        private void Start()
         {
-            LeanTween.moveY(
-                TitleImage.GetComponent<RectTransform>(),
-                TargetPosition_Y, 
-                0.6f)
-                .setFrom(StartPosition_Y)
-                .setEaseOutBounce();
-
-            LeanTween.play(TitleAnimationImage.GetComponent<RectTransform>(), TitleCharacterAnimationSprites).setSpeed(10);
-        }
-
-        private void OnDisable()
-        {
-
+            
         }
 
         #endregion UNITY_FUNCTIONS
 
         #region CUSTOM_FUNCTIONS
+
+        public void Quit()
+        {
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
 
         public void SwitchUIPanel(UI_Panel panel)
         {
@@ -66,27 +64,50 @@ namespace Sweet_And_Salty_Studios
             currentPanel.Open();
         }
 
+        private IEnumerator IFoo()
+        {
+            var foo = TitleImage.GetComponent<RectTransform>();
+
+            LeanTween.moveY(
+                foo,
+                TargetPosition_Y,
+                0.6f)
+                .setFrom(StartPosition_Y)
+                .setEaseOutBounce();
+
+            var foo2 = TitleAnimationImage.GetComponent<RectTransform>();
+
+            LeanTween.play(
+                foo2,
+                TitleCharacterAnimationSprites)
+                .setSpeed(10);
+
+            yield return new WaitWhile(() => LeanTween.isTweening(foo.gameObject) && LeanTween.isTweening(foo2));
+        }
+
         public IEnumerator IRunMainMenu()
         {
-            if(StartingPanel)
-            {
-                SwitchUIPanel(StartingPanel);
-            }
-
             var panels = GetComponentsInChildren<UI_Panel>(true);
 
             for(int i = 0; i < panels.Length; i++)
             {
                 if(panels[i] != StartingPanel)
                 {
-                    panels[i].Close();
+                    panels[i].gameObject.SetActive(false);
                 }
             }
 
-            yield return new WaitForSeconds(1);
+            yield return IFoo();
+
+            if(StartingPanel)
+            {
+                SwitchUIPanel(StartingPanel);
+            }
+
+            yield return null;
         }
 
-        #endregion CUSTOM_FUNCTIONS
+#endregion CUSTOM_FUNCTIONS
     }
 }
 
