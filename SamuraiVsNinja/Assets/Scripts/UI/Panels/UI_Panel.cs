@@ -10,16 +10,22 @@ namespace Sweet_And_Salty_Studios
         public UnityEvent OnOpen;
         public UnityEvent OnClose;
 
-        public Vector2 StartPosition;
-        public Vector2 TargetPosition;
-
         private RectTransform rectTransform;
+
+        private Vector2 targetPosition;
+        private Vector2 startingPosition;
 
         private CanvasGroup canvasGroup;
 
         #endregion VARIABLES
 
         #region PROPERTIES
+
+        public bool IsAnimating
+        {
+            get;
+            private set;
+        } = false;
 
         #endregion PROPERTIES
 
@@ -30,7 +36,13 @@ namespace Sweet_And_Salty_Studios
             rectTransform = GetComponent<RectTransform>();
             canvasGroup = GetComponentInChildren<CanvasGroup>();
 
-            // rectTransform.position = StartPosition;
+            targetPosition = rectTransform.anchoredPosition;
+            startingPosition = new Vector2(-520, 0);
+        }
+
+        private void Start()
+        {
+            
         }
 
         #endregion UNITY_FUNCTIONS
@@ -40,28 +52,29 @@ namespace Sweet_And_Salty_Studios
         public void Open()
         {
             gameObject.SetActive(true);
+            canvasGroup.blocksRaycasts = false;
+            IsAnimating = true;
 
-            //canvasGroup.blocksRaycasts = false;
-
-            //LeanTween.move(rectTransform, TargetPosition, 0.1f)
-            //.setEaseInBounce()
-            //.setFrom(StartPosition).setOnComplete(() =>
-            //{
-            //    canvasGroup.blocksRaycasts = true;
-            //});               
+            LeanTween.move(rectTransform, targetPosition, 0.25f)
+            .setFrom(startingPosition)
+            .setOnComplete(() => 
+            {
+                canvasGroup.blocksRaycasts = true;
+                IsAnimating = false;
+            });
         }
 
         public void Close()
         {
-            //LeanTween.move(rectTransform, TargetPosition, 0.1f)
-            //.setFrom(StartPosition)
-            //.setEaseOutBounce()
-            //.setOnComplete(() =>
-            //{
-            //    gameObject.SetActive(false);
-            //});
+            canvasGroup.blocksRaycasts = false;
+            IsAnimating = true;
 
-            gameObject.SetActive(false);
+            LeanTween.move(rectTransform, startingPosition, 0.25f)
+            .setFrom(targetPosition).setOnComplete(() =>
+            {
+                gameObject.SetActive(false);
+                IsAnimating = false;
+            });
         }
 
         #endregion CUSTOM_FUNCTIONS

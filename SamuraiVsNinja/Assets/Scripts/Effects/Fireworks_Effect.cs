@@ -2,7 +2,7 @@
 
 namespace Sweet_And_Salty_Studios
 {
-    public class Onigiri : MonoBehaviour
+    public class Fireworks_Effect : Effect
     {
         #region VARIABLES
 
@@ -13,16 +13,6 @@ namespace Sweet_And_Salty_Studios
         #endregion PROPERTIES
 
         #region UNITY_FUNCTIONS
-
-        private void OnEnable()
-        {
-            
-        }
-
-        private void OnDisable()
-        {
-            ObjectPoolManager.Instance.Despawn(this);
-        }
 
         #endregion UNITY_FUNCTIONS
 

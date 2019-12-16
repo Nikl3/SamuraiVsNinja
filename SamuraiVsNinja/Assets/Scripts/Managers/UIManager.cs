@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,12 +10,17 @@ namespace Sweet_And_Salty_Studios
     {
         #region VARIABLES
 
+        [Space]
+        [Header("UI Panels")]
         public UI_Panel StartingPanel;
         public UI_Panel InGamePanel;
         public UI_Panel VictoryPanel;
 
         private UI_Panel currentPanel;
+        private float panelSwitchDelay = 0.25f;
 
+        [Space]
+        [Header("Join fields")]
         public JoinPlayerField[] JoinPlayerFields = new JoinPlayerField[4];
 
         [Space]
@@ -26,6 +32,12 @@ namespace Sweet_And_Salty_Studios
         public Image TitleImage;
         public float StartPosition_Y;
         public float TargetPosition_Y;
+
+        [Space]
+        [Header("Credits Animation")]
+        public RectTransform RectTransformToAnimate;
+        [Range(1f, 40f)] public float RollDuration = 10f;
+        private Vector2 creditsStartPosition;
 
         [Space]
         [Header("Title Character Animation")]
@@ -40,9 +52,9 @@ namespace Sweet_And_Salty_Studios
 
         #region UNITY_FUNCTIONS
 
-        private void Start()
+        private void Awake()
         {
-            
+            creditsStartPosition = RectTransformToAnimate.anchoredPosition;
         }
 
         #endregion UNITY_FUNCTIONS
@@ -60,14 +72,27 @@ namespace Sweet_And_Salty_Studios
 
         public void SwitchUIPanel(UI_Panel panel)
         {
+            if(panel == null)
+            {
+                return;
+            }
+
+            StartCoroutine(ISwitchPanel(panel));
+        }
+
+        private IEnumerator ISwitchPanel(UI_Panel panel)
+        {         
             if(currentPanel)
             {
                 currentPanel.Close();
+                yield return new WaitWhile(() => currentPanel.IsAnimating);
             }
 
             currentPanel = panel;
+            yield return new WaitForSeconds(panelSwitchDelay);
 
             currentPanel.Open();
+            yield return new WaitWhile(() => currentPanel.IsAnimating);
         }
 
         public void Fade(float targetAlpha, float fromAlpha)
@@ -93,6 +118,7 @@ namespace Sweet_And_Salty_Studios
                 TitleCharacterAnimationSprites)
                 .setSpeed(10);
 
+            // Should ask if we are int the game...
             yield return new WaitWhile(() => LeanTween.isTweening(titleImageRectTransform.gameObject) && LeanTween.isTweening(titleAniamtionImageRectTransform));
         }
 
@@ -118,7 +144,19 @@ namespace Sweet_And_Salty_Studios
             yield return null;
         }
 
-#endregion CUSTOM_FUNCTIONS
+        public void PlayCredits()
+        {
+            LeanTween.moveY(RectTransformToAnimate, 975, RollDuration)
+            .setLoopClamp();
+        }
+
+        public void CancelCredits()
+        {
+            LeanTween.cancel(RectTransformToAnimate);
+            RectTransformToAnimate.anchoredPosition = creditsStartPosition;
+        }
+
+        #endregion CUSTOM_FUNCTIONS
     }
 }
 

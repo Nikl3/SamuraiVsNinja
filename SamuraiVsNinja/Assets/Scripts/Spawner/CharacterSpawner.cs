@@ -18,8 +18,10 @@ namespace Sweet_And_Salty_Studios
 
         public override void Spawn()
         {
-            UnityEngine.Object.Instantiate(LevelManager.Instance.RespawnEffectPrefab, new Vector2(Position.x, -5.25f), Quaternion.identity);
-            UnityEngine.Object.Instantiate(LevelManager.Instance.CharacterEnginePrefab, Position, Quaternion.identity);
+            var effectPosition = new Vector2(Position.x, -5.25f);
+
+            ObjectPoolManager.Instance.Spawn<Resurection_Effect>(effectPosition, Quaternion.identity);
+            ObjectPoolManager.Instance.Spawn<CharacterEngine>(Position, Quaternion.identity);
         }
 
         #endregion CUSTOM_FUNCTIONS

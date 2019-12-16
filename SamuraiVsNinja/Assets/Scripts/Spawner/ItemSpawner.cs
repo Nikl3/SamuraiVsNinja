@@ -18,7 +18,7 @@ namespace Sweet_And_Salty_Studios
 
         public override void Spawn()
         {
-            UnityEngine.Object.Instantiate(LevelManager.Instance.OnigiriPrefab, Position, Quaternion.identity);
+            ObjectPoolManager.Instance.Spawn<Onigiri>(Position, Quaternion.identity);
         }
 
         #endregion CUSTOM_FUNCTIONS

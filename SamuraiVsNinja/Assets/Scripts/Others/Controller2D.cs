@@ -133,7 +133,12 @@ namespace Sweet_And_Salty_Studios
 
                         case ITEM_COLLIDER_LAYER:
 
-                            Destroy(hit.collider.gameObject);
+                            hit.collider.gameObject.SetActive(false);
+
+                            ObjectPoolManager.Instance.Spawn
+                                <ItemCollected_Effect>
+                                (hit.collider.transform.position, 
+                                Quaternion.identity);
 
                             return;
 
@@ -201,7 +206,12 @@ namespace Sweet_And_Salty_Studios
 
                         case ITEM_COLLIDER_LAYER:
 
-                            Destroy(hit.collider.gameObject);
+                            hit.collider.gameObject.SetActive(false);
+
+                            ObjectPoolManager.Instance.Spawn
+                                <ItemCollected_Effect>
+                                (hit.collider.transform.position, 
+                                Quaternion.identity);
 
                             return;
 

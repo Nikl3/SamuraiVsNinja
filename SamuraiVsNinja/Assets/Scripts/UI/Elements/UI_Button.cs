@@ -29,6 +29,11 @@ namespace Sweet_And_Salty_Studios
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
+            if(interactable == false)
+            {
+                return;
+            }
+
             base.OnPointerEnter(eventData);
 
             OnSelect(eventData);

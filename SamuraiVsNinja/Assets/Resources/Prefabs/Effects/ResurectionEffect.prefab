@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4294852472462900}
   - component: {fileID: 198033553398172270}
   - component: {fileID: 199844881915157374}
-  - component: {fileID: 114078438715639594}
+  - component: {fileID: 3881270414308024273}
   m_Layer: 0
   m_Name: ResurectionEffect
   m_TagString: Untagged
@@ -4719,7 +4719,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &114078438715639594
+--- !u!114 &3881270414308024273
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4728,6 +4728,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1396491660241416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d954e063c135c3449b33c49a0868da19, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d0fad7c7ab542b44a00cb632793b19d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

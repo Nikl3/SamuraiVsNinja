@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Sweet_And_Salty_Studios
@@ -40,6 +39,10 @@ namespace Sweet_And_Salty_Studios
         private Controller2D controller2D;
         private bool isWallSliding;
         private int wallDirection_X;
+
+        private Coroutine iRespawning;
+        private bool lockInput;
+        private readonly float respawnMoveDuration = 2f;
 
         private CHARACTER_STATE currentCharacterState;
 
@@ -103,10 +106,6 @@ namespace Sweet_And_Salty_Studios
         #endregion UNITY_FUNCTIONS
 
         #region CUSTOM_FUNCTIONS
-
-        private Coroutine iRespawning;
-        private bool lockInput;
-        private readonly float respawnMoveDuration = 2f;
 
         public void ChangeState(CHARACTER_STATE newState)
         {
