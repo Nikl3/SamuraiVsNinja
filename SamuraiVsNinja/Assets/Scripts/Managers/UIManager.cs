@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +16,7 @@ namespace Sweet_And_Salty_Studios
         public UI_Panel VictoryPanel;
 
         private UI_Panel currentPanel;
-        private float panelSwitchDelay = 0.25f;
+        private readonly float panelSwitchDelay = 0.25f;
 
         [Space]
         [Header("Join fields")]
@@ -52,8 +51,15 @@ namespace Sweet_And_Salty_Studios
 
         #region UNITY_FUNCTIONS
 
-        private void Awake()
+        private void Start()
         {
+            var panels = GetComponentsInChildren<UI_Panel>(true);
+
+            for(int i = 0; i < panels.Length; i++)
+            {
+                panels[i].gameObject.SetActive(false);          
+            }
+
             creditsStartPosition = RectTransformToAnimate.anchoredPosition;
         }
 
@@ -124,16 +130,6 @@ namespace Sweet_And_Salty_Studios
 
         public IEnumerator IRunMainMenu()
         {
-            var panels = GetComponentsInChildren<UI_Panel>(true);
-
-            for(int i = 0; i < panels.Length; i++)
-            {
-                if(panels[i] != StartingPanel)
-                {
-                    panels[i].gameObject.SetActive(false);
-                }
-            }
-
             yield return IAnimateMenu();
 
             if(StartingPanel)

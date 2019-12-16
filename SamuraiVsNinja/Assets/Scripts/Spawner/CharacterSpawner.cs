@@ -16,12 +16,14 @@ namespace Sweet_And_Salty_Studios
 
         #region CUSTOM_FUNCTIONS
 
-        public override void Spawn()
+        public void SpawnCharacter(PlayerData playeData)
         {
             var effectPosition = new Vector2(Position.x, -5.25f);
 
             ObjectPoolManager.Instance.Spawn<Resurection_Effect>(effectPosition, Quaternion.identity);
-            ObjectPoolManager.Instance.Spawn<CharacterEngine>(Position, Quaternion.identity);
+
+            var newCharacter = ObjectPoolManager.Instance.Spawn<CharacterEngine>(Position, Quaternion.identity);
+            newCharacter.SetOwner(playeData);
         }
 
         #endregion CUSTOM_FUNCTIONS

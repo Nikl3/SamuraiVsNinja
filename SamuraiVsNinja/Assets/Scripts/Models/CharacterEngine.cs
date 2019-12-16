@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace Sweet_And_Salty_Studios
@@ -21,8 +23,24 @@ namespace Sweet_And_Salty_Studios
         public float TimeToJumpApex = 0.4f;
         public float AccelerationTimeAirborne = 0.2f;
         private float maxJumpVelocity;
-        private float minJumpVelocity;
+        private float minJumpVelocity;     
         private float gravity;
+
+        private PlayerData playerData;
+
+        public void SetOwner(PlayerData playerData)
+        {
+            if(this.playerData != null)
+            {
+                return;
+            }
+
+            this.playerData = playerData;
+
+            CharacterID_Text.color = playerData.IndicatorColor;
+            CharacterID_Text.outlineColor = playerData.IndicatorColor;
+            CharacterID_Text.text = $"P{playerData.ID}";
+        }
 
         [Space]
         [Header("Wall Slide")]
@@ -50,6 +68,12 @@ namespace Sweet_And_Salty_Studios
 
         #region PROPERTIES
 
+        public TextMeshPro CharacterID_Text
+        {
+            get;
+            private set;
+        }
+
         public SpriteRenderer SpriteRenderer
         {
             get;
@@ -64,6 +88,7 @@ namespace Sweet_And_Salty_Studios
         {
             controller2D = GetComponentInChildren<Controller2D>();
             SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            CharacterID_Text = GetComponentInChildren<TextMeshPro>();
         }
 
         private void Start()

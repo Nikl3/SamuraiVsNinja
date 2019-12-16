@@ -8,11 +8,6 @@ namespace Sweet_And_Salty_Studios
         #region VARIABLES
 
         [Space]
-        [Header("Level Settings")]
-        [Range(0, 4)]
-        public int PlayerCount = 2;
-
-        [Space]
         [Header("Spawners")]
         public CharacterSpawner[] CharacterSpawners;
         public OnigiriSpawner[] ItemSpawners;
@@ -64,9 +59,11 @@ namespace Sweet_And_Salty_Studios
 
         private void SpawnCharacters()
         {
-            for(int i = 0; i < PlayerCount; i++)
+            var currentPlayers = GameMaster.Instance.Players;
+
+            for(int i = 0; i < currentPlayers.Length; i++)
             {
-                CharacterSpawners[i].Spawn();            
+                CharacterSpawners[i].SpawnCharacter(currentPlayers[i]);            
             }
         }
 

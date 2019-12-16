@@ -16,7 +16,7 @@ namespace Sweet_And_Salty_Studios
 
         #region CUSTOM_FUNCTIONS
 
-        public override void Spawn()
+        public void SpawnOnigiri()
         {
             ObjectPoolManager.Instance.Spawn<Onigiri>(Position, Quaternion.identity);
         }

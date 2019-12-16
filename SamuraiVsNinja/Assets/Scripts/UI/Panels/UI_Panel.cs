@@ -1,14 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 
 namespace Sweet_And_Salty_Studios
 {
     public class UI_Panel : MonoBehaviour
     {
         #region VARIABLES
-
-        public UnityEvent OnOpen;
-        public UnityEvent OnClose;
 
         private RectTransform rectTransform;
 
@@ -40,11 +36,6 @@ namespace Sweet_And_Salty_Studios
             startingPosition = new Vector2(-520, 0);
         }
 
-        private void Start()
-        {
-            
-        }
-
         #endregion UNITY_FUNCTIONS
 
         #region CUSTOM_FUNCTIONS
@@ -55,8 +46,10 @@ namespace Sweet_And_Salty_Studios
             canvasGroup.blocksRaycasts = false;
             IsAnimating = true;
 
+            rectTransform.anchoredPosition = startingPosition;
+
             LeanTween.move(rectTransform, targetPosition, 0.25f)
-            .setFrom(startingPosition)
+            .setEaseInElastic()
             .setOnComplete(() => 
             {
                 canvasGroup.blocksRaycasts = true;
@@ -69,8 +62,11 @@ namespace Sweet_And_Salty_Studios
             canvasGroup.blocksRaycasts = false;
             IsAnimating = true;
 
+            rectTransform.anchoredPosition = targetPosition;
+
             LeanTween.move(rectTransform, startingPosition, 0.25f)
-            .setFrom(targetPosition).setOnComplete(() =>
+            .setEaseInOutElastic()
+            .setOnComplete(() =>
             {
                 gameObject.SetActive(false);
                 IsAnimating = false;

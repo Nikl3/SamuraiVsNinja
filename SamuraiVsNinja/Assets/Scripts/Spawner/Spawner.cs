@@ -18,7 +18,6 @@ namespace Sweet_And_Salty_Studios
 
         #region CUSTOM_FUNCTIONS
 
-        public abstract void Spawn();
 
         #endregion CUSTOM_FUNCTIONS
     }

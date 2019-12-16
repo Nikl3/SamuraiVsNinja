@@ -1,20 +1,53 @@
-﻿using UnityEngine;
-
-public class AudioManager : Singelton<AudioManager>
+﻿namespace Sweet_And_Salty_Studios
 {
-    #region VARIABLES
+    public class AudioManager : Singelton<AudioManager>
+    {
+        #region VARIABLES
 
-    #endregion VARIABLES
+        public MusicTrack[] MusicTracks;
+        public Sfx[] SoundEffects;
 
-    #region PROPERTIES
+        #endregion VARIABLES
 
-    #endregion PROPERTIES
+        #region PROPERTIES
 
-    #region UNITY_FUNCTIONS
+        #endregion PROPERTIES
 
-    #endregion UNITY_FUNCTIONS
+        #region UNITY_FUNCTIONS
 
-    #region CUSTOM_FUNCTIONS
+        private void Awake()
+        {
+            CreateSounds();
+        }
 
-    #endregion CUSTOM_FUNCTIONS
+        #endregion UNITY_FUNCTIONS
+
+        #region CUSTOM_FUNCTIONS
+
+        private void CreateSounds()
+        {
+            for(int i = 0; i < MusicTracks.Length; i++)
+            {
+                MusicTracks[i].SetAudioSource();
+            }
+        }
+
+        public void PlayMusicTrack(MUSIC_TRACK_TYPE type)
+        {
+            for(int i = 0; i < MusicTracks.Length; i++)
+            {
+                if(MusicTracks[i].MusicTrackType == type)
+                {
+                    MusicTracks[i].Play();
+                }
+            }
+        }
+
+        public void PlaySfx()
+        {
+
+        }
+
+        #endregion CUSTOM_FUNCTIONS
+    }
 }
