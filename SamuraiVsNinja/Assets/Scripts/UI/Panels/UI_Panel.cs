@@ -48,8 +48,22 @@ namespace Sweet_And_Salty_Studios
 
             rectTransform.anchoredPosition = startingPosition;
 
+            AudioManager.Instance.PlayUISfx(UI_SFX_TYPE.UI_PANEL_MOVE);
+
             LeanTween.move(rectTransform, targetPosition, 0.25f)
-            .setEaseInElastic()
+            .setEaseInBack()
+            //.setEaseInBounce()
+            //.setEaseInCirc()
+            //.setEaseInCubic()
+            //.setEaseInElastic()
+            //.setEaseInExpo()
+            //.setEaseInQuad()
+            //.setEaseInQuart()
+            //.setEaseInQuint()
+            //.setEaseInSine()
+            //.setEasePunch()
+            //.setEaseShake()
+            //.setEaseSpring()
             .setOnComplete(() => 
             {
                 canvasGroup.blocksRaycasts = true;
@@ -65,7 +79,19 @@ namespace Sweet_And_Salty_Studios
             rectTransform.anchoredPosition = targetPosition;
 
             LeanTween.move(rectTransform, startingPosition, 0.25f)
-            .setEaseInOutElastic()
+            .setEaseOutBack()
+            //.setEaseOutBounce()
+            //.setEaseOutCirc()
+            //.setEaseOutCubic()
+            //.setEaseOutElastic()
+            //.setEaseInOutExpo()
+            //.setEaseOutQuad()
+            //.setEaseOutQuart()
+            //.setEaseOutQuint()
+            //.setEaseOutSine()
+            //.setEasePunch()
+            //.setEaseShake()
+            //.setEaseSpring()
             .setOnComplete(() =>
             {
                 gameObject.SetActive(false);

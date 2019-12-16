@@ -1,5 +1,38 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!243 &-4413809736602665921
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI_Sfx
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 1de41fd49d53d8c468f5d32ab062a7ab
+  m_Children: []
+  m_Volume: c2fc61f04da22dc4cb586254c1eb3fa1
+  m_Pitch: 16fc63e308e613d4fbd35aab01f4929f
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -2924746474514186618}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!244 &-2924746474514186618
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: cf23115c88681d6458d9abf80af760c4
+  m_EffectName: Attenuation
+  m_MixLevel: 0a5bb16bb15e46f45924d0dc7ec57e9e
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -22,11 +55,14 @@ AudioMixerController:
     name: Music
   - guid: ae55f472ddd4f734e9267b3dc62ea89b
     name: Sfx
+  - guid: c2fc61f04da22dc4cb586254c1eb3fa1
+    name: UI_Sfx
   m_AudioMixerGroupViews:
   - guids:
     - 602a4b1efd3e7e2439161262a040954d
     - 6ec0bada86ff9cc44a858178f5cb9ad5
     - 70794b2586d7fde469051843aa236e56
+    - 1de41fd49d53d8c468f5d32ab062a7ab
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -42,6 +78,7 @@ AudioMixerGroupController:
   m_Children:
   - {fileID: 243101102749637814}
   - {fileID: 243278134997424176}
+  - {fileID: -4413809736602665921}
   m_Volume: 8020444d8acbcda4eb2cbbbd980ca614
   m_Pitch: a5e489c0347994e4aa2e7b4f9dd8848e
   m_Send: 00000000000000000000000000000000
@@ -83,6 +120,7 @@ AudioMixerSnapshotController:
     fca672f6b44a72c4cadc4ead3b1e035d: 0.1
     30099397fbb89e74e9c98bb416dfd73f: 1
     0fe7ca1995d2c2048945bb86cc43be94: 0.5
+    c93a63b920a23ba428821a3f0ff123f1: 0
     fda4afea01bb1e245b858ea33f456934: 22000
     e7b9954b853fd434aadc77ab4ed7c014: 6.8
     8020444d8acbcda4eb2cbbbd980ca614: 0

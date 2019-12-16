@@ -18,7 +18,7 @@ namespace Sweet_And_Salty_Studios
 
         public void SpawnCharacter(PlayerData playeData)
         {
-            var effectPosition = new Vector2(Position.x, -5.25f);
+            var effectPosition = Position + Vector2.down * 5.25f;
 
             ObjectPoolManager.Instance.Spawn<Resurection_Effect>(effectPosition, Quaternion.identity);
 

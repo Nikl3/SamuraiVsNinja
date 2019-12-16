@@ -51,6 +51,11 @@ namespace Sweet_And_Salty_Studios
 
         #region UNITY_FUNCTIONS
 
+        private void Awake()
+        {
+            FadeImage.gameObject.SetActive(true);
+        }
+
         private void Start()
         {
             var panels = GetComponentsInChildren<UI_Panel>(true);
@@ -87,7 +92,7 @@ namespace Sweet_And_Salty_Studios
         }
 
         private IEnumerator ISwitchPanel(UI_Panel panel)
-        {         
+        {
             if(currentPanel)
             {
                 currentPanel.Close();
@@ -132,6 +137,10 @@ namespace Sweet_And_Salty_Studios
         {
             yield return IAnimateMenu();
 
+            FadeImage.gameObject.SetActive(false);
+
+            AudioManager.Instance.PlayMusicTrack(MUSIC_TRACK_TYPE.MENU);
+
             if(StartingPanel)
             {
                 SwitchUIPanel(StartingPanel);
@@ -142,6 +151,8 @@ namespace Sweet_And_Salty_Studios
 
         public void PlayCredits()
         {
+            AudioManager.Instance.PlayMusicTrack(MUSIC_TRACK_TYPE.PAUSED);
+
             LeanTween.moveY(RectTransformToAnimate, 975, RollDuration)
             .setLoopClamp();
         }

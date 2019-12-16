@@ -39,6 +39,8 @@ namespace Sweet_And_Salty_Studios
             OnSelect(eventData);
 
             LeanTween.scale(targetGraphic.gameObject, Vector2.one * 1.1f, 0.1f);
+
+            AudioManager.Instance.PlayUISfx(UI_SFX_TYPE.UI_BUTTON_HOVER);
         }
 
         public override void OnPointerDown(PointerEventData eventData)
@@ -49,6 +51,10 @@ namespace Sweet_And_Salty_Studios
         public override void OnPointerClick(PointerEventData eventData)
         {
             base.OnPointerClick(eventData);
+
+            OnPointerExit(eventData);
+
+            AudioManager.Instance.PlayUISfx(UI_SFX_TYPE.UI_BUTTON_CLICK);
         }
 
         public override void OnPointerUp(PointerEventData eventData)

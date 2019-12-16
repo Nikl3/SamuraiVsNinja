@@ -26,6 +26,12 @@ namespace Sweet_And_Salty_Studios
             }
         }
 
+        public bool IsInputLocked
+        {
+            get;
+            private set;
+        }
+
         #endregion PROPERTIES
 
         #region UNITY_FUNCTIONS
@@ -131,6 +137,8 @@ namespace Sweet_And_Salty_Studios
 
         public void LockInputs(bool isLocked)
         {
+            IsInputLocked = isLocked;
+
             if(isLocked)
             {
                 InputActions.Player.Disable();

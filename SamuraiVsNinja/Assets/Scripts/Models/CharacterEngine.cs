@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -59,7 +58,6 @@ namespace Sweet_And_Salty_Studios
         private int wallDirection_X;
 
         private Coroutine iRespawning;
-        private bool lockInput;
         private readonly float respawnMoveDuration = 2f;
 
         private CHARACTER_STATE currentCharacterState;
@@ -106,7 +104,7 @@ namespace Sweet_And_Salty_Studios
 
         private void Update()
         {
-            if(lockInput)
+            if(InputManager.Instance.IsInputLocked)
             {
                 return;
             }
@@ -160,8 +158,6 @@ namespace Sweet_And_Salty_Studios
         {
             InputManager.Instance.LockInputs(true);
 
-            lockInput = true;
-
             var moveID = LeanTween.move(
                 gameObject,
                 LevelManager.Instance.GetNearestCharacterSpawnPosition(transform.position),
@@ -170,8 +166,6 @@ namespace Sweet_And_Salty_Studios
             yield return new WaitWhile(() => LeanTween.isTweening(moveID));
 
             InputManager.Instance.LockInputs(false);
-
-            lockInput = false;
 
             iRespawning = null;
         }

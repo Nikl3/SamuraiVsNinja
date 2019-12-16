@@ -14,8 +14,6 @@ namespace Sweet_And_Salty_Studios
 
         [Space]
         [Header("Prefabs")]
-        public CharacterEngine CharacterEnginePrefab;
-        public Effect RespawnEffectPrefab;
         public Onigiri OnigiriPrefab;
 
         private bool isPlaying;
@@ -75,6 +73,8 @@ namespace Sweet_And_Salty_Studios
         private IEnumerator IStartLevel()
         {
             isPlaying = true;
+
+            AudioManager.Instance.PlayMusicTrack(MUSIC_TRACK_TYPE.GAME);
 
             SpawnCharacters();
 
