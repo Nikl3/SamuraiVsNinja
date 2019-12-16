@@ -9,12 +9,14 @@ namespace Sweet_And_Salty_Studios
         public LayerMask CollisionMask;
 
         private const int ONE_WAY_COLLIDER_LAYER = 10;
+        private const int ITEM_COLLIDER_LAYER = 12;
+        private const int DEATHZONE_COLLIDER_LAYER = 13;
 
         private const float MAX_SLOPE_ANGLE = 55f;
 
         public CollisionInfo Collisions;
 
-        private CharacterEngine character;
+        private CharacterEngine characterEngine;
         private Vector2 playerInput;
 
         #endregion VARIABLES
@@ -29,14 +31,14 @@ namespace Sweet_And_Salty_Studios
         {
             base.Awake();
 
-            character = GetComponent<CharacterEngine>();    
+            characterEngine = GetComponent<CharacterEngine>();    
         }
 
         protected override void Start()
         {
             base.Start();
 
-            Collisions.FaceDirection = character.SpriteRenderer.flipX == false ? 1 : -1;
+            Collisions.FaceDirection = characterEngine.SpriteRenderer.flipX == false ? 1 : -1;
         }
 
         #endregion UNITY_FUNCTIONS
@@ -123,6 +125,29 @@ namespace Sweet_And_Salty_Studios
 
                 if(hit)
                 {
+                    switch(hit.collider.gameObject.layer)
+                    {
+                        case ONE_WAY_COLLIDER_LAYER:
+
+                            break;
+
+                        case ITEM_COLLIDER_LAYER:
+
+                            Destroy(hit.collider.gameObject);
+
+                            return;
+
+                        case DEATHZONE_COLLIDER_LAYER:
+
+                            characterEngine.ChangeState(CHARACTER_STATE.RESPAWNING);
+
+                            break;
+
+                        default:
+
+                            break;
+                    }
+
                     if(hit.distance == 0)
                     {
                         continue;
@@ -157,20 +182,41 @@ namespace Sweet_And_Salty_Studios
 
                 if(hit)
                 {
-                    if(hit.collider.gameObject.layer == ONE_WAY_COLLIDER_LAYER)
+                    switch(hit.collider.gameObject.layer)
                     {
-                        if(direction_Y == 1 || hit.distance == 0)
-                        {
-                            continue;
-                        }
+                        case ONE_WAY_COLLIDER_LAYER:
 
-                        // Drop down... fix me!!!
-                        if(playerInput.y == -1 && InputManager.Instance.InputActions.Player.Jump.phase == UnityEngine.InputSystem.InputActionPhase.Performed)
-                        {
-                            continue;
-                        }
+                            if(direction_Y == 1 || hit.distance == 0)
+                            {
+                                continue;
+                            }
+
+                            // Drop down... fix me!!!
+                            if(playerInput.y == -1 && InputManager.Instance.InputActions.Player.Jump.phase == UnityEngine.InputSystem.InputActionPhase.Performed)
+                            {
+                                continue;
+                            }
+
+                            break;
+
+                        case ITEM_COLLIDER_LAYER:
+
+                            Destroy(hit.collider.gameObject);
+
+                            return;
+
+                        case DEATHZONE_COLLIDER_LAYER:
+
+                            characterEngine.ChangeState(CHARACTER_STATE.RESPAWNING);
+
+                            break;
+
+                        default:
+
+                            break;
                     }
 
+                   
                     deltaMove.y = (hit.distance - SKIN_WIDTH) * direction_Y;
                     rayLenght = hit.distance;
 

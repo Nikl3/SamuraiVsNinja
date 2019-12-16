@@ -78,7 +78,10 @@ namespace Sweet_And_Salty_Studios
 
         private void Update()
         {
-            directionalInput = InputManager.Instance.GetMovementInput;
+            if(lockInput)
+            {
+                return;
+            }
 
             CalculateVelocity();
 
@@ -102,9 +105,10 @@ namespace Sweet_And_Salty_Studios
         #region CUSTOM_FUNCTIONS
 
         private Coroutine iRespawning;
+        private bool lockInput;
         private readonly float respawnMoveDuration = 2f;
 
-        private void ChangeState(CHARACTER_STATE newState)
+        public void ChangeState(CHARACTER_STATE newState)
         {
             currentCharacterState = newState;
 
@@ -130,18 +134,32 @@ namespace Sweet_And_Salty_Studios
 
         private IEnumerator IRespawn()
         {
-            InputManager.Instance.LockInputs(false);
+            InputManager.Instance.LockInputs(true);
+
+            lockInput = true;
 
             var moveID = LeanTween.move(
                 gameObject,
-                LevelManager.Instance.GetNearestSpawnPoint(transform.position) + Vector2.up * 4,
+                LevelManager.Instance.GetNearestCharacterSpawnPosition(transform.position),
                 respawnMoveDuration).id;
 
             yield return new WaitWhile(() => LeanTween.isTweening(moveID));
 
-            InputManager.Instance.LockInputs(true);
+            InputManager.Instance.LockInputs(false);
+
+            lockInput = false;
 
             iRespawning = null;
+        }
+
+        public void OnMoveDown(Vector2 directionalInput)
+        {
+            this.directionalInput = directionalInput;
+        }
+
+        public void OnMoveUp()
+        {
+            directionalInput = Vector2.zero;
         }
 
         public void OnAttackInputDown()

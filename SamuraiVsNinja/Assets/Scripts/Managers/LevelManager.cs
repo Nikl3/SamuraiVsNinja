@@ -8,14 +8,19 @@ namespace Sweet_And_Salty_Studios
         #region VARIABLES
 
         [Space]
-        [Header("Level settings")]
-        [Range(2, 4)]
+        [Header("Level Settings")]
+        [Range(0, 4)]
         public int PlayerCount = 2;
-        public Vector2[] CharacterSpawnPositions = new Vector2[4];
-        public Vector2[] OnigiriSpawnPositions = new Vector2[4];
 
-        public CharacterEngine CharacterPrefab;
-        public Effect ResurectionEffectPrefab;
+        [Space]
+        [Header("Spawners")]
+        public CharacterSpawner[] CharacterSpawners;
+        public OnigiriSpawner[] ItemSpawners;
+
+        [Space]
+        [Header("Prefabs")]
+        public CharacterEngine CharacterEnginePrefab;
+        public Effect RespawnEffectPrefab;
         public Onigiri OnigiriPrefab;
 
         private bool isPlaying;
@@ -37,32 +42,31 @@ namespace Sweet_And_Salty_Studios
             StartCoroutine(IStartLevel());
         }
 
-        public Vector2 GetNearestSpawnPoint(Vector2 currentPosition)
+        public Vector2 GetNearestCharacterSpawnPosition(Vector2 currentPosition)
         {
             var shortestDistance = Mathf.Infinity;
             var currentResult = 0f;
             var nearestSpawnPoint = Vector2.zero;
 
-            for(int i = 0; i < CharacterSpawnPositions.Length; i++)
+            for(int i = 0; i < CharacterSpawners.Length; i++)
             {
-                currentResult = Vector2.Distance(currentPosition, CharacterSpawnPositions[i]);
+                currentResult = Vector2.Distance(currentPosition, CharacterSpawners[i].Position);
 
                 if(currentResult < shortestDistance)
                 {
                     shortestDistance = currentResult;
-                    nearestSpawnPoint = CharacterSpawnPositions[i];
+                    nearestSpawnPoint = CharacterSpawners[i].Position;
                 }
             }
 
             return nearestSpawnPoint;
         }
 
-        private void CreatePlayers()
+        private void SpawnCharacters()
         {
             for(int i = 0; i < PlayerCount; i++)
             {
-                Instantiate(ResurectionEffectPrefab, CharacterSpawnPositions[i], Quaternion.identity);
-                Instantiate(CharacterPrefab, CharacterSpawnPositions[i] + Vector2.up * 4 , Quaternion.identity);
+                CharacterSpawners[i].Spawn();            
             }
         }
 
@@ -75,7 +79,7 @@ namespace Sweet_And_Salty_Studios
         {
             isPlaying = true;
 
-            CreatePlayers();
+            SpawnCharacters();
 
             StartSpawnOnigiris();
 
@@ -85,16 +89,21 @@ namespace Sweet_And_Salty_Studios
         private IEnumerator IStartSpawnOnigiris()
         {
             var onigiriSpawnTime = Random.Range(2, 6);
-
+            var randomOnigiriPositionIndex = 0;
             while(isPlaying)
             {
                 yield return new WaitForSeconds(onigiriSpawnTime);
 
-                Instantiate(
-                        OnigiriPrefab,
-                        OnigiriSpawnPositions[Random.Range(0, OnigiriSpawnPositions.Length - 1)],
-                        Quaternion.identity
-                    );
+                randomOnigiriPositionIndex = Random.Range(0, ItemSpawners.Length - 1);
+
+                if(Physics2D.BoxCast(ItemSpawners[randomOnigiriPositionIndex].Position, Vector2.one, 0, Vector2.up) == false)
+                {
+                    Instantiate(
+                     OnigiriPrefab,
+                     ItemSpawners[randomOnigiriPositionIndex].Position,
+                     Quaternion.identity
+                 );
+                }        
 
                 onigiriSpawnTime = Random.Range(2, 6);
 

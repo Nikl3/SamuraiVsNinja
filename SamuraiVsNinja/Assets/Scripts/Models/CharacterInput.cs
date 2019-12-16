@@ -22,7 +22,12 @@ namespace Sweet_And_Salty_Studios
         }
 
         private void Start()
-        {       
+        {
+            RegisterInputs();
+        }
+
+        private void RegisterInputs()
+        {
             InputManager.Instance.InputActions.Player.Jump.performed += context => characterEngine.OnJumpInputDown();
 
             InputManager.Instance.InputActions.Player.Jump.canceled += context => characterEngine.OnJumpInputUp();
@@ -33,7 +38,9 @@ namespace Sweet_And_Salty_Studios
 
             InputManager.Instance.InputActions.Player.Dash.performed += context => characterEngine.OnDashInputDown();
 
-            //InputManager.Instance.InputActions.Player.Movement.performed += context => characterEngine.OnMovementInputPressed();
+            InputManager.Instance.InputActions.Player.Movement.performed += context => characterEngine.OnMoveDown(InputManager.Instance.GetMovementInput);
+
+            InputManager.Instance.InputActions.Player.Movement.canceled += context => characterEngine.OnMoveUp();
         }
 
         #endregion UNITY_FUNCTIONS

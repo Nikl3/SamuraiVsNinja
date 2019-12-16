@@ -10,8 +10,8 @@ namespace Sweet_And_Salty_Studios
         [Space]
         [Header("ZOOM VARIABLES")]
         public float SmoothTime = 0.5f;
-        public float MaxZoom = 20f;
-        public float MinZoom = 80f;
+        [Range(0, 100)] public float MinZoom = 10f;
+        [Range(0, 100)] public float MaxZoom = 80f;
         private readonly float zoomLimiter = 50f;
         public Vector2 Offset = Vector2.zero;
         public Vector2 CameraVelocity;
@@ -137,7 +137,7 @@ namespace Sweet_And_Salty_Studios
         }
         private void CameraZoom()
         {
-            var newZoom = Mathf.Lerp(MaxZoom, MinZoom, GetGreatestTargetDistance() / zoomLimiter);
+            var newZoom = Mathf.Lerp(MinZoom, MaxZoom, GetGreatestTargetDistance() / zoomLimiter);
             MainCamera.orthographicSize = Mathf.Lerp(MainCamera.orthographicSize, newZoom, Time.deltaTime);
         }
 

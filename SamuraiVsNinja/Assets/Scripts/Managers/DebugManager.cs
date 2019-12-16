@@ -39,51 +39,35 @@ namespace Sweet_And_Salty_Studios
                 }
             }
             else
-            {
-                if(LevelManager.Instance.CharacterSpawnPositions != null)
+            {            
+                if(LevelManager.Instance.ItemSpawners != null)
                 {
-                    var spawnPositions = LevelManager.Instance.CharacterSpawnPositions;
+                    var spawnPositions = LevelManager.Instance.ItemSpawners;
 
                     for(int i = 0; i < spawnPositions.Length; i++)
                     {
-                        Debug.DrawLine(spawnPositions[i] + Vector2.left * 1f,
-                            spawnPositions[i] + Vector2.right * 1f,
-                            CharacterSpawnPositionColor);
-
-                        Debug.DrawLine(spawnPositions[i] + Vector2.down * 1f,
-                         spawnPositions[i] + Vector2.up * 1f,
-                         CharacterSpawnPositionColor);
-                    }
-                }
-
-                if(LevelManager.Instance.OnigiriSpawnPositions != null)
-                {
-                    var spawnPositions = LevelManager.Instance.OnigiriSpawnPositions;
-
-                    for(int i = 0; i < spawnPositions.Length; i++)
-                    {
-                        Debug.DrawLine(spawnPositions[i] + Vector2.left * 1f,
-                            spawnPositions[i] + Vector2.right * 1f,
+                        Debug.DrawLine(spawnPositions[i].Position + Vector2.left * 1f,
+                            spawnPositions[i].Position + Vector2.right * 1f,
                             OnigiriSpawnPositionColor);
 
-                        Debug.DrawLine(spawnPositions[i] + Vector2.down * 1f,
-                         spawnPositions[i] + Vector2.up * 1f,
+                        Debug.DrawLine(spawnPositions[i].Position + Vector2.down * 1f,
+                         spawnPositions[i].Position + Vector2.up * 1f,
                          OnigiriSpawnPositionColor);
                     }
                 }
 
-                if(LevelManager.Instance.CharacterSpawnPositions != null)
+                if(LevelManager.Instance.CharacterSpawners != null)
                 {
-                    var spawnPositions = LevelManager.Instance.CharacterSpawnPositions;
+                    var characterSpawners = LevelManager.Instance.CharacterSpawners;
 
-                    for(int i = 0; i < spawnPositions.Length; i++)
+                    for(int i = 0; i < characterSpawners.Length; i++)
                     {
-                        Debug.DrawLine(spawnPositions[i] + Vector2.left * 1f,
-                            spawnPositions[i] + Vector2.right * 1f,
+                        Debug.DrawLine(characterSpawners[i].Position + Vector2.left * 1f,
+                            characterSpawners[i].Position + Vector2.right * 1f,
                             CharacterSpawnPositionColor);
 
-                        Debug.DrawLine(spawnPositions[i] + Vector2.down * 1f,
-                         spawnPositions[i] + Vector2.up * 1f,
+                        Debug.DrawLine(characterSpawners[i].Position + Vector2.down * 1f,
+                         characterSpawners[i].Position + Vector2.up * 1f,
                          CharacterSpawnPositionColor);
                     }
                 }

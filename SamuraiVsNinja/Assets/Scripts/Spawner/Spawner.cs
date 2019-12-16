@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Sweet_And_Salty_Studios
 {
-    public class Onigiri : MonoBehaviour
+    [Serializable]
+    public abstract class Spawner
     {
         #region VARIABLES
+
+        public Vector2 Position;
 
         #endregion VARIABLES
 
@@ -12,11 +16,9 @@ namespace Sweet_And_Salty_Studios
 
         #endregion PROPERTIES
 
-        #region UNITY_FUNCTIONS
-
-        #endregion UNITY_FUNCTIONS
-
         #region CUSTOM_FUNCTIONS
+
+        public abstract void Spawn();
 
         #endregion CUSTOM_FUNCTIONS
     }

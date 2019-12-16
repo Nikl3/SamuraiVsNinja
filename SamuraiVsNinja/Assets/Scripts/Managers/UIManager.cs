@@ -15,6 +15,12 @@ namespace Sweet_And_Salty_Studios
 
         private UI_Panel currentPanel;
 
+        public JoinPlayerField[] JoinPlayerFields = new JoinPlayerField[4];
+
+        [Space]
+        [Header("Fade Screen Animation")]
+        public Image FadeImage;
+
         [Space]
         [Header("Title Animation")]
         public Image TitleImage;
@@ -64,25 +70,30 @@ namespace Sweet_And_Salty_Studios
             currentPanel.Open();
         }
 
-        private IEnumerator IFoo()
+        public void Fade(float targetAlpha, float fromAlpha)
         {
-            var foo = TitleImage.GetComponent<RectTransform>();
+            LeanTween.color(FadeImage.gameObject, targetAlpha > 0 ? Color.black : Color.clear, 0.4f);
+        }
+
+        private IEnumerator IAnimateMenu()
+        {
+            var titleImageRectTransform = TitleImage.GetComponent<RectTransform>();
 
             LeanTween.moveY(
-                foo,
+                titleImageRectTransform,
                 TargetPosition_Y,
                 0.6f)
                 .setFrom(StartPosition_Y)
                 .setEaseOutBounce();
 
-            var foo2 = TitleAnimationImage.GetComponent<RectTransform>();
+            var titleAniamtionImageRectTransform = TitleAnimationImage.GetComponent<RectTransform>();
 
             LeanTween.play(
-                foo2,
+                titleAniamtionImageRectTransform,
                 TitleCharacterAnimationSprites)
                 .setSpeed(10);
 
-            yield return new WaitWhile(() => LeanTween.isTweening(foo.gameObject) && LeanTween.isTweening(foo2));
+            yield return new WaitWhile(() => LeanTween.isTweening(titleImageRectTransform.gameObject) && LeanTween.isTweening(titleAniamtionImageRectTransform));
         }
 
         public IEnumerator IRunMainMenu()
@@ -97,7 +108,7 @@ namespace Sweet_And_Salty_Studios
                 }
             }
 
-            yield return IFoo();
+            yield return IAnimateMenu();
 
             if(StartingPanel)
             {
