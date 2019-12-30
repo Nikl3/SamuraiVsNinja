@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Sweet_And_Salty_Studios
 {
@@ -8,7 +9,7 @@ namespace Sweet_And_Salty_Studios
 
         private RectTransform rectTransform;
 
-        private Vector2 targetPosition;
+        private Vector2 endPosition;
         private Vector2 startingPosition;
 
         private CanvasGroup canvasGroup;
@@ -29,18 +30,43 @@ namespace Sweet_And_Salty_Studios
 
         private void Awake()
         {
-            rectTransform = GetComponent<RectTransform>();
-            canvasGroup = GetComponentInChildren<CanvasGroup>();
-
-            targetPosition = rectTransform.anchoredPosition;
-            startingPosition = new Vector2(-520, 0);
+            Initialize();
         }
 
         #endregion UNITY_FUNCTIONS
 
         #region CUSTOM_FUNCTIONS
 
-        public void Open()
+        protected virtual void Initialize()
+        {
+            rectTransform = GetComponent<RectTransform>();
+            canvasGroup = GetComponentInChildren<CanvasGroup>();
+
+            endPosition = rectTransform.anchoredPosition;
+            startingPosition = new Vector2(-520, 0);
+        }
+
+        private void HandleAnimation(Vector2 targetPosition, LeanTweenType easeType, Action onComplete)
+        {
+            LeanTween.move(rectTransform, targetPosition, 0.25f)
+            .setEase(easeType)
+           //.setEaseOutBack()
+           //.setEaseOutBounce()
+           //.setEaseOutCirc()
+           //.setEaseOutCubic()
+           //.setEaseOutElastic()
+           //.setEaseInOutExpo()
+           //.setEaseOutQuad()
+           //.setEaseOutQuart()
+           //.setEaseOutQuint()
+           //.setEaseOutSine()
+           //.setEasePunch()
+           //.setEaseShake()
+           //.setEaseSpring()
+           .setOnComplete(onComplete);
+        }
+
+        public virtual void Open()
         {
             gameObject.SetActive(true);
             canvasGroup.blocksRaycasts = false;
@@ -50,49 +76,21 @@ namespace Sweet_And_Salty_Studios
 
             AudioManager.Instance.PlayUISfx(UI_SFX_TYPE.UI_PANEL_MOVE);
 
-            LeanTween.move(rectTransform, targetPosition, 0.25f)
-            .setEaseInBack()
-            //.setEaseInBounce()
-            //.setEaseInCirc()
-            //.setEaseInCubic()
-            //.setEaseInElastic()
-            //.setEaseInExpo()
-            //.setEaseInQuad()
-            //.setEaseInQuart()
-            //.setEaseInQuint()
-            //.setEaseInSine()
-            //.setEasePunch()
-            //.setEaseShake()
-            //.setEaseSpring()
-            .setOnComplete(() => 
+            HandleAnimation(endPosition, LeanTweenType.easeInBack, () =>
             {
                 canvasGroup.blocksRaycasts = true;
                 IsAnimating = false;
             });
         }
 
-        public void Close()
+        public virtual void Close()
         {
             canvasGroup.blocksRaycasts = false;
             IsAnimating = true;
 
-            rectTransform.anchoredPosition = targetPosition;
+            rectTransform.anchoredPosition = endPosition;
 
-            LeanTween.move(rectTransform, startingPosition, 0.25f)
-            .setEaseOutBack()
-            //.setEaseOutBounce()
-            //.setEaseOutCirc()
-            //.setEaseOutCubic()
-            //.setEaseOutElastic()
-            //.setEaseInOutExpo()
-            //.setEaseOutQuad()
-            //.setEaseOutQuart()
-            //.setEaseOutQuint()
-            //.setEaseOutSine()
-            //.setEasePunch()
-            //.setEaseShake()
-            //.setEaseSpring()
-            .setOnComplete(() =>
+            HandleAnimation(startingPosition, LeanTweenType.easeOutBack, () =>
             {
                 gameObject.SetActive(false);
                 IsAnimating = false;

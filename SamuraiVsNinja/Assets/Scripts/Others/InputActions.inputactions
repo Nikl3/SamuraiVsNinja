@@ -2,7 +2,7 @@
     "name": "InputActions",
     "maps": [
         {
-            "name": "Player",
+            "name": "Gameplay",
             "id": "317027fc-a35c-469f-b5d4-53b663fe59f2",
             "actions": [
                 {
@@ -257,7 +257,7 @@
                     "name": "",
                     "id": "fb53f1d1-fc4d-4887-91a8-fc2ca2a9bbe1",
                     "path": "<Keyboard>/escape",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard and mouse",
                     "action": "Start",
@@ -268,7 +268,7 @@
                     "name": "",
                     "id": "7a0c1718-0537-4c48-8872-fadeb64a08a0",
                     "path": "<Gamepad>/start",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Start",
@@ -279,7 +279,7 @@
                     "name": "",
                     "id": "f0b56841-e18d-4486-8127-d1869726c4b2",
                     "path": "<HID::Logitech Logitech RumblePad 2 USB>/button10",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Joystick",
                     "action": "Start",

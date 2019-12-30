@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Sweet_And_Salty_Studios
 {
-    public class CameraEngine : Singelton<CameraEngine>
+    public class CameraEngine : MonoBehaviour
     {
         #region VARIABLES
 

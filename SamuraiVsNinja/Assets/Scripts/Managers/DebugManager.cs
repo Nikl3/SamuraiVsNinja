@@ -8,12 +8,19 @@ namespace Sweet_And_Salty_Studios
         #region VARIABLES
 
         [Space]
+        [Header("Test Settings")]
+        public bool ShowIntro;
+        public bool TestGame;
+
+        [Space]
         [Header("Show / Hide")]
         public bool ShowCharacterRaycasts;
         public Color CharacterRaycastsColor;
+        [Space]
         public bool ShowCameraEncapsulateBounds;
-        public Color CameraEncapsulateBoundsColor;
-
+        public Color CameraEncapsulateOuterBoundsColor;
+        public Color CameraEncapsulateInnerBoundsColor;
+        [Space]
         public Color CharacterSpawnPositionColor;
         public Color OnigiriSpawnPositionColor;
 
@@ -31,9 +38,13 @@ namespace Sweet_And_Salty_Studios
             {
                 if(ShowCameraEncapsulateBounds)
                 {
-                    Gizmos.color = CameraEncapsulateBoundsColor;
+                    Gizmos.color = CameraEncapsulateOuterBoundsColor;
 
-                    var bounds = CameraEngine.Instance.CurrentEncapsulateBounds;
+                    var bounds = LevelManager.Instance.GameCamera.CurrentEncapsulateBounds;
+
+                    Gizmos.DrawWireCube(bounds.center, bounds.extents * 2f);
+
+                    Gizmos.color = CameraEncapsulateInnerBoundsColor;
 
                     Gizmos.DrawCube(bounds.center, bounds.extents * 2);
                 }

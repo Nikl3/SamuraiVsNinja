@@ -22,7 +22,15 @@ namespace Sweet_And_Salty_Studios
         {
             get
             {
-                return InputActions.Player.Movement.ReadValue<Vector2>();
+                return InputActions.Gameplay.Movement.ReadValue<Vector2>();
+            }
+        }
+
+        public bool StartPressed
+        {
+            get
+            {
+                return InputActions.Gameplay.Start.triggered;
             }
         }
 
@@ -141,12 +149,17 @@ namespace Sweet_And_Salty_Studios
 
             if(isLocked)
             {
-                InputActions.Player.Disable();
+                InputActions.Gameplay.Disable();
             }
             else
             {
-                InputActions.Player.Enable();
+                InputActions.Gameplay.Enable();
             }
+        }
+
+        public Connected_InputDevice[] GetConnectedInputDevices()
+        {
+            return connectedInputDevices.ToArray();
         }
 
         #endregion CUSTOM_FUNCTIONS

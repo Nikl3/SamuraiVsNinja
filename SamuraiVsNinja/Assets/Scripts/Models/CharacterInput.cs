@@ -28,19 +28,19 @@ namespace Sweet_And_Salty_Studios
 
         private void RegisterInputs()
         {
-            InputManager.Instance.InputActions.Player.Jump.performed += context => characterEngine.OnJumpInputDown();
+            InputManager.Instance.InputActions.Gameplay.Jump.performed += context => characterEngine.OnJumpInputDown();
 
-            InputManager.Instance.InputActions.Player.Jump.canceled += context => characterEngine.OnJumpInputUp();
+            InputManager.Instance.InputActions.Gameplay.Jump.canceled += context => characterEngine.OnJumpInputUp();
 
-            InputManager.Instance.InputActions.Player.Attack.performed += context => characterEngine.OnAttackInputDown();
+            InputManager.Instance.InputActions.Gameplay.Attack.performed += context => characterEngine.OnAttackInputDown();
 
-            InputManager.Instance.InputActions.Player.Throw.performed += context => characterEngine.OnThrowInputDown();
+            InputManager.Instance.InputActions.Gameplay.Throw.performed += context => characterEngine.OnThrowInputDown();
 
-            InputManager.Instance.InputActions.Player.Dash.performed += context => characterEngine.OnDashInputDown();
+            InputManager.Instance.InputActions.Gameplay.Dash.performed += context => characterEngine.OnDashInputDown();
 
-            InputManager.Instance.InputActions.Player.Movement.performed += context => characterEngine.OnMoveDown(InputManager.Instance.GetMovementInput);
+            InputManager.Instance.InputActions.Gameplay.Movement.performed += context => characterEngine.OnMoveDown(InputManager.Instance.GetMovementInput);
 
-            InputManager.Instance.InputActions.Player.Movement.canceled += context => characterEngine.OnMoveUp();
+            InputManager.Instance.InputActions.Gameplay.Movement.canceled += context => characterEngine.OnMoveUp();
         }
 
         #endregion UNITY_FUNCTIONS

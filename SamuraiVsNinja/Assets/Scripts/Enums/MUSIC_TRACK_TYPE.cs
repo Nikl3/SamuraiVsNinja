@@ -5,6 +5,7 @@
         MENU,
         GAME,
         VICTORY,
+        CREDITS,
         PAUSED
     }
 }

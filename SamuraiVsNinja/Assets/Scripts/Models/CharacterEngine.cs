@@ -26,6 +26,7 @@ namespace Sweet_And_Salty_Studios
         private float gravity;
 
         private PlayerData playerData;
+        private CharacterAnimationController characterAnimationController;
 
         public void SetOwner(PlayerData playerData)
         {
@@ -87,6 +88,7 @@ namespace Sweet_And_Salty_Studios
             controller2D = GetComponentInChildren<Controller2D>();
             SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
             CharacterID_Text = GetComponentInChildren<TextMeshPro>();
+            characterAnimationController = GetComponentInChildren<CharacterAnimationController>();
         }
 
         private void Start()
@@ -97,7 +99,7 @@ namespace Sweet_And_Salty_Studios
 
             //print($"Gravity: {gravity} -- Jump velocity: {jumpVelocity}");
 
-            CameraEngine.Instance.AddTarget(transform);
+            LevelManager.Instance.GameCamera.AddTarget(transform);
 
             ChangeState(CHARACTER_STATE.RESPAWNING);
         }
@@ -283,4 +285,3 @@ namespace Sweet_And_Salty_Studios
         #endregion CUSTOM_FUNCTIONS
     }
 }
-

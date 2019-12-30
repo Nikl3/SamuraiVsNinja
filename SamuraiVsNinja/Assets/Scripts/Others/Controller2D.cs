@@ -78,8 +78,7 @@ namespace Sweet_And_Salty_Studios
             Collisions.deltaMove_Previous = deltaMove;
 
             playerInput = input;
-
-           
+    
             if(deltaMove.x != 0)
             {
                 Collisions.FaceDirection = (int)Mathf.Sign(deltaMove.x);
@@ -197,7 +196,7 @@ namespace Sweet_And_Salty_Studios
                             }
 
                             // Drop down... fix me!!!
-                            if(playerInput.y == -1 && InputManager.Instance.InputActions.Player.Jump.phase == UnityEngine.InputSystem.InputActionPhase.Performed)
+                            if(playerInput.y == -1 && InputManager.Instance.InputActions.Gameplay.Jump.phase == UnityEngine.InputSystem.InputActionPhase.Performed)
                             {
                                 continue;
                             }

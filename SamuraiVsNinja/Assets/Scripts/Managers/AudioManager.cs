@@ -62,18 +62,87 @@ namespace Sweet_And_Salty_Studios
             }
         }
 
-        public void PlayMusicTrack(MUSIC_TRACK_TYPE type)
-        {           
-            for(int i = 0; i < MusicTracks.Length; i++)
+        private IEnumerator ISwitchToTrack(MusicTrack musicTrack, bool saveTrackProgress, float fadeOutDuration = 0.5f, float fadeInDuration = 0.5f)
+        {
+            if(currentlyPlayingTrack != null)
             {
-                if(MusicTracks[i].Type == type)
-                {           
-                    StartCoroutine(ISwitchToTrack(MusicTracks[i]));
-                    return;                                 
+                yield return IFadeVolume("Music", 0f, fadeOutDuration);
+
+                if(saveTrackProgress)
+                {
+                    currentlyPlayingTrack.Pause();
                 }
+                else
+                {
+                    currentlyPlayingTrack.Stop();
+                }
+            }
+
+            currentlyPlayingTrack = musicTrack;
+
+            currentlyPlayingTrack.Play();
+
+            yield return IFadeVolume("Music", 1f, fadeInDuration);
+        }
+
+        private IEnumerator IFadeVolume(string channelParameterName, float targetVolume, float fadeDuration)
+        {
+            yield return new WaitWhile(() => isFading);
+
+            var startChannelVolume = GetChannelValue(channelParameterName);
+            var startLerpTime = Time.unscaledTime;
+            var timeSinceStarted = Time.unscaledTime - startLerpTime;
+            var percentToComplete = timeSinceStarted / fadeDuration;
+
+            targetVolume = LinearToDecibelValue(targetVolume);
+
+            if(targetVolume != startChannelVolume)
+            {
+                isFading = true;
+
+                while(percentToComplete <= 1f)
+                {
+                    timeSinceStarted = Time.unscaledTime - startLerpTime;
+                    percentToComplete = timeSinceStarted / fadeDuration;
+
+                    var currentVolume = Mathf.Lerp(startChannelVolume, targetVolume, percentToComplete);
+                    AudioMixer.SetFloat(channelParameterName, currentVolume);
+
+                    yield return null;
+                }
+
+                isFading = false;
             }
         }
 
+        private float DecibelToLinearValue(float decibelValue)
+        {
+            return Mathf.Pow(10.0f, decibelValue / 20.0f);
+        }
+
+        private float LinearToDecibelValue(float linearValue)
+        {
+            return linearValue != 0 ? 20.0f * Mathf.Log10(linearValue) : -80f;
+        }
+
+        private float GetChannelValue(string channelName)
+        {
+            AudioMixer.GetFloat(channelName, out float value);
+            return value;
+        }
+
+        public void PlayMusicTrack(MUSIC_TRACK_TYPE type, bool savePreviousTrackProcess)
+        {
+            for(int i = 0; i < MusicTracks.Length; i++)
+            {
+                if(MusicTracks[i].Type == type)
+                {
+                    StartCoroutine(ISwitchToTrack(MusicTracks[i], savePreviousTrackProcess));
+                    return;
+                }
+            }
+        }
+    
         public void PlaySfx(SFX_TYPE type)
         {
             for(int i = 0; i < SoundEffects.Length; i++)
@@ -98,85 +167,19 @@ namespace Sweet_And_Salty_Studios
             }
         }
 
-        private IEnumerator ISwitchToTrack(MusicTrack musicTrack)
-        {
-            if(currentlyPlayingTrack != null)
-            {
-                yield return IFadeVolume("Music", 0f, 0.5f);
-
-                currentlyPlayingTrack.Stop();
-            }
-
-            currentlyPlayingTrack = musicTrack;
-
-            currentlyPlayingTrack.Play();
-
-            yield return IFadeVolume("Music", 1f, 0.5f);
-        }
-
-        private IEnumerator IFadeVolume(string channelParameterName, float targetVolume, float fadeDuration)
-        {
-            yield return new WaitUntil(() => isFading == false);
-
-            var startChannelVolume = GetChannelValue(channelParameterName);
-            var startLerpTime = Time.unscaledTime;
-            var timeSinceStarted = Time.unscaledTime - startLerpTime;
-            var percentToComplete = timeSinceStarted / fadeDuration;
-
-            targetVolume = LinearToDecibelValue(targetVolume);
-
-            if(targetVolume != startChannelVolume)
-            {
-                isFading = true;
-
-                while(true)
-                {
-                    timeSinceStarted = Time.unscaledTime - startLerpTime;
-                    percentToComplete = timeSinceStarted / fadeDuration;
-
-                    var currentVolume = Mathf.Lerp(startChannelVolume, targetVolume, percentToComplete);
-                    AudioMixer.SetFloat(channelParameterName, currentVolume);
-
-                    if(percentToComplete > 1f)
-                    {
-                        isFading = false;
-                        break;
-                    }
-
-                    yield return null;
-                }
-            }
-        }
-
-        private float DecibelToLinearValue(float decibelValue)
-        {
-            return Mathf.Pow(10.0f, decibelValue / 20.0f);
-        }
-
-        private float LinearToDecibelValue(float linearValue)
-        {
-            return linearValue != 0 ? 20.0f * Mathf.Log10(linearValue) : -80f;
-        }
-
-        private float GetChannelValue(string channelName)
-        {
-            AudioMixer.GetFloat(channelName, out float value);
-            return value;
-        }
-
         public void SetLowPassValue(float newValueInHertz)
         {
             AudioMixer.SetFloat("LowPassValue", newValueInHertz);
         }
 
-        public void StopMusicTrack(string v)
+        public bool SetAudioMixerChannelValue(string channelParameterName, float value)
         {
+            if(AudioMixer.SetFloat(channelParameterName, LinearToDecibelValue(value)))
+            {
+                return true;
+            }
 
-        }
-
-        public void SetAudioMixerChannelValue(string channelParameterName, float value)
-        {
-            AudioMixer.SetFloat(channelParameterName, LinearToDecibelValue(value));
+            return false;
         }
 
         public void FadeChannelVolume(string channelParameterName, float targetVolume, float fadeTime)

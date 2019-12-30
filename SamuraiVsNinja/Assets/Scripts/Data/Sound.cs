@@ -14,6 +14,8 @@ namespace Sweet_And_Salty_Studios
         [Range(0, 1)] public float Volume = 0.5f;
         [Range(-3, 3)] public float Pitch = 1f;
 
+        private bool isPaused;
+
         public virtual void SetAudioSource(Transform parent)
         {
             if(audioSource != null)
@@ -36,7 +38,24 @@ namespace Sweet_And_Salty_Studios
 
         public void Play()
         {
+            if(isPaused)
+            {
+
+            }
+
             audioSource.Play();
+        }
+
+        public void UnPause()
+        {
+            audioSource.UnPause();
+        }
+
+        public void Pause()
+        {
+            isPaused = true;
+
+            audioSource.Pause();
         }
 
         public void Stop()

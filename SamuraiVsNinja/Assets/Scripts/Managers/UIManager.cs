@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,23 +27,30 @@ namespace Sweet_And_Salty_Studios
         [Space]
         [Header("Fade Screen Animation")]
         public Image FadeImage;
+        public float FadeDuration = 1f;
 
         [Space]
         [Header("Title Animation")]
         public Image TitleImage;
         public float StartPosition_Y;
         public float TargetPosition_Y;
-
-        [Space]
-        [Header("Credits Animation")]
-        public RectTransform RectTransformToAnimate;
-        [Range(1f, 40f)] public float RollDuration = 10f;
-        private Vector2 creditsStartPosition;
-
+       
         [Space]
         [Header("Title Character Animation")]
         public Sprite[] TitleCharacterAnimationSprites;
         public Image TitleAnimationImage;
+
+        [Space]
+        [Header("Others")]
+        public GameObject MenuBackgroundContainer;
+        public GameObject FakeLoadImageParent;
+        public Image FakeLoadScreenImage;
+        public Sprite[] FakeLoadScreenSprites;
+        public TextMeshProUGUI PressToContinueText;
+        public float FakeLoadImageDuration = 4f;
+        public float MenuStartDelay = 1f;
+
+        private bool isFading;
 
         #endregion VARIABLES
 
@@ -53,6 +62,7 @@ namespace Sweet_And_Salty_Studios
 
         private void Awake()
         {
+            FakeLoadImageParent.SetActive(false);
             FadeImage.gameObject.SetActive(true);
         }
 
@@ -64,8 +74,6 @@ namespace Sweet_And_Salty_Studios
             {
                 panels[i].gameObject.SetActive(false);          
             }
-
-            creditsStartPosition = RectTransformToAnimate.anchoredPosition;
         }
 
         #endregion UNITY_FUNCTIONS
@@ -106,12 +114,38 @@ namespace Sweet_And_Salty_Studios
             yield return new WaitWhile(() => currentPanel.IsAnimating);
         }
 
-        public void Fade(float targetAlpha, float fromAlpha)
+        public IEnumerator IFade(float targetFillAmount, float fadeDuration)
         {
-            LeanTween.color(FadeImage.gameObject, targetAlpha > 0 ? Color.black : Color.clear, 0.4f);
+            yield return new WaitWhile(() => isFading);
+
+            FadeImage.gameObject.SetActive(true);
+
+            var startLerpTime = Time.unscaledTime;
+            var timeSinceStarted = Time.unscaledTime - startLerpTime;
+            var percentToComplete = timeSinceStarted / fadeDuration;
+
+            if(FadeImage.fillAmount != targetFillAmount)
+            {
+                isFading = true;
+
+                while(percentToComplete <= 1f)
+                {
+                    timeSinceStarted = Time.unscaledTime - startLerpTime;
+                    percentToComplete = timeSinceStarted / fadeDuration;
+
+                    var currentVolume = Mathf.Lerp(FadeImage.fillAmount, targetFillAmount, percentToComplete);
+                    FadeImage.fillAmount = currentVolume;
+
+                    yield return null;
+                }
+
+                isFading = false;
+            }
+
+            FadeImage.gameObject.SetActive(false);
         }
 
-        private IEnumerator IAnimateMenu()
+        private IEnumerator IAnimateMenuTitle()
         {
             var titleImageRectTransform = TitleImage.GetComponent<RectTransform>();
 
@@ -122,6 +156,12 @@ namespace Sweet_And_Salty_Studios
                 .setFrom(StartPosition_Y)
                 .setEaseOutBounce();
 
+            // Should ask if we are int the game...
+            yield return new WaitWhile(() => LeanTween.isTweening(titleImageRectTransform.gameObject));
+        }
+
+        private IEnumerator IAnimateMenuCharacters()
+        {
             var titleAniamtionImageRectTransform = TitleAnimationImage.GetComponent<RectTransform>();
 
             LeanTween.play(
@@ -129,17 +169,24 @@ namespace Sweet_And_Salty_Studios
                 TitleCharacterAnimationSprites)
                 .setSpeed(10);
 
-            // Should ask if we are int the game...
-            yield return new WaitWhile(() => LeanTween.isTweening(titleImageRectTransform.gameObject) && LeanTween.isTweening(titleAniamtionImageRectTransform));
+            yield return null;
         }
 
         public IEnumerator IRunMainMenu()
         {
-            yield return IAnimateMenu();
+            FadeImage.fillAmount = 1f;
+            var titleImageRectTransform = TitleImage.GetComponent<RectTransform>();
+            titleImageRectTransform.anchoredPosition = Vector2.up * StartPosition_Y;
 
-            FadeImage.gameObject.SetActive(false);
+            yield return IAnimateMenuCharacters();
 
-            AudioManager.Instance.PlayMusicTrack(MUSIC_TRACK_TYPE.MENU);
+            yield return StartCoroutine(IFade(0, FadeDuration));
+
+            yield return new WaitForSeconds(MenuStartDelay);
+
+            AudioManager.Instance.PlayMusicTrack(MUSIC_TRACK_TYPE.MENU, false);
+
+            yield return IAnimateMenuTitle();
 
             if(StartingPanel)
             {
@@ -149,18 +196,58 @@ namespace Sweet_And_Salty_Studios
             yield return null;
         }
 
-        public void PlayCredits()
+        public IEnumerator IFadeToGameScreen()
         {
-            AudioManager.Instance.PlayMusicTrack(MUSIC_TRACK_TYPE.PAUSED);
+            if(DebugManager.Instance.TestGame)
+            {
+                yield return IFade(1, FadeDuration);
 
-            LeanTween.moveY(RectTransformToAnimate, 975, RollDuration)
-            .setLoopClamp();
-        }
+                MenuBackgroundContainer.SetActive(false);
+                AudioManager.Instance.PlayMusicTrack(MUSIC_TRACK_TYPE.GAME, false);
 
-        public void CancelCredits()
-        {
-            LeanTween.cancel(RectTransformToAnimate);
-            RectTransformToAnimate.anchoredPosition = creditsStartPosition;
+                yield return IFade(0, FadeDuration);
+
+                yield break;
+            }
+
+            yield return IFade(1, FadeDuration);
+
+            AudioManager.Instance.PlayMusicTrack(MUSIC_TRACK_TYPE.PAUSED, false);
+
+            var randomSprite = FakeLoadScreenSprites[UnityEngine.Random.Range(0, FakeLoadScreenSprites.Length)];
+            FakeLoadScreenImage.sprite = randomSprite;
+
+            FakeLoadImageParent.SetActive(true);
+
+            LeanTween.color(FakeLoadScreenImage.gameObject, Color.white, FadeDuration)
+            .setFromColor(Color.clear)
+            .setOnComplete(() =>
+            {
+               
+                MenuBackgroundContainer.SetActive(false);
+            });
+
+            yield return new WaitWhile(() => LeanTween.isTweening(FakeLoadScreenImage.gameObject));
+
+            yield return new WaitForSeconds(FakeLoadImageDuration);
+
+            // Show "Press any key" text in UI?...
+            LeanTween.scale(PressToContinueText.gameObject, Vector2.one * 1.025f, 0.8f)
+            .setOvershoot(0.1f)
+            .setLoopPingPong();
+
+            LeanTween.alpha(PressToContinueText.gameObject, 0, 0.45f)
+            .setFromColor(PressToContinueText.color)
+            .setLoopPingPong();
+
+
+            yield return new WaitUntil(() => InputManager.Instance.StartPressed);
+
+            AudioManager.Instance.PlayMusicTrack(MUSIC_TRACK_TYPE.GAME, false);
+
+            FakeLoadImageParent.SetActive(false);
+
+            yield return IFade(0, FadeDuration);
         }
 
         #endregion CUSTOM_FUNCTIONS

@@ -14,7 +14,7 @@ namespace Sweet_And_Salty_Studios
         protected float verticalRaySpacing;
         protected RaycastOrigins raycastOrigins;
 
-        private BoxCollider2D hitCollider2D;
+        private Collider2D hitCollider2D;
 
         #endregion VARIABLES
 
@@ -22,7 +22,7 @@ namespace Sweet_And_Salty_Studios
 
         protected virtual void Awake()
         {
-            hitCollider2D = GetComponent<BoxCollider2D>();
+            hitCollider2D = GetComponentInChildren<Collider2D>();
         }
 
         protected virtual void Start()

@@ -42,7 +42,7 @@ namespace Sweet_And_Salty_Studios
 
             VideoPlayer.Play();
 
-            yield return new WaitUntil(() => VideoPlayer.isPlaying == false || InputManager.Instance.InputActions.Player.Start.triggered);
+            yield return new WaitUntil(() => VideoPlayer.isPlaying == false || InputManager.Instance.InputActions.Gameplay.Start.triggered);
 
             VideoPlayer.Stop();
         }

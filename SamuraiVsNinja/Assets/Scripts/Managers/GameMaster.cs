@@ -1,33 +1,8 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using System.Collections;
 using UnityEngine.InputSystem;
 
 namespace Sweet_And_Salty_Studios
 {
-    [Serializable]
-    public class PlayerData
-    {
-        [HideInInspector] public string Name;
-
-        public Color IndicatorColor;
-        public string InputDeviceName;
-        public InputDevice InputDevice;
-
-        public int ID
-        {
-            get;
-            private set;
-        }
-
-        public PlayerData(int id)
-        {
-            Name = $"Player: {id}";
-
-            ID = id;
-        }
-    }
-
     public class GameMaster : Singelton<GameMaster>
     {
         #region VARIABLES
@@ -35,8 +10,6 @@ namespace Sweet_And_Salty_Studios
         private const int MAX_PLAYER_COUNT = 4;
 
         public PlayerData[] Players;
-
-        public bool ShowIntro;
 
         #endregion VARIABLES
 
@@ -48,7 +21,42 @@ namespace Sweet_And_Salty_Studios
 
         private void Start()
         {
+            // For testing...
+
+            if(DebugManager.Instance.TestGame)
+            {
+                LevelManager.Instance.StartLevel();
+                return;
+            }
+
+            // Refactor...
+
+            var connectedInputDevices = InputManager.Instance.GetConnectedInputDevices();
+
+            var backtrackIndex = 0;
+
+            for(int i = 0; i < connectedInputDevices.Length; i++)
+            {
+                if(connectedInputDevices[i].InputDevice is Keyboard || connectedInputDevices[i].InputDevice is Mouse)
+                {
+                    backtrackIndex++;
+                    continue;
+                }
+
+                Players[i - backtrackIndex].InputDevice = connectedInputDevices[i].InputDevice;
+                Players[i - backtrackIndex].InputDeviceName = connectedInputDevices[i].InputDevice.displayName;
+            }
+
             StartCoroutine(IRunGame());
+        }
+
+        private void OnValidate()
+        {
+            for(int i = 0; i < Players.Length; i++)
+            {
+                Players[i].Initialize();
+                //Players[i].Name = $"Player {i + 1}";
+            }
         }
 
         #endregion UNITY_FUNCTIONS
@@ -57,15 +65,13 @@ namespace Sweet_And_Salty_Studios
 
         private IEnumerator IRunGame()
         {
-            UIManager.Instance.Fade(0, 1);
-
-            if(ShowIntro)
+            if(DebugManager.Instance.ShowIntro)
             {
                 yield return StartCoroutine(VideoManager.Instance.IPlayIntro());
             }
 
             yield return StartCoroutine(UIManager.Instance.IRunMainMenu());
-        }    
+        }
 
         #endregion CUSTOM_FUNCTIONS
     }
